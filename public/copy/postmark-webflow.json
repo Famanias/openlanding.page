@@ -1,0 +1,336 @@
+{
+  "slug": "postmark",
+  "title": "POSTMARK",
+  "industry": "Digital Experience & Technology",
+  "description": "A tactile travel-memory journal for saving photos, locations, handwritten memories, and creating collectible digital postcards.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/postmark",
+  "downloadUrl": "https://www.openlanding.page/downloads/postmark.html",
+  "manifestUrl": "https://www.openlanding.page/copy/postmark-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/postmark-webflow-prompt.md",
+  "variables": {
+    "collectionName": "POSTMARK Tokens",
+    "colors": [
+      {
+        "name": "Color / Pm Paper",
+        "cssVar": "--pm-paper",
+        "value": "#F7F1E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Hero Paper",
+        "cssVar": "--pm-hero-paper",
+        "value": "#F8F3EA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Ivory",
+        "cssVar": "--pm-ivory",
+        "value": "#FFF9EF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Parchment",
+        "cssVar": "--pm-parchment",
+        "value": "#E8DDCA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Tan",
+        "cssVar": "--pm-tan",
+        "value": "#D8BD96",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Ink",
+        "cssVar": "--pm-ink",
+        "value": "#25292C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Ink Muted",
+        "cssVar": "--pm-ink-muted",
+        "value": "#52565A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Brown",
+        "cssVar": "--pm-brown",
+        "value": "#5A3528",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Red",
+        "cssVar": "--pm-red",
+        "value": "#D85743",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Red Deep",
+        "cssVar": "--pm-red-deep",
+        "value": "#AD4837",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Peach",
+        "cssVar": "--pm-peach",
+        "value": "#F2C7A3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Sky",
+        "cssVar": "--pm-sky",
+        "value": "#8FC3E6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Butter",
+        "cssVar": "--pm-butter",
+        "value": "#F4E07A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Teal",
+        "cssVar": "--pm-teal",
+        "value": "#77978B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pm Fine Line",
+        "cssVar": "--pm-fine-line",
+        "value": "rgba(90, 53, 40, 0.23)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Caveat",
+        "cssVar": "--font-caveat",
+        "family": "Caveat",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Caveat"
+      },
+      {
+        "name": "Font / DM Sans",
+        "cssVar": "--font-dm-sans",
+        "family": "DM Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / Fraunces",
+        "cssVar": "--font-fraunces",
+        "family": "Fraunces",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Fraunces"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Pm Soft Shadow",
+        "cssVar": "--pm-soft-shadow",
+        "value": "0 18px 48px rgba(75, 52, 35, 0.12)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Pm Card Shadow",
+        "cssVar": "--pm-card-shadow",
+        "value": "0 10px 28px rgba(62, 41, 26, 0.11), 0 2px 6px rgba(62, 41, 26, 0.07)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Pm Lifted Shadow",
+        "cssVar": "--pm-lifted-shadow",
+        "value": "0 24px 52px rgba(62, 41, 26, 0.18), 0 6px 14px rgba(62, 41, 26, 0.10)",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "postmark.webp",
+      "publicPath": "https://www.openlanding.page/gallery/postmark.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "media_1794361630934_b32c9988.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361630934_b32c9988.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794361638000_91a13bd4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361638000_91a13bd4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794361639758_04dc7777.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361639758_04dc7777.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794361643753_ce7c1dcb.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361643753_ce7c1dcb.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794361645466_12eff409.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361645466_12eff409.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794361648059_b154b2aa.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361648059_b154b2aa.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794361808563_1b6c3505.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794361808563_1b6c3505.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794363277651_990008e4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794363277651_990008e4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794363281095_86281308.jpg",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794363281095_86281308.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794363281963_ecc22863.webm",
+      "publicPath": "https://www.openlanding.page/templates/postmark/media_1794363281963_ecc22863.webm",
+      "contentType": "video/webm",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-final-cta-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/postmark/r1-final-cta-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-hero-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/postmark/r1-hero-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-hero-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/postmark/r1-hero-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-intro-and-scroll.webm",
+      "publicPath": "https://www.openlanding.page/templates/postmark/r1-intro-and-scroll.webm",
+      "contentType": "video/webm",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-hero-postmark-approved.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/01-hero-postmark-approved.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-hero-postmark-clean.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/02-hero-postmark-clean.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-feature-postcard-builder.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/03-feature-postcard-builder.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-feature-memory-map.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/04-feature-memory-map.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05a-ephemera-collage.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/05a-ephemera-collage.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05b-ephemera-stamp-sheet.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/05b-ephemera-stamp-sheet.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-final-cta-postmark-mockup.webp",
+      "publicPath": "https://www.openlanding.page/templates/postmark/postmark/06-final-cta-postmark-mockup.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "A tactile travel-memory journal for saving photos, locations, handwritten memories, and creating collectible digital postcards.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".font-editorial",
+        ".font-ui",
+        ".font-hand",
+        ".pm-paper-grain",
+        ".org",
+        ".pm-ruled-paper",
+        ".pm-grid-scrap",
+        ".pm-airmail-band",
+        ".pm-washi-stripe",
+        ".pm-washi-sage",
+        ".pm-photo-print",
+        ".pm-postcard-sheet"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "postmark-styles-1",
+      "location": "head",
+      "title": "POSTMARK Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 7031,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ":root {\r\n  --pm-paper: #F7F1E8;\r\n  --pm-hero-paper: #F8F3EA;\r\n  --pm-ivory: #FFF9EF;\r\n  --pm-parchment: #E8DDCA;\r\n  --pm-tan: #D8BD96;\r\n  --pm-ink: #25292C;\r\n  --pm-ink-muted: #52565A;\r\n  --pm-brown: #5A3528;\r\n  --pm-red: #D85743;\r\n  --pm-red-deep: #AD4837;\r\n  --pm-peach: #F2C7A3;\r\n  --pm-sky: #8FC3E6;\r\n  --pm-butter: #F4E07A;\r\n  --pm-teal: #77978B;\r\n  --pm-fine-line: rgba(90, 53, 40, 0.23);\r\n  --pm-soft-shadow: 0 18px 48px rgba(75, 52, 35, 0.12);\r\n  --pm-card-shadow: 0 10px 28px rgba(62, 41, 26, 0.11), 0 2px 6px rgba(62, 41, 26, 0.07);\r\n  --pm-lifted-shadow: 0 24px 52px rgba(62, 41, 26, 0.18), 0 6px 14px rgba(62, 41, 26, 0.10);\r\n}\r\n\r\nhtml {\r\n  background-color: var(--pm-paper);\r\n  color: var(--pm-ink);\r\n  font-family: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  overflow-x: clip;\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  background-color: var(--pm-paper);\r\n  color: var(--pm-ink);\r\n  overflow-x: clip;\r\n}\r\n\r\n.font-editorial {\r\n  font-family: var(--font-fraunces), 'Fraunces', Georgia, 'Times New Roman', serif;\r\n  font-variation-settings: \"SOFT\" 30, \"WONK\" 0;\r\n}\r\n\r\n.font-ui {\r\n  font-family: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n}\r\n\r\n.font-hand {\r\n  font-family: var(--font-caveat), 'Caveat', cursive;\r\n}\r\n\r\n/* Subtle static SVG paper grain overlay */\r\n.pm-paper-grain {\r\n  background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E\");\r\n}\r\n\r\n/* Ruled notebook / correspondence desk texture */\r\n.pm-ruled-paper {\r\n  background-color: var(--pm-ivory);\r\n  background-image:\r\n    linear-gradient(to bottom, transparent 31px, rgba(90, 53, 40, 0.09) 31px, rgba(90, 53, 40, 0.09) 32px);\r\n  background-size: 100% 32px;\r\n}\r\n\r\n.pm-grid-scrap {\r\n  background-color: #FAF4E8;\r\n  background-image:\r\n    linear-gradient(to right, rgba(90, 53, 40, 0.08) 1px, transparent 1px),\r\n    linear-gradient(to bottom, rgba(90, 53, 40, 0.08) 1px, transparent 1px);\r\n  background-size: 18px 18px;\r\n}\r\n\r\n/* Classic Par Avion / Airmail edge band */\r\n.pm-airmail-band {\r\n  background: repeating-linear-gradient(\r\n    -45deg,\r\n    #D85743 0px,\r\n    #D85743 12px,\r\n    #FFF9EF 12px,\r\n    #FFF9EF 22px,\r\n    #4F7893 22px,\r\n    #4F7893 34px,\r\n    #FFF9EF 34px,\r\n    #FFF9EF 44px\r\n  );\r\n}\r\n\r\n/* Washi tape accent */\r\n.pm-washi-stripe {\r\n  background: repeating-linear-gradient(\r\n    -45deg,\r\n    rgba(242, 199, 163, 0.82) 0px,\r\n    rgba(242, 199, 163, 0.82) 6px,\r\n    rgba(255, 249, 239, 0.86) 6px,\r\n    rgba(255, 249, 239, 0.86) 12px\r\n  );\r\n  box-shadow: 0 2px 5px rgba(75, 52, 35, 0.08);\r\n}\r\n\r\n.pm-washi-sage {\r\n  background: repeating-linear-gradient(\r\n    45deg,\r\n    rgba(119, 151, 139, 0.42) 0px,\r\n    rgba(119, 151, 139, 0.42) 6px,\r\n    rgba(255, 249, 239, 0.88) 6px,\r\n    rgba(255, 249, 239, 0.88) 12px\r\n  );\r\n  box-shadow: 0 2px 5px rgba(75, 52, 35, 0.08);\r\n}\r\n\r\n/* Photo print & postcard surface rules */\r\n.pm-photo-print {\r\n  background-color: var(--pm-ivory);\r\n  border: 1px solid rgba(90, 53, 40, 0.16);\r\n  box-shadow: var(--pm-card-shadow);\r\n}\r\n\r\n.pm-postcard-sheet {\r\n  background-color: var(--pm-ivory);\r\n  border: 1px solid rgba(90, 53, 40, 0.22);\r\n  box-shadow: var(--pm-soft-shadow);\r\n}\r\n\r\n.pm-elevated-sheet {\r\n  box-shadow: var(--pm-lifted-shadow);\r\n}\r\n\r\n/* Seamless blending for clean hero right-side collage on desktop */\r\n@media (min-width: 1024px) {\r\n  .pm-hero-art-blend {\r\n    -webkit-mask-image: linear-gradient(\r\n      90deg,\r\n      transparent 0%,\r\n      rgba(0, 0, 0, 0.15) 24%,\r\n      rgba(0, 0, 0, 0.85) 35%,\r\n      #000000 43%\r\n    );\r\n    mask-image: linear-gradient(\r\n      90deg,\r\n      transparent 0%,\r\n      rgba(0, 0, 0, 0.15) 24%,\r\n      rgba(0, 0, 0, 0.85) 35%,\r\n      #000000 43%\r\n    );\r\n  }\r\n}\r\n\r\n/* Envelope 3D perspective stage */\r\n.pm-envelope-perspective {\r\n  perspective: 1400px;\r\n}\r\n\r\n.pm-envelope-flap-hinge {\r\n  transform-origin: 50% 0%;\r\n  transform-style: preserve-3d;\r\n  will-change: transform;\r\n}\r\n\r\n/* Postcard 3D flip mechanics for Travel Filmstrip */\r\n.pm-flip-scene {\r\n  perspective: 1600px;\r\n}\r\n\r\n.pm-flip-inner {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 100%;\r\n  transform-style: preserve-3d;\r\n  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);\r\n}\r\n\r\n.pm-flip-inner.is-flipped {\r\n  transform: rotateY(180deg);\r\n}\r\n\r\n.pm-flip-face {\r\n  backface-visibility: hidden;\r\n  -webkit-backface-visibility: hidden;\r\n}\r\n\r\n.pm-flip-back {\r\n  backface-visibility: hidden;\r\n  -webkit-backface-visibility: hidden;\r\n  transform: rotateY(180deg);\r\n}\r\n\r\n/* Curated crops into supplied production WebP imagery (no unsupplied photos) */\r\n.pm-crop-harbor {\r\n  object-fit: cover;\r\n  object-position: 50% 42%;\r\n  transform: scale(1.75);\r\n}\r\n\r\n.pm-crop-kyoto-lane {\r\n  object-fit: cover;\r\n  object-position: 21% 28%;\r\n  transform: scale(2.15);\r\n}\r\n\r\n.pm-crop-cafe {\r\n  object-fit: cover;\r\n  object-position: 55% 58%;\r\n  transform: scale(2.25);\r\n}\r\n\r\n.pm-film-crop-harbor {\r\n  object-fit: cover;\r\n  object-position: 73% 76%;\r\n  transform: scale(2.2);\r\n}\r\n\r\n.pm-film-crop-street {\r\n  object-fit: cover;\r\n  object-position: 22% 52%;\r\n  transform: scale(1.95);\r\n}\r\n\r\n.pm-film-crop-cafe {\r\n  object-fit: cover;\r\n  object-position: 16% 58%;\r\n  transform: scale(2.1);\r\n}\r\n\r\n.pm-film-crop-stamps {\r\n  object-fit: cover;\r\n  object-position: 28% 28%;\r\n  transform: scale(1.55);\r\n}\r\n\r\n.pm-tint-warm {\r\n  background-color: #FFF9EF;\r\n}\r\n\r\n.pm-tint-parchment {\r\n  background-color: #F4EBDD;\r\n}\r\n\r\n.pm-tint-peach {\r\n  background-color: #FBF1E6;\r\n}\r\n\r\n/* Restrained editorial print angles */\r\n.pm-tilt-neg-1 {\r\n  transform: rotate(-1.4deg);\r\n}\r\n.pm-tilt-pos-1 {\r\n  transform: rotate(1.2deg);\r\n}\r\n.pm-tilt-neg-2 {\r\n  transform: rotate(-0.9deg);\r\n}\r\n.pm-tilt-pos-2 {\r\n  transform: rotate(1.5deg);\r\n}\r\n\r\n/* Click stamp-ring impulse animation */\r\n@keyframes pm-stamp-ripple {\r\n  0% {\r\n    transform: translate(-50%, -50%) scale(0.45);\r\n    opacity: 0.72;\r\n  }\r\n  100% {\r\n    transform: translate(-50%, -50%) scale(2.15);\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n.pm-stamp-ripple-ring {\r\n  animation: pm-stamp-ripple 440ms cubic-bezier(0.16, 1, 0.3, 1) forwards;\r\n}\r\n\r\n/* Native dialog styling */\r\ndialog.pm-dialog::backdrop {\r\n  background: rgba(37, 41, 44, 0.52);\r\n  backdrop-filter: blur(2px);\r\n}\r\n\r\n/* Custom focus-visible ring across all interactive paper elements */\r\n:focus-visible {\r\n  outline: 2px solid var(--pm-red);\r\n  outline-offset: 3px;\r\n}\r\n\r\n/* Reduced motion strict compliance */\r\n@media (prefers-reduced-motion: reduce) {\r\n  *,\r\n  *::before,\r\n  *::after {\r\n    animation-duration: 0.01ms !important;\r\n    animation-iteration-count: 1 !important;\r\n    transition-duration: 0.01ms !important;\r\n    scroll-behavior: auto !important;\r\n  }\r\n\r\n  .pm-flip-inner {\r\n    transition: none !important;\r\n  }\r\n}"
+    },
+    {
+      "id": "postmark-runtime-1",
+      "location": "footer",
+      "title": "POSTMARK Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 272,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// POSTMARK — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

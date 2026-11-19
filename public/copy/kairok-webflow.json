@@ -1,0 +1,1107 @@
+{
+  "slug": "kairok",
+  "title": "KAIRO K",
+  "industry": "Digital Experience & Technology",
+  "description": "See beyond the expected. An interactive cinematic product experience and optical exploration for the fictional KAIRO K-01 mirrorless camera concept.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/kairok",
+  "downloadUrl": "https://www.openlanding.page/downloads/kairok.html",
+  "manifestUrl": "https://www.openlanding.page/copy/kairok-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/kairok-webflow-prompt.md",
+  "variables": {
+    "collectionName": "KAIRO K Tokens",
+    "colors": [
+      {
+        "name": "Color / Black Carbon",
+        "cssVar": "--black-carbon",
+        "value": "#121315",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Graphite",
+        "cssVar": "--graphite",
+        "value": "#1d2024",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Titanium",
+        "cssVar": "--titanium",
+        "value": "#7f858d",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Porcelain",
+        "cssVar": "--porcelain",
+        "value": "#f2efe9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Copper",
+        "cssVar": "--copper",
+        "value": "#e68f63",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Copper Soft",
+        "cssVar": "--copper-soft",
+        "value": "#b8785d",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Stone",
+        "cssVar": "--stone",
+        "value": "#d2cec7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Body Muted",
+        "cssVar": "--body-muted",
+        "value": "#a8aaa9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Panel Line",
+        "cssVar": "--panel-line",
+        "value": "rgba(242, 239, 233, 0.15)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Panel Line Dark",
+        "cssVar": "--panel-line-dark",
+        "value": "rgba(18, 19, 21, 0.12)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Bricolage Grotesque",
+        "fallback": "-apple-system, BlinkMacSystemFont, sans-serif"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "-apple-system, BlinkMacSystemFont, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "ui-monospace, SFMono-Regular, monospace"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "kairok.webp",
+      "publicPath": "https://www.openlanding.page/gallery/kairok.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "kairo-01-hero-camera.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-01-hero-camera.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-02-camera-cutout-alpha.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-02-camera-cutout-alpha.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-02-camera-cutout.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-02-camera-cutout.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-03-lens-macro.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-03-lens-macro.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-04-city-environment.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-04-city-environment.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-05-sensor-detail.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-05-sensor-detail.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-06-exploded-camera.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-06-exploded-camera.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-07-camera-collection.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-07-camera-collection.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-08-sample-photo.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-08-sample-photo.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-09-lens-to-city-flythrough.mp4",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-09-lens-to-city-flythrough.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-video-first.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-video-first.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kairo-video-last.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/kairo-video-last.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110088749_d16f3834.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110088749_d16f3834.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110090486_c1b17abe.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110090486_c1b17abe.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110092730_d38f28bb.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110092730_d38f28bb.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110129203_34ef8152.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110129203_34ef8152.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110149178_4682f66c.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110149178_4682f66c.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110188961_058b0d0e.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110188961_058b0d0e.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110190985_69ac0a46.jpg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110190985_69ac0a46.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110247512_3ce38ad0.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110247512_3ce38ad0.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110248103_d3e8ce50.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110248103_d3e8ce50.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110249023_1a0fd9cd.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110249023_1a0fd9cd.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110249641_e4b39074.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110249641_e4b39074.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110341992_a6fcf9df.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110341992_a6fcf9df.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794110343566_d96dcbb3.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/media_1794110343566_d96dcbb3.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-collection.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r1-collection.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-field-notes.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r1-field-notes.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r1-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-optics.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r1-optics.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-field-notes.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r2-field-notes.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r2-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-mobile-final.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r2-mobile-final.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r2-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-waitlist.png",
+      "publicPath": "https://www.openlanding.page/templates/kairok/r2-waitlist.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aperture.svg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/icons/aperture.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arrow-up-right.svg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/icons/arrow-up-right.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "reticle.svg",
+      "publicPath": "https://www.openlanding.page/templates/kairok/icons/reticle.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-001.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-001.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-002.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-002.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-003.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-003.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-004.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-004.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-005.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-005.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-006.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-006.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-007.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-007.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-008.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-008.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-009.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-009.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-010.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-010.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-011.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-011.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-012.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-012.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-013.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-013.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-014.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-014.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-015.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-015.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-016.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-016.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-017.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-017.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-018.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-018.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-019.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-019.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-020.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-020.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-021.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-021.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-022.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-022.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-023.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-023.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-024.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-025.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-025.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-026.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-026.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-027.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-027.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-028.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-028.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-029.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-029.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-030.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-030.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-031.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-031.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-032.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-032.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-033.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-033.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-034.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-034.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-035.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-035.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-036.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-036.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-037.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-037.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-038.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-038.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-039.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-039.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-040.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-040.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-041.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-041.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-042.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-042.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-043.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-043.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-044.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-044.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-045.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-045.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-046.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-046.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-047.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-047.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-048.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-048.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-049.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-049.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-050.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-050.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-051.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-051.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-052.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-052.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-053.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-053.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-054.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-054.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-055.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-055.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-056.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-056.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-057.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-057.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-058.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-058.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-059.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-059.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-060.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-060.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-061.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-061.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-062.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-062.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-063.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-063.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-064.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-064.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-065.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-065.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-066.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-066.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-067.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-067.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-068.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-068.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-069.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-069.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-070.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-070.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-071.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-071.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-072.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-072.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-073.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-073.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-074.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-074.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-075.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-075.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-076.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-076.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-077.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-077.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-078.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-078.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-079.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-079.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-080.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-080.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-081.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-081.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-082.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-082.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-083.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-083.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-084.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-084.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-085.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-085.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-086.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-086.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-087.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-087.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-088.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-088.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-089.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-089.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-090.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-090.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-091.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-091.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-092.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-092.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-093.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-093.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-094.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-094.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-095.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-095.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-096.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-096.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-097.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-097.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-098.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-098.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-099.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-099.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-100.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-100.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-101.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-101.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-102.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-102.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-103.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-103.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-104.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-104.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-105.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-105.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-106.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-106.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-107.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-107.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-108.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-108.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-109.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-109.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-110.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-110.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-111.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-111.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-112.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-112.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-113.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-113.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-114.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-114.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-115.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-115.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-116.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-116.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-117.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-117.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-118.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-118.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-119.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-119.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frame-120.webp",
+      "publicPath": "https://www.openlanding.page/templates/kairok/sequence/frame-120.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "See beyond the expected. An interactive cinematic product experience and optical exploration for the fictional KAIRO K-01 mirrorless camera concept.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".css",
+        ".kairo-story-track",
+        ".kairo-story-sticky",
+        ".kairo-cover-stage",
+        ".78svh",
+        ".25vw",
+        ".kairo-lens-glint",
+        ".25s",
+        ".kairo-reticle-corner",
+        ".font-display-kairo",
+        ".font-sans-kairo",
+        ".font-mono-kairo"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "kairok-styles-1",
+      "location": "head",
+      "title": "KAIRO K Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 5412,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ".kairo-story-track {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 580vh;\r\n  background-color: var(--black-carbon);\r\n}\r\n\r\n@media (max-width: 1024px) {\r\n  .kairo-story-track {\r\n    height: 480vh;\r\n  }\r\n}\r\n\r\n@media (max-width: 640px) {\r\n  .kairo-story-track {\r\n    height: 410vh;\r\n  }\r\n}\r\n\r\n.kairo-story-sticky {\r\n  position: sticky;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100svh;\r\n  min-height: 560px;\r\n  overflow: hidden;\r\n  background-color: var(--black-carbon);\r\n}\r\n\r\n/* Shared 16:9 cover coordinate box for city hotspots so markers stay locked to subject features on any aspect ratio */\r\n.kairo-cover-stage {\r\n  position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  transform: translate(-50%, -50%);\r\n  width: max(100vw, 177.78svh);\r\n  height: max(100svh, 56.25vw);\r\n  pointer-events: none;\r\n}\r\n\r\n/* Optical copper ring specular sweep on load */\r\n@keyframes kairoLensGlint {\r\n  0% {\r\n    opacity: 0;\r\n    transform: rotate(-35deg) scale(0.98);\r\n  }\r\n  35% {\r\n    opacity: 0.55;\r\n  }\r\n  100% {\r\n    opacity: 0;\r\n    transform: rotate(25deg) scale(1.01);\r\n  }\r\n}\r\n\r\n.kairo-lens-glint {\r\n  animation: kairoLensGlint 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s 1 forwards;\r\n}\r\n\r\n/* Viewfinder reticle corner brackets */\r\n.kairo-reticle-corner {\r\n  position: absolute;\r\n  width: 14px;\r\n  height: 14px;\r\n  border-color: rgba(230, 143, 99, 0.65);\r\n  pointer-events: none;\r\n}\n\n:root {\r\n  --black-carbon: #121315;\r\n  --graphite: #1d2024;\r\n  --titanium: #7f858d;\r\n  --porcelain: #f2efe9;\r\n  --copper: #e68f63;\r\n  --copper-soft: #b8785d;\r\n  --stone: #d2cec7;\r\n  --body-muted: #a8aaa9;\r\n  --panel-line: rgba(242, 239, 233, 0.15);\r\n  --panel-line-dark: rgba(18, 19, 21, 0.12);\r\n\r\n  --font-display: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;\r\n  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;\r\n}\r\n\r\n*,\r\n*::before,\r\n*::after {\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n  background-color: var(--black-carbon);\r\n  color: var(--porcelain);\r\n  font-family: var(--font-sans);\r\n  scroll-behavior: smooth;\r\n  overflow-x: clip;\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  padding: 0;\r\n  background-color: var(--black-carbon);\r\n  color: var(--porcelain);\r\n  font-family: var(--font-sans);\r\n  overflow-x: clip;\r\n  min-height: 100%;\r\n  text-rendering: optimizeLegibility;\r\n}\r\n\r\n.font-display-kairo {\r\n  font-family: var(--font-display);\r\n}\r\n\r\n.font-sans-kairo {\r\n  font-family: var(--font-sans);\r\n}\r\n\r\n.font-mono-kairo {\r\n  font-family: var(--font-mono);\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n/* Intentional keyboard focus ring */\r\n:focus-visible {\r\n  outline: 2px solid var(--copper);\r\n  outline-offset: 3px;\r\n}\r\n\r\n/* Button edge copper line response */\r\n.kairo-btn-primary {\r\n  position: relative;\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 0.625rem;\r\n  padding: 0.75rem 1.375rem;\r\n  background-color: var(--porcelain);\r\n  color: var(--black-carbon);\r\n  font-family: var(--font-sans);\r\n  font-size: 0.8125rem;\r\n  font-weight: 600;\r\n  letter-spacing: 0.02em;\r\n  border: 1px solid rgba(242, 239, 233, 0.9);\r\n  border-radius: 2px;\r\n  transition:\r\n    background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    color 180ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);\r\n  cursor: pointer;\r\n  white-space: nowrap;\r\n}\r\n\r\n.kairo-btn-primary:hover {\r\n  background-color: var(--copper);\r\n  border-color: var(--copper);\r\n  color: var(--black-carbon);\r\n}\r\n\r\n.kairo-btn-secondary {\r\n  position: relative;\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 0.625rem;\r\n  padding: 0.75rem 1.375rem;\r\n  background-color: rgba(18, 19, 21, 0.55);\r\n  color: var(--porcelain);\r\n  font-family: var(--font-sans);\r\n  font-size: 0.8125rem;\r\n  font-weight: 500;\r\n  letter-spacing: 0.02em;\r\n  border: 1px solid rgba(242, 239, 233, 0.24);\r\n  border-radius: 2px;\r\n  backdrop-filter: blur(8px);\r\n  transition:\r\n    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    color 180ms cubic-bezier(0.16, 1, 0.3, 1);\r\n  cursor: pointer;\r\n  white-space: nowrap;\r\n}\r\n\r\n.kairo-btn-secondary:hover {\r\n  border-color: var(--copper);\r\n  background-color: rgba(230, 143, 99, 0.12);\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  html {\r\n    scroll-behavior: auto;\r\n  }\r\n  *,\r\n  *::before,\r\n  *::after {\r\n    animation-duration: 0.01ms !important;\r\n    animation-iteration-count: 1 !important;\r\n    transition-duration: 0.01ms !important;\r\n  }\r\n}\n\n/* Optical handoff mask and editorial chapter surfaces */\r\n.kairo-porcelain-chapter {\r\n  background-color: var(--porcelain);\r\n  color: var(--black-carbon);\r\n}\r\n\r\n.kairo-stone-chapter {\r\n  background-color: var(--stone);\r\n  color: var(--black-carbon);\r\n}\r\n\r\n.kairo-carbon-chapter {\r\n  background-color: var(--black-carbon);\r\n  color: var(--porcelain);\r\n}\r\n\r\n.kairo-hairline-top {\r\n  border-top: 1px solid var(--panel-line);\r\n}\r\n\r\n.kairo-hairline-dark-top {\r\n  border-top: 1px solid var(--panel-line-dark);\r\n}\r\n\r\n/* Smooth image pan for exploded camera and collection trio */\r\n.kairo-pan-surface {\r\n  transition:\r\n    transform 520ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    object-position 520ms cubic-bezier(0.16, 1, 0.3, 1),\r\n    filter 320ms cubic-bezier(0.16, 1, 0.3, 1);\r\n}"
+    },
+    {
+      "id": "kairok-runtime-1",
+      "location": "footer",
+      "title": "KAIRO K Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 271,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// KAIRO K — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

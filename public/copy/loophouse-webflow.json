@@ -1,0 +1,249 @@
+{
+  "slug": "loophouse",
+  "title": "LOOPHOUSE",
+  "industry": "Workshop & Tool Library",
+  "description": "Tools in circulation, work in common. A community workshop landing page with an interactive modular pegboard tool wall, magnetic dock unlatching, and live project tray staging.",
+  "stack": "Next.js 16 · Tailwind v4 · Interactive Pegboard · Clockwork Motion",
+  "liveUrl": "https://www.openlanding.page/templates/loophouse",
+  "downloadUrl": "https://www.openlanding.page/downloads/loophouse.html",
+  "manifestUrl": "https://www.openlanding.page/copy/loophouse-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/loophouse-webflow-prompt.md",
+  "variables": {
+    "collectionName": "LOOPHOUSE Tokens",
+    "colors": [
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#111618",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper",
+        "cssVar": "--color-paper",
+        "value": "#F4EFE6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--color-accent",
+        "value": "#1E51EB",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Steel",
+        "cssVar": "--color-steel",
+        "value": "#7E8A90",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pine",
+        "cssVar": "--color-pine",
+        "value": "#DED7C5",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Chivo",
+        "fallback": "-apple-system, system-ui, sans-serif",
+        "googleFont": "Chivo"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-jakarta)",
+        "fallback": "-apple-system, system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "Chivo Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "Chivo Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "28px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "loophouse.webp",
+      "publicPath": "https://www.openlanding.page/gallery/loophouse.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/loophouse/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loophouse-preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/loophouse/loophouse-preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/loophouse/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Machined Top Bar",
+      "summary": "Floating bar with brand lockup, live inventory telemetry (`428 tools in circulation · 98.4% return rate`), anchor navigation, and \"Reserve a Kit\" CTA.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-topbar",
+        ".lh-topbar-inner",
+        ".lh-dock-chassis-top",
+        ".lh-footer-back-to-top"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero",
+      "summary": "Perforated pegboard ground, split-line mask headline *\"The neighborhood workshop on your block.\"*, lead copy, live status badge, and dual actions.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-hero-section",
+        ".lh-hero-grid",
+        ".lh-hero-kicker-wrap",
+        ".lh-hero-kicker",
+        ".lh-hero-code",
+        ".lh-hero-headline",
+        ".lh-hero-lead",
+        ".lh-hero-actions",
+        ".lh-hero-technical",
+        ".lh-hero-frame",
+        ".lh-hero-frame-header",
+        ".lh-hero-blueprint"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "The Pegboard Station (Mechanic)",
+      "summary": "Modular tool wall with category tabs, magnetic tool unlatching, caliper spec inspection, and active requisition tray.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-pegboard-tabs",
+        ".lh-pegboard-tab",
+        ".lh-pegboard-layout",
+        ".lh-pegboard-canvas",
+        ".lh-pegboard-header-tag"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Circulation Route",
+      "summary": "Four-station workflow with drawn connector hairlines and stamped brass numbers (01 Requisition & Hold, 02 Locker or Bench Pickup, 03 Make & Maintain, 04 Calibrated Restock).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-route-section",
+        ".lh-route-grid",
+        ".lh-route-card",
+        ".lh-route-card-head",
+        ".lh-route-badge",
+        ".lh-route-tag",
+        ".lh-route-title",
+        ".lh-route-desc",
+        ".lh-route-detail-box"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Curated Project Kits",
+      "summary": "4 heavy-duty packages (Cabinetmaker Joinery Pack, Timber Framing Rig, Electrician Diagnostics Caddy, Landscape Restoration Kit) with exploded tool manifests and loan duration pills.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-kits-grid"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Workshop Ledger & Shelf Hosts",
+      "summary": "Operational metrics, host depot locations, member testimonials with badge numbers, and maintenance records.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Requisition Intake & Bench Reservation Form",
+      "summary": "Client-side validated form (trade category, member email, loan days slider, workshop safety check) with instantaneous confirmation panel. Never send a network request.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-form-card",
+        ".lh-form-card-head",
+        ".lh-form-card-tag",
+        ".lh-form-card-status",
+        ".lh-requisition-form",
+        ".lh-form-group",
+        ".lh-form-label",
+        ".lh-form-label-row",
+        ".lh-form-range-val",
+        ".lh-form-input",
+        ".lh-form-select",
+        ".lh-form-textarea"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Colophon & Footer",
+      "summary": "Stamped iron mark, library regulations, copyright.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lh-hero-frame-footer",
+        ".lh-kit-footer",
+        ".lh-footer",
+        ".lh-footer-grid",
+        ".lh-footer-brand",
+        ".lh-footer-motto",
+        ".lh-footer-desc",
+        ".lh-footer-col-title",
+        ".lh-footer-links",
+        ".lh-footer-link",
+        ".lh-footer-static-item",
+        ".lh-footer-bottom"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "loophouse-styles-1",
+      "location": "head",
+      "title": "LOOPHOUSE Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 37747,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-ink: #111618;\n  --color-paper: #F4EFE6;\n  --color-accent: #1E51EB;\n  --color-steel: #7E8A90;\n  --color-pine: #DED7C5;\n\n  --font-display: var(--font-chivo), -apple-system, system-ui, sans-serif;\n  --font-body: var(--font-jakarta), -apple-system, system-ui, sans-serif;\n  --font-mono: var(--font-chivo-mono), ui-monospace, monospace;\n\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 28px;\n  --stagger: 70ms;\n}\n\n/* ── Base layout ────────────────────────────────────────── */\nhtml {\n  scroll-behavior: smooth;\n  overflow-x: clip;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n}\n\n.lh-body {\n  margin: 0;\n  background-color: #F4EFE6;\n  color: #111618;\n  font-family: var(--font-body);\n  font-size: 16px;\n  line-height: 1.6;\n  overflow-x: clip;\n  -webkit-font-smoothing: antialiased;\n  background-image: radial-gradient(#7E8A90 1.5px, transparent 1.5px);\n  background-size: 24px 24px;\n}\n\n.lh-display {\n  font-family: var(--font-display);\n}\n\n.lh-mono {\n  font-family: var(--font-mono);\n}\n\n.lh-wrap {\n  width: 100%;\n  max-width: 1280px;\n  margin: 0 auto;\n  padding: 0 clamp(16px, 4vw, 48px);\n}\n\n.lh-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n\n.lh-text-accent {\n  color: #1E51EB;\n}\n\n/* Focus visibility */\n:focus-visible {\n  outline: 2px solid #1E51EB;\n  outline-offset: 3px;\n}\n\n/* ── Buttons ────────────────────────────────────────────── */\n.lh-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  font-family: var(--font-body);\n  font-weight: 700;\n  font-size: 14px;\n  letter-spacing: 0.02em;\n  padding: 13px 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  text-decoration: none;\n  transition: transform var(--dur-instant) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out),\n    color var(--dur-fast) var(--ease-out),\n    border-color var(--dur-fast) var(--ease-out);\n  border: 2px solid transparent;\n}\n\n.lh-btn:active {\n  transform: scale(0.97);\n}\n\n.lh-btn-primary {\n  background-color: #1E51EB;\n  color: #F4EFE6;\n  border-color: #1E51EB;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-btn-primary:hover {\n    background-color: #111618;\n    border-color: #111618;\n    color: #F4EFE6;\n  }\n}\n\n.lh-btn-secondary {\n  background-color: #F4EFE6;\n  color: #111618;\n  border-color: #111618;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-btn-secondary:hover {\n    background-color: #111618;\n    color: #F4EFE6;\n  }\n}\n\n.lh-btn-dark {\n  background-color: #111618;\n  color: #F4EFE6;\n  border-color: #111618;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-btn-dark:hover {\n    background-color: #1E51EB;\n    border-color: #1E51EB;\n  }\n}\n\n/* ── Top Bar ────────────────────────────────────────────── */\n.lh-topbar {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  z-index: 50;\n  background-color: color-mix(in srgb, #F4EFE6 94%, transparent);\n  border-bottom: 1px solid #7E8A90;\n  backdrop-filter: blur(8px);\n  transition: background-color var(--dur-fast) var(--ease-out),\n    box-shadow var(--dur-fast) var(--ease-out);\n}\n\n.lh-topbar.is-scrolled {\n  background-color: color-mix(in srgb, #F4EFE6 98%, transparent);\n  box-shadow: 0 4px 16px color-mix(in srgb, #111618 8%, transparent);\n}\n\n.lh-topbar-inner {\n  max-width: 1280px;\n  margin: 0 auto;\n  padding: 12px clamp(16px, 4vw, 48px);\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n}\n\n.lh-brand-link {\n  text-decoration: none;\n  color: inherit;\n  display: inline-flex;\n}\n\n.lh-telemetry-chip {\n  display: none;\n  align-items: center;\n  gap: 8px;\n  background-color: color-mix(in srgb, #7E8A90 20%, transparent);\n  padding: 6px 14px;\n  border-radius: 4px;\n  border: 1px solid #7E8A90;\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  color: #111618;\n}\n\n@media (min-width: 1024px) {\n  .lh-telemetry-chip {\n    display: flex;\n  }\n}\n\n.lh-live-dot {\n  width: 7px;\n  height: 7px;\n  border-radius: 9999px;\n  background-color: #1E51EB;\n  animation: lh-pulse 2s infinite ease-in-out;\n}\n\n@keyframes lh-pulse {\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50% { opacity: 0.4; transform: scale(0.8); }\n}\n\n.lh-nav {\n  display: none;\n  align-items: center;\n  gap: 20px;\n}\n\n@media (min-width: 860px) {\n  .lh-nav {\n    display: flex;\n  }\n}\n\n.lh-nav-link {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 600;\n  text-decoration: none;\n  color: #111618;\n  letter-spacing: 0.04em;\n  padding: 6px 8px;\n  transition: color var(--dur-fast) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-nav-link:hover {\n    color: #1E51EB;\n  }\n}\n\n.lh-nav-cta {\n  font-family: var(--font-body);\n  font-size: 13px;\n  font-weight: 700;\n  background-color: #111618;\n  color: #F4EFE6;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n  transition: background-color var(--dur-fast) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-nav-cta:hover {\n    background-color: #1E51EB;\n  }\n}\n\n.lh-menu-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 40px;\n  height: 40px;\n  background: transparent;\n  border: 1px solid #7E8A90;\n  border-radius: 4px;\n  font-size: 18px;\n  cursor: pointer;\n  color: #111618;\n}\n\n@media (min-width: 860px) {\n  .lh-menu-btn {\n    display: none;\n  }\n}\n\n.lh-mobile-menu {\n  display: flex;\n  flex-direction: column;\n  padding: 16px 24px;\n  gap: 12px;\n  background-color: #F4EFE6;\n  border-top: 1px solid #7E8A90;\n}\n\n.lh-mobile-link {\n  font-family: var(--font-mono);\n  font-size: 14px;\n  font-weight: 600;\n  color: #111618;\n  text-decoration: none;\n  padding: 8px 0;\n}\n\n.lh-mobile-cta {\n  display: inline-block;\n  text-align: center;\n  font-family: var(--font-body);\n  font-weight: 700;\n  background-color: #1E51EB;\n  color: #F4EFE6;\n  text-decoration: none;\n  padding: 12px;\n  border-radius: 4px;\n  margin-top: 8px;\n}\n\n/* ── Hero Section ───────────────────────────────────────── */\n.lh-hero-section {\n  padding-top: clamp(100px, 14vw, 150px);\n  padding-bottom: clamp(40px, 6vw, 70px);\n  border-bottom: 2px solid #7E8A90;\n}\n\n.lh-hero-grid {\n  display: grid;\n  grid-template-columns: 1fr;\n  gap: 40px;\n  align-items: center;\n}\n\n@media (min-width: 990px) {\n  .lh-hero-grid {\n    grid-template-columns: 1.15fr 0.85fr;\n  }\n}\n\n.lh-hero-kicker-wrap {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 12px;\n  margin-bottom: 16px;\n}\n\n.lh-hero-kicker {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  letter-spacing: 0.12em;\n  color: #1E51EB;\n  background-color: color-mix(in srgb, #1E51EB 12%, transparent);\n  padding: 4px 10px;\n  border-radius: 3px;\n  border: 1px solid color-mix(in srgb, #1E51EB 35%, transparent);\n}\n\n.lh-hero-code {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #7E8A90;\n  letter-spacing: 0.08em;\n}\n\n.lh-hero-headline {\n  font-family: var(--font-display);\n  font-size: clamp(40px, 7vw, 76px);\n  font-weight: 900;\n  line-height: 0.98;\n  letter-spacing: -0.035em;\n  margin: 0 0 20px;\n  text-transform: uppercase;\n}\n\n.lh-mask-line {\n  display: block;\n  overflow: clip;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .lh-mask-line > span {\n    display: block;\n    animation: lh-mask-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;\n  }\n  .lh-mask-line:nth-child(2) > span {\n    animation-delay: 80ms;\n  }\n  .lh-mask-line:nth-child(3) > span {\n    animation-delay: 160ms;\n  }\n}\n\n@keyframes lh-mask-rise {\n  from {\n    transform: translateY(110%);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n\n.lh-hero-lead {\n  font-size: clamp(16px, 2.2vw, 19px);\n  color: color-mix(in srgb, #111618 85%, transparent);\n  max-width: 54ch;\n  margin: 0 0 32px;\n  line-height: 1.55;\n}\n\n.lh-hero-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 14px;\n}\n\n/* Hero Technical Blueprint Frame */\n.lh-hero-technical {\n  display: flex;\n  justify-content: center;\n}\n\n.lh-hero-frame {\n  width: 100%;\n  max-width: 480px;\n  background-color: #111618;\n  color: #F4EFE6;\n  border: 2px solid #7E8A90;\n  border-radius: 6px;\n  overflow: hidden;\n  box-shadow: 8px 8px 0 #111618;\n}\n\n.lh-hero-frame-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 16px;\n  background-color: color-mix(in srgb, #7E8A90 20%, transparent);\n  border-bottom: 1px solid #7E8A90;\n  font-family: var(--font-mono);\n  font-size: 11px;\n}\n\n.lh-frame-serial {\n  letter-spacing: 0.08em;\n  color: #DED7C5;\n}\n\n.lh-frame-indicator {\n  color: #1E51EB;\n  font-weight: 700;\n}\n\n.lh-hero-blueprint {\n  padding: 16px;\n  background-color: #111618;\n  background-image: linear-gradient(color-mix(in srgb, #7E8A90 14%, transparent) 1px, transparent 1px),\n    linear-gradient(90deg, color-mix(in srgb, #7E8A90 14%, transparent) 1px, transparent 1px);\n  background-size: 16px 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.lh-blueprint-svg {\n  width: 100%;\n  height: auto;\n}\n\n.lh-hero-frame-footer {\n  display: flex;\n  justify-content: space-between;\n  padding: 12px 16px;\n  background-color: color-mix(in srgb, #111618 90%, #7E8A90);\n  border-top: 1px solid #7E8A90;\n}\n\n.lh-spec-kicker {\n  display: block;\n  font-family: var(--font-mono);\n  font-size: 10px;\n  color: #7E8A90;\n  letter-spacing: 0.06em;\n}\n\n.lh-spec-bold {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 700;\n}\n\n/* Hero Telemetry Strip */\n.lh-hero-strip {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));\n  gap: 1px;\n  background-color: #7E8A90;\n  border: 1px solid #7E8A90;\n  border-radius: 4px;\n  margin-top: 48px;\n  overflow: hidden;\n}\n\n.lh-strip-cell {\n  background-color: #F4EFE6;\n  padding: 20px 24px;\n  display: flex;\n  flex-direction: column;\n}\n\n.lh-strip-label {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  color: #7E8A90;\n  letter-spacing: 0.08em;\n  margin-bottom: 6px;\n}\n\n.lh-strip-val {\n  font-family: var(--font-display);\n  font-size: clamp(28px, 4vw, 36px);\n  font-weight: 900;\n  line-height: 1;\n  color: #111618;\n  margin-bottom: 4px;\n}\n\n.lh-strip-sub {\n  font-size: 13px;\n  color: color-mix(in srgb, #111618 70%, transparent);\n}\n\n/* ── Section Structure ──────────────────────────────────── */\n.lh-section {\n  padding: clamp(56px, 8vw, 100px) 0;\n  border-bottom: 2px solid #7E8A90;\n}\n\n.lh-section-head {\n  margin-bottom: 36px;\n  max-width: 760px;\n}\n\n.lh-kicker {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 600;\n  letter-spacing: 0.12em;\n  color: #1E51EB;\n  margin-bottom: 8px;\n}\n\n.lh-section-title {\n  font-family: var(--font-display);\n  font-size: clamp(32px, 5vw, 48px);\n  font-weight: 900;\n  line-height: 1.05;\n  letter-spacing: -0.025em;\n  text-transform: uppercase;\n  margin: 0 0 12px;\n}\n\n.lh-section-desc {\n  font-size: clamp(16px, 2vw, 18px);\n  color: color-mix(in srgb, #111618 80%, transparent);\n  margin: 0;\n}\n\n/* ── Pegboard Station (The Signature Mechanic) ──────────── */\n.lh-pegboard-tabs {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n  margin-bottom: 24px;\n}\n\n.lh-pegboard-tab {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 600;\n  letter-spacing: 0.06em;\n  padding: 10px 18px;\n  background-color: #F4EFE6;\n  border: 1px solid #7E8A90;\n  border-radius: 4px;\n  cursor: pointer;\n  color: #111618;\n  transition: background-color var(--dur-fast) var(--ease-out),\n    color var(--dur-fast) var(--ease-out),\n    border-color var(--dur-fast) var(--ease-out);\n}\n\n.lh-pegboard-tab.is-active {\n  background-color: #111618;\n  border-color: #111618;\n  color: #F4EFE6;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-pegboard-tab:hover:not(.is-active) {\n    border-color: #1E51EB;\n    color: #1E51EB;\n  }\n}\n\n/* Caliper Inspection Panel */\n.lh-caliper-panel {\n  background-color: #111618;\n  color: #F4EFE6;\n  border: 2px solid #1E51EB;\n  border-radius: 6px;\n  margin-bottom: 32px;\n  overflow: hidden;\n  box-shadow: 0 8px 24px color-mix(in srgb, #111618 20%, transparent);\n}\n\n.lh-caliper-ruler {\n  display: flex;\n  justify-content: space-between;\n  padding: 6px 20px;\n  background-color: color-mix(in srgb, #7E8A90 25%, transparent);\n  border-bottom: 1px dashed #7E8A90;\n  font-family: var(--font-mono);\n  font-size: 10px;\n  letter-spacing: 0.08em;\n  color: #DED7C5;\n}\n\n.lh-caliper-body {\n  padding: clamp(20px, 3vw, 32px);\n}\n\n.lh-caliper-meta {\n  margin-bottom: 24px;\n}\n\n.lh-caliper-serial {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  color: #1E51EB;\n  letter-spacing: 0.12em;\n}\n\n.lh-caliper-name {\n  font-family: var(--font-display);\n  font-size: clamp(24px, 4vw, 36px);\n  font-weight: 900;\n  letter-spacing: -0.02em;\n  margin: 4px 0 2px;\n}\n\n.lh-caliper-model {\n  font-family: var(--font-mono);\n  font-size: 14px;\n  color: #DED7C5;\n  margin: 0;\n}\n\n.lh-caliper-specs-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));\n  gap: 16px;\n  padding: 16px 0;\n  border-top: 1px solid color-mix(in srgb, #7E8A90 40%, transparent);\n  border-bottom: 1px solid color-mix(in srgb, #7E8A90 40%, transparent);\n  margin-bottom: 24px;\n}\n\n.lh-spec-cell {\n  display: flex;\n  flex-direction: column;\n}\n\n.lh-spec-label {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  color: #7E8A90;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  margin-bottom: 4px;\n}\n\n.lh-spec-val {\n  font-size: 14px;\n  font-weight: 600;\n  color: #F4EFE6;\n}\n\n.lh-caliper-stage-btn {\n  font-family: var(--font-body);\n  font-weight: 700;\n  font-size: 14px;\n  padding: 12px 24px;\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  background-color: #1E51EB;\n  color: #F4EFE6;\n  transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-instant) var(--ease-spring);\n}\n\n.lh-caliper-stage-btn.is-staged {\n  background-color: #DED7C5;\n  color: #111618;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-caliper-stage-btn:hover {\n    filter: brightness(1.1);\n  }\n}\n\n/* Pegboard Layout */\n.lh-pegboard-layout {\n  display: grid;\n  grid-template-columns: 1fr;\n  gap: 28px;\n  align-items: start;\n}\n\n@media (min-width: 1024px) {\n  .lh-pegboard-layout {\n    grid-template-columns: 1.6fr 1fr;\n  }\n}\n\n.lh-pegboard-canvas {\n  background-color: #F4EFE6;\n  border: 2px solid #111618;\n  border-radius: 6px;\n  padding: 24px;\n  background-image: radial-gradient(#7E8A90 2px, transparent 2px);\n  background-size: 20px 20px;\n  box-shadow: 6px 6px 0 #111618;\n}\n\n.lh-pegboard-header-tag {\n  display: flex;\n  justify-content: space-between;\n  padding-bottom: 16px;\n  margin-bottom: 20px;\n  border-bottom: 2px solid #111618;\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.08em;\n  color: #111618;\n}\n\n.lh-docks-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));\n  gap: 20px;\n}\n\n/* Individual Tool Dock */\n.lh-tool-dock {\n  position: relative;\n  min-height: 280px;\n  border-radius: 4px;\n  cursor: pointer;\n  outline: none;\n}\n\n.lh-dock-shadow {\n  position: absolute;\n  inset: 0;\n  background-color: color-mix(in srgb, #DED7C5 70%, transparent);\n  border: 2px dashed #7E8A90;\n  border-radius: 4px;\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n  z-index: 1;\n}\n\n.lh-dock-serial {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  font-weight: 600;\n  color: #7E8A90;\n  letter-spacing: 0.1em;\n}\n\n.lh-dock-silhouette-shape {\n  width: 80px;\n  height: 80px;\n  opacity: 0.35;\n}\n\n.lh-dock-mount-status {\n  font-family: var(--font-mono);\n  font-size: 9px;\n  letter-spacing: 0.08em;\n  color: #7E8A90;\n}\n\n/* Chassis that lifts on unlatch */\n.lh-dock-chassis {\n  position: relative;\n  z-index: 2;\n  background-color: #F4EFE6;\n  border: 2px solid #111618;\n  border-radius: 4px;\n  padding: 18px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 100%;\n  transition: transform var(--dur-base) var(--ease-spring),\n    box-shadow var(--dur-base) var(--ease-out),\n    border-color var(--dur-fast) var(--ease-out);\n}\n\n.lh-tool-dock.is-unlatched .lh-dock-chassis {\n  transform: translateY(-8px) scale(1.02);\n  border-color: #1E51EB;\n  box-shadow: 0 12px 28px color-mix(in srgb, #111618 18%, transparent);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-tool-dock:hover:not(.is-unlatched) .lh-dock-chassis {\n    transform: translateY(-4px);\n    border-color: #1E51EB;\n  }\n}\n\n.lh-dock-chassis-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.lh-dock-badge {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  font-weight: 700;\n  letter-spacing: 0.08em;\n  color: #1E51EB;\n}\n\n.lh-dock-status-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 9999px;\n  background-color: #7E8A90;\n}\n\n.lh-dock-status-dot.is-staged-dot {\n  background-color: #1E51EB;\n}\n\n.lh-dock-illustration {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px 0;\n}\n\n.lh-schematic-svg {\n  width: 90px;\n  height: 90px;\n}\n\n.lh-dock-title {\n  font-family: var(--font-display);\n  font-size: 16px;\n  font-weight: 900;\n  margin: 0 0 2px;\n  letter-spacing: -0.01em;\n}\n\n.lh-dock-model {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  color: #7E8A90;\n  margin: 0 0 6px;\n}\n\n.lh-dock-spec {\n  font-size: 12px;\n  color: color-mix(in srgb, #111618 75%, transparent);\n  margin: 0;\n}\n\n.lh-dock-actions {\n  margin-top: 14px;\n}\n\n.lh-dock-stage-btn {\n  width: 100%;\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  padding: 8px 12px;\n  background-color: transparent;\n  border: 1px solid #111618;\n  border-radius: 3px;\n  cursor: pointer;\n  color: #111618;\n  transition: background-color var(--dur-fast) var(--ease-out),\n    color var(--dur-fast) var(--ease-out);\n}\n\n.lh-dock-stage-btn.is-active {\n  background-color: #1E51EB;\n  border-color: #1E51EB;\n  color: #F4EFE6;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-dock-stage-btn:hover:not(.is-active) {\n    background-color: #111618;\n    color: #F4EFE6;\n  }\n}\n\n/* ── Requisition Tray Sidebar ───────────────────────────── */\n.lh-req-tray {\n  background-color: #F4EFE6;\n  border: 2px solid #111618;\n  border-radius: 6px;\n  padding: 24px;\n  box-shadow: 6px 6px 0 #111618;\n}\n\n@media (min-width: 1024px) {\n  .lh-req-tray {\n    position: sticky;\n    top: 90px;\n  }\n}\n\n.lh-req-tray-head {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-bottom: 16px;\n  border-bottom: 2px solid #111618;\n  margin-bottom: 18px;\n}\n\n.lh-req-tray-title-wrap {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.lh-req-icon {\n  font-size: 20px;\n  color: #1E51EB;\n}\n\n.lh-req-tray-title {\n  font-family: var(--font-display);\n  font-size: 17px;\n  font-weight: 900;\n  letter-spacing: -0.01em;\n  margin: 0;\n}\n\n.lh-req-tray-subtitle {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  color: #7E8A90;\n  letter-spacing: 0.08em;\n}\n\n.lh-req-clear-btn {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #7E8A90;\n  background: transparent;\n  border: none;\n  cursor: pointer;\n  text-decoration: underline;\n}\n\n.lh-req-empty {\n  padding: 24px 16px;\n  background-color: color-mix(in srgb, #DED7C5 40%, transparent);\n  border: 1px dashed #7E8A90;\n  border-radius: 4px;\n  text-align: center;\n  margin-bottom: 20px;\n}\n\n.lh-req-empty-text {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 600;\n  color: #111618;\n  margin: 0 0 6px;\n}\n\n.lh-req-empty-sub {\n  font-size: 12px;\n  color: color-mix(in srgb, #111618 70%, transparent);\n  margin: 0;\n}\n\n.lh-req-list {\n  list-style: none;\n  padding: 0;\n  margin: 0 0 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.lh-req-item {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 14px;\n  background-color: #F4EFE6;\n  border: 1px solid #7E8A90;\n  border-radius: 4px;\n}\n\n.lh-req-item-info {\n  display: flex;\n  flex-direction: column;\n}\n\n.lh-req-item-serial {\n  font-family: var(--font-mono);\n  font-size: 9px;\n  color: #1E51EB;\n  letter-spacing: 0.08em;\n}\n\n.lh-req-item-name {\n  font-weight: 700;\n  font-size: 13px;\n  color: #111618;\n}\n\n.lh-req-item-model {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #7E8A90;\n}\n\n.lh-req-remove-btn {\n  background: transparent;\n  border: none;\n  color: #7E8A90;\n  font-size: 14px;\n  cursor: pointer;\n  padding: 4px 8px;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-req-remove-btn:hover {\n    color: #111618;\n  }\n}\n\n.lh-req-controls {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  border-top: 1px solid #7E8A90;\n  padding-top: 16px;\n}\n\n.lh-req-slider-labels {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 6px;\n}\n\n.lh-req-control-label {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  color: #111618;\n  letter-spacing: 0.06em;\n}\n\n.lh-req-days-badge {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  background-color: #111618;\n  color: #F4EFE6;\n  padding: 2px 8px;\n  border-radius: 3px;\n}\n\n.lh-req-slider {\n  width: 100%;\n  accent-color: #1E51EB;\n  cursor: pointer;\n}\n\n.lh-req-slider-scale {\n  display: flex;\n  justify-content: space-between;\n  font-family: var(--font-mono);\n  font-size: 9px;\n  color: #7E8A90;\n  margin-top: 4px;\n}\n\n.lh-req-member-toggle {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.lh-toggle-group {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 4px;\n  background-color: color-mix(in srgb, #DED7C5 70%, transparent);\n  padding: 3px;\n  border-radius: 4px;\n  border: 1px solid #7E8A90;\n}\n\n.lh-toggle-btn {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  padding: 6px;\n  border: none;\n  background: transparent;\n  cursor: pointer;\n  border-radius: 3px;\n  color: #111618;\n  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);\n}\n\n.lh-toggle-btn.is-active {\n  background-color: #111618;\n  color: #F4EFE6;\n}\n\n.lh-req-summary {\n  background-color: color-mix(in srgb, #DED7C5 50%, transparent);\n  border: 1px solid #7E8A90;\n  border-radius: 4px;\n  padding: 12px 14px;\n}\n\n.lh-req-summary-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: var(--font-mono);\n  font-size: 13px;\n  font-weight: 700;\n}\n\n.lh-req-fee-total {\n  font-size: 20px;\n  color: #1E51EB;\n}\n\n.lh-req-policy-note {\n  display: block;\n  font-size: 11px;\n  color: #7E8A90;\n  margin-top: 4px;\n}\n\n.lh-req-submit-btn {\n  font-family: var(--font-body);\n  font-weight: 700;\n  font-size: 14px;\n  padding: 14px;\n  background-color: #1E51EB;\n  color: #F4EFE6;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-instant) var(--ease-spring);\n}\n\n.lh-req-submit-btn:disabled {\n  background-color: #7E8A90;\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-req-submit-btn:not(:disabled):hover {\n    background-color: #111618;\n  }\n}\n\n/* ── Circulation Route ──────────────────────────────────── */\n.lh-route-section {\n  background-color: #111618;\n  color: #F4EFE6;\n  background-image: linear-gradient(color-mix(in srgb, #7E8A90 12%, transparent) 1px, transparent 1px),\n    linear-gradient(90deg, color-mix(in srgb, #7E8A90 12%, transparent) 1px, transparent 1px);\n  background-size: 24px 24px;\n}\n\n.lh-route-section .lh-section-title {\n  color: #F4EFE6;\n}\n\n.lh-route-section .lh-section-desc {\n  color: #DED7C5;\n}\n\n.lh-route-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));\n  gap: 20px;\n}\n\n.lh-route-card {\n  background-color: #111618;\n  border: 1px solid #7E8A90;\n  border-radius: 6px;\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  transition: transform var(--dur-base) var(--ease-out),\n    border-color var(--dur-fast) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-route-card:hover {\n    transform: translateY(-6px);\n    border-color: #1E51EB;\n  }\n}\n\n.lh-route-card-head {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.lh-route-badge {\n  font-family: var(--font-display);\n  font-size: 22px;\n  font-weight: 900;\n  color: #1E51EB;\n}\n\n.lh-route-tag {\n  font-family: var(--font-mono);\n  font-size: 9px;\n  letter-spacing: 0.08em;\n  color: #7E8A90;\n}\n\n.lh-route-title {\n  font-family: var(--font-display);\n  font-size: 20px;\n  font-weight: 900;\n  margin: 0 0 10px;\n  color: #F4EFE6;\n  letter-spacing: -0.01em;\n}\n\n.lh-route-desc {\n  font-size: 14px;\n  color: #DED7C5;\n  margin: 0 0 18px;\n  line-height: 1.5;\n}\n\n.lh-route-detail-box {\n  margin-top: auto;\n  display: flex;\n  gap: 8px;\n  padding: 10px 12px;\n  background-color: color-mix(in srgb, #7E8A90 15%, transparent);\n  border-left: 2px solid #1E51EB;\n  border-radius: 0 4px 4px 0;\n}\n\n.lh-detail-bullet {\n  color: #1E51EB;\n  font-weight: 700;\n}\n\n.lh-detail-text {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #F4EFE6;\n  margin: 0;\n  line-height: 1.4;\n}\n\n/* ── Project Kits ───────────────────────────────────────── */\n.lh-kits-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\n  gap: 24px;\n}\n\n.lh-kit-card {\n  background-color: #F4EFE6;\n  border: 2px solid #111618;\n  border-radius: 6px;\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 6px 6px 0 #111618;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-kit-card:hover {\n    transform: translateY(-6px);\n  }\n}\n\n.lh-kit-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-bottom: 12px;\n  border-bottom: 1px solid #7E8A90;\n  margin-bottom: 16px;\n}\n\n.lh-kit-code {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  color: #1E51EB;\n}\n\n.lh-kit-days {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  color: #7E8A90;\n}\n\n.lh-kit-category {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  letter-spacing: 0.08em;\n  color: #7E8A90;\n}\n\n.lh-kit-title {\n  font-family: var(--font-display);\n  font-size: 22px;\n  font-weight: 900;\n  margin: 4px 0 10px;\n  letter-spacing: -0.015em;\n  color: #111618;\n}\n\n.lh-kit-desc {\n  font-size: 14px;\n  color: color-mix(in srgb, #111618 80%, transparent);\n  margin: 0 0 16px;\n}\n\n.lh-kit-manifest {\n  background-color: color-mix(in srgb, #DED7C5 50%, transparent);\n  border: 1px solid #7E8A90;\n  border-radius: 4px;\n  padding: 14px;\n  margin-bottom: 16px;\n}\n\n.lh-manifest-heading {\n  display: block;\n  font-family: var(--font-mono);\n  font-size: 10px;\n  font-weight: 700;\n  letter-spacing: 0.08em;\n  color: #111618;\n  margin-bottom: 8px;\n}\n\n.lh-manifest-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.lh-manifest-item {\n  display: flex;\n  gap: 8px;\n  font-size: 12px;\n  font-weight: 600;\n  color: #111618;\n}\n\n.lh-manifest-check {\n  color: #1E51EB;\n  font-weight: bold;\n}\n\n.lh-kit-spec-note {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 20px;\n  font-size: 12px;\n  color: #7E8A90;\n}\n\n.lh-spec-note-icon {\n  color: #1E51EB;\n  font-weight: bold;\n}\n\n.lh-spec-note-text {\n  margin: 0;\n  line-height: 1.4;\n}\n\n.lh-kit-footer {\n  margin-top: auto;\n}\n\n/* ── Workshop Ledger & Metrics ──────────────────────────── */\n.lh-metrics-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));\n  gap: 20px;\n  margin-bottom: 48px;\n}\n\n.lh-metric-card {\n  background-color: #111618;\n  color: #F4EFE6;\n  border: 2px solid #7E8A90;\n  border-radius: 6px;\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 4px 4px 0 #111618;\n}\n\n.lh-metric-label {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  color: #7E8A90;\n  margin-bottom: 8px;\n}\n\n.lh-metric-number {\n  font-family: var(--font-display);\n  font-size: clamp(36px, 5vw, 52px);\n  font-weight: 900;\n  line-height: 1;\n  color: #1E51EB;\n  margin-bottom: 6px;\n}\n\n.lh-metric-sub {\n  font-size: 13px;\n  color: #DED7C5;\n}\n\n.lh-depots-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n.lh-depot-card {\n  background-color: #F4EFE6;\n  border: 2px solid #111618;\n  border-radius: 6px;\n  padding: 24px;\n  box-shadow: 6px 6px 0 #111618;\n}\n\n.lh-depot-head {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 12px;\n}\n\n.lh-depot-tag {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  color: #1E51EB;\n}\n\n.lh-depot-dist {\n  font-family: var(--font-mono);\n  font-size: 10px;\n  background-color: #111618;\n  color: #F4EFE6;\n  padding: 3px 8px;\n  border-radius: 3px;\n}\n\n.lh-depot-name {\n  font-family: var(--font-display);\n  font-size: 20px;\n  font-weight: 900;\n  margin: 0 0 4px;\n  letter-spacing: -0.015em;\n}\n\n.lh-depot-addr {\n  font-size: 14px;\n  color: #7E8A90;\n  margin: 0 0 16px;\n}\n\n.lh-depot-meta {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  border-top: 1px solid #7E8A90;\n  padding-top: 14px;\n}\n\n.lh-depot-meta-row {\n  display: flex;\n  justify-content: space-between;\n  font-size: 12px;\n}\n\n.lh-depot-meta-row span {\n  color: #7E8A90;\n}\n\n.lh-depot-meta-row strong {\n  color: #111618;\n}\n\n.lh-quotes-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));\n  gap: 24px;\n}\n\n.lh-quote-card {\n  background-color: #DED7C5;\n  border: 1px solid #7E8A90;\n  border-radius: 6px;\n  padding: 28px;\n}\n\n.lh-quote-text {\n  font-size: 16px;\n  line-height: 1.55;\n  color: #111618;\n  margin: 0 0 18px;\n  font-style: italic;\n}\n\n.lh-quote-cite {\n  display: flex;\n  flex-direction: column;\n  font-style: normal;\n}\n\n.lh-quote-cite strong {\n  font-weight: 700;\n  font-size: 14px;\n  color: #111618;\n}\n\n.lh-quote-cite span {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #7E8A90;\n  letter-spacing: 0.04em;\n}\n\n/* ── Requisition Intake Section & Form ──────────────────── */\n.lh-req-grid {\n  display: grid;\n  grid-template-columns: 1fr;\n  gap: 40px;\n  align-items: start;\n}\n\n@media (min-width: 990px) {\n  .lh-req-grid {\n    grid-template-columns: 1fr 1fr;\n  }\n}\n\n.lh-req-features {\n  display: flex;\n  flex-direction: column;\n  gap: 24px;\n  margin-top: 32px;\n}\n\n.lh-req-feat {\n  display: flex;\n  gap: 18px;\n}\n\n.lh-feat-num {\n  font-family: var(--font-display);\n  font-size: 24px;\n  font-weight: 900;\n  color: #1E51EB;\n  line-height: 1;\n}\n\n.lh-feat-title {\n  font-family: var(--font-display);\n  font-size: 17px;\n  font-weight: 800;\n  margin: 0 0 4px;\n}\n\n.lh-feat-desc {\n  font-size: 14px;\n  color: color-mix(in srgb, #111618 75%, transparent);\n  margin: 0;\n  line-height: 1.5;\n}\n\n.lh-form-card {\n  background-color: #111618;\n  color: #F4EFE6;\n  border: 2px solid #7E8A90;\n  border-radius: 6px;\n  padding: clamp(24px, 4vw, 36px);\n  box-shadow: 8px 8px 0 #111618;\n}\n\n.lh-form-card-head {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-bottom: 16px;\n  border-bottom: 1px solid #7E8A90;\n  margin-bottom: 24px;\n}\n\n.lh-form-card-tag {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  color: #DED7C5;\n}\n\n.lh-form-card-status {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #1E51EB;\n  font-weight: bold;\n}\n\n.lh-requisition-form {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n.lh-form-group {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.lh-form-label {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 600;\n  color: #DED7C5;\n  letter-spacing: 0.04em;\n}\n\n.lh-form-label-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.lh-form-range-val {\n  font-family: var(--font-mono);\n  font-size: 12px;\n  font-weight: 700;\n  background-color: #1E51EB;\n  color: #F4EFE6;\n  padding: 2px 8px;\n  border-radius: 3px;\n}\n\n.lh-required {\n  color: #1E51EB;\n}\n\n.lh-form-input,\n.lh-form-select,\n.lh-form-textarea {\n  font-family: var(--font-body);\n  font-size: 15px;\n  padding: 12px 14px;\n  border-radius: 4px;\n  border: 1px solid #7E8A90;\n  background-color: #111618;\n  color: #F4EFE6;\n  outline: none;\n  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);\n}\n\n.lh-form-input:focus,\n.lh-form-select:focus,\n.lh-form-textarea:focus {\n  border-color: #1E51EB;\n  box-shadow: 0 0 0 2px color-mix(in srgb, #1E51EB 30%, transparent);\n}\n\n.lh-form-input.is-invalid,\n.lh-form-select.is-invalid {\n  border-color: #1E51EB;\n  animation: lh-shake 280ms ease-in-out;\n}\n\n@keyframes lh-shake {\n  0%, 100% { transform: translateX(0); }\n  25% { transform: translateX(-6px); }\n  75% { transform: translateX(6px); }\n}\n\n.lh-form-range {\n  width: 100%;\n  accent-color: #1E51EB;\n  cursor: pointer;\n}\n\n.lh-range-markers {\n  display: flex;\n  justify-content: space-between;\n  font-family: var(--font-mono);\n  font-size: 10px;\n  color: #7E8A90;\n  margin-top: 4px;\n}\n\n.lh-form-checkbox-group {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  margin-top: 4px;\n}\n\n.lh-checkbox {\n  width: 18px;\n  height: 18px;\n  accent-color: #1E51EB;\n  cursor: pointer;\n  margin-top: 3px;\n}\n\n.lh-checkbox-label {\n  font-size: 13px;\n  color: #DED7C5;\n  line-height: 1.45;\n  cursor: pointer;\n}\n\n.lh-form-error {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #1E51EB;\n  margin: 4px 0 0;\n  letter-spacing: 0.02em;\n}\n\n.lh-form-success {\n  background-color: #111618;\n  border: 2px solid #1E51EB;\n  border-radius: 6px;\n  padding: 28px;\n  animation: lh-scale-in var(--dur-base) var(--ease-out);\n}\n\n@keyframes lh-scale-in {\n  from {\n    opacity: 0;\n    transform: scale(0.96);\n  }\n  to {\n    opacity: 1;\n    transform: scale(1);\n  }\n}\n\n.lh-success-badge {\n  display: inline-block;\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  background-color: #1E51EB;\n  color: #F4EFE6;\n  padding: 4px 10px;\n  border-radius: 3px;\n  margin-bottom: 12px;\n}\n\n.lh-success-title {\n  font-family: var(--font-display);\n  font-size: 24px;\n  font-weight: 900;\n  margin: 0 0 6px;\n}\n\n.lh-success-code {\n  font-family: var(--font-mono);\n  font-size: 14px;\n  font-weight: 700;\n  color: #DED7C5;\n  margin: 0 0 20px;\n  padding-bottom: 14px;\n  border-bottom: 1px dashed #7E8A90;\n}\n\n.lh-success-details {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  margin-bottom: 20px;\n}\n\n.lh-success-row {\n  display: flex;\n  justify-content: space-between;\n  font-size: 13px;\n}\n\n.lh-success-row span {\n  color: #7E8A90;\n}\n\n.lh-success-row strong {\n  color: #F4EFE6;\n}\n\n.lh-success-note {\n  font-size: 12px;\n  color: #DED7C5;\n  margin: 0 0 24px;\n  line-height: 1.5;\n}\n\n/* ── Footer ─────────────────────────────────────────────── */\n.lh-footer {\n  background-color: #111618;\n  color: #F4EFE6;\n  border-top: 2px solid #7E8A90;\n  padding: clamp(48px, 6vw, 80px) 0 36px;\n}\n\n.lh-footer-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));\n  gap: 36px;\n  margin-bottom: 48px;\n}\n\n.lh-footer-brand {\n  grid-column: 1 / -1;\n}\n\n@media (min-width: 900px) {\n  .lh-footer-brand {\n    grid-column: span 2;\n  }\n}\n\n.lh-footer-motto {\n  font-family: var(--font-display);\n  font-size: 20px;\n  font-weight: 900;\n  color: #1E51EB;\n  margin: 16px 0 8px;\n  letter-spacing: -0.01em;\n}\n\n.lh-footer-desc {\n  font-size: 13px;\n  color: #7E8A90;\n  max-width: 44ch;\n  line-height: 1.5;\n  margin: 0;\n}\n\n.lh-footer-col-title {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.12em;\n  color: #DED7C5;\n  margin: 0 0 16px;\n}\n\n.lh-footer-links {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.lh-footer-link {\n  font-size: 13px;\n  color: #7E8A90;\n  text-decoration: none;\n  transition: color var(--dur-fast) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .lh-footer-link:hover {\n    color: #F4EFE6;\n  }\n}\n\n.lh-footer-static-item {\n  font-size: 13px;\n  color: #7E8A90;\n}\n\n.lh-footer-bottom {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n  border-top: 1px solid color-mix(in srgb, #7E8A90 30%, transparent);\n  padding-top: 24px;\n}\n\n.lh-footer-copy {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: #7E8A90;\n}\n\n.lh-footer-back-to-top {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n  color: #F4EFE6;\n  text-decoration: none;\n}\n\n/* ── Motion System Reveals ──────────────────────────────── */\n@media (prefers-reduced-motion: no-preference) {\n  [data-reveal] {\n    transition: opacity var(--dur-slow) var(--ease-out),\n      transform var(--dur-slow) var(--ease-out),\n      clip-path var(--dur-slow) var(--ease-in-out);\n    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));\n  }\n\n  [data-reveal=\"rise\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateY(var(--reveal-shift));\n  }\n\n  [data-reveal=\"scale\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: scale(0.96);\n  }\n\n  [data-reveal=\"wipe\"]:not([data-in=\"true\"]) {\n    clip-path: inset(0 0 100% 0);\n  }\n\n  [data-reveal=\"draw\"]:not([data-in=\"true\"]) {\n    transform: scaleX(0);\n    transform-origin: left;\n  }\n}"
+    }
+  ]
+}

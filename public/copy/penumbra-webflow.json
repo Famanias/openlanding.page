@@ -1,0 +1,235 @@
+{
+  "slug": "penumbra",
+  "title": "PENUMBRA",
+  "industry": "Digital Experience & Technology",
+  "description": "Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/penumbra",
+  "downloadUrl": "https://www.openlanding.page/downloads/penumbra.html",
+  "manifestUrl": "https://www.openlanding.page/copy/penumbra-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/penumbra-webflow-prompt.md",
+  "variables": {
+    "collectionName": "PENUMBRA Tokens",
+    "colors": [
+      {
+        "name": "Color / Ink",
+        "cssVar": "--ink",
+        "value": "#111318",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Slate",
+        "cssVar": "--slate",
+        "value": "#1c2027",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Slate Raised",
+        "cssVar": "--slate-raised",
+        "value": "#232832",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ivory",
+        "cssVar": "--ivory",
+        "value": "#F2EBE2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Amber",
+        "cssVar": "--amber",
+        "value": "#D7A779",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Amber Bright",
+        "cssVar": "--amber-bright",
+        "value": "#E9BB86",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Steel",
+        "cssVar": "--steel",
+        "value": "#7E91A8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Stone",
+        "cssVar": "--stone",
+        "value": "#A6A29F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Line",
+        "cssVar": "--line",
+        "value": "rgba(242, 235, 226, 0.10)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#20252D",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Serif",
+        "cssVar": "--font-serif",
+        "family": "Instrument Serif",
+        "fallback": "Instrument Serif, var(--font-cormorant-garamond), Cormorant Garamond, Georgia, serif",
+        "googleFont": "Instrument Serif"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "Manrope",
+        "fallback": "Manrope, -apple-system, BlinkMacSystemFont, sans-serif",
+        "googleFont": "Manrope"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "JetBrains Mono",
+        "fallback": "JetBrains Mono, monospace",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Cormorant Garamond",
+        "cssVar": "--font-cormorant-garamond",
+        "family": "Cormorant Garamond",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Cormorant Garamond"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Spot R",
+        "cssVar": "--spot-r",
+        "value": "260px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "penumbra.webp",
+      "publicPath": "https://www.openlanding.page/gallery/penumbra.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "architecture-base.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/architecture-base.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-illuminated.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/architecture-illuminated.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712887880_2079312c.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712887880_2079312c.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712891049_9b3ee09d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712891049_9b3ee09d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712895877_5c2db63b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712895877_5c2db63b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712998087_6e90a1f5.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712998087_6e90a1f5.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793713001160_45215e56.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793713001160_45215e56.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793713005948_825ebe4b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793713005948_825ebe4b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-base_a79a3e0f.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/aistudio/architecture-base_a79a3e0f.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-illuminated_3b7655d4.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/aistudio/architecture-illuminated_3b7655d4.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".dark",
+        ".font-display",
+        ".font-sans-editorial",
+        ".font-mono-tech",
+        ".hero-image-stage",
+        ".shared-stage-image",
+        ".illuminated-layer",
+        ".is-full-reveal",
+        ".ambient-scatter-layer",
+        ".penumbra-slider",
+        ".5px",
+        ".01ms"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "penumbra-styles-1",
+      "location": "head",
+      "title": "PENUMBRA Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 4228,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\n\n:root {\n  --ink: #111318;              /* midnight graphite */\n  --slate: #1c2027;            /* quiet dark surface */\n  --slate-raised: #232832;     /* raised surface step */\n  --ivory: #F2EBE2;            /* primary foreground */\n  --amber: #D7A779;            /* architectural warm accent */\n  --amber-bright: #E9BB86;     /* specular highlight */\n  --steel: #7E91A8;            /* blue hour twilight */\n  --stone: #A6A29F;            /* secondary neutral */\n  --line: rgba(242, 235, 226, 0.10);\n  --ease-craft: cubic-bezier(0.22, 1, 0.36, 1);\n\n  --font-serif: var(--font-instrument-serif), 'Instrument Serif', var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;\n  --font-sans: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;\n}\n\n@layer base {\n  html {\n    background-color: var(--ink);\n    color: var(--ivory);\n    font-family: var(--font-sans);\n    scroll-behavior: smooth;\n  }\n\n  body {\n    background-color: var(--ink);\n    color: var(--ivory);\n    overflow-x: hidden;\n  }\n}\n\n.font-display {\n  font-family: var(--font-serif);\n}\n\n.font-sans-editorial {\n  font-family: var(--font-sans);\n}\n\n.font-mono-tech {\n  font-family: var(--font-mono);\n  font-variant-numeric: tabular-nums;\n}\n\n/* Shared Hero Image Stage — guarantees identical registration */\n.hero-image-stage {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background-color: var(--ink);\n  user-select: none;\n}\n\n.hero-image-stage .shared-stage-image {\n  position: absolute;\n  inset: 0;\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  object-position: 54% center;\n  pointer-events: none;\n}\n\n@media (max-width: 767px) {\n  .hero-image-stage .shared-stage-image {\n    object-position: 58% center;\n  }\n}\n\n/* Native CSS radial mask for the signature spotlight reveal */\n.illuminated-layer {\n  position: absolute;\n  inset: 0;\n  width: 100%;\n  height: 100%;\n  --spot-x: 52%;\n  --spot-y: 56%;\n  --spot-r: 260px;\n  mask-image: radial-gradient(\n    circle var(--spot-r) at var(--spot-x) var(--spot-y),\n    #000 0%,\n    #000 38%,\n    rgba(0, 0, 0, 0.9) 49%,\n    rgba(0, 0, 0, 0.65) 65%,\n    rgba(0, 0, 0, 0.25) 82%,\n    transparent 100%\n  );\n  -webkit-mask-image: radial-gradient(\n    circle var(--spot-r) at var(--spot-x) var(--spot-y),\n    #000 0%,\n    #000 38%,\n    rgba(0, 0, 0, 0.9) 49%,\n    rgba(0, 0, 0, 0.65) 65%,\n    rgba(0, 0, 0, 0.25) 82%,\n    transparent 100%\n  );\n  pointer-events: none;\n  will-change: mask-image, -webkit-mask-image, opacity;\n}\n\n.illuminated-layer.is-full-reveal {\n  mask-image: none;\n  -webkit-mask-image: none;\n}\n\n/* Subtle warm atmospheric scattering layer synced with spotlight */\n.ambient-scatter-layer {\n  position: absolute;\n  inset: 0;\n  width: 100%;\n  height: 100%;\n  --spot-x: 52%;\n  --spot-y: 56%;\n  --spot-r: 260px;\n  background: radial-gradient(\n    circle calc(var(--spot-r) * 1.15) at var(--spot-x) var(--spot-y),\n    rgba(215, 167, 121, 0.08) 0%,\n    rgba(215, 167, 121, 0.02) 55%,\n    transparent 100%\n  );\n  pointer-events: none;\n}\n\n/* Custom Range Input for Light Lab */\ninput[type='range'].penumbra-slider {\n  -webkit-appearance: none;\n  appearance: none;\n  background: rgba(242, 235, 226, 0.12);\n  height: 2px;\n  border-radius: 999px;\n  cursor: pointer;\n}\n\ninput[type='range'].penumbra-slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 14px;\n  height: 14px;\n  border-radius: 50%;\n  background: var(--amber-bright);\n  border: 1.5px solid var(--ink);\n  box-shadow: 0 0 0 1px rgba(215, 167, 121, 0.35);\n  transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1), background-color 120ms ease;\n}\n\ninput[type='range'].penumbra-slider::-webkit-slider-thumb:hover {\n  transform: scale(1.12);\n  background: var(--ivory);\n}\n\ninput[type='range'].penumbra-slider:focus-visible {\n  outline: 2px solid var(--amber-bright);\n  outline-offset: 4px;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  *,\n  *::before,\n  *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+    },
+    {
+      "id": "penumbra-runtime-1",
+      "location": "footer",
+      "title": "PENUMBRA Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 272,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// PENUMBRA — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

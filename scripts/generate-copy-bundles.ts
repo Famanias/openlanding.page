@@ -3,6 +3,12 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import fg from "fast-glob";
 import { TEMPLATES, type TemplateSlug } from "./templates.config";
+import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
+import {
+  buildWebflowManifest,
+  buildWebflowPromptMarkdown,
+  type WebflowTemplateManifest,
+} from "../src/lib/webflow/manifest";
 
 const COPY_METADATA: Record<
   TemplateSlug,
@@ -310,19 +316,80 @@ export function readTemplatePrompt(slug: string): string {
   if (matches.length > 0) {
     return fs.readFileSync(matches[0], "utf8");
   }
-  return "";
+  const inMemory = RAW_TEMPLATES.find((t) => t.slug === slug)?.promptMarkdown;
+  return inMemory ?? "";
 }
 
-export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "public/copy")): void {
+function writeIfChanged(filePath: string, content: string): void {
+  if (!fs.existsSync(filePath) || fs.readFileSync(filePath, "utf8") !== content) {
+    fs.writeFileSync(filePath, content, "utf8");
+  }
+}
+
+export function buildTemplateWebflowArtifacts(slug: TemplateSlug): {
+  manifest: WebflowTemplateManifest;
+  promptMarkdown: string;
+} {
+  const raw = RAW_TEMPLATES.find((t) => t.slug === slug);
+  const config = TEMPLATES[slug];
+  const copyMeta = COPY_METADATA[slug];
+  const promptContent = readTemplatePrompt(slug);
+
+  const cssPaths = fg.sync(`src/app/\\(${slug}\\)/**/*.css`, { dot: false });
+  const cssSources = cssPaths.map((p) => fs.readFileSync(p, "utf8"));
+
+  const layoutPath = path.join(process.cwd(), "src", "app", `(${slug})`, "layout.tsx");
+  const layoutSource = fs.existsSync(layoutPath) ? fs.readFileSync(layoutPath, "utf8") : undefined;
+
+  const publicAssetFiles = fg.sync(
+    [
+      `public/templates/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`,
+      `public/assets/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`,
+      `public/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`,
+    ],
+    { dot: false }
+  );
+  const assetPaths = [
+    `/gallery/${slug}.webp`,
+    ...publicAssetFiles.map((p) => `/${p.replace(/\\/g, "/").replace(/^public\//, "")}`),
+  ];
+
+  const manifest = buildWebflowManifest({
+    template: {
+      slug,
+      title: raw?.title ?? copyMeta?.name ?? slug,
+      industry: raw?.industry ?? "Landing Page",
+      description: raw?.description ?? "",
+      stack: raw?.stack ?? "Next.js 16 · Tailwind v4 · React 19",
+      hasDownload: Boolean(config?.hasDownload),
+      promptMarkdown: promptContent,
+    },
+    palette: config?.palette ?? [],
+    dependencies: copyMeta?.dependencies ?? [],
+    cssSources,
+    layoutSource,
+    assetPaths,
+  });
+
+  return {
+    manifest,
+    promptMarkdown: buildWebflowPromptMarkdown(manifest),
+  };
+}
+
+export function generateCopyBundles(
+  outputDir = path.resolve(process.cwd(), "public/copy"),
+  slugs: readonly TemplateSlug[] = Object.keys(TEMPLATES) as TemplateSlug[]
+): void {
   fs.mkdirSync(outputDir, { recursive: true });
 
-  const slugs = Object.keys(TEMPLATES) as TemplateSlug[];
   for (const slug of slugs) {
     const promptContent = readTemplatePrompt(slug);
-    const promptPath = path.join(outputDir, `${slug}-prompt.md`);
-    if (!fs.existsSync(promptPath) || fs.readFileSync(promptPath, "utf8") !== promptContent) {
-      fs.writeFileSync(promptPath, promptContent, "utf8");
-    }
+    writeIfChanged(path.join(outputDir, `${slug}-prompt.md`), promptContent);
+
+    const { manifest, promptMarkdown } = buildTemplateWebflowArtifacts(slug);
+    writeIfChanged(path.join(outputDir, `${slug}-webflow.json`), `${JSON.stringify(manifest, null, 2)}\n`);
+    writeIfChanged(path.join(outputDir, `${slug}-webflow-prompt.md`), promptMarkdown);
   }
 }
 

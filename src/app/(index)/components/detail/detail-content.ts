@@ -139,6 +139,10 @@ export function buildTemplateFaq(t: Pick<TemplateItem, "title" | "stack" | "mode
       question: `How do I customise ${t.title} with AI?`,
       answer: `Copy its rebuild prompt, paste it into ${AI_AGENTS}, and ask the agent to swap in your brand, copy and colours. The prompt describes the layout, palette, typography and interactions, so the agent can rebuild and adapt the page in your own ${platform === "Next.js" ? "Next.js project" : "HTML project"}.`,
     },
+    {
+      question: `Can I import ${t.title} into Webflow?`,
+      answer: `Yes. Use Copy Webflow prompt on this page or connect the OpenLanding MCP (/api/mcp) alongside the official Webflow MCP in ${AI_AGENTS} to build native Webflow variables, styles, sections and custom-code embeds.`,
+    },
   ];
 }
 
@@ -173,6 +177,14 @@ export function detailSocialImagePath(t: Pick<TemplateItem, "slug" | "previewIma
 
 export function promptPath(slug: string): string {
   return `/copy/${slug}-prompt.md`;
+}
+
+export function webflowPromptPath(slug: string): string {
+  return `/copy/${slug}-webflow-prompt.md`;
+}
+
+export function webflowManifestPath(slug: string): string {
+  return `/copy/${slug}-webflow.json`;
 }
 
 export function downloadPath(slug: string): string {

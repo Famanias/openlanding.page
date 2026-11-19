@@ -1,0 +1,432 @@
+{
+  "slug": "serraform",
+  "title": "SERRAFORM",
+  "industry": "Digital Experience & Technology",
+  "description": "Design Fold 16 in your browser: shape sixteen connected felt panels, mix custom colors with an interactive wheel, choose original prints or local artwork, and prepare a room brief.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/serraform",
+  "downloadUrl": "https://www.openlanding.page/downloads/serraform.html",
+  "manifestUrl": "https://www.openlanding.page/copy/serraform-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/serraform-webflow-prompt.md",
+  "variables": {
+    "collectionName": "SERRAFORM Tokens",
+    "colors": [
+      {
+        "name": "Color / Srf Rose",
+        "cssVar": "--color-srf-rose",
+        "value": "#F3E8E4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Oxblood",
+        "cssVar": "--color-srf-oxblood",
+        "value": "#4B202A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Clay",
+        "cssVar": "--color-srf-clay",
+        "value": "#9A463D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Mauve",
+        "cssVar": "--color-srf-mauve",
+        "value": "#735B60",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Flax",
+        "cssVar": "--color-srf-flax",
+        "value": "#D8C4A7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Sage",
+        "cssVar": "--color-srf-sage",
+        "value": "#A6B3A0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Porcelain",
+        "cssVar": "--color-srf-porcelain",
+        "value": "#FFFCF8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Rose",
+        "cssVar": "--srf-rose",
+        "value": "#F3E8E4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Oxblood",
+        "cssVar": "--srf-oxblood",
+        "value": "#4B202A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Clay",
+        "cssVar": "--srf-clay",
+        "value": "#9A463D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Mauve",
+        "cssVar": "--srf-mauve",
+        "value": "#735B60",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Flax",
+        "cssVar": "--srf-flax",
+        "value": "#D8C4A7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Sage",
+        "cssVar": "--srf-sage",
+        "value": "#A6B3A0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Porcelain",
+        "cssVar": "--srf-porcelain",
+        "value": "#FFFCF8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Srf Hairline",
+        "cssVar": "--srf-hairline",
+        "value": "color-mix(in srgb, #4B202A 18%, #F3E8E4)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Srf Hairline Strong",
+        "cssVar": "--srf-hairline-strong",
+        "value": "color-mix(in srgb, #4B202A 32%, #F3E8E4)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Srf Hairline Dark",
+        "cssVar": "--srf-hairline-dark",
+        "value": "color-mix(in srgb, #FFFCF8 22%, #4B202A)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Srf Surface Soft",
+        "cssVar": "--srf-surface-soft",
+        "value": "color-mix(in srgb, #FFFCF8 58%, #F3E8E4)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Srf Shadow",
+        "cssVar": "--srf-shadow",
+        "value": "color-mix(in srgb, #4B202A 12%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Room Wall Base",
+        "cssVar": "--room-wall-base",
+        "value": "#F4EAE4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Wall Highlight",
+        "cssVar": "--room-wall-highlight",
+        "value": "#FAF4F0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Wall Shadow",
+        "cssVar": "--room-wall-shadow",
+        "value": "#E4CFC7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Floor Base",
+        "cssVar": "--room-floor-base",
+        "value": "#DEC6BC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Floor Far",
+        "cssVar": "--room-floor-far",
+        "value": "#EBD8D0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Floor Detail",
+        "cssVar": "--room-floor-detail",
+        "value": "#C5A89D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Rug",
+        "cssVar": "--room-rug",
+        "value": "#FAF3EE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Rug Trim",
+        "cssVar": "--room-rug-trim",
+        "value": "#7B4A4D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Textile Primary",
+        "cssVar": "--room-textile-primary",
+        "value": "#ECE0DA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Textile Secondary",
+        "cssVar": "--room-textile-secondary",
+        "value": "#E3D3CC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Furniture",
+        "cssVar": "--room-furniture",
+        "value": "#D8C4A7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Furniture Leg",
+        "cssVar": "--room-furniture-leg",
+        "value": "#7C5B53",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Decor Primary",
+        "cssVar": "--room-decor-primary",
+        "value": "#7B4A4D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Decor Accent",
+        "cssVar": "--room-decor-accent",
+        "value": "#9A463D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Trim",
+        "cssVar": "--room-trim",
+        "value": "#9A463D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Foliage",
+        "cssVar": "--room-foliage",
+        "value": "#7F8E77",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Light Tint",
+        "cssVar": "--room-light-tint",
+        "value": "#FFF8F0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Ambient Tint",
+        "cssVar": "--room-ambient-tint",
+        "value": "#EBD8D0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Shadow Tint",
+        "cssVar": "--room-shadow-tint",
+        "value": "#4B202A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Quiet Bg",
+        "cssVar": "--room-quiet-bg",
+        "value": "#F8F0EC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Ui Accent",
+        "cssVar": "--room-ui-accent",
+        "value": "#9A463D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Ui Accent Hover",
+        "cssVar": "--room-ui-accent-hover",
+        "value": "#7D362E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Ui Accent Text",
+        "cssVar": "--room-ui-accent-text",
+        "value": "#FFFCF8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Ui Outline",
+        "cssVar": "--room-ui-outline",
+        "value": "#4B202A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Text Primary",
+        "cssVar": "--room-text-primary",
+        "value": "#4B202A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Text Secondary",
+        "cssVar": "--room-text-secondary",
+        "value": "#6A5156",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Wall",
+        "cssVar": "--room-wall",
+        "value": "#F4EAE4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Wall Upper",
+        "cssVar": "--room-wall-upper",
+        "value": "#FAF4F0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Wall Alcove",
+        "cssVar": "--room-wall-alcove",
+        "value": "#E4CFC7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Floor",
+        "cssVar": "--room-floor",
+        "value": "#DEC6BC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Decor Secondary",
+        "cssVar": "--room-decor-secondary",
+        "value": "#D8C4A7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Light Warm",
+        "cssVar": "--room-light-warm",
+        "value": "#FFF8F0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Shadow",
+        "cssVar": "--room-shadow",
+        "value": "#4B202A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Room Mote",
+        "cssVar": "--room-mote",
+        "value": "color-mix(in srgb, var(--room-trim) 58%, var(--room-light-tint))",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Anybody",
+        "fallback": "Anybody, system-ui, -apple-system, sans-serif",
+        "googleFont": "Anybody"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Commissioner",
+        "fallback": "Commissioner, system-ui, -apple-system, sans-serif",
+        "googleFont": "Commissioner"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "Victor Mono",
+        "fallback": "Victor Mono, ui-monospace, SFMono-Regular, monospace",
+        "googleFont": "Victor Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Room Horizon Lift",
+        "cssVar": "--room-horizon-lift",
+        "value": "0px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "serraform.webp",
+      "publicPath": "https://www.openlanding.page/gallery/serraform.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/serraform/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Design Fold 16 in your browser: shape sixteen connected felt panels, mix custom colors with an interactive wheel, choose original prints or local artwork, and prepare a room brief.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".srf-dark-surface",
+        ".srf-skip-link",
+        ".srf-container",
+        ".srf-h1",
+        ".6vw",
+        ".035em",
+        ".srf-h1-studio",
+        ".4vw",
+        ".srf-studio-stage-wrap",
+        ".srf-h2",
+        ".025em",
+        ".srf-h3"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "serraform-styles-1",
+      "location": "head",
+      "title": "SERRAFORM Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 37346,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\r\n  --color-srf-rose: #F3E8E4;\r\n  --color-srf-oxblood: #4B202A;\r\n  --color-srf-clay: #9A463D;\r\n  --color-srf-mauve: #735B60;\r\n  --color-srf-flax: #D8C4A7;\r\n  --color-srf-sage: #A6B3A0;\r\n  --color-srf-porcelain: #FFFCF8;\r\n\r\n  --font-display: var(--font-anybody), \"Anybody\", system-ui, -apple-system, sans-serif;\r\n  --font-body: var(--font-commissioner), \"Commissioner\", system-ui, -apple-system, sans-serif;\r\n  --font-mono: var(--font-victor-mono), \"Victor Mono\", ui-monospace, SFMono-Regular, monospace;\r\n\r\n  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);\r\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\r\n  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);\r\n\r\n  --dur-instant: 90ms;\r\n  --dur-fast: 180ms;\r\n  --dur-base: 420ms;\r\n  --dur-slow: 700ms;\r\n  --dur-hero: 1000ms;\r\n  --stagger: 60ms;\r\n  --reveal-shift: 24px;\r\n}\r\n\r\n:root {\r\n  --srf-rose: #F3E8E4;\r\n  --srf-oxblood: #4B202A;\r\n  --srf-clay: #9A463D;\r\n  --srf-mauve: #735B60;\r\n  --srf-flax: #D8C4A7;\r\n  --srf-sage: #A6B3A0;\r\n  --srf-porcelain: #FFFCF8;\r\n  --srf-hairline: color-mix(in srgb, #4B202A 18%, #F3E8E4);\r\n  --srf-hairline-strong: color-mix(in srgb, #4B202A 32%, #F3E8E4);\r\n  --srf-hairline-dark: color-mix(in srgb, #FFFCF8 22%, #4B202A);\r\n  --srf-surface-soft: color-mix(in srgb, #FFFCF8 58%, #F3E8E4);\r\n  --srf-shadow: color-mix(in srgb, #4B202A 12%, transparent);\r\n}\r\n\r\nhtml {\r\n  background-color: var(--srf-rose);\r\n  color: var(--srf-oxblood);\r\n  font-family: var(--font-body);\r\n  scroll-behavior: smooth;\r\n  -webkit-font-smoothing: antialiased;\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  html {\r\n    scroll-behavior: auto;\r\n  }\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  background-color: var(--srf-rose);\r\n  color: var(--srf-oxblood);\r\n  font-family: var(--font-body);\r\n  font-size: 16px;\r\n  line-height: 24px;\r\n  overflow-x: clip;\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  body {\r\n    font-size: 18px;\r\n    line-height: 28px;\r\n  }\r\n}\r\n\r\n/* Global accessible focus */\r\n:focus-visible {\r\n  outline: 2px solid var(--srf-oxblood);\r\n  outline-offset: 4px;\r\n}\r\n\r\n.srf-dark-surface :focus-visible {\r\n  outline-color: var(--srf-porcelain);\r\n}\r\n\r\n/* Skip link */\r\n.srf-skip-link {\r\n  position: absolute;\r\n  left: -9999px;\r\n  top: 12px;\r\n  z-index: 100;\r\n  background: var(--srf-oxblood);\r\n  color: var(--srf-porcelain);\r\n  padding: 10px 16px;\r\n  border-radius: 8px;\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  text-decoration: none;\r\n}\r\n\r\n.srf-skip-link:focus {\r\n  left: 16px;\r\n}\r\n\r\n/* Editorial container */\r\n.srf-container {\r\n  width: 100%;\r\n  max-width: 1600px;\r\n  margin-inline: auto;\r\n  padding-inline: 20px;\r\n}\r\n\r\n@media (min-width: 640px) {\r\n  .srf-container {\r\n    padding-inline: 32px;\r\n  }\r\n}\r\n\r\n@media (min-width: 1024px) {\r\n  .srf-container {\r\n    padding-inline: 48px;\r\n  }\r\n}\r\n\r\n/* Typography roles */\r\n.srf-h1 {\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-size: clamp(44px, 5.6vw, 80px);\r\n  line-height: 1.02;\r\n  letter-spacing: -0.035em;\r\n  color: var(--srf-oxblood);\r\n}\r\n\r\n.srf-h1-studio {\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-size: clamp(38px, 4.4vw, 66px);\r\n  line-height: 1.03;\r\n  letter-spacing: -0.035em;\r\n  color: var(--srf-oxblood);\r\n}\r\n\r\n/* Mobile sticky studio stage below 64px header (disabled on short landscape), static on tablet, sticky 60% stage on desktop */\r\n.srf-studio-stage-wrap {\r\n  position: sticky;\r\n  top: 64px;\r\n  z-index: 25;\r\n  height: 218px;\r\n  background-color: var(--srf-rose);\r\n  padding-top: 4px;\r\n  padding-bottom: 10px;\r\n}\r\n\r\n@media (max-width: 639px) {\r\n  .srf-studio-stage-wrap > div {\r\n    box-shadow: 0 8px 18px -10px color-mix(in srgb, #4B202A 22%, transparent);\r\n  }\r\n}\r\n\r\n@media (max-height: 580px) {\r\n  .srf-studio-stage-wrap {\r\n    position: static;\r\n    height: 236px;\r\n    padding-bottom: 0;\r\n  }\r\n}\r\n\r\n@media (min-width: 640px) {\r\n  .srf-studio-stage-wrap {\r\n    position: static;\r\n    height: 380px;\r\n    padding-bottom: 0;\r\n  }\r\n}\r\n\r\n@media (min-width: 1024px) {\r\n  .srf-studio-stage-wrap {\r\n    position: sticky;\r\n    top: 96px;\r\n    z-index: 10;\r\n    height: min(680px, calc(100svh - 120px));\r\n    min-height: 460px;\r\n    padding-bottom: 0;\r\n  }\r\n}\r\n\r\n.srf-h2 {\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-size: clamp(32px, 4vw, 60px);\r\n  line-height: 1.08;\r\n  letter-spacing: -0.025em;\r\n}\r\n\r\n.srf-h3 {\r\n  font-family: var(--font-display);\r\n  font-weight: 500;\r\n  font-size: clamp(22px, 2.2vw, 30px);\r\n  line-height: 1.18;\r\n  letter-spacing: -0.02em;\r\n}\r\n\r\n.srf-mono-caption {\r\n  font-family: var(--font-mono);\r\n  font-size: 12px;\r\n  line-height: 18px;\r\n  font-weight: 400;\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.srf-mono-dim {\r\n  font-family: var(--font-mono);\r\n  font-size: 14px;\r\n  line-height: 20px;\r\n  font-weight: 500;\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n/* Primary & secondary buttons */\r\n.srf-btn-primary {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 10px;\r\n  min-height: 48px;\r\n  padding: 12px 20px;\r\n  border-radius: 8px;\r\n  background-color: var(--srf-clay);\r\n  color: var(--srf-porcelain);\r\n  font-family: var(--font-body);\r\n  font-size: 16px;\r\n  font-weight: 500;\r\n  line-height: 24px;\r\n  text-decoration: none;\r\n  white-space: nowrap;\r\n  cursor: pointer;\r\n  border: 1px solid transparent;\r\n  transition:\r\n    background-color var(--dur-fast) var(--ease-out),\r\n    transform var(--dur-instant) var(--ease-out);\r\n}\r\n\r\n.srf-btn-primary:hover:not(:disabled) {\r\n  background-color: color-mix(in srgb, var(--srf-clay) 86%, var(--srf-oxblood));\r\n}\r\n\r\n.srf-btn-primary:active:not(:disabled) {\r\n  transform: scale(0.98);\r\n}\r\n\r\n.srf-btn-primary:disabled {\r\n  opacity: 0.65;\r\n  cursor: not-allowed;\r\n}\r\n\r\n.srf-btn-primary .srf-btn-arrow {\r\n  transition: transform var(--dur-fast) var(--ease-out);\r\n}\r\n\r\n.srf-btn-primary:hover:not(:disabled) .srf-btn-arrow {\r\n  transform: translateX(4px);\r\n}\r\n\r\n.srf-btn-secondary {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 8px;\r\n  min-height: 44px;\r\n  padding: 10px 16px;\r\n  border-radius: 8px;\r\n  border: 1px solid var(--srf-hairline-strong);\r\n  background-color: transparent;\r\n  color: var(--srf-oxblood);\r\n  font-family: var(--font-body);\r\n  font-size: 15px;\r\n  font-weight: 500;\r\n  line-height: 22px;\r\n  white-space: nowrap;\r\n  cursor: pointer;\r\n  transition:\r\n    background-color var(--dur-fast) var(--ease-out),\r\n    border-color var(--dur-fast) var(--ease-out),\r\n    transform var(--dur-instant) var(--ease-out);\r\n}\r\n\r\n.srf-btn-secondary:hover:not(:disabled) {\r\n  background-color: color-mix(in srgb, var(--srf-oxblood) 6%, transparent);\r\n  border-color: var(--srf-oxblood);\r\n}\r\n\r\n.srf-btn-secondary:active:not(:disabled) {\r\n  transform: scale(0.98);\r\n}\r\n\r\n.srf-btn-secondary[aria-pressed=\"true\"],\r\n.srf-btn-secondary[aria-pressed=\"true\"]:hover:not(:disabled) {\r\n  background-color: var(--srf-oxblood);\r\n  color: var(--srf-porcelain);\r\n  border-color: var(--srf-oxblood);\r\n}\r\n\r\n.srf-text-link {\r\n  position: relative;\r\n  display: inline-flex;\r\n  align-items: center;\r\n  min-height: 44px;\r\n  font-size: 16px;\r\n  font-weight: 500;\r\n  color: var(--srf-oxblood);\r\n  text-decoration: none;\r\n  white-space: nowrap;\r\n}\r\n\r\n.srf-text-link::after {\r\n  content: \"\";\r\n  position: absolute;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 9px;\r\n  height: 1px;\r\n  background-color: currentColor;\r\n  transform: scaleX(0.45);\r\n  transform-origin: left;\r\n  transition: transform var(--dur-fast) var(--ease-out);\r\n}\r\n\r\n.srf-text-link:hover::after,\r\n.srf-text-link:focus-visible::after {\r\n  transform: scaleX(1);\r\n}\r\n\r\n/* Native range input styled cleanly for Rose/Oxblood/Clay */\r\n.srf-range {\r\n  -webkit-appearance: none;\r\n  appearance: none;\r\n  width: 100%;\r\n  height: 44px;\r\n  background: transparent;\r\n  cursor: pointer;\r\n}\r\n\r\n.srf-range::-webkit-slider-runnable-track {\r\n  height: 4px;\r\n  border-radius: 2px;\r\n  background: var(--srf-hairline-strong);\r\n}\r\n\r\n.srf-range::-webkit-slider-thumb {\r\n  -webkit-appearance: none;\r\n  appearance: none;\r\n  width: 24px;\r\n  height: 24px;\r\n  margin-top: -10px;\r\n  border-radius: 9999px;\r\n  background: var(--srf-clay);\r\n  border: 2px solid var(--srf-porcelain);\r\n  box-shadow: 0 2px 6px var(--srf-shadow);\r\n  transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);\r\n}\r\n\r\n.srf-range:hover::-webkit-slider-thumb {\r\n  transform: scale(1.08);\r\n}\r\n\r\n.srf-range::-moz-range-track {\r\n  height: 4px;\r\n  border-radius: 2px;\r\n  background: var(--srf-hairline-strong);\r\n}\r\n\r\n.srf-range::-moz-range-thumb {\r\n  width: 24px;\r\n  height: 24px;\r\n  border-radius: 9999px;\r\n  background: var(--srf-clay);\r\n  border: 2px solid var(--srf-porcelain);\r\n  box-shadow: 0 2px 6px var(--srf-shadow);\r\n}\r\n\r\n/* Folded corner receipt motif */\r\n.srf-receipt-card {\r\n  position: relative;\r\n  background-color: var(--srf-porcelain);\r\n  border: 1px solid var(--srf-hairline-strong);\r\n  border-radius: 8px;\r\n  clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%);\r\n}\r\n\r\n.srf-receipt-corner {\r\n  position: absolute;\r\n  top: 0;\r\n  right: 0;\r\n  width: 28px;\r\n  height: 28px;\r\n  background-color: color-mix(in srgb, var(--srf-sage) 42%, var(--srf-rose));\r\n  clip-path: polygon(0 0, 0 100%, 100% 100%);\r\n  pointer-events: none;\r\n}\r\n\r\n/* Native details FAQ styling */\r\n.srf-faq-item {\r\n  border-top: 1px solid var(--srf-hairline);\r\n}\r\n\r\n.srf-faq-item:last-child {\r\n  border-bottom: 1px solid var(--srf-hairline);\r\n}\r\n\r\n.srf-faq-summary {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n  min-height: 64px;\r\n  padding-block: 18px;\r\n  font-family: var(--font-body);\r\n  font-size: 18px;\r\n  line-height: 26px;\r\n  font-weight: 500;\r\n  color: var(--srf-oxblood);\r\n  cursor: pointer;\r\n  list-style: none;\r\n}\r\n\r\n.srf-faq-summary::-webkit-details-marker {\r\n  display: none;\r\n}\r\n\r\n.srf-faq-icon {\r\n  flex-shrink: 0;\r\n  width: 20px;\r\n  height: 20px;\r\n  transition: transform var(--dur-fast) var(--ease-out);\r\n}\r\n\r\ndetails[open] .srf-faq-icon {\r\n  transform: rotate(45deg);\r\n}\r\n\r\n.srf-faq-answer {\r\n  padding-bottom: 22px;\r\n  max-width: 60ch;\r\n  color: var(--srf-mauve);\r\n  font-size: 16px;\r\n  line-height: 26px;\r\n}\r\n\r\n.srf-faq-panel {\r\n  overflow: hidden;\r\n}\r\n\r\ndetails[data-closing] .srf-faq-icon {\r\n  transform: none;\r\n}\r\n\r\n.srf-faq-icon {\r\n  transition: transform 520ms var(--ease-out-expo);\r\n}\r\n\r\n/* Studio lighting backdrop & Hero entrance sequence (compositor only, honors reduced motion) */\r\n.srf-studio-glow {\r\n  background: radial-gradient(\r\n    ellipse 68% 72% at 64% 44%,\r\n    color-mix(in srgb, #FFFCF8 38%, transparent) 0%,\r\n    color-mix(in srgb, #FFFCF8 12%, transparent) 46%,\r\n    transparent 76%\r\n  );\r\n}\r\n\r\n@media (prefers-reduced-motion: no-preference) {\r\n  @keyframes srf-studio-veil {\r\n    from {\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n\r\n  @keyframes srf-draw-arc {\r\n    from {\r\n      stroke-dashoffset: 68;\r\n    }\r\n    to {\r\n      stroke-dashoffset: 0;\r\n    }\r\n  }\r\n\r\n  .srf-studio-glow {\r\n    animation: srf-studio-veil 420ms var(--ease-out) 0ms both;\r\n  }\r\n\r\n  /* Entrance targets wait for the anime.js timeline. If scripting never arrives, the\r\n     failsafe reveals them so the hero is never left blank. */\r\n  @keyframes srf-hm-failsafe {\r\n    to {\r\n      opacity: 1;\r\n    }\r\n  }\r\n\r\n  .srf-hero-section:is([data-hero-motion='pending'], [data-hero-motion='run']) :is(\r\n    [data-hm='eyebrow'],\r\n    [data-hm='rule'],\r\n    [data-hm='char'],\r\n    [data-hm='lead'],\r\n    [data-hm='cta'],\r\n    [data-hm='dock'],\r\n    [data-hm='chip']\r\n  ) {\r\n    opacity: 0;\r\n  }\r\n\r\n  .srf-hero-section[data-hero-motion='pending'] [data-hm] {\r\n    animation: srf-hm-failsafe 1ms linear 3400ms forwards;\r\n  }\r\n\r\n  .srf-drag-arc path {\r\n    stroke-dasharray: 68;\r\n    animation: srf-draw-arc 780ms var(--ease-out-expo) 1300ms both;\r\n  }\r\n}\r\n\r\n/* Hero motion hooks (driven by motion/useHeroMotion.ts) */\r\n.srf-hm-wordbox {\r\n  display: inline-block;\r\n  perspective: 700px;\r\n  white-space: nowrap;\r\n}\r\n\r\n.srf-hm-char {\r\n  display: inline-block;\r\n  transform-origin: 50% 100%;\r\n  backface-visibility: hidden;\r\n}\r\n\r\n.srf-hero-section [data-hm='dock-group'] {\r\n  transform-origin: 50% 0%;\r\n}\r\n\r\n.srf-hm-rule {\r\n  display: block;\r\n  width: 44px;\r\n  height: 1px;\r\n  background: var(--room-ui-accent);\r\n  transform-origin: 0% 50%;\r\n}\r\n\r\n.srf-hero-section [data-hm='chip'] {\r\n  position: relative;\r\n}\r\n\r\n.srf-hm-ripple {\r\n  position: absolute;\r\n  inset: -2px;\r\n  border: 1.5px solid var(--room-ui-outline);\r\n  pointer-events: none;\r\n}\r\n\r\n/* ============================================================================\r\n   Page motion system (driven by motion/usePageMotion.ts)\r\n   ============================================================================ */\r\n\r\n/* Anything waiting for its scroll-in stays hidden only once scripting has taken over */\r\n.srf-motion-ready [data-m]:not([data-m-in]) {\r\n  opacity: 0;\r\n}\r\n\r\n[data-m='rule'] {\r\n  transform-origin: 0% 50%;\r\n}\r\n\r\n[data-hinge],\r\n[data-base] {\r\n  transform-box: fill-box;\r\n  transform-origin: center;\r\n}\r\n\r\n/* --- Opening pleat curtain --- */\r\n.srf-curtain {\r\n  display: none;\r\n}\r\n\r\n@media (prefers-reduced-motion: no-preference) {\r\n  @keyframes srf-curtain-failsafe {\r\n    to {\r\n      visibility: hidden;\r\n    }\r\n  }\r\n\r\n  .srf-curtain {\r\n    position: fixed;\r\n    inset: 0;\r\n    z-index: 90;\r\n    display: block;\r\n    pointer-events: none;\r\n    color: var(--srf-flax);\r\n  }\r\n\r\n  .srf-curtain[data-curtain=''] {\r\n    animation: srf-curtain-failsafe 1ms linear 4200ms forwards;\r\n  }\r\n\r\n  .srf-curtain[data-curtain='done'] {\r\n    display: none;\r\n  }\r\n\r\n  .srf-curtain-panels {\r\n    position: absolute;\r\n    inset: 0;\r\n    display: flex;\r\n  }\r\n\r\n  .srf-curtain-panel {\r\n    flex: 1 1 0;\r\n    /* 1px overlap hides hairline seams between panels */\r\n    margin-inline: -0.5px;\r\n    background: linear-gradient(90deg, #3D1821 0%, #4B202A 55%, #57262F 100%);\r\n    transform-origin: 0% 50%;\r\n    will-change: transform;\r\n  }\r\n\r\n  .srf-curtain-panel:nth-child(even) {\r\n    background: linear-gradient(90deg, #57262F 0%, #4B202A 45%, #3D1821 100%);\r\n    transform-origin: 100% 50%;\r\n  }\r\n\r\n  .srf-curtain-core {\r\n    position: absolute;\r\n    inset: 0;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    justify-content: center;\r\n    gap: 18px;\r\n  }\r\n\r\n  .srf-curtain-zig {\r\n    width: min(420px, 62vw);\r\n    height: auto;\r\n  }\r\n\r\n  .srf-curtain-word {\r\n    font-family: var(--font-display);\r\n    font-weight: 600;\r\n    font-size: clamp(34px, 6.4vw, 88px);\r\n    line-height: 1;\r\n    font-stretch: 50%;\r\n    color: var(--srf-porcelain);\r\n    white-space: nowrap;\r\n  }\r\n\r\n  .srf-curtain-meta {\r\n    font-family: var(--font-mono);\r\n    font-size: 12px;\r\n    letter-spacing: 0.14em;\r\n    font-variant-numeric: tabular-nums;\r\n    color: var(--srf-flax);\r\n  }\r\n}\r\n\r\n/* --- Header crease (page progress) --- */\r\n.srf-crease {\r\n  position: absolute;\r\n  left: 0;\r\n  bottom: -3px;\r\n  width: 100%;\r\n  height: 6px;\r\n  color: var(--srf-clay);\r\n  transform-origin: 0% 50%;\r\n  pointer-events: none;\r\n  display: none;\r\n}\r\n\r\n.srf-motion-ready .srf-crease {\r\n  display: block;\r\n}\r\n\r\n.srf-logo-word {\r\n  font-stretch: 100%;\r\n  transition: font-stretch 520ms var(--ease-out-expo), letter-spacing 520ms var(--ease-out-expo);\r\n}\r\n\r\n.srf-logo-link:hover .srf-logo-word {\r\n  font-stretch: 150%;\r\n}\r\n\r\n/* --- Velocity ticker --- */\r\n.srf-ticker {\r\n  overflow: hidden;\r\n  padding-block: 18px;\r\n  background: var(--srf-oxblood);\r\n  color: var(--srf-rose);\r\n  border-bottom: 1px solid var(--srf-hairline);\r\n}\r\n\r\n.srf-ticker-track {\r\n  display: flex;\r\n  width: max-content;\r\n  will-change: transform;\r\n}\r\n\r\n.srf-ticker-set {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: clamp(20px, 3vw, 44px);\r\n  padding-right: clamp(20px, 3vw, 44px);\r\n}\r\n\r\n.srf-ticker-word {\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-stretch: 125%;\r\n  font-size: clamp(30px, 4.6vw, 68px);\r\n  line-height: 1;\r\n  letter-spacing: -0.02em;\r\n  text-transform: uppercase;\r\n  white-space: nowrap;\r\n}\r\n\r\n.srf-ticker-outline {\r\n  color: transparent;\r\n  -webkit-text-stroke: 1.2px var(--srf-flax);\r\n  font-stretch: 62%;\r\n}\r\n\r\n.srf-ticker-zig {\r\n  width: clamp(34px, 4vw, 56px);\r\n  height: auto;\r\n  flex-shrink: 0;\r\n  color: var(--srf-clay);\r\n}\r\n\r\n/* --- Pleat ruler --- */\r\n.srf-ruler {\r\n  display: grid;\r\n  grid-template-columns: repeat(16, minmax(0, 1fr));\r\n  align-items: end;\r\n  height: 46px;\r\n  max-width: 660px;\r\n  border-bottom: 1px solid var(--srf-hairline-strong);\r\n}\r\n\r\n.srf-ruler-tick {\r\n  position: relative;\r\n  display: block;\r\n  height: 14px;\r\n  border-left: 1px solid var(--srf-hairline-strong);\r\n  transform-origin: 50% 100%;\r\n}\r\n\r\n.srf-ruler-tick:nth-child(4n + 1) {\r\n  height: 26px;\r\n  border-left-color: var(--srf-oxblood);\r\n}\r\n\r\n.srf-ruler-tick i {\r\n  display: none;\r\n  position: absolute;\r\n  left: 5px;\r\n  top: -4px;\r\n  font-family: var(--font-mono);\r\n  font-style: normal;\r\n  font-size: 10px;\r\n  line-height: 1;\r\n  color: var(--srf-mauve);\r\n}\r\n\r\n.srf-ruler-tick:nth-child(4n + 1) i {\r\n  display: block;\r\n}\r\n\r\n/* --- Construction: pleated top edge + spec rules --- */\r\n.srf-teeth {\r\n  position: absolute;\r\n  top: -1px;\r\n  left: 0;\r\n  width: 100%;\r\n  height: clamp(28px, 4.5vw, 64px);\r\n  transform-origin: 50% 0%;\r\n  pointer-events: none;\r\n  display: none;\r\n}\r\n\r\n.srf-motion-ready .srf-teeth {\r\n  display: block;\r\n}\r\n\r\n.srf-spec-rule {\r\n  display: block;\r\n  height: 1px;\r\n  margin-bottom: 12px;\r\n  background: var(--srf-hairline-dark);\r\n}\r\n\r\n/* --- Footer wordmark --- */\r\n.srf-wordmark-wrap {\r\n  overflow: hidden;\r\n  margin-bottom: 28px;\r\n  padding-bottom: 0.04em;\r\n}\r\n\r\n.srf-wordmark {\r\n  width: max-content;\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-size: 13vw;\r\n  font-stretch: 112%;\r\n  line-height: 0.86;\r\n  letter-spacing: -0.03em;\r\n  white-space: nowrap;\r\n  color: var(--srf-oxblood);\r\n  cursor: default;\r\n  user-select: none;\r\n}\r\n\r\n.srf-wordmark span {\r\n  display: inline-block;\r\n}\r\n\r\n/* ============================================================================\r\n   SERRAFORM — The Living Room Atelier (Coded 2.5D Architectural Backdrop)\r\n   ============================================================================ */\r\n\r\n.srf-hero-section {\r\n  position: relative;\r\n  min-height: calc(100vh - 4rem);\r\n  min-height: calc(100svh - 4rem);\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n  --room-wall-base: #F4EAE4;\r\n  --room-wall-highlight: #FAF4F0;\r\n  --room-wall-shadow: #E4CFC7;\r\n  --room-floor-base: #DEC6BC;\r\n  --room-floor-far: #EBD8D0;\r\n  --room-floor-detail: #C5A89D;\r\n  --room-rug: #FAF3EE;\r\n  --room-rug-trim: #7B4A4D;\r\n  --room-textile-primary: #ECE0DA;\r\n  --room-textile-secondary: #E3D3CC;\r\n  --room-furniture: #D8C4A7;\r\n  --room-furniture-leg: #7C5B53;\r\n  --room-decor-primary: #7B4A4D;\r\n  --room-decor-accent: #9A463D;\r\n  --room-trim: #9A463D;\r\n  --room-foliage: #7F8E77;\r\n  --room-light-tint: #FFF8F0;\r\n  --room-ambient-tint: #EBD8D0;\r\n  --room-shadow-tint: #4B202A;\r\n  --room-quiet-bg: #F8F0EC;\r\n  --room-ui-accent: #9A463D;\r\n  --room-ui-accent-hover: #7D362E;\r\n  --room-ui-accent-text: #FFFCF8;\r\n  --room-ui-outline: #4B202A;\r\n  --room-text-primary: #4B202A;\r\n  --room-text-secondary: #6A5156;\r\n  --room-wall: #F4EAE4;\r\n  --room-wall-upper: #FAF4F0;\r\n  --room-wall-alcove: #E4CFC7;\r\n  --room-floor: #DEC6BC;\r\n  --room-decor-secondary: #D8C4A7;\r\n  --room-light-warm: #FFF8F0;\r\n  --room-shadow: #4B202A;\r\n  background-color: var(--room-wall-base);\r\n}\r\n\r\n@media (min-width: 768px) {\r\n  .srf-hero-section {\r\n    min-height: calc(100vh - 5rem);\r\n    min-height: calc(100svh - 5rem);\r\n  }\r\n}\r\n\r\n.srf-hero-section .srf-btn-primary {\r\n  background-color: var(--room-ui-accent);\r\n  color: var(--room-ui-accent-text);\r\n}\r\n\r\n.srf-hero-section .srf-btn-primary:hover:not(:disabled) {\r\n  background-color: var(--room-ui-accent-hover);\r\n}\r\n\r\n.srf-hero-section .srf-range::-webkit-slider-thumb {\r\n  background: var(--room-ui-accent);\r\n}\r\n\r\n.srf-hero-section .srf-range::-moz-range-thumb {\r\n  background: var(--room-ui-accent);\r\n}\r\n\r\n.srf-hero-section .srf-hero-active-view {\r\n  background-color: var(--room-ui-accent);\r\n  border-color: var(--room-ui-accent);\r\n  color: var(--room-ui-accent-text);\r\n}\r\n\r\n.srf-hero-section .srf-hero-active-outline {\r\n  border-color: var(--room-ui-outline);\r\n  box-shadow: 0 0 0 2px var(--room-ui-outline);\r\n}\r\n\r\n.srf-hero-section .srf-hero-link {\r\n  color: var(--room-text-primary);\r\n}\r\n\r\n.srf-hero-section .srf-hero-link:hover {\r\n  color: var(--room-ui-accent);\r\n}\r\n\r\n.srf-room-stage {\r\n  --room-spread: 0.5;\r\n  --room-bias-x: 0.45;\r\n  --room-pointer-x: 0;\r\n  --room-horizon-lift: 0px;\r\n  --room-motif: 1;\r\n  background-color: var(--room-wall-base, var(--room-wall));\r\n}\r\n\r\n/* Subtle mineral plaster texture via crisp compositor-friendly SVG pattern (no GPU blur) */\r\n.srf-room-plaster-grain {\r\n  opacity: 0.035;\r\n  background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E\");\r\n  background-size: 180px 180px;\r\n}\r\n\r\n/* Shared architectural horizon anchor matching divider feet across viewports */\r\n.srf-room-horizon-floor {\r\n  top: calc(58% + var(--room-horizon-lift, 0px));\r\n  transition: top 260ms var(--ease-out), background-color 360ms var(--ease-out);\r\n}\r\n\r\n.srf-room-horizon-props {\r\n  top: 0;\r\n  bottom: calc(42% - var(--room-horizon-lift, 0px));\r\n  transition: bottom 260ms var(--ease-out);\r\n}\r\n\r\n@media (min-width: 1024px) {\r\n  .srf-room-horizon-floor {\r\n    top: calc(64% + var(--room-horizon-lift, 0px));\r\n  }\r\n  .srf-room-horizon-props {\r\n    bottom: calc(36% - var(--room-horizon-lift, 0px));\r\n  }\r\n}\r\n\r\n/* 2.5D Depth Bands coupled to view yaw parallax + subtle pointer drift */\r\n.srf-room-depth-far {\r\n  transform: translate3d(\r\n    calc(var(--room-bias-x, 0) * -6px + var(--room-pointer-x, 0) * -4px),\r\n    0,\r\n    0\r\n  );\r\n  transition: transform 280ms var(--ease-out);\r\n}\r\n\r\n.srf-room-depth-mid {\r\n  transform: translate3d(\r\n    calc(var(--room-bias-x, 0) * -12px + var(--room-pointer-x, 0) * -8px),\r\n    0,\r\n    0\r\n  );\r\n  transition: transform 260ms var(--ease-out);\r\n}\r\n\r\n.srf-room-depth-near {\r\n  transform: translate3d(\r\n    calc(var(--room-bias-x, 0) * -19px + var(--room-pointer-x, 0) * -12px),\r\n    0,\r\n    0\r\n  );\r\n  transition: transform 240ms var(--ease-out);\r\n}\r\n\r\n/* Spatial spread response: rug and floor anchor expand cleanly when divider opens wider */\r\n.srf-room-rug-spread {\r\n  transform-origin: 50% 50%;\r\n  transform: scaleX(calc(0.91 + 0.18 * var(--room-spread, 0.5)));\r\n  transition:\r\n    transform 320ms var(--ease-out),\r\n    background-color 360ms var(--ease-out),\r\n    border-color 360ms var(--ease-out);\r\n}\r\n\r\n/* Scenic Panorama multi-layer depth parallax inside framed window */\r\n.srf-room-pano-layer-1 {\r\n  transform: translateX(calc(var(--room-bias-x, 0) * -5px));\r\n  transition: transform 280ms var(--ease-out);\r\n}\r\n.srf-room-pano-layer-2 {\r\n  transform: translateX(calc(var(--room-bias-x, 0) * -10px));\r\n  transition: transform 280ms var(--ease-out);\r\n}\r\n.srf-room-pano-layer-3 {\r\n  transform: translateX(calc(var(--room-bias-x, 0) * -15px));\r\n  transition: transform 280ms var(--ease-out);\r\n}\r\n.srf-room-pano-layer-4 {\r\n  transform: translateX(calc(var(--room-bias-x, 0) * -21px));\r\n  transition: transform 280ms var(--ease-out);\r\n}\r\n\r\n/* ----------------------------------------------------------------------------\r\n   Room decor detail: mouldings, perspective floors, light, and ambient props.\r\n   Everything is tinted from the --room-* palette, so it follows the base color.\r\n   ---------------------------------------------------------------------------- */\r\n.srf-room-stage {\r\n  --room-mote: color-mix(in srgb, var(--room-trim) 58%, var(--room-light-tint));\r\n  --room-glow: 1;\r\n}\r\n\r\n.srf-room-stage[data-dark-envelope='true'] {\r\n  --room-mote: var(--room-light-tint);\r\n  --room-glow: 0.5;\r\n}\r\n\r\n/* Loops rest while the hero is scrolled out of view */\r\n.srf-room-stage[data-room-idle='true'] * {\r\n  animation-play-state: paused !important;\r\n}\r\n\r\n/* Stepped plaster cornice along the ceiling line */\r\n.srf-room-crown {\r\n  position: absolute;\r\n  inset: 0 0 auto 0;\r\n  height: 22px;\r\n  background: linear-gradient(\r\n    180deg,\r\n    color-mix(in srgb, var(--room-wall-highlight) 90%, var(--room-shadow-tint)) 0 7px,\r\n    color-mix(in srgb, var(--room-shadow-tint) 20%, var(--room-wall-base)) 7px 8px,\r\n    color-mix(in srgb, var(--room-wall-highlight) 66%, var(--room-wall-base)) 8px 14px,\r\n    color-mix(in srgb, var(--room-shadow-tint) 14%, var(--room-wall-base)) 14px 15px,\r\n    color-mix(in srgb, var(--room-shadow-tint) 7%, transparent) 15px,\r\n    transparent 22px\r\n  );\r\n}\r\n\r\n/* Skirting board riding the wall/floor line (wall band is 66% of the hero) */\r\n.srf-room-skirting {\r\n  position: absolute;\r\n  left: 0;\r\n  right: 0;\r\n  height: 13px;\r\n  top: calc(87.88% + var(--room-horizon-lift, 0px) - 13px);\r\n  background: linear-gradient(\r\n    180deg,\r\n    color-mix(in srgb, var(--room-shadow-tint) 20%, var(--room-wall-base)) 0 1px,\r\n    color-mix(in srgb, var(--room-wall-highlight) 58%, var(--room-wall-base)) 1px 100%\r\n  );\r\n  transition: top 260ms var(--ease-out);\r\n}\r\n\r\n@media (min-width: 1024px) {\r\n  .srf-room-skirting {\r\n    top: calc(96.97% + var(--room-horizon-lift, 0px) - 13px);\r\n  }\r\n}\r\n\r\n/* Floor finish laid on a tilted plane so boards and joints converge with depth */\r\n.srf-room-floor-persp {\r\n  position: absolute;\r\n  inset: 0;\r\n  overflow: hidden;\r\n  pointer-events: none;\r\n  perspective: 700px;\r\n  perspective-origin: 60% 0%;\r\n  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 34%);\r\n  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 34%);\r\n}\r\n\r\n.srf-room-floor-plane {\r\n  position: absolute;\r\n  left: -12%;\r\n  right: -12%;\r\n  top: 0;\r\n  height: 540px;\r\n  transform-origin: 50% 0;\r\n  transform: rotateX(60deg);\r\n}\r\n\r\n/* Window light thrown across the floor in panes */\r\n.srf-room-floor-light {\r\n  position: absolute;\r\n  inset: 0;\r\n  opacity: calc(0.46 * var(--room-glow, 1));\r\n  background: linear-gradient(\r\n    96deg,\r\n    transparent 0%,\r\n    var(--room-light-tint) 24%,\r\n    var(--room-light-tint) 76%,\r\n    transparent 100%\r\n  );\r\n  -webkit-mask-image:\r\n    repeating-linear-gradient(90deg, #000 0 21.5%, transparent 21.5% 25%),\r\n    repeating-linear-gradient(180deg, #000 0 45%, transparent 45% 51%);\r\n  -webkit-mask-composite: source-in;\r\n  mask-image:\r\n    repeating-linear-gradient(90deg, #000 0 21.5%, transparent 21.5% 25%),\r\n    repeating-linear-gradient(180deg, #000 0 45%, transparent 45% 51%);\r\n  mask-composite: intersect;\r\n  transform: skewX(-38deg);\r\n}\r\n\r\n.srf-room-glow-pool {\r\n  position: absolute;\r\n  border-radius: 50%;\r\n  opacity: calc(0.5 * var(--room-glow, 1));\r\n  background: radial-gradient(\r\n    ellipse 50% 50% at 50% 50%,\r\n    var(--room-light-tint) 0%,\r\n    color-mix(in srgb, var(--room-light-tint) 42%, transparent) 46%,\r\n    transparent 100%\r\n  );\r\n}\r\n\r\n.srf-room-lamp-glow {\r\n  position: absolute;\r\n  opacity: calc(0.62 * var(--room-glow, 1));\r\n  background: radial-gradient(\r\n    ellipse 50% 100% at 50% 0%,\r\n    var(--room-light-tint) 0%,\r\n    color-mix(in srgb, var(--room-light-tint) 38%, transparent) 44%,\r\n    transparent 100%\r\n  );\r\n}\r\n\r\n.srf-room-spot-cone {\r\n  position: absolute;\r\n  opacity: calc(0.36 * var(--room-glow, 1));\r\n  background: linear-gradient(180deg, var(--room-light-tint) 0%, transparent 94%);\r\n  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);\r\n}\r\n\r\n.srf-room-pleats {\r\n  background: repeating-linear-gradient(\r\n    90deg,\r\n    color-mix(in srgb, var(--room-textile-primary) 86%, transparent) 0px,\r\n    color-mix(in srgb, var(--room-light-tint) 52%, var(--room-textile-primary)) 12px,\r\n    color-mix(in srgb, var(--room-textile-secondary) 72%, var(--room-wall-shadow)) 22px\r\n  );\r\n}\r\n\r\n.srf-room-mote {\r\n  position: absolute;\r\n  border-radius: 9999px;\r\n  background: var(--room-mote);\r\n  opacity: 0;\r\n}\r\n\r\n.srf-room-petal {\r\n  position: absolute;\r\n  width: 9px;\r\n  height: 6px;\r\n  border-radius: 80% 20% 70% 30%;\r\n  background: var(--room-decor-accent);\r\n  opacity: 0;\r\n}\r\n\r\n.srf-room-shimmer {\r\n  position: absolute;\r\n  left: -48px;\r\n  right: -48px;\r\n  height: 2px;\r\n  background: repeating-linear-gradient(\r\n    90deg,\r\n    var(--room-light-tint) 0 14px,\r\n    transparent 14px 48px\r\n  );\r\n}\r\n\r\n.srf-room-caustic {\r\n  position: absolute;\r\n  border-radius: 50%;\r\n  opacity: calc(0.55 * var(--room-glow, 1));\r\n  background: radial-gradient(\r\n    ellipse 50% 50% at 50% 50%,\r\n    var(--room-light-tint) 0%,\r\n    transparent 72%\r\n  );\r\n}\r\n\r\n/* Structural Room-Family Switch & Entrance Choreography (Compositor-only) */\r\n@media (prefers-reduced-motion: no-preference) {\r\n  /* Ambient loops: transform/opacity on whole elements only, literal keyframes */\r\n  @keyframes srf-room-sway {\r\n    0%, 100% { transform: rotate(-1.5deg); }\r\n    50% { transform: rotate(1.5deg); }\r\n  }\r\n\r\n  @keyframes srf-room-sway-soft {\r\n    0%, 100% { transform: rotate(-0.7deg); }\r\n    50% { transform: rotate(0.8deg); }\r\n  }\r\n\r\n  @keyframes srf-room-breathe {\r\n    0%, 100% { opacity: 0.56; }\r\n    50% { opacity: 1; }\r\n  }\r\n\r\n  @keyframes srf-room-drape {\r\n    0%, 100% { transform: skewX(0deg) scaleX(1); }\r\n    50% { transform: skewX(-0.9deg) scaleX(1.045); }\r\n  }\r\n\r\n  @keyframes srf-room-mote-a {\r\n    0% { transform: translate3d(0, 0, 0); opacity: 0; }\r\n    18% { opacity: 0.72; }\r\n    70% { opacity: 0.5; }\r\n    100% { transform: translate3d(26px, -64px, 0); opacity: 0; }\r\n  }\r\n\r\n  @keyframes srf-room-mote-b {\r\n    0% { transform: translate3d(0, 0, 0); opacity: 0; }\r\n    25% { opacity: 0.6; }\r\n    100% { transform: translate3d(-22px, -48px, 0); opacity: 0; }\r\n  }\r\n\r\n  @keyframes srf-room-mote-c {\r\n    0% { transform: translate3d(0, 0, 0); opacity: 0; }\r\n    30% { opacity: 0.55; }\r\n    60% { transform: translate3d(14px, -20px, 0); opacity: 0.45; }\r\n    100% { transform: translate3d(36px, -30px, 0); opacity: 0; }\r\n  }\r\n\r\n  @keyframes srf-room-petal {\r\n    0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }\r\n    12% { opacity: 0.85; }\r\n    84% { opacity: 0.7; }\r\n    100% { transform: translate3d(-40px, 168px, 0) rotate(260deg); opacity: 0; }\r\n  }\r\n\r\n  @keyframes srf-room-cloud {\r\n    0% { transform: translate3d(-24%, 0, 0); }\r\n    100% { transform: translate3d(104%, 0, 0); }\r\n  }\r\n\r\n  @keyframes srf-room-glide-rev {\r\n    0% { transform: translate3d(104%, 0, 0); }\r\n    100% { transform: translate3d(-12%, -14px, 0); }\r\n  }\r\n\r\n  @keyframes srf-room-shimmer {\r\n    0% { transform: translate3d(0, 0, 0); }\r\n    100% { transform: translate3d(-48px, 0, 0); }\r\n  }\r\n\r\n  @keyframes srf-room-wave-a {\r\n    0%, 100% { transform: translate3d(-1.4%, 0, 0); }\r\n    50% { transform: translate3d(1.4%, 4px, 0); }\r\n  }\r\n\r\n  @keyframes srf-room-wave-b {\r\n    0%, 100% { transform: translate3d(1.6%, 2px, 0); }\r\n    50% { transform: translate3d(-1.6%, -3px, 0); }\r\n  }\r\n\r\n  @keyframes srf-room-caustic {\r\n    0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }\r\n    50% { transform: translate3d(16px, 5px, 0) scale(1.1); opacity: 1; }\r\n  }\r\n\r\n  @keyframes srf-room-blade-sweep {\r\n    0%, 100% { transform: translate3d(-18px, 0, 0); opacity: 0.78; }\r\n    50% { transform: translate3d(28px, 0, 0); opacity: 1; }\r\n  }\r\n\r\n  @keyframes srf-room-prop-settle-left {\r\n    0% { opacity: 0; transform: translate3d(-20px, 10px, 0); }\r\n    100% { opacity: 1; transform: translate3d(0, 0, 0); }\r\n  }\r\n\r\n  @keyframes srf-room-drop-in {\r\n    0% { opacity: 0; transform: translate3d(0, -22px, 0); }\r\n    100% { opacity: 1; transform: translate3d(0, 0, 0); }\r\n  }\r\n\r\n  .srf-room-sway {\r\n    transform-origin: 50% 0;\r\n    animation: srf-room-sway 7.5s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-sway-soft {\r\n    transform-origin: 50% 0;\r\n    animation: srf-room-sway-soft 10s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-sway-base {\r\n    transform-origin: 50% 100%;\r\n    animation: srf-room-sway-soft 9s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-leafshade {\r\n    transform-origin: 100% 0;\r\n    animation: srf-room-sway 11s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-breathe {\r\n    animation: srf-room-breathe 9s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-drape-sway {\r\n    transform-origin: 50% 0;\r\n    animation: srf-room-drape 12s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-mote-a { animation: srf-room-mote-a 13s linear infinite; }\r\n  .srf-room-mote-b { animation: srf-room-mote-b 17s linear infinite; }\r\n  .srf-room-mote-c { animation: srf-room-mote-c 15s linear infinite; }\r\n\r\n  .srf-room-petal {\r\n    animation: srf-room-petal 12s ease-in infinite;\r\n  }\r\n\r\n  .srf-room-cloud-track {\r\n    animation: srf-room-cloud 90s linear infinite;\r\n  }\r\n\r\n  .srf-room-glide-track {\r\n    animation: srf-room-glide-rev 52s linear infinite;\r\n  }\r\n\r\n  .srf-room-shimmer {\r\n    animation: srf-room-shimmer 5s linear infinite;\r\n  }\r\n\r\n  .srf-room-wave-a { animation: srf-room-wave-a 14s ease-in-out infinite; }\r\n  .srf-room-wave-b { animation: srf-room-wave-b 19s ease-in-out infinite; }\r\n\r\n  .srf-room-caustic-drift {\r\n    animation: srf-room-caustic 10s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-blade-sweep {\r\n    animation: srf-room-blade-sweep 14s ease-in-out infinite;\r\n  }\r\n\r\n  .srf-room-prop-left {\r\n    animation: srf-room-prop-settle-left 540ms var(--ease-out-expo) 180ms both;\r\n  }\r\n\r\n  .srf-room-drop-in {\r\n    animation: srf-room-drop-in 620ms var(--ease-out-expo) 220ms both;\r\n  }\r\n\r\n  @keyframes srf-room-initial-clip {\r\n    0% {\r\n      opacity: 0.01;\r\n      clip-path: inset(0 0 10% 0);\r\n      transform: scale(1.015);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      clip-path: inset(0 0 0 0);\r\n      transform: scale(1);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-architectural-in {\r\n    0% {\r\n      opacity: 0;\r\n      clip-path: inset(0 0 0 12%);\r\n      transform: translate3d(24px, 0, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      clip-path: inset(0 0 0 0);\r\n      transform: translate3d(0, 0, 0);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-architectural-out {\r\n    0% {\r\n      opacity: 1;\r\n      clip-path: inset(0 0 0 0);\r\n      transform: translate3d(0, 0, 0);\r\n    }\r\n    100% {\r\n      opacity: 0;\r\n      clip-path: inset(0 10% 0 0);\r\n      transform: translate3d(-26px, 0, 0);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-branch-stroke {\r\n    0% {\r\n      stroke-dashoffset: 240;\r\n      opacity: 0.2;\r\n    }\r\n    100% {\r\n      stroke-dashoffset: 0;\r\n      opacity: 1;\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-leaf-bloom {\r\n    0% {\r\n      opacity: 0;\r\n      transform: scale(0.86);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: scale(1);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-rib-unfurl {\r\n    0% {\r\n      opacity: 0;\r\n      transform: scaleY(0.72) translateY(14px);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: scaleY(1) translateY(0);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-blade-in {\r\n    0% {\r\n      opacity: 0;\r\n      transform: translate3d(44px, -24px, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: translate3d(0, 0, 0);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-prop-settle {\r\n    0% {\r\n      opacity: 0;\r\n      transform: translate3d(20px, 10px, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: translate3d(0, 0, 0);\r\n    }\r\n  }\r\n\r\n  @keyframes srf-room-drift-sun {\r\n    0%, 100% {\r\n      transform: translate3d(0, 0, 0);\r\n    }\r\n    50% {\r\n      transform: translate3d(8px, -4px, 0);\r\n    }\r\n  }\r\n\r\n  .srf-room-initial-enter {\r\n    animation: srf-room-initial-clip 680ms var(--ease-out-expo) 0ms both;\r\n  }\r\n\r\n  .srf-room-entering {\r\n    animation: srf-room-architectural-in 540ms var(--ease-out-expo) both;\r\n  }\r\n\r\n  .srf-room-exiting {\r\n    animation: srf-room-architectural-out 440ms var(--ease-out) both;\r\n  }\r\n\r\n  .srf-room-branch-path {\r\n    stroke-dasharray: 240;\r\n    animation: srf-room-branch-stroke 760ms var(--ease-out-expo) 120ms both;\r\n  }\r\n\r\n  .srf-room-branch-delay {\r\n    animation-delay: 190ms;\r\n  }\r\n\r\n  .srf-room-branch-delay-2 {\r\n    animation-delay: 260ms;\r\n  }\r\n\r\n  .srf-room-foliage-cluster {\r\n    transform-origin: center;\r\n    animation: srf-room-leaf-bloom 460ms var(--ease-out) 320ms both;\r\n  }\r\n\r\n  .srf-room-rib-fin {\r\n    transform-origin: bottom center;\r\n    animation: srf-room-rib-unfurl 480ms var(--ease-out-expo) both;\r\n  }\r\n\r\n  .srf-room-light-blade {\r\n    animation: srf-room-blade-in 620ms var(--ease-out-expo) 80ms both;\r\n  }\r\n\r\n  .srf-room-prop-right,\r\n  .srf-room-ikebana {\r\n    animation: srf-room-prop-settle 540ms var(--ease-out-expo) 140ms both;\r\n  }\r\n\r\n  .srf-room-drift-slow {\r\n    animation: srf-room-drift-sun 16s ease-in-out infinite;\r\n  }\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  .srf-room-depth-far,\r\n  .srf-room-depth-mid,\r\n  .srf-room-depth-near,\r\n  .srf-room-rug-spread,\r\n  .srf-room-horizon-floor,\r\n  .srf-room-horizon-props,\r\n  .srf-room-skirting,\r\n  .srf-room-pano-layer-1,\r\n  .srf-room-pano-layer-2,\r\n  .srf-room-pano-layer-3,\r\n  .srf-room-pano-layer-4 {\r\n    transition: none !important;\r\n  }\r\n\r\n  .srf-room-initial-enter,\r\n  .srf-room-entering,\r\n  .srf-room-exiting,\r\n  .srf-room-branch-path,\r\n  .srf-room-foliage-cluster,\r\n  .srf-room-rib-fin,\r\n  .srf-room-light-blade,\r\n  .srf-room-prop-right,\r\n  .srf-room-ikebana,\r\n  .srf-room-drift-slow {\r\n    animation: none !important;\r\n  }\r\n}"
+    },
+    {
+      "id": "serraform-runtime-1",
+      "location": "footer",
+      "title": "SERRAFORM Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 273,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// SERRAFORM — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

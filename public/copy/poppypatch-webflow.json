@@ -1,0 +1,329 @@
+{
+  "slug": "poppypatch",
+  "title": "Poppy Patch",
+  "industry": "Food & Agriculture",
+  "description": "Playful, tactile starter kits for growing edible mushrooms at home. Easy to grow, impossible not to love.",
+  "stack": "Next.js 16 · React 19 · Tailwind v4 · Motion",
+  "liveUrl": "https://www.openlanding.page/templates/poppypatch",
+  "downloadUrl": "https://www.openlanding.page/downloads/poppypatch.html",
+  "manifestUrl": "https://www.openlanding.page/copy/poppypatch-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/poppypatch-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Poppy Patch Tokens",
+    "colors": [
+      {
+        "name": "Color / Bg Vanilla",
+        "cssVar": "--bg-vanilla",
+        "value": "#F7ECD6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Vanilla Soft",
+        "cssVar": "--bg-vanilla-soft",
+        "value": "#FAF3E3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Card Cream",
+        "cssVar": "--bg-card-cream",
+        "value": "#FBF6EA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Coral Primary",
+        "cssVar": "--coral-primary",
+        "value": "#E58267",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Coral Deep",
+        "cssVar": "--coral-deep",
+        "value": "#D96E52",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Coral Tint",
+        "cssVar": "--coral-tint",
+        "value": "#F7D4C8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pistachio",
+        "cssVar": "--pistachio",
+        "value": "#A8B96C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Pistachio Tint",
+        "cssVar": "--pistachio-tint",
+        "value": "#E2EAC7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lilac",
+        "cssVar": "--lilac",
+        "value": "#E3B6E0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lilac Tint",
+        "cssVar": "--lilac-tint",
+        "value": "#F3E2F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cocoa Ink",
+        "cssVar": "--cocoa-ink",
+        "value": "#4A2E25",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cocoa Muted",
+        "cssVar": "--cocoa-muted",
+        "value": "#735449",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Warm Shadow",
+        "cssVar": "--warm-shadow",
+        "value": "#C3A58E",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Fraunces",
+        "cssVar": "--font-fraunces",
+        "family": "Fraunces",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Fraunces"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Font / Caveat",
+        "cssVar": "--font-caveat",
+        "family": "Caveat",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Caveat"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "poppypatch.webp",
+      "publicPath": "https://www.openlanding.page/gallery/poppypatch.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "cutout-coral-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-coral-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-cream-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-cream-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-gardener.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-gardener.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lilac-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-lilac-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lower-coral.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-lower-coral.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-side-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-side-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-kit-main.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/hero-kit-main.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-first-sprout.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/kit-first-sprout.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-kitchen-garden.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/kit-kitchen-garden.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-oyster-party.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/kit-oyster-party.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "logo-mushroom.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/logo-mushroom.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stamp-grow-happy.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/stamp-grow-happy.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-coral-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-coral-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-cream-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-cream-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-gardener.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-gardener.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lilac-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-lilac-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lower-coral.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-lower-coral.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-side-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-side-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-kit-main.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/hero-kit-main.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-first-sprout.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/kit-first-sprout.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-kitchen-garden.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/kit-kitchen-garden.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-oyster-party.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/kit-oyster-party.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "logo-mushroom.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/logo-mushroom.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stamp-grow-happy.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/stamp-grow-happy.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build a playful, tactile landing page for Poppy Patch, an at-home mushroom growing kit brand. Use a warm vanilla and terracotta palette (#F7ECD6, #FAF3E3, #FBF6EA, #E58267, #D96E52, #F7D4C8, #A8B96C, #E3B6E0, #4A2E25, #735449), Fraunces ser",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".font-serif-display",
+        ".font-hand",
+        ".paper-surface",
+        ".btn-clay-coral",
+        ".985",
+        ".card-papier",
+        ".postage-stamp",
+        ".5px",
+        ".5deg",
+        ".3deg",
+        ".015",
+        ".animate-headline-1"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "poppypatch-styles-1",
+      "location": "head",
+      "title": "Poppy Patch Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 5534,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@layer base {\r\n  :root {\r\n    --bg-vanilla: #F7ECD6;\r\n    --bg-vanilla-soft: #FAF3E3;\r\n    --bg-card-cream: #FBF6EA;\r\n    --coral-primary: #E58267;\r\n    --coral-deep: #D96E52;\r\n    --coral-tint: #F7D4C8;\r\n    --pistachio: #A8B96C;\r\n    --pistachio-tint: #E2EAC7;\r\n    --lilac: #E3B6E0;\r\n    --lilac-tint: #F3E2F2;\r\n    --cocoa-ink: #4A2E25;\r\n    --cocoa-muted: #735449;\r\n    --warm-shadow: #C3A58E;\r\n  }\r\n\r\n  body {\r\n    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n    background-color: var(--bg-vanilla);\r\n    color: var(--cocoa-ink);\r\n    overflow-x: hidden;\r\n  }\r\n\r\n  h1, h2, h3, .font-serif-display {\r\n    font-family: 'Fraunces', Georgia, serif;\r\n    font-variation-settings: \"SOFT\" 80, \"WONK\" 1;\r\n  }\r\n\r\n  .font-hand {\r\n    font-family: 'Caveat', cursive;\r\n  }\r\n}\r\n\r\n/* Subtle paper grain overlay */\r\n.paper-surface {\r\n  background-color: #F7ECD6;\r\n  background-image: \r\n    radial-gradient(at 18% 12%, rgba(242, 139, 114, 0.08) 0px, transparent 50%),\r\n    radial-gradient(at 82% 24%, rgba(168, 185, 108, 0.10) 0px, transparent 48%),\r\n    radial-gradient(at 50% 75%, rgba(233, 182, 226, 0.08) 0px, transparent 55%);\r\n}\r\n\r\n/* Organic hand-sculpted button shape */\r\n.btn-clay-coral {\r\n  background-color: #E58267;\r\n  color: #4A2E25;\r\n  border-radius: 36px 42px 34px 40px / 32px 36px 30px 38px;\r\n  box-shadow: \r\n    0 6px 0 #C4684E,\r\n    0 12px 20px -4px rgba(138, 86, 65, 0.28),\r\n    inset 0 2px 3px rgba(255, 244, 235, 0.45);\r\n  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), background-color 180ms ease;\r\n}\r\n\r\n.btn-clay-coral:hover {\r\n  background-color: #EB8B71;\r\n  transform: translateY(-2px);\r\n  box-shadow: \r\n    0 8px 0 #C4684E,\r\n    0 16px 24px -4px rgba(138, 86, 65, 0.32),\r\n    inset 0 2px 4px rgba(255, 244, 235, 0.55);\r\n}\r\n\r\n.btn-clay-coral:active {\r\n  transform: translateY(3px) scale(0.985);\r\n  box-shadow: \r\n    0 2px 0 #C4684E,\r\n    0 6px 10px -2px rgba(138, 86, 65, 0.22),\r\n    inset 0 2px 3px rgba(90, 40, 28, 0.18);\r\n}\r\n\r\n/* Organic card shapes */\r\n.card-papier {\r\n  border-radius: 28px 34px 26px 32px / 26px 30px 28px 32px;\r\n  box-shadow: 0 12px 28px -10px rgba(124, 88, 66, 0.16), 0 2px 0 rgba(86, 58, 50, 0.08);\r\n  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1), border-radius 250ms ease;\r\n}\r\n\r\n.card-papier:hover {\r\n  border-radius: 34px 26px 32px 28px / 30px 26px 32px 28px;\r\n}\r\n\r\n/* Postage stamp perforated border look */\r\n.postage-stamp {\r\n  background-color: #FAF3E3;\r\n  border: 1.5px dashed rgba(86, 58, 50, 0.35);\r\n  box-shadow: 0 4px 10px rgba(115, 84, 73, 0.12);\r\n}\r\n\r\n/* Opening & Scroll Animations */\r\n@keyframes heroHeadlineRise {\r\n  0% {\r\n    opacity: 0;\r\n    transform: translateY(105%) rotate(1.5deg);\r\n  }\r\n  70% {\r\n    opacity: 1;\r\n    transform: translateY(-3%) rotate(-0.3deg);\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n    transform: translateY(0) rotate(0deg);\r\n  }\r\n}\r\n\r\n@keyframes kitBounceSettle {\r\n  0% {\r\n    opacity: 0;\r\n    transform: translateY(28px) scale(0.92);\r\n  }\r\n  65% {\r\n    opacity: 1;\r\n    transform: translateY(-5px) scale(1.015);\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n    transform: translateY(0) scale(1);\r\n  }\r\n}\r\n\r\n@keyframes rootedSproutGrow {\r\n  0% {\r\n    opacity: 0;\r\n    transform: scale(0.25) rotate(-6deg);\r\n  }\r\n  72% {\r\n    opacity: 1;\r\n    transform: scale(1.05) rotate(1.5deg);\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n    transform: scale(1) rotate(0deg);\r\n  }\r\n}\r\n\r\n@keyframes stampPressIn {\r\n  0% {\r\n    opacity: 0;\r\n    transform: scale(1.35) rotate(-14deg);\r\n  }\r\n  70% {\r\n    opacity: 1;\r\n    transform: scale(0.94) rotate(7deg);\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n    transform: scale(1) rotate(5deg);\r\n  }\r\n}\r\n\r\n@keyframes gardenerGentleRock {\r\n  0%, 100% {\r\n    transform: rotate(0deg) translateY(0px);\r\n  }\r\n  50% {\r\n    transform: rotate(-2.5deg) translateY(-2px);\r\n  }\r\n}\r\n\r\n@keyframes strokeDraw {\r\n  from {\r\n    stroke-dashoffset: 400;\r\n  }\r\n  to {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n.animate-headline-1 {\r\n  animation: heroHeadlineRise 700ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;\r\n}\r\n.animate-headline-2 {\r\n  animation: heroHeadlineRise 750ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;\r\n}\r\n.animate-headline-3 {\r\n  animation: heroHeadlineRise 800ms cubic-bezier(0.16, 1, 0.3, 1) 320ms both;\r\n}\r\n\r\n.animate-kit-arrive {\r\n  animation: kitBounceSettle 850ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;\r\n}\r\n\r\n.animate-sprout-1 {\r\n  transform-origin: bottom center;\r\n  animation: rootedSproutGrow 750ms cubic-bezier(0.16, 1, 0.3, 1) 420ms both;\r\n}\r\n.animate-sprout-2 {\r\n  transform-origin: bottom center;\r\n  animation: rootedSproutGrow 780ms cubic-bezier(0.16, 1, 0.3, 1) 560ms both;\r\n}\r\n.animate-sprout-3 {\r\n  transform-origin: bottom center;\r\n  animation: rootedSproutGrow 820ms cubic-bezier(0.16, 1, 0.3, 1) 700ms both;\r\n}\r\n\r\n.animate-stamp-press {\r\n  transform-origin: center center;\r\n  animation: stampPressIn 650ms cubic-bezier(0.16, 1, 0.3, 1) 840ms both;\r\n}\r\n\r\n.animate-gardener-rock {\r\n  transform-origin: bottom center;\r\n  animation: gardenerGentleRock 4.5s ease-in-out infinite;\r\n}\r\n\r\n.animate-stroke-draw {\r\n  stroke-dasharray: 400;\r\n  animation: strokeDraw 1.1s cubic-bezier(0.16, 1, 0.3, 1) 500ms both;\r\n}\r\n\r\n/* Reduced motion compliance */\r\n@media (prefers-reduced-motion: reduce) {\r\n  *, *::before, *::after {\r\n    animation-duration: 0.01ms !important;\r\n    animation-iteration-count: 1 !important;\r\n    transition-duration: 0.01ms !important;\r\n    scroll-behavior: auto !important;\r\n  }\r\n}"
+    },
+    {
+      "id": "poppypatch-runtime-1",
+      "location": "footer",
+      "title": "Poppy Patch Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 275,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Poppy Patch — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

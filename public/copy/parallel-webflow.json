@@ -1,0 +1,532 @@
+{
+  "slug": "parallel",
+  "title": "PARALLEL",
+  "industry": "AI & Simulation",
+  "description": "Interactive 3D urban simulation and decision intelligence platform exploring divergent futures, infrastructure disruptions, and explainable interventions.",
+  "stack": "Next.js 16 · React 19 · Three.js · Zustand · Tailwind v4 · GSAP",
+  "liveUrl": "https://www.openlanding.page/templates/parallel",
+  "downloadUrl": "https://www.openlanding.page/downloads/parallel.html",
+  "manifestUrl": "https://www.openlanding.page/copy/parallel-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/parallel-webflow-prompt.md",
+  "variables": {
+    "collectionName": "PARALLEL Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0C0E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#101315",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#12141A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#14171C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#171A1C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#181B20",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#24282B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#2B303A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#2D8A61",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#38BDF8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 11",
+        "cssVar": "--color-palette-11",
+        "value": "#666D70",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 12",
+        "cssVar": "--color-palette-12",
+        "value": "#6E6E6E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 13",
+        "cssVar": "--color-palette-13",
+        "value": "#808080",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 14",
+        "cssVar": "--color-palette-14",
+        "value": "#9CA3AF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 15",
+        "cssVar": "--color-palette-15",
+        "value": "#D44D27",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 16",
+        "cssVar": "--color-palette-16",
+        "value": "#D94E3E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 17",
+        "cssVar": "--color-palette-17",
+        "value": "#D99B26",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 18",
+        "cssVar": "--color-palette-18",
+        "value": "#D9C39E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 19",
+        "cssVar": "--color-palette-19",
+        "value": "#E05A47",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 20",
+        "cssVar": "--color-palette-20",
+        "value": "#E85D36",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 21",
+        "cssVar": "--color-palette-21",
+        "value": "#E8E8E3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 22",
+        "cssVar": "--color-palette-22",
+        "value": "#EFECE6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 23",
+        "cssVar": "--color-palette-23",
+        "value": "#F4F1EA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 24",
+        "cssVar": "--color-palette-24",
+        "value": "#F6F5F1",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 25",
+        "cssVar": "--color-palette-25",
+        "value": "#FF5522",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 26",
+        "cssVar": "--color-palette-26",
+        "value": "#FF6B42",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 27",
+        "cssVar": "--color-palette-27",
+        "value": "#FFE4B5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 28",
+        "cssVar": "--color-palette-28",
+        "value": "#259A6C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 29",
+        "cssVar": "--color-palette-29",
+        "value": "#454C4F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 30",
+        "cssVar": "--color-palette-30",
+        "value": "#777D7D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 31",
+        "cssVar": "--color-palette-31",
+        "value": "#7A8B90",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 32",
+        "cssVar": "--color-palette-32",
+        "value": "#9DA3A2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 33",
+        "cssVar": "--color-palette-33",
+        "value": "#B3B9B7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 34",
+        "cssVar": "--color-palette-34",
+        "value": "#B4B8B5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 35",
+        "cssVar": "--color-palette-35",
+        "value": "#B6C3C7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 36",
+        "cssVar": "--color-palette-36",
+        "value": "#BCC1BF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 37",
+        "cssVar": "--color-palette-37",
+        "value": "#BEC2BF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 38",
+        "cssVar": "--color-palette-38",
+        "value": "#BFC4C2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 39",
+        "cssVar": "--color-palette-39",
+        "value": "#C1CCCF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 40",
+        "cssVar": "--color-palette-40",
+        "value": "#C5C8C5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 41",
+        "cssVar": "--color-palette-41",
+        "value": "#C5CAC7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 42",
+        "cssVar": "--color-palette-42",
+        "value": "#C6C8C4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 43",
+        "cssVar": "--color-palette-43",
+        "value": "#CFD1CD",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 44",
+        "cssVar": "--color-palette-44",
+        "value": "#CFD7D9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 45",
+        "cssVar": "--color-palette-45",
+        "value": "#D4D6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 46",
+        "cssVar": "--color-palette-46",
+        "value": "#D5DDD9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 47",
+        "cssVar": "--color-palette-47",
+        "value": "#DCDFD9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 48",
+        "cssVar": "--color-palette-48",
+        "value": "#DCEEE6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 49",
+        "cssVar": "--color-palette-49",
+        "value": "#DFEFE8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 50",
+        "cssVar": "--color-palette-50",
+        "value": "#E0DFDA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 51",
+        "cssVar": "--color-palette-51",
+        "value": "#E2E6E4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 52",
+        "cssVar": "--color-palette-52",
+        "value": "#E4E5E0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 53",
+        "cssVar": "--color-palette-53",
+        "value": "#E4ECE8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 54",
+        "cssVar": "--color-palette-54",
+        "value": "#E5E4DF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 55",
+        "cssVar": "--color-palette-55",
+        "value": "#F0E3DC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 56",
+        "cssVar": "--color-palette-56",
+        "value": "#F2DFD8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 57",
+        "cssVar": "--color-palette-57",
+        "value": "#F3DBD5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 58",
+        "cssVar": "--color-palette-58",
+        "value": "#F5E4DD",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 59",
+        "cssVar": "--color-palette-59",
+        "value": "#FAF9F6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 60",
+        "cssVar": "--color-palette-60",
+        "value": "#FFFFFF",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-display",
+        "fallback": "Outfit, -apple-system, BlinkMacSystemFont, sans-serif)"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-sans",
+        "fallback": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, sans-serif)"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-mono",
+        "fallback": "IBM Plex Mono, monospace)"
+      },
+      {
+        "name": "Font / Outfit",
+        "cssVar": "--font-outfit",
+        "family": "Outfit",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Outfit"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "parallel.webp",
+      "publicPath": "https://www.openlanding.page/gallery/parallel.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/parallel/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/parallel/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Header & Telemetry HUD",
+      "summary": "Minimal sticky navigation with PARALLEL wordmark, system status indicator, mode shortcuts, anchor navigation, and primary \"Request Simulation\" CTA.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero Simulation Stage (The 3D Digital Twin)",
+      "summary": "Full-bleed procedural Three.js architectural model with 6 operational chapters:",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Interactive 2.5D Workflow Twin Canvas",
+      "summary": "Synchronized stage demonstrating automated graph re-weighting, dynamic corridor diversion, and real-time impedance optimization.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Side-by-Side Reality Comparison",
+      "summary": "Build the upstream 2.5D SVG city exhibit with six districts, three bridges, and paired baseline/intervention views. Share a deterministic 07:00–10:00 timeline with a 07:30 Central Bridge closure, defaulting to 08:45. Include play/pause, timeline scrubbing, time checkpoints, Dynamic Rerouting, Transit Capacity Surge, Freight Window Slotting, split/merge, split replay, crossing focus, reset, paired entity inspection, and mobile stacked/Future A/Future B views. Keep Future A invariant when interventions change; close the Central Bridge in both futures after 07:30. Show the synthetic-data disclosure. Render this exhibit with SVG and reuse cached simulation states. Cap replay at 24 fps, pause offscreen or when the page is hidden, and show the completed replay immediately for reduced motion.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Causal Reasoning & Explainability Ledger",
+      "summary": "Step-through inspection cards detailing why decisions are recommended, with confidence intervals and graph path evidence.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Proof of Impact & Performance Metrics",
+      "summary": "Quantitative benchmarks (reduction in congestion spillovers, cross-river flow preservation, delivery time savings).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Simulation Intake Form",
+      "summary": "Interactive client-side validated intake module with scenario parameter selection and submission confirmation.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Footer & Technical Specs",
+      "summary": "Architecture specifications, platform requirements, model versioning telemetry, and full sitemap links.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "parallel-styles-1",
+      "location": "head",
+      "title": "PARALLEL Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 1800,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\n\n@layer base {\n  :root {\n    --font-display: var(--font-display, 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif);\n    --font-sans: var(--font-sans, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif);\n    --font-mono: var(--font-mono, 'IBM Plex Mono', monospace);\n  }\n\n  html {\n    font-family: var(--font-sans);\n    background-color: #101315;\n    color: #F6F5F1;\n    scroll-behavior: auto;\n  }\n\n  h1, h2, h3, h4, .font-display {\n    font-family: var(--font-display);\n  }\n\n  .font-mono {\n    font-family: var(--font-mono);\n    font-variant-numeric: tabular-nums;\n  }\n}\n\n/* Custom Range Input Styling for Simulation Controls */\ninput[type=\"range\"].par-slider,\ninput[type=\"range\"].parallel-slider {\n  -webkit-appearance: none;\n  appearance: none;\n  background: rgba(246, 245, 241, 0.16);\n  height: 4px;\n  border-radius: 2px;\n}\n\ninput[type=\"range\"].par-slider::-webkit-slider-thumb,\ninput[type=\"range\"].parallel-slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 14px;\n  height: 14px;\n  border-radius: 2px;\n  background: #E85D36;\n  cursor: pointer;\n  border: 1px solid #F6F5F1;\n  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);\n}\n\ninput[type=\"range\"].par-slider::-webkit-slider-thumb:hover,\ninput[type=\"range\"].parallel-slider::-webkit-slider-thumb:hover {\n  transform: scale(1.15);\n}\n\ninput[type=\"range\"].par-slider:focus-visible,\ninput[type=\"range\"].parallel-slider:focus-visible {\n  outline: 2px solid #E85D36;\n  outline-offset: 4px;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  *, ::before, ::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+    },
+    {
+      "id": "parallel-runtime-1",
+      "location": "footer",
+      "title": "PARALLEL Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 498,
+      "description": "Loads three, gsap, lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "gsap",
+        "lenis"
+      ],
+      "code": "// PARALLEL — Webflow Custom Code Runtime Bridge\n// Dependencies: three, gsap, lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

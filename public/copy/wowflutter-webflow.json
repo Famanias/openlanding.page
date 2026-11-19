@@ -1,0 +1,485 @@
+{
+  "slug": "wowflutter",
+  "title": "WOWFLUTTER",
+  "industry": "Music & Records",
+  "description": "Every record is an issue. An independent label's site built as a magazine you turn by hand: drag a page corner and the leaf lifts on a real hinge.",
+  "stack": "Next.js 16 · Tailwind v4 · CSS 3D Page-Turn · Pointer Events",
+  "liveUrl": "https://www.openlanding.page/templates/wowflutter",
+  "downloadUrl": "https://www.openlanding.page/downloads/wowflutter.html",
+  "manifestUrl": "https://www.openlanding.page/copy/wowflutter-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/wowflutter-webflow-prompt.md",
+  "variables": {
+    "collectionName": "WOWFLUTTER Tokens",
+    "colors": [
+      {
+        "name": "Color / Tape",
+        "cssVar": "--color-tape",
+        "value": "#14110F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Stock",
+        "cssVar": "--color-stock",
+        "value": "#EFE6D4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riso",
+        "cssVar": "--color-riso",
+        "value": "#FF3D8B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Worn",
+        "cssVar": "--color-worn",
+        "value": "#DCCFB8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Faded",
+        "cssVar": "--color-faded",
+        "value": "#5E564D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink Soft",
+        "cssVar": "--ink-soft",
+        "value": "color-mix(in srgb, var(--color-tape) 16%, transparent)",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Young Serif",
+        "fallback": "Georgia, serif",
+        "googleFont": "Young Serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Newsreader",
+        "fallback": "Georgia, serif",
+        "googleFont": "Newsreader"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "Courier Prime",
+        "fallback": "Courier New, monospace",
+        "googleFont": "Courier Prime"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Topbar",
+        "cssVar": "--topbar",
+        "value": "64px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Bar",
+        "cssVar": "--bar",
+        "value": "72px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Gutter",
+        "cssVar": "--gutter",
+        "value": "clamp(16px, 4vw, 56px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / U",
+        "cssVar": "--u",
+        "value": "max(1cqi, 4.4px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / T Label",
+        "cssVar": "--t-label",
+        "value": "max(11px, calc(var(--u) * 2.3))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / T Small",
+        "cssVar": "--t-small",
+        "value": "max(13px, calc(var(--u) * 3))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / T Body",
+        "cssVar": "--t-body",
+        "value": "max(14.5px, calc(var(--u) * 3.6))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / T H2",
+        "cssVar": "--t-h2",
+        "value": "calc(var(--u) * 9.5)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / T H2xl",
+        "cssVar": "--t-h2xl",
+        "value": "calc(var(--u) * 11.5)",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "wowflutter.webp",
+      "publicPath": "https://www.openlanding.page/gallery/wowflutter.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "artist-dunmore-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-dunmore-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-dunmore-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-dunmore-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Cover (stock)",
+      "summary": "mono row \"Issue 07 · Autumn 2026\" / \"WF-007\"; a giant \"07\" in Young Serif with a pink off-register copy behind it; the **only h1**, \"The Sound of Rooms\"; a plate (`cover-portrait`, priority/LCP); the mark and \"32 pages · Edition of 500\".",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-cover",
+        ".wf-cover__top",
+        ".wf-cover__num",
+        ".wf-cover__title",
+        ".wf-cover__plate",
+        ".wf-cover__base",
+        ".wf-cover__mark"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Editor's letter (worn)",
+      "summary": "\"A note on rooms\", two short paragraphs with a pink drop cap, the signature \"Dee Okafor-Lind, editor\", a masthead (Editor, Design, Print, Stitching).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-sheet--worn"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Contents (stock)",
+      "summary": "five rows, each a link: page number on a pink square, title, italic note. Stairwell sessions 04, The roster 07, The catalogue 10, The pressing plant 12, Get the next issue 13.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Feature opener (a black page)",
+      "summary": "a plate (`feature-stairwell`), label \"Feature · Low Ceilings, WF-007\", the title \"The stairwell sessions\", an italic dek. Give this page an inset hairline so it reads against the black desk.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-page",
+        ".wf-toc__page",
+        ".wf-opener",
+        ".wf-opener__plate",
+        ".wf-page--back"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Liner notes, part one",
+      "summary": "a drop-cap story about finding a closed Victorian baths in March, plus a plate (`feature-baths`).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-form--done"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Liner notes, part two (a pink page)",
+      "summary": "the pull quote \"A room is the fifth member of the quartet, and the only one who never misses a rehearsal.\" (Ife Okoro, cello) and spec rows: Room Stairwell B, Eastgate Baths; Reverb RT60 2.8 s; Mics 4, plus 1 on the roof; Takes 11, heating off.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-wordmark__pink",
+        ".wf-page",
+        ".wf-toc__page",
+        ".wf-page--back"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Roster · Marl Quartet",
+      "summary": "(string quartet, Leeds), 8. **Ines Haverford** (piano and voice, Glasgow), 9. **Dunmore & Ash** (guitar and harmonium, Whitby): a plate that fills the free space, name, mono meta line, one italic question and a short answer, and a link \"On WF-00X →\" to the catalogue.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Catalogue, Side A (worn)",
+      "summary": "and 11. **Side B (stock):** WF-001 to WF-008, each with artist, italic title, year, edition and a status chip (Sold out / In stock / At the plant, the last one pink). Include Marl Quartet, *Low Ceilings* as WF-007 and Penny Lowe Trio, *Night Bus Lullabies* as WF-008 (at the plant). Page 10 ends with a wide plate band (`sleeve-stack`); page 11 with \"WF-008 reaches subscribers first. Get the next issue →\".",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-sheet--worn",
+        ".wf-sides",
+        ".wf-side"
+      ]
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "The pressing plant (worn)",
+      "summary": "\"Where Thursdays go\", a plate (`press-room`), and colophon rows: 500 copies on 180 g black vinyl; 32 pages stitched by hand; half-speed mastering; \"14 of the 32 pages\" on screen.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-sheet--worn",
+        ".wf-masthead"
+      ]
+    },
+    {
+      "id": "section-10",
+      "index": 10,
+      "title": "Get the next issue (stock)",
+      "summary": "\"Issue 08 is at the plant.\" An email field and a radio fieldset (\"How should it reach you?\": Side A, the zine in the post; Side B, email only; the chosen one fills pink). Validate in the browser with these errors: \"Enter a valid email\" / \"Pick Side A or Side B\". On success show \"You're on the list.\" with a line about how issue 08 will arrive. **Never send a network request.**",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-masthead",
+        ".wf-corner--next"
+      ]
+    },
+    {
+      "id": "section-11",
+      "index": 11,
+      "title": "Back cover (a pink page)",
+      "summary": "the motto \"Slightly off-centre, on purpose.\", the mark and wordmark, \"Records & zines · Leeds · Est. 2019\", a CSS barcode, and a \"Back to the cover\" link.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".wf-wordmark__pink",
+        ".wf-page",
+        ".wf-cover",
+        ".wf-cover__top",
+        ".wf-cover__num",
+        ".wf-cover__title",
+        ".wf-cover__plate",
+        ".wf-cover__base",
+        ".wf-cover__mark",
+        ".wf-toc__page",
+        ".wf-back",
+        ".wf-back__motto"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "wowflutter-styles-1",
+      "location": "head",
+      "title": "WOWFLUTTER Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 23146,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* ─────────────── WOWFLUTTER tokens: tape black + one loud pink, printed on warm stock ─────────────── */\n@theme {\n  --color-tape: #14110F;\n  --color-stock: #EFE6D4;\n  --color-riso: #FF3D8B;\n  /* The two inks printed light: back pages, rules, muted text. */\n  --color-worn: #DCCFB8;\n  --color-faded: #5E564D;\n\n  --font-display: var(--font-young-serif), Georgia, serif;\n  --font-body: var(--font-newsreader), Georgia, serif;\n  --font-mono: var(--font-courier-prime), \"Courier New\", monospace;\n\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n}\n\n.wf-body {\n  --topbar: 64px;\n  --bar: 72px;\n  --gutter: clamp(16px, 4vw, 56px);\n  /* One printed unit = 1% of a page's width. Everything on a page is sized in units, so a page\n     looks the same at any size. On a phone the unit is floored so text stays readable. */\n  --u: max(1cqi, 4.4px);\n  --t-label: max(11px, calc(var(--u) * 2.3));\n  --t-small: max(13px, calc(var(--u) * 3));\n  --t-body: max(14.5px, calc(var(--u) * 3.6));\n  --t-h2: calc(var(--u) * 9.5);\n  --t-h2xl: calc(var(--u) * 11.5);\n  --ink-soft: color-mix(in srgb, var(--color-tape) 16%, transparent);\n\n  margin: 0;\n  background: var(--color-tape);\n  color: var(--color-stock);\n  font-family: var(--font-body);\n  font-size: 1.0625rem;\n  line-height: 1.5;\n  -webkit-font-smoothing: antialiased;\n}\n\nhtml:has(.wf-body) {\n  scroll-padding-top: calc(var(--topbar, 64px) + 16px);\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  html:has(.wf-body) {\n    scroll-behavior: smooth;\n  }\n}\n\n.wf-body ::selection {\n  background: var(--color-riso);\n  color: var(--color-tape);\n}\n\n.wf-body :focus-visible {\n  outline: 3px solid var(--color-tape);\n  outline-offset: 3px;\n}\n\n.wf-topbar :focus-visible,\n.wf-bar :focus-visible,\n.wf-sheet--tape :focus-visible {\n  outline-color: var(--color-riso);\n}\n\n[hidden] {\n  display: none !important;\n}\n\n.wf-vh {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap;\n}\n\n/* ─────────────── Type ─────────────── */\n.wf-label {\n  font-family: var(--font-mono);\n  font-size: var(--t-label);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  line-height: 1.35;\n  margin: 0;\n}\n\n.wf-h2 {\n  font-family: var(--font-display);\n  font-weight: 400;\n  font-size: var(--t-h2);\n  line-height: 0.98;\n  letter-spacing: -0.01em;\n  margin: 0;\n  text-wrap: balance;\n}\n\n.wf-h2--xl {\n  font-size: var(--t-h2xl);\n}\n\n.wf-h3 {\n  font-family: var(--font-display);\n  font-weight: 400;\n  font-size: calc(var(--u, 4px) * 6);\n  line-height: 1;\n  margin: 0;\n}\n\n.wf-text {\n  font-family: var(--font-body);\n  font-size: var(--t-body);\n  line-height: 1.38;\n  margin: 0;\n  max-width: 54ch;\n}\n\n.wf-dropcap::first-letter {\n  float: left;\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 12);\n  line-height: 0.8;\n  padding: calc(var(--u) * 0.9) calc(var(--u) * 1.2) calc(var(--u) * 0.4);\n  margin: calc(var(--u) * 0.5) calc(var(--u) * 1.6) 0 0;\n  background: var(--color-riso);\n  color: var(--color-tape);\n}\n\n/* ─────────────── Buttons: fills carry ink text; pink is never small text on paper ─────────────── */\n.wf-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  min-height: 44px;\n  padding: 0 18px;\n  border: 2px solid currentColor;\n  background: transparent;\n  color: inherit;\n  font-family: var(--font-mono);\n  font-weight: 700;\n  font-size: 0.75rem;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  text-decoration: none;\n  cursor: pointer;\n  transition:\n    background-color 180ms var(--ease-out),\n    color 180ms var(--ease-out),\n    transform 180ms var(--ease-out);\n}\n\n.wf-btn:active {\n  transform: scale(0.97);\n}\n\n.wf-btn:disabled {\n  opacity: 0.35;\n  cursor: default;\n  transform: none;\n}\n\n.wf-btn--paper {\n  color: var(--color-stock);\n}\n\n.wf-btn--riso {\n  background: var(--color-riso);\n  border-color: var(--color-riso);\n  color: var(--color-tape);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .wf-btn--paper:not(:disabled):hover {\n    background: var(--color-stock);\n    color: var(--color-tape);\n  }\n  .wf-btn--riso:hover {\n    background: var(--color-tape);\n    color: var(--color-riso);\n  }\n}\n\n/* ─────────────── Brand ─────────────── */\n.wf-mark {\n  display: block;\n}\n.wf-mark__disc {\n  fill: currentColor;\n}\n.wf-mark__grooves {\n  stroke: var(--groove);\n}\n.wf-mark__label {\n  fill: var(--color-riso);\n}\n.wf-mark--ink {\n  color: var(--color-tape);\n  --groove: var(--color-stock);\n}\n.wf-mark--paper {\n  color: var(--color-stock);\n  --groove: var(--color-tape);\n}\n\n.wf-wordmark {\n  position: relative;\n  display: inline-block;\n  font-family: var(--font-display);\n  font-size: 1.5rem;\n  line-height: 1;\n  letter-spacing: -0.01em;\n  white-space: nowrap;\n}\n.wf-wordmark__pink {\n  position: absolute;\n  inset: 0;\n  color: var(--color-riso);\n  transform: translate(0.045em, 0.045em);\n}\n.wf-wordmark__ink {\n  position: relative;\n}\n.wf-ltr {\n  display: inline-block;\n  transform: translateY(var(--wob, 0));\n}\n\n.wf-logo {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  color: inherit;\n  text-decoration: none;\n}\n.wf-logo__mark {\n  width: 32px;\n  height: 32px;\n}\n\n/* ─────────────── Top bar ─────────────── */\n.wf-topbar {\n  position: sticky;\n  top: 0;\n  z-index: 70;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  height: var(--topbar);\n  padding: 0 var(--gutter);\n  background: var(--color-tape);\n  color: var(--color-stock);\n  border-bottom: 1px solid color-mix(in srgb, var(--color-stock) 18%, transparent);\n}\n\n.wf-nav {\n  display: none;\n  gap: 22px;\n}\n.wf-nav a {\n  font-family: var(--font-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  color: inherit;\n  text-decoration: none;\n  padding: 10px 0;\n}\n@media (hover: hover) and (pointer: fine) {\n  .wf-nav a:hover {\n    color: var(--color-riso);\n  }\n}\n@media (min-width: 900px) {\n  .wf-nav {\n    display: flex;\n  }\n}\n.wf-topbar .wf-btn {\n  min-height: 40px;\n  padding: 0 14px;\n}\n@media (max-width: 480px) {\n  .wf-topbar .wf-btn {\n    display: none;\n  }\n}\n\n/* ─────────────── Pages: the same markup serves both layouts ─────────────── */\n/* Flow layout (phones, short windows): single pages in a normal vertical scroll. */\n.wf-desk {\n  padding: 24px var(--gutter) 56px;\n}\n\n.wf-leaves {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 24px;\n}\n\n.wf-slot,\n.wf-leaf {\n  display: contents;\n}\n\n.wf-cast,\n.wf-corner,\n.wf-bar {\n  display: none;\n}\n\n.wf-page {\n  position: relative;\n  width: min(100%, 560px);\n  container-type: inline-size;\n  scroll-margin-top: calc(var(--topbar) + 16px);\n  box-shadow: 0 18px 40px -22px var(--color-tape);\n}\n\n.wf-sheet {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: calc(var(--u) * 2.4);\n  min-height: 128cqi;\n  padding: calc(var(--u) * 7) calc(var(--u) * 7) calc(var(--u) * 12);\n  background-color: var(--color-stock);\n  /* Paper grain from three offset dot screens: no image to fetch or decode, so it never delays first paint. */\n  background-image:\n    radial-gradient(color-mix(in srgb, var(--color-tape) 9%, transparent) 0.6px, transparent 1px),\n    radial-gradient(color-mix(in srgb, var(--color-tape) 7%, transparent) 0.6px, transparent 1px),\n    radial-gradient(color-mix(in srgb, var(--color-stock) 14%, transparent) 0.7px, transparent 1.1px);\n  background-size:\n    3px 3px,\n    5px 5px,\n    7px 7px;\n  background-position:\n    0 0,\n    1px 2px,\n    3px 1px;\n  color: var(--color-tape);\n  overflow: hidden;\n}\n\n.wf-sheet--worn {\n  background-color: var(--color-worn);\n}\n.wf-sheet--tape {\n  background-color: var(--color-tape);\n  color: var(--color-stock);\n  /* A black page on a black desk needs its edge. */\n  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-stock) 28%, transparent);\n}\n.wf-sheet--riso {\n  background-color: var(--color-riso);\n}\n\n.wf-foot {\n  position: absolute;\n  left: calc(var(--u) * 7);\n  right: calc(var(--u) * 7);\n  bottom: calc(var(--u) * 4.5);\n  display: flex;\n  gap: calc(var(--u) * 3);\n  justify-content: space-between;\n  font-family: var(--font-mono);\n  font-size: var(--t-label);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  opacity: 0.75;\n}\n.wf-foot--recto {\n  flex-direction: row-reverse;\n}\n.wf-foot__n {\n  font-weight: 700;\n}\n\n.wf-flow {\n  display: flex;\n  flex-direction: column;\n  gap: calc(var(--u) * 2.2);\n}\n\n/* ─────────────── Printed plates: ink-on-stock images with a pink pass off-register ─────────────── */\n.wf-plate {\n  position: relative;\n  isolation: isolate;\n  margin: 0;\n  min-height: 0;\n}\n.wf-plate::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  z-index: -1;\n  background: var(--color-riso);\n  transform: translate(3.2%, 3.2%);\n}\n.wf-plate picture,\n.wf-plate img,\n.wf-plate .wf-placeholder {\n  display: block;\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n\n.wf-placeholder {\n  display: grid;\n  place-items: center;\n  min-height: calc(var(--u) * 14);\n  background: repeating-linear-gradient(135deg, var(--color-worn) 0 8px, var(--color-stock) 8px 16px);\n  color: var(--color-faded);\n  outline: 1px dashed var(--color-faded);\n  outline-offset: -1px;\n}\n\n/* ─────────────── Page content ─────────────── */\n/* 1 · Cover */\n.wf-cover {\n  gap: calc(var(--u) * 1.6);\n}\n.wf-cover__top {\n  display: flex;\n  justify-content: space-between;\n}\n.wf-cover__num {\n  position: relative;\n  isolation: isolate;\n  margin: 0;\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 32);\n  line-height: 0.84;\n  letter-spacing: -0.04em;\n  padding-bottom: calc(var(--u) * 5);\n}\n.wf-cover__num::before {\n  content: attr(data-text);\n  position: absolute;\n  inset: 0;\n  z-index: -1;\n  color: var(--color-riso);\n  transform: translate(0.035em, 0.035em);\n}\n.wf-cover__title {\n  margin: 0;\n  font-family: var(--font-display);\n  font-weight: 400;\n  font-size: calc(var(--u) * 10.5);\n  line-height: 0.95;\n  letter-spacing: -0.01em;\n  text-wrap: balance;\n}\n.wf-cover__plate {\n  flex: 1;\n  aspect-ratio: 5 / 4;\n}\n.wf-cover__base {\n  display: flex;\n  align-items: center;\n  gap: calc(var(--u) * 2.4);\n}\n.wf-cover__mark {\n  width: calc(var(--u) * 7);\n  height: calc(var(--u) * 7);\n  flex: none;\n}\n\n/* 2 · Editor's letter */\n.wf-sign {\n  margin: calc(var(--u) * 1) 0 0;\n  font-family: var(--font-body);\n  font-style: italic;\n  font-size: var(--t-body);\n}\n.wf-masthead {\n  margin: auto 0 0;\n  display: grid;\n  gap: calc(var(--u) * 0.8);\n}\n.wf-masthead div,\n.wf-specs div {\n  display: flex;\n  justify-content: space-between;\n  gap: calc(var(--u) * 3);\n  padding-top: calc(var(--u) * 0.9);\n  border-top: 1px solid color-mix(in srgb, currentColor 35%, transparent);\n}\n.wf-masthead dt,\n.wf-specs dt {\n  opacity: 0.7;\n}\n.wf-masthead dd,\n.wf-specs dd {\n  margin: 0;\n  text-align: right;\n}\n\n/* 3 · Contents */\n.wf-toc {\n  list-style: none;\n  margin: calc(var(--u) * 1) 0 0;\n  padding: 0;\n  display: grid;\n  gap: calc(var(--u) * 1.2);\n}\n.wf-toc__row {\n  display: grid;\n  grid-template-columns: calc(var(--u) * 10) 1fr;\n  align-items: center;\n  gap: calc(var(--u) * 2.4);\n  padding: calc(var(--u) * 1.1) 0;\n  border-top: 1px solid var(--color-faded);\n  color: inherit;\n  text-decoration: none;\n}\n.wf-toc__page {\n  display: grid;\n  place-items: center;\n  aspect-ratio: 1;\n  background: var(--color-riso);\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 5);\n}\n.wf-toc__text {\n  display: grid;\n  gap: 2px;\n}\n.wf-toc__label {\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 5.2);\n  line-height: 1.05;\n}\n.wf-toc__note {\n  font-family: var(--font-body);\n  font-style: italic;\n  font-size: var(--t-small);\n  color: var(--color-faded);\n}\n@media (hover: hover) and (pointer: fine) {\n  .wf-toc__row {\n    transition: transform 180ms var(--ease-out);\n  }\n  .wf-toc__row:hover {\n    transform: translateX(calc(var(--u) * 1));\n  }\n}\n\n/* 4 · Feature opener (black page) */\n.wf-opener {\n  gap: calc(var(--u) * 2.2);\n}\n.wf-opener__plate {\n  flex: 1;\n  aspect-ratio: 4 / 3;\n  margin-right: calc(var(--u) * 3.2);\n  margin-bottom: calc(var(--u) * 3.2);\n}\n.wf-dek {\n  color: var(--color-worn);\n  font-style: italic;\n  max-width: 34ch;\n}\n\n/* 5 · Figures */\n.wf-figure {\n  flex: 1;\n  aspect-ratio: 3 / 2;\n  margin-right: calc(var(--u) * 3.2);\n  margin-bottom: calc(var(--u) * 3.2);\n}\n\n/* 6 · Pull quote (pink page) and spec rows */\n.wf-quote {\n  justify-content: space-between;\n}\n.wf-pull {\n  margin: 0;\n  display: grid;\n  gap: calc(var(--u) * 2.4);\n}\n.wf-pull p {\n  margin: 0;\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 8);\n  line-height: 1.02;\n  letter-spacing: -0.01em;\n  text-wrap: balance;\n}\n.wf-specs {\n  margin: 0;\n  display: grid;\n  gap: calc(var(--u) * 0.9);\n}\n\n/* 7–9 · Roster */\n.wf-portrait {\n  flex: 1;\n  aspect-ratio: 1;\n  margin-right: calc(var(--u) * 3.2);\n  margin-bottom: calc(var(--u) * 3.2);\n}\n.wf-meta {\n  color: var(--color-faded);\n}\n.wf-qa {\n  display: grid;\n  gap: calc(var(--u) * 1);\n}\n.wf-q {\n  margin: 0;\n  font-family: var(--font-body);\n  font-style: italic;\n  font-size: calc(var(--t-body) * 1.1);\n}\n.wf-more a,\n.wf-note a {\n  color: inherit;\n  text-decoration-thickness: 2px;\n  text-underline-offset: 3px;\n  text-decoration-color: var(--color-riso);\n}\n\n/* 10–11 · Catalogue */\n.wf-releases {\n  list-style: none;\n  margin: calc(var(--u) * 0.5) 0 0;\n  padding: 0;\n  display: grid;\n}\n.wf-release {\n  display: grid;\n  grid-template-columns: calc(var(--u) * 13) 1fr;\n  gap: calc(var(--u) * 0.6) calc(var(--u) * 2);\n  padding: calc(var(--u) * 1.5) 0;\n  border-top: 1px solid var(--color-faded);\n}\n.wf-release__no {\n  padding-top: calc(var(--u) * 0.7);\n  font-weight: 700;\n}\n.wf-release__text {\n  display: grid;\n}\n.wf-release__artist {\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 4.6);\n  line-height: 1.05;\n}\n.wf-release__title {\n  font-family: var(--font-body);\n  font-style: italic;\n  font-size: var(--t-body);\n  line-height: 1.2;\n}\n.wf-release__meta {\n  grid-column: 2;\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: calc(var(--u) * 1.2);\n  color: var(--color-faded);\n}\n.wf-chip {\n  padding: 1px calc(var(--u) * 1.2);\n  border: 1px solid currentColor;\n}\n.wf-release[data-status=\"pressing\"] .wf-chip {\n  background: var(--color-riso);\n  border-color: var(--color-riso);\n  color: var(--color-tape);\n}\n.wf-band {\n  flex: 1;\n  min-height: calc(var(--u) * 10);\n  aspect-ratio: 4 / 1;\n  margin-right: calc(var(--u) * 3.2);\n  margin-bottom: calc(var(--u) * 3.2);\n}\n.wf-note {\n  margin-top: auto;\n}\n\n/* 13 · Subscribe */\n.wf-form {\n  display: grid;\n  gap: calc(var(--u) * 2.6);\n  margin-top: calc(var(--u) * 1);\n}\n.wf-form--done {\n  gap: calc(var(--u) * 1.6);\n  padding: calc(var(--u) * 4);\n  background: var(--color-riso);\n}\n.wf-field {\n  display: grid;\n  gap: calc(var(--u) * 0.8);\n}\n.wf-field input[type=\"email\"] {\n  min-height: 44px;\n  padding: 0 calc(var(--u) * 2);\n  border: 2px solid var(--color-tape);\n  background: transparent;\n  color: var(--color-tape);\n  font-family: var(--font-body);\n  font-size: var(--t-body);\n}\n.wf-field input::placeholder {\n  color: var(--color-faded);\n}\n.wf-sides {\n  display: grid;\n  gap: calc(var(--u) * 1);\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n.wf-sides legend {\n  padding: 0;\n  margin-bottom: calc(var(--u) * 0.6);\n}\n.wf-side {\n  display: flex;\n  align-items: center;\n  gap: calc(var(--u) * 2);\n  min-height: 44px;\n  padding: 0 calc(var(--u) * 2);\n  border: 2px solid var(--color-tape);\n  font-family: var(--font-body);\n  font-size: var(--t-body);\n  cursor: pointer;\n}\n.wf-side input {\n  width: 18px;\n  height: 18px;\n  accent-color: var(--color-tape);\n}\n.wf-side:has(input:checked) {\n  background: var(--color-riso);\n}\n.wf-side b {\n  font-family: var(--font-mono);\n  font-size: var(--t-label);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  margin-right: calc(var(--u) * 1);\n}\n.wf-error {\n  align-self: start;\n  padding: 2px calc(var(--u) * 1.4);\n  background: var(--color-riso);\n  color: var(--color-tape);\n  font-weight: 700;\n}\n\n/* 14 · Back cover (pink page) */\n.wf-back {\n  justify-content: space-between;\n}\n.wf-back__motto {\n  margin: 0;\n  font-family: var(--font-display);\n  font-size: calc(var(--u) * 13);\n  line-height: 0.96;\n  letter-spacing: -0.02em;\n  text-wrap: balance;\n}\n.wf-back__base {\n  display: grid;\n  gap: calc(var(--u) * 2);\n}\n.wf-back__brand {\n  display: flex;\n  align-items: center;\n  gap: calc(var(--u) * 2.4);\n}\n.wf-back__mark {\n  width: calc(var(--u) * 9);\n  height: calc(var(--u) * 9);\n  --groove: var(--color-riso);\n}\n.wf-back__word {\n  font-size: calc(var(--u) * 7.5);\n}\n.wf-barcode {\n  height: calc(var(--u) * 9);\n  max-width: 55%;\n  background: repeating-linear-gradient(\n    90deg,\n    var(--color-tape) 0 2px,\n    transparent 2px 4px,\n    var(--color-tape) 4px 5px,\n    transparent 5px 9px,\n    var(--color-tape) 9px 12px,\n    transparent 12px 14px\n  );\n}\n.wf-back a {\n  color: inherit;\n  text-decoration-thickness: 2px;\n  text-underline-offset: 3px;\n}\n\n/* ═════════════ Book layout: a two-page spread you turn by hand ═════════════\n   Keep this media query in step with BOOK_QUERY in book/queries.ts. */\n@media (min-width: 1000px) and (min-height: 640px) and (scripting: enabled) {\n  html:has(.wf-body) {\n    overflow: hidden;\n  }\n\n  .wf-body {\n    --u: 1cqi;\n    display: flex;\n    flex-direction: column;\n    height: 100svh;\n    overflow: hidden;\n    background:\n      radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--color-stock) 7%, var(--color-tape)), var(--color-tape) 70%),\n      var(--color-tape);\n  }\n\n  .wf-topbar {\n    position: static;\n    flex: none;\n  }\n\n  .wf-main {\n    flex: 1;\n    min-height: 0;\n  }\n\n  .wf-reader {\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n  }\n\n  .wf-desk {\n    flex: 1;\n    min-height: 0;\n    display: grid;\n    place-items: center;\n    container-type: size;\n    padding: 0;\n  }\n\n  .wf-book {\n    position: relative;\n    height: min(calc(100cqh - 20px), calc(100cqw / 2 * 1.4), 860px);\n    aspect-ratio: 2 / 1.4;\n    touch-action: pan-y pinch-zoom;\n  }\n\n  .wf-reader[data-layout=\"book\"] .wf-page {\n    cursor: grab;\n  }\n  .wf-reader[data-dragging] {\n    cursor: grabbing;\n  }\n  .wf-reader[data-dragging] .wf-page {\n    user-select: none;\n    cursor: grabbing;\n  }\n\n  .wf-leaves {\n    position: absolute;\n    inset: 0;\n    display: block;\n    transform: translateX(calc(var(--shift, -25) * 1%));\n  }\n\n  .wf-slot {\n    display: block;\n    position: absolute;\n    inset: 0;\n    perspective: 3400px;\n    pointer-events: none;\n  }\n  .wf-slot[data-state=\"flat\"] {\n    --turn: 0;\n    z-index: calc(var(--n) - var(--k));\n  }\n  .wf-slot[data-state=\"turned\"] {\n    --turn: 1;\n    z-index: calc(var(--k) + 1);\n  }\n  .wf-slot[data-active] {\n    z-index: 40;\n  }\n\n  .wf-leaf {\n    display: block;\n    position: absolute;\n    top: 0;\n    left: 50%;\n    width: 50%;\n    height: 100%;\n    transform-origin: 0 50%;\n    transform-style: preserve-3d;\n    transform: rotateY(calc(var(--turn, 0) * -180deg));\n    will-change: transform;\n  }\n\n  .wf-page {\n    position: absolute;\n    inset: 0;\n    width: auto;\n    pointer-events: auto;\n    backface-visibility: hidden;\n    -webkit-backface-visibility: hidden;\n    scroll-margin-top: 0;\n    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-tape) 30%, transparent);\n  }\n  .wf-page--back {\n    transform: rotateY(180deg);\n  }\n\n  .wf-sheet {\n    height: 100%;\n    min-height: 0;\n  }\n  /* Gutter shading, and the shade a leaf picks up as it stands on edge. */\n  .wf-sheet::after {\n    content: \"\";\n    position: absolute;\n    inset: 0;\n    pointer-events: none;\n    z-index: 3;\n    background: linear-gradient(90deg, color-mix(in srgb, var(--color-tape) 26%, transparent), transparent 9%);\n  }\n  .wf-page--back .wf-sheet::after {\n    background: linear-gradient(270deg, color-mix(in srgb, var(--color-tape) 26%, transparent), transparent 9%);\n  }\n  .wf-sheet::before {\n    content: \"\";\n    position: absolute;\n    inset: 0;\n    pointer-events: none;\n    z-index: 4;\n    background: var(--color-tape);\n    opacity: calc(sin(var(--turn, 0) * 180deg) * 0.28);\n  }\n\n  .wf-cast {\n    display: block;\n    position: absolute;\n    top: 0;\n    width: 50%;\n    height: 100%;\n    z-index: -1;\n    pointer-events: none;\n  }\n  .wf-cast--right {\n    left: 50%;\n    background: linear-gradient(90deg, color-mix(in srgb, var(--color-tape) 70%, transparent), transparent 75%);\n    opacity: calc(sin(var(--turn, 0) * 180deg) * (1 - var(--turn, 0)));\n  }\n  .wf-cast--left {\n    left: 0;\n    background: linear-gradient(270deg, color-mix(in srgb, var(--color-tape) 70%, transparent), transparent 75%);\n    opacity: calc(sin(var(--turn, 0) * 180deg) * var(--turn, 0));\n  }\n\n  /* Page corners: grab one, or just press it, to turn the leaf. */\n  .wf-corner {\n    display: block;\n    position: absolute;\n    bottom: 0;\n    z-index: 60;\n    width: 10%;\n    aspect-ratio: 1;\n    padding: 0;\n    border: 0;\n    background: transparent;\n    cursor: grab;\n    --curl: 0;\n  }\n  .wf-corner--next {\n    right: 0;\n  }\n  .wf-corner--prev {\n    left: 0;\n  }\n  .wf-corner::before {\n    content: \"\";\n    position: absolute;\n    inset: 0;\n    transform: scale(var(--curl));\n    transform-origin: bottom right;\n    background: linear-gradient(315deg, var(--color-riso) 0 46%, var(--color-worn) 46% 100%);\n    clip-path: polygon(100% 100%, 0 100%, 100% 0);\n    pointer-events: none;\n  }\n  .wf-corner--prev::before {\n    transform-origin: bottom left;\n    background: linear-gradient(45deg, var(--color-riso) 0 46%, var(--color-worn) 46% 100%);\n    clip-path: polygon(0 100%, 100% 100%, 0 0);\n  }\n  .wf-corner:focus-visible {\n    --curl: 1;\n    outline: 3px solid var(--color-tape);\n    outline-offset: -3px;\n  }\n  @media (hover: hover) and (pointer: fine) {\n    .wf-corner::before {\n      transition: transform 180ms var(--ease-out);\n    }\n    .wf-corner:hover {\n      --curl: 0.7;\n    }\n  }\n\n  .wf-bar {\n    display: grid;\n    grid-template-columns: 1fr auto 1fr;\n    align-items: center;\n    gap: 16px;\n    flex: none;\n    height: var(--bar);\n    padding: 0 var(--gutter);\n    color: var(--color-stock);\n  }\n  .wf-bar > :last-child {\n    justify-self: end;\n  }\n  .wf-bar > :first-child {\n    justify-self: start;\n  }\n  .wf-bar__mid {\n    display: flex;\n    align-items: center;\n    gap: 20px;\n  }\n  .wf-tape {\n    display: inline-flex;\n    align-items: center;\n    gap: 8px;\n    padding: 4px 8px 4px 10px;\n    background: var(--color-stock);\n    color: var(--color-faded);\n    font-family: var(--font-mono);\n    font-size: 0.6875rem;\n    letter-spacing: 0.12em;\n    text-transform: uppercase;\n  }\n  .wf-tape__digits {\n    padding: 2px 8px;\n    background: var(--color-tape);\n    color: var(--color-riso);\n    font-size: 1rem;\n    font-weight: 700;\n    letter-spacing: 0.22em;\n    font-variant-numeric: tabular-nums;\n  }\n  .wf-folio {\n    font-family: var(--font-mono);\n    font-size: 0.8125rem;\n    letter-spacing: 0.1em;\n    text-transform: uppercase;\n    font-variant-numeric: tabular-nums;\n  }\n}\n\n/* Reduced motion: the leaves still sit left or right, they just never travel. */\n@media (prefers-reduced-motion: reduce) {\n  .wf-wordmark__pink {\n    transform: translate(0.045em, 0.045em);\n  }\n  .wf-toc__row,\n  .wf-btn,\n  .wf-corner::before {\n    transition: none;\n  }\n}"
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "slug": "morta",
+  "title": "MORTA",
+  "industry": "Jewellery & Craft",
+  "description": "A sculptural sterling-silver jewellery house with cinematic photography and interactive ring studies.",
+  "stack": "Next.js 16 ? React 19 ? Three.js ? Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/morta",
+  "downloadUrl": "https://www.openlanding.page/downloads/morta.html",
+  "manifestUrl": "https://www.openlanding.page/copy/morta-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/morta-webflow-prompt.md",
+  "variables": {
+    "collectionName": "MORTA Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#000000",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#FFFFFF",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Cormorant Garamond",
+        "fallback": "Times New Roman, Georgia, serif"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "DM Sans",
+        "fallback": "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "DM Mono",
+        "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "morta.webp",
+      "publicPath": "https://www.openlanding.page/gallery/morta.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "morta-bespoke.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-bespoke.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-craft.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-craft.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-footer-cathedral.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-footer-cathedral.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-hero.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-hero.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-reliquary-ring.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-reliquary-ring.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-thorn-pendant.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-thorn-pendant.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-vigil-earrings.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-vigil-earrings.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "The Oath / hero",
+      "summary": "An elegant header with the mark, Collection, House, Craft and Commissions anchors and a prominent commission link. Use `morta-hero` as a cinematic image with a dark text-safe region. Headline: “Wear what remains.” Supporting copy: “Sculptural silver for the stories we carry.” Primary CTA: “Discover the collection.” Add a restrained object label and a scroll cue.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".morta-hero-architecture"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "The House",
+      "summary": "Introduce MORTA: “Objects of devotion, made to endure.” Describe sculptural silver, attentive finishing and pieces intended to gather their own history. Pair an oversized editorial statement with the first separated ring contours and fine graphic linework.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".morta-house-bg"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "The Collection",
+      "summary": "Present the three supplied product images as distinct, large editorial product cards, numbered 01–03: Reliquary / signet ring; Thorn / pendant; Vigil / drop earrings. Show product names and concise descriptive copy. Cards can reveal more detail on interaction, but names and essential information must remain visible on touch and keyboard. If purchase links have no destination, use in-page exploration rather than dead links.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".morta-collection-bg"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "The Craft",
+      "summary": "Pair `morta-craft` with copy about shaping, casting and finishing silver. This section hosts the signature assembly: a pinned or otherwise scroll-linked graphic progressively gathers fragments into a complete ring. The finished image frames a statement such as “Formed slowly. Worn for years.” The graphic is an original SVG/CSS drawing, not a replacement for the real product photography.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".morta-craft-bg"
+      ],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Bespoke commissions",
+      "summary": "Pair `morta-bespoke` with an invitation to create a personal piece. Provide a usable enquiry form with name, email and a short description. Include labels, helpful validation, keyboard access and a clear success state. If no backend is specified, implement a transparent demonstration-only success state and do not claim that an enquiry was sent.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".morta-commissions-bg"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Footer",
+      "summary": "Reprise the mark and phrase “Made to outlast the moment.” Include working in-page navigation, a short brand line and contact/enquiry access. Avoid fabricated addresses, social profiles or contact information.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".morta-footer"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "morta-styles-1",
+      "location": "head",
+      "title": "MORTA Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 4214,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\r\n  --font-display: \"Cormorant Garamond\", \"Times New Roman\", Georgia, serif;\r\n  --font-sans: \"DM Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\r\n  --font-mono: \"DM Mono\", ui-monospace, SFMono-Regular, Menlo, monospace;\r\n}\r\n\r\n@layer base {\r\n  html {\r\n    background-color: #000000;\r\n    color: #ffffff;\r\n    font-family: var(--font-sans);\r\n    scroll-behavior: smooth;\r\n  }\r\n\r\n  @media (prefers-reduced-motion: reduce) {\r\n    html {\r\n      scroll-behavior: auto;\r\n    }\r\n    *,\r\n    *::before,\r\n    *::after {\r\n      scroll-behavior: auto !important;\r\n    }\r\n    .morta-unfurl-line,\r\n    .morta-rise-headline,\r\n    .morta-fade-copy,\r\n    .morta-fade-cta {\r\n      animation: none !important;\r\n    }\r\n    .group:hover img {\r\n      transform: none !important;\r\n    }\r\n  }\r\n}\r\n\r\n@keyframes mortaLineUnfurl {\r\n  0% {\r\n    transform: scaleX(0);\r\n    opacity: 0;\r\n  }\r\n  100% {\r\n    transform: scaleX(1);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n@keyframes mortaRiseMask {\r\n  0% {\r\n    transform: translateY(100%);\r\n    opacity: 0;\r\n  }\r\n  100% {\r\n    transform: translateY(0%);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n@keyframes mortaFadeLock {\r\n  0% {\r\n    transform: translateY(12px);\r\n    opacity: 0;\r\n  }\r\n  100% {\r\n    transform: translateY(0);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n.morta-unfurl-line {\r\n  transform-origin: left center;\r\n  animation: mortaLineUnfurl 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;\r\n}\r\n\r\n.morta-rise-headline {\r\n  animation: mortaRiseMask 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;\r\n}\r\n\r\n.morta-fade-copy {\r\n  animation: mortaFadeLock 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;\r\n}\r\n\r\n.morta-fade-cta {\r\n  animation: mortaFadeLock 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;\r\n}\r\n\r\n/* Quiet, mineral surfaces give the silver room to emerge from shadow. */\r\n.morta-atmosphere {\r\n  background: radial-gradient(ellipse at 15% 20%, #202020 0%, #111111 43%, #0b0b0b 100%);\r\n}\r\n\r\n.morta-slate {\r\n  background-color: #151515;\r\n  background-image:\r\n    radial-gradient(ellipse at 82% 16%, rgba(110, 112, 110, 0.11), transparent 46%),\r\n    radial-gradient(ellipse at 12% 78%, rgba(75, 78, 77, 0.14), transparent 48%),\r\n    linear-gradient(125deg, #111212, #1b1c1c 48%, #101111);\r\n}\r\n\r\n.morta-ring-light {\r\n  background: radial-gradient(ellipse at 50% 43%, #393b3a 0%, #202221 32%, #0c0d0d 75%);\r\n}\r\n\r\n/* Architectural artwork adapted from the approved MORTA background study. */\r\n.morta-house-bg,\r\n.morta-collection-bg,\r\n.morta-craft-bg,\r\n.morta-commissions-bg {\r\n  background-color: #070708;\r\n  background-repeat: no-repeat;\r\n  background-position: center top;\r\n  background-size: cover;\r\n}\r\n\r\n.morta-house-bg { background-image: url('./architecture/house.svg'); }\r\n.morta-collection-bg { background-image: url('./architecture/collection.svg'); }\r\n.morta-craft-bg {\r\n  background-image: url('./architecture/craft.svg');\r\n  background-size: 100% auto;\r\n}\r\n.morta-commissions-bg { background-image: url('./architecture/commissions.svg'); }\r\n\r\n.morta-hero-architecture {\r\n  position: absolute;\r\n  inset: 0;\r\n  pointer-events: none;\r\n  background: url('./architecture/hero.svg') center / cover no-repeat;\r\n  mix-blend-mode: screen;\r\n  opacity: 0.4;\r\n}\r\n\r\n@media (max-width: 767px) {\r\n  .morta-house-bg { background-size: auto 800px; background-position: 55% top; }\r\n  .morta-craft-bg { background-size: auto 950px; background-position: 35% top; }\r\n  .morta-commissions-bg { background-size: auto 950px; background-position: 32% top; }\r\n  .morta-hero-architecture { background-position: 60% center; opacity: 0.3; }\r\n}\r\n\r\n/* A final architectural vista, with a dark veil for the footer navigation. */\r\n.morta-footer {\r\n  position: relative;\r\n  background: #08090a url('/templates/morta/morta-footer-cathedral.webp') center 48% / cover no-repeat;\r\n}\r\n\r\n.morta-footer::before {\r\n  content: '';\r\n  position: absolute;\r\n  inset: 0;\r\n  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.93));\r\n  pointer-events: none;\r\n}\r\n\r\n@media (max-width: 767px) {\r\n  .morta-footer { background-position: center top; }\r\n  .morta-footer::before {\r\n    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85) 38%, rgba(0, 0, 0, 0.94));\r\n  }\r\n}"
+    },
+    {
+      "id": "morta-runtime-1",
+      "location": "footer",
+      "title": "MORTA Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 342,
+      "description": "Loads three in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three"
+      ],
+      "code": "// MORTA — Webflow Custom Code Runtime Bridge\n// Dependencies: three\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

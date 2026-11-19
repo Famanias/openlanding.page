@@ -1,0 +1,353 @@
+{
+  "slug": "tally",
+  "title": "TALLY",
+  "industry": "Shopify & Service Commerce",
+  "description": "Sell your hours like your goods. A pastel shop-counter landing page for service-led small Shopify businesses, built around a perforated two-part claim ticket that stamps and detaches at checkout.",
+  "stack": "Next.js 16 · Tailwind v4 · React 19 · Original SVG · Lenis",
+  "liveUrl": "https://www.openlanding.page/templates/tally",
+  "downloadUrl": "https://www.openlanding.page/downloads/tally.html",
+  "manifestUrl": "https://www.openlanding.page/copy/tally-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/tally-webflow-prompt.md",
+  "variables": {
+    "collectionName": "TALLY Tokens",
+    "colors": [
+      {
+        "name": "Color / Paper",
+        "cssVar": "--color-paper",
+        "value": "#FAF4E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mint",
+        "cssVar": "--color-mint",
+        "value": "#C8E6D0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Blush",
+        "cssVar": "--color-blush",
+        "value": "#F7C8B6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lilac",
+        "cssVar": "--color-lilac",
+        "value": "#CFD6F6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#231F2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tl Paper",
+        "cssVar": "--tl-paper",
+        "value": "#FAF4E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tl Mint",
+        "cssVar": "--tl-mint",
+        "value": "#C8E6D0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tl Blush",
+        "cssVar": "--tl-blush",
+        "value": "#F7C8B6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tl Lilac",
+        "cssVar": "--tl-lilac",
+        "value": "#CFD6F6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tl Ink",
+        "cssVar": "--tl-ink",
+        "value": "#231F2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tl Paper Warm",
+        "cssVar": "--tl-paper-warm",
+        "value": "color-mix(in srgb, #FAF4E8 88%, #F7C8B6)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Tl Paper Mint",
+        "cssVar": "--tl-paper-mint",
+        "value": "color-mix(in srgb, #FAF4E8 76%, #C8E6D0)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Tl Paper Lilac",
+        "cssVar": "--tl-paper-lilac",
+        "value": "color-mix(in srgb, #FAF4E8 78%, #CFD6F6)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Tl Ink Muted",
+        "cssVar": "--tl-ink-muted",
+        "value": "color-mix(in srgb, #231F2B 74%, #FAF4E8)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Tl Ink Soft",
+        "cssVar": "--tl-ink-soft",
+        "value": "color-mix(in srgb, #231F2B 58%, #FAF4E8)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Tl Rule",
+        "cssVar": "--tl-rule",
+        "value": "color-mix(in srgb, #231F2B 18%, #FAF4E8)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Tl Rule Strong",
+        "cssVar": "--tl-rule-strong",
+        "value": "#231F2B",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Besley",
+        "fallback": "Georgia, serif",
+        "googleFont": "Besley"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Public Sans",
+        "fallback": "system-ui, -apple-system, sans-serif",
+        "googleFont": "Public Sans"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "Overpass Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "Overpass Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "26px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "tally.webp",
+      "publicPath": "https://www.openlanding.page/gallery/tally.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tally/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Counter Top Bar (`Header.tsx`)",
+      "summary": "Sticky bar with the perforated Tally ticket mark, 5-item desktop nav with a sliding pastel mint pill indicator, live queue badge (`04 ON BENCH`), accessible motion pause/resume toggle, *\"Issue a Ticket\"* CTA, and a native `<dialog>` mobile drawer with Escape close and focus restoration.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-progress-bar",
+        ".tl-header",
+        ".tl-header-inner",
+        ".tl-desktop-nav",
+        ".tl-header-actions",
+        ".tl-header-pause",
+        ".tl-header-cta",
+        ".tl-menu-bars",
+        ".tl-mobile-top",
+        ".tl-mat-top",
+        ".tl-stage-toolbar",
+        ".tl-stop-stepper"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "The Shop Counter (`Hero.tsx`)",
+      "summary": "Split editorial hero with masked headline *\"Sell your hours / like your goods.\"*, merchant archetype quick-switcher, magnetic primary CTA, and an interactive **Front Counter Mat** featuring a clickable SVG brass counter bell (`CounterBellSvg`) that rings and stamps a two-part hero claim stub, followed by a 4-column ink ledger strip.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-hero-h1",
+        ".tl-hero",
+        ".tl-hero-grid",
+        ".tl-hero-eyebrow",
+        ".tl-hero-lead",
+        ".tl-hero-ctas",
+        ".tl-hero-archetypes",
+        ".tl-hero-arch-label",
+        ".tl-hero-arch-pills",
+        ".tl-hero-mat",
+        ".tl-mat-shop-title",
+        ".tl-hero-ticket"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "The Perforated Ticket Runway (`CounterStage.tsx` — Signature Mechanic)",
+      "summary": "- Pinned scroll-and-click stage tracking a service order across four stops: `01 Booked at Checkout`, `02 Checked In at Counter`, `03 On the Workbench`, `04 Ready for Pickup`.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".tl-hero-ticket",
+        ".tl-hero-ticket-left",
+        ".tl-hero-ticket-head",
+        ".tl-hero-ticket-rows",
+        ".tl-hero-ticket-row",
+        ".tl-hero-ticket-seam",
+        ".tl-hero-ticket-right",
+        ".tl-runway",
+        ".tl-runway-sticky",
+        ".tl-ticket-stage",
+        ".tl-perforated-ticket",
+        ".tl-ticket-bench-half"
+      ],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Four Ways to Sell Time (`ServiceModes.tsx`)",
+      "summary": "2×2 bento comparing *1-on-1 Fittings & Consultations*, *Drop-Off & Mail-In Repairs*, *Bespoke Product Add-Ons*, and *Small-Group Bench Classes*. Each card toggles live between **Online Cart Line** and **Shopify POS Bench** views.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tsx"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "The Merchant Bench (`MerchantStories.tsx`)",
+      "summary": "Pauseable service-category ticker band, followed by three illustrated small-business dossiers with `CountUp` metrics and an inspectable **Receipt Stub `<dialog>` modal** (`#TLY-26-1050`, `#TLY-26-2150`, `#TLY-26-3325`).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-bench-panel",
+        ".tl-bench-header",
+        ".tl-bench-title",
+        ".tl-bench-summary",
+        ".tl-ticket-bench-half",
+        ".tl-merchants-section",
+        ".tsx"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Rate & Deposit Recovery Ledger (`RevenueCalculator.tsx`)",
+      "summary": "Interactive range sliders (weekly bookings, average ticket value, checkout deposit %) that compute monthly recovered no-show revenue and highlight the recommended flat-rate plan (*Counter $19/mo*, *Workshop $49/mo*, *Guild $99/mo*).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-hero-ledger-strip",
+        ".tl-ledger-section",
+        ".tl-ledger-intro",
+        ".tl-deposit-pills",
+        ".tl-deposit-btn",
+        ".tl-perforated-ticket",
+        ".tl-ticket-ledger-rows",
+        ".tl-ledger-row",
+        ".tl-ledger-row-total",
+        ".tsx"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Counter Questions (`FaqSection.tsx`)",
+      "summary": "Sticky header + 5-question accordion animating height via `grid-template-rows: 0fr → 1fr`.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-counter-stamp",
+        ".tl-counter-form",
+        ".tsx"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Open Your Counter (`IntakeSection.tsx` & `CounterForm.tsx`)",
+      "summary": "Client-validated onboarding form (store name, email, archetype, plan, service workflow note). Invalid fields shake once and focus the first invalid control. Valid submission never sends a network request; it stamps and detaches a personalized **Merchant Trial Pass (`TLY-26-XXXX`)** with one-click clipboard copy.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-counter-stamp",
+        ".tl-counter-form",
+        ".tsx"
+      ]
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Footer (`Footer.tsx`)",
+      "summary": "Full-width original SVG neighborhood street scene (`FooterShopfrontScene`) with a gently swaying hanging shop sign, section links, and motion pause control.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tl-mobile-footer",
+        ".tl-receipt-footer-row",
+        ".tl-form-footer",
+        ".tl-footer",
+        ".tl-footer-top",
+        ".tl-footer-motto",
+        ".tl-footer-status",
+        ".tl-footer-nav-cols",
+        ".tl-footer-heading",
+        ".tl-footer-links",
+        ".tl-footer-meta-list",
+        ".tl-footer-link"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "tally-styles-1",
+      "location": "head",
+      "title": "TALLY Scoped Styles (Part 1/2)",
+      "maxChars": 45000,
+      "charCount": 45000,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme static {\n  /* 5-Colour Pastel Shop Counter Palette */\n  --color-paper: #FAF4E8;\n  --color-mint: #C8E6D0;\n  --color-blush: #F7C8B6;\n  --color-lilac: #CFD6F6;\n  --color-ink: #231F2B;\n\n  /* Typography */\n  --font-display: var(--font-besley), Georgia, serif;\n  --font-body: var(--font-public-sans), system-ui, -apple-system, sans-serif;\n  --font-mono: var(--font-overpass-mono), ui-monospace, monospace;\n\n  /* Motion Tokens (motion-system.md §2) */\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 26px;\n  --stagger: 70ms;\n}\n\n/* Scoped Custom Properties & Color-Mix Tints */\n.tl-body {\n  --tl-paper: #FAF4E8;\n  --tl-mint: #C8E6D0;\n  --tl-blush: #F7C8B6;\n  --tl-lilac: #CFD6F6;\n  --tl-ink: #231F2B;\n\n  --font-display: var(--font-besley), Georgia, serif;\n  --font-body: var(--font-public-sans), system-ui, -apple-system, sans-serif;\n  --font-mono: var(--font-overpass-mono), ui-monospace, monospace;\n\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 26px;\n  --stagger: 70ms;\n\n  --tl-paper-warm: color-mix(in srgb, #FAF4E8 88%, #F7C8B6);\n  --tl-paper-mint: color-mix(in srgb, #FAF4E8 76%, #C8E6D0);\n  --tl-paper-lilac: color-mix(in srgb, #FAF4E8 78%, #CFD6F6);\n  --tl-ink-muted: color-mix(in srgb, #231F2B 74%, #FAF4E8);\n  --tl-ink-soft: color-mix(in srgb, #231F2B 58%, #FAF4E8);\n  --tl-rule: color-mix(in srgb, #231F2B 18%, #FAF4E8);\n  --tl-rule-strong: #231F2B;\n\n  background-color: var(--tl-paper);\n  color: var(--tl-ink);\n  font-family: var(--font-body);\n  font-size: 1rem;\n  line-height: 1.6;\n  margin: 0;\n  padding: 0;\n  -webkit-font-smoothing: antialiased;\n}\n\n.tl-page {\n  min-height: 100svh;\n  position: relative;\n}\n\n.tl-container {\n  width: min(1260px, calc(100% - 2 * clamp(16px, 4vw, 56px)));\n  margin-inline: auto;\n}\n\n.tl-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n\n.tl-mono {\n  font-family: var(--font-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  font-variant-numeric: tabular-nums;\n}\n\n/* Skip Link & Focus Ring */\n.tl-skip-link {\n  position: fixed;\n  top: 12px;\n  left: 12px;\n  z-index: 200;\n  background: var(--tl-blush);\n  color: var(--tl-ink);\n  border: 2px solid var(--tl-ink);\n  border-radius: 6px;\n  padding: 8px 16px;\n  font-family: var(--font-mono);\n  font-size: 0.75rem;\n  font-weight: 600;\n  text-decoration: none;\n  transform: translateY(-160%);\n  transition: transform var(--dur-fast) var(--ease-out);\n}\n\n.tl-skip-link:focus {\n  transform: translateY(0);\n}\n\n.tl-body :focus-visible {\n  outline: 2.5px solid var(--tl-ink);\n  outline-offset: 3px;\n}\n\n/* Scroll Progress Hairline */\n.tl-progress-bar {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  z-index: 120;\n  background: color-mix(in srgb, #231F2B 10%, #FAF4E8);\n  pointer-events: none;\n}\n\n.tl-progress-fill {\n  width: 100%;\n  height: 100%;\n  background: var(--tl-ink);\n  transform: scaleX(0);\n  transform-origin: left center;\n}\n\n/* Header & Navigation */\n.tl-header {\n  position: sticky;\n  top: 0;\n  z-index: 90;\n  background: color-mix(in srgb, #FAF4E8 92%, transparent);\n  backdrop-filter: blur(10px);\n  border-bottom: 1.5px solid var(--tl-ink);\n  transition:\n    transform var(--dur-base) var(--ease-out),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-header-inner {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  min-height: 70px;\n}\n\n.tl-brand-link {\n  text-decoration: none;\n  color: var(--tl-ink);\n  display: inline-flex;\n  align-items: center;\n}\n\n.tl-logo-lockup {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.tl-mark {\n  width: 42px;\n  height: 30px;\n  flex-shrink: 0;\n}\n\n.tl-logo-text {\n  display: flex;\n  flex-direction: column;\n  line-height: 1;\n}\n\n.tl-logo-word {\n  font-family: var(--font-display);\n  font-weight: 700;\n  font-size: 1.35rem;\n  letter-spacing: -0.03em;\n  color: var(--tl-ink);\n}\n\n.tl-logo-sub {\n  font-family: var(--font-mono);\n  font-size: 0.625rem;\n  letter-spacing: 0.12em;\n  color: var(--tl-ink-muted);\n  margin-top: 2px;\n}\n\n.tl-desktop-nav {\n  display: none;\n}\n\n@media (min-width: 980px) {\n  .tl-desktop-nav {\n    display: block;\n  }\n}\n\n.tl-nav-pill-track {\n  position: relative;\n  display: grid;\n  grid-template-columns: repeat(5, minmax(112px, 1fr));\n  align-items: center;\n  background: var(--tl-paper-warm);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 3px;\n}\n\n.tl-nav-sliding-pill {\n  position: absolute;\n  top: 3px;\n  bottom: 3px;\n  left: 3px;\n  width: calc((100% - 6px) / 5);\n  background: var(--tl-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 6px;\n  transform: translate3d(calc(var(--pill-index, 0) * 100%), 0, 0);\n  transition: transform var(--dur-base) var(--ease-out-expo);\n  pointer-events: none;\n}\n\n.tl-nav-link {\n  position: relative;\n  z-index: 1;\n  text-align: center;\n  padding: 6px 10px;\n  font-size: 0.84rem;\n  font-weight: 600;\n  color: var(--tl-ink);\n  text-decoration: none;\n  white-space: nowrap;\n}\n\n.tl-header-actions {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.tl-queue-pill {\n  display: none;\n  align-items: center;\n  gap: 6px;\n  background: var(--tl-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 5px 11px;\n  font-weight: 600;\n}\n\n@media (min-width: 1140px) {\n  .tl-queue-pill {\n    display: inline-flex;\n  }\n}\n\n.tl-live-dot {\n  width: 7px;\n  height: 7px;\n  border-radius: 999px;\n  background: var(--tl-ink);\n}\n\n.tl-pause-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-family: var(--font-mono);\n  font-size: 0.7rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition:\n    transform var(--dur-instant) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-pause-btn:active {\n  transform: scale(0.97);\n}\n\n.tl-header-pause {\n  display: none;\n}\n\n@media (min-width: 760px) {\n  .tl-header-pause {\n    display: inline-flex;\n  }\n}\n\n.tl-pause-dot {\n  width: 7px;\n  height: 7px;\n  border-radius: 999px;\n  background: var(--tl-blush);\n  border: 1.5px solid var(--tl-ink);\n}\n\n.tl-pause-dot[data-paused=\"true\"] {\n  background: var(--tl-lilac);\n}\n\n.tl-header-cta {\n  display: none;\n}\n\n@media (min-width: 640px) {\n  .tl-header-cta {\n    display: inline-flex;\n  }\n}\n\n/* Mobile Menu Trigger & Dialog */\n.tl-menu-toggle {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 42px;\n  height: 42px;\n  background: var(--tl-blush);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  cursor: pointer;\n}\n\n@media (min-width: 980px) {\n  .tl-menu-toggle {\n    display: none;\n  }\n}\n\n.tl-menu-bars {\n  position: relative;\n  width: 18px;\n  height: 2px;\n  background: var(--tl-ink);\n}\n\n.tl-menu-bars::before,\n.tl-menu-bars::after {\n  content: \"\";\n  position: absolute;\n  left: 0;\n  width: 18px;\n  height: 2px;\n  background: var(--tl-ink);\n  transition: transform var(--dur-fast) var(--ease-out);\n}\n\n.tl-menu-bars::before {\n  top: -6px;\n}\n\n.tl-menu-bars::after {\n  top: 6px;\n}\n\n.tl-mobile-dialog {\n  width: min(420px, 92vw);\n  margin: auto;\n  padding: 0;\n  border: 2px solid var(--tl-ink);\n  border-radius: 12px;\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n}\n\n.tl-mobile-dialog::backdrop {\n  background: color-mix(in srgb, #231F2B 55%, transparent);\n}\n\n.tl-mobile-drawer {\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n.tl-mobile-top {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-bottom: 14px;\n}\n\n.tl-mobile-close {\n  width: 38px;\n  height: 38px;\n  border-radius: 8px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-blush);\n  color: var(--tl-ink);\n  font-weight: 700;\n  cursor: pointer;\n}\n\n.tl-mobile-nav-list {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.tl-mobile-nav-link {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 14px;\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  background: var(--tl-paper-warm);\n  color: var(--tl-ink);\n  font-weight: 600;\n  text-decoration: none;\n}\n\n.tl-mobile-footer {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  border-top: 1.5px solid var(--tl-ink);\n  padding-top: 14px;\n}\n\n/* Shared Buttons */\n.tl-btn {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  padding: 10px 18px;\n  border-radius: 8px;\n  border: 1.5px solid var(--tl-ink);\n  font-family: var(--font-body);\n  font-size: 0.92rem;\n  font-weight: 600;\n  text-decoration: none;\n  cursor: pointer;\n  overflow: hidden;\n  transition:\n    transform var(--dur-instant) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-btn:active {\n  transform: scale(0.97);\n}\n\n.tl-btn-lg {\n  padding: 13px 22px;\n  font-size: 0.98rem;\n}\n\n.tl-btn-primary {\n  background: var(--tl-blush);\n  color: var(--tl-ink);\n}\n\n.tl-btn-secondary {\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .tl-btn-primary:hover {\n    background: var(--tl-mint);\n    transform: translateY(-2px);\n  }\n  .tl-btn-secondary:hover {\n    background: var(--tl-lilac);\n    transform: translateY(-2px);\n  }\n}\n\n.tl-icon-sm {\n  width: 18px;\n  height: 18px;\n  flex-shrink: 0;\n}\n\n/* Section Head Typography */\n.tl-section {\n  padding-block: clamp(64px, 8vw, 112px);\n  border-bottom: 1.5px solid var(--tl-ink);\n}\n\n.tl-section-head {\n  margin-bottom: clamp(36px, 5vw, 56px);\n}\n\n.tl-eyebrow-row {\n  display: inline-flex;\n  align-items: center;\n  gap: 12px;\n  margin-bottom: 14px;\n  transform-origin: left center;\n}\n\n.tl-eyebrow-rule {\n  width: 28px;\n  height: 2px;\n  background: var(--tl-ink);\n  display: inline-block;\n}\n\n.tl-head-split {\n  display: grid;\n  gap: 20px;\n}\n\n@media (min-width: 900px) {\n  .tl-head-split {\n    grid-template-columns: 1.25fr 0.95fr;\n    align-items: end;\n    gap: 40px;\n  }\n}\n\n.tl-h2 {\n  font-family: var(--font-display);\n  font-size: clamp(1.95rem, 3.6vw, 3.25rem);\n  font-weight: 700;\n  line-height: 1.08;\n  letter-spacing: -0.025em;\n  margin: 0;\n  text-wrap: balance;\n}\n\n.tl-h2 em,\n.tl-hero-h1 em {\n  font-style: italic;\n  font-weight: 500;\n}\n\n.tl-section-lede {\n  font-size: clamp(1rem, 1.1vw, 1.12rem);\n  color: var(--tl-ink-muted);\n  margin: 0;\n  text-wrap: pretty;\n}\n\n.tl-mask-line {\n  display: block;\n  overflow: clip;\n  padding: 0 0.1em 0.35em 0;\n  margin-bottom: -0.22em;\n}\n\n.tl-mask-line:last-child {\n  margin-bottom: 0;\n  padding-bottom: 0.4em;\n}\n\n.tl-mask-inner {\n  display: block;\n}\n\n/* Hero Section */\n.tl-hero {\n  padding-top: clamp(32px, 5vw, 68px);\n  border-bottom: 1.5px solid var(--tl-ink);\n  background:\n    radial-gradient(circle at 82% 18%, color-mix(in srgb, #CFD6F6 48%, transparent), transparent 44%),\n    radial-gradient(circle at 18% 72%, color-mix(in srgb, #C8E6D0 44%, transparent), transparent 42%),\n    var(--tl-paper);\n}\n\n.tl-hero-grid {\n  display: grid;\n  gap: 36px;\n  align-items: center;\n  padding-bottom: clamp(40px, 6vw, 72px);\n}\n\n@media (min-width: 1040px) {\n  .tl-hero-grid {\n    grid-template-columns: 1.06fr 0.94fr;\n    gap: 48px;\n  }\n}\n\n.tl-hero-eyebrow {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  background: var(--tl-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 5px 14px;\n  margin-bottom: 18px;\n}\n\n.tl-hero-h1 {\n  font-family: var(--font-display);\n  font-size: clamp(2.45rem, 5vw, 4.65rem);\n  font-weight: 700;\n  line-height: 1.12;\n  letter-spacing: -0.03em;\n  margin: 0 0 20px;\n}\n\n.tl-hero-lead {\n  font-size: clamp(1.02rem, 1.15vw, 1.16rem);\n  color: var(--tl-ink-muted);\n  max-width: 60ch;\n  margin: 0 0 28px;\n  text-wrap: pretty;\n}\n\n.tl-hero-ctas {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 12px;\n  margin-bottom: 28px;\n}\n\n.tl-hero-archetypes {\n  border-top: 1.5px dashed var(--tl-ink);\n  padding-top: 16px;\n}\n\n.tl-hero-arch-label {\n  display: block;\n  color: var(--tl-ink-muted);\n  margin-bottom: 10px;\n}\n\n.tl-hero-arch-pills {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n\n.tl-arch-chip {\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 6px 13px;\n  font-size: 0.82rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition:\n    transform var(--dur-instant) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-arch-chip[data-active=\"true\"][data-tone=\"blush\"] {\n  background: var(--tl-blush);\n}\n\n.tl-arch-chip[data-active=\"true\"][data-tone=\"mint\"] {\n  background: var(--tl-mint);\n}\n\n.tl-arch-chip[data-active=\"true\"][data-tone=\"lilac\"] {\n  background: var(--tl-lilac);\n}\n\n/* Hero Right Counter Mat */\n.tl-hero-mat {\n  background: var(--tl-paper-warm);\n  border: 2px solid var(--tl-ink);\n  border-radius: 12px;\n  padding: clamp(16px, 2.5vw, 26px);\n  position: relative;\n}\n\n.tl-hero-mat[data-tone=\"mint\"] {\n  background: var(--tl-paper-mint);\n}\n\n.tl-hero-mat[data-tone=\"lilac\"] {\n  background: var(--tl-paper-lilac);\n}\n\n.tl-mat-top {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 10px;\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-bottom: 12px;\n  margin-bottom: 16px;\n}\n\n.tl-mat-tag {\n  color: var(--tl-ink-muted);\n  display: block;\n}\n\n.tl-mat-shop-title {\n  font-family: var(--font-display);\n  font-size: 1.35rem;\n  font-weight: 700;\n}\n\n.tl-bell-trigger {\n  background: var(--tl-blush);\n  color: var(--tl-ink);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 6px 12px;\n  cursor: pointer;\n  transition: transform var(--dur-instant) var(--ease-spring);\n}\n\n.tl-bell-trigger:active {\n  transform: scale(0.95);\n}\n\n.tl-mat-bell-row {\n  display: grid;\n  gap: 14px;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n@media (min-width: 520px) {\n  .tl-mat-bell-row {\n    grid-template-columns: 156px 1fr;\n  }\n}\n\n.tl-bell-svg {\n  width: 100%;\n  max-width: 164px;\n  height: auto;\n}\n\n.tl-bell-waves {\n  opacity: 0.28;\n  transition:\n    opacity var(--dur-fast) var(--ease-out),\n    transform var(--dur-base) var(--ease-spring);\n  transform-origin: center;\n}\n\n.tl-bell-svg[data-ringing=\"true\"] .tl-bell-waves {\n  opacity: 1;\n  transform: scale(1.08);\n}\n\n.tl-bell-svg[data-ringing=\"true\"] .tl-bell-plunger {\n  transform: translateY(4px);\n}\n\n.tl-mat-sku {\n  color: var(--tl-ink-muted);\n}\n\n.tl-mat-service-name {\n  font-weight: 700;\n  font-size: 1.02rem;\n  margin: 4px 0 8px;\n}\n\n.tl-mat-slot-pill {\n  display: inline-block;\n  background: var(--tl-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 6px;\n  padding: 4px 9px;\n}\n\n/* Hero Mini Two-Part Ticket */\n.tl-hero-ticket {\n  display: grid;\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  overflow: hidden;\n  position: relative;\n}\n\n@media (min-width: 540px) {\n  .tl-hero-ticket {\n    grid-template-columns: 1fr 2px 142px;\n  }\n}\n\n.tl-hero-ticket-left {\n  padding: 14px 16px;\n  position: relative;\n}\n\n.tl-hero-ticket-head {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n  color: var(--tl-ink-muted);\n  border-bottom: 1px solid var(--tl-rule);\n  padding-bottom: 6px;\n  margin-bottom: 10px;\n}\n\n.tl-hero-ticket-rows {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  font-size: 0.88rem;\n}\n\n.tl-hero-ticket-row {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n}\n\n.tl-hero-ticket-seam {\n  border-top: 2px dashed var(--tl-ink);\n}\n\n@media (min-width: 540px) {\n  .tl-hero-ticket-seam {\n    border-top: none;\n    border-left: 2px dashed var(--tl-ink);\n  }\n}\n\n.tl-hero-ticket-right {\n  background: var(--tl-blush);\n  padding: 14px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  gap: 4px;\n  transition: transform var(--dur-base) var(--ease-spring);\n}\n\n.tl-hero-ticket[data-stamped=\"true\"] .tl-hero-ticket-right {\n  background: var(--tl-mint);\n}\n\n.tl-hero-stub-num {\n  font-size: 1.05rem;\n}\n\n.tl-hero-stamp-pos {\n  position: absolute;\n  right: 10px;\n  bottom: 6px;\n  width: 68px;\n  height: 68px;\n  pointer-events: none;\n}\n\n/* Hero Bottom Strip */\n.tl-hero-ledger-strip {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n  padding-block: 22px;\n}\n\n.tl-strip-grid {\n  display: grid;\n  gap: 18px;\n}\n\n@media (min-width: 680px) {\n  .tl-strip-grid {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n\n@media (min-width: 1040px) {\n  .tl-strip-grid {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n\n.tl-strip-item {\n  border-left: 2px solid var(--tl-mint);\n  padding-left: 14px;\n}\n\n.tl-strip-label {\n  color: var(--tl-mint);\n  display: block;\n  margin-bottom: 4px;\n}\n\n.tl-strip-val {\n  margin: 0;\n  font-size: 0.9rem;\n  color: var(--tl-paper);\n}\n\n/* § I · The Perforated Ticket Runway (Mechanic) */\n.tl-ledger-section {\n  background: var(--tl-paper-warm);\n}\n\n.tl-ledger-intro {\n  margin-bottom: 28px;\n}\n\n@media (min-width: 1040px) and (min-height: 660px) and (prefers-reduced-motion: no-preference) {\n  html[data-tl-motion=\"live\"] .tl-runway {\n    min-height: 240vh;\n  }\n\n  html[data-tl-motion=\"live\"] .tl-runway-sticky {\n    position: sticky;\n    top: 82px;\n    padding-bottom: 24px;\n  }\n}\n\n.tl-stage-toolbar {\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n  margin-bottom: 14px;\n}\n\n@media (min-width: 1080px) {\n  .tl-stage-toolbar {\n    flex-direction: row;\n    align-items: center;\n    justify-content: space-between;\n  }\n}\n\n.tl-archetype-tabs {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 8px;\n}\n\n@media (min-width: 720px) {\n  .tl-archetype-tabs {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n\n.tl-arch-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  gap: 2px;\n  padding: 9px 12px;\n  border-radius: 8px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  text-align: left;\n  cursor: pointer;\n  transition:\n    transform var(--dur-instant) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-arch-tab[data-active=\"true\"][data-tone=\"blush\"] {\n  background: var(--tl-blush);\n}\n\n.tl-arch-tab[data-active=\"true\"][data-tone=\"mint\"] {\n  background: var(--tl-mint);\n}\n\n.tl-arch-tab[data-active=\"true\"][data-tone=\"lilac\"] {\n  background: var(--tl-lilac);\n}\n\n.tl-arch-sku {\n  color: var(--tl-ink-muted);\n  font-size: 0.68rem;\n}\n\n.tl-arch-name {\n  font-weight: 700;\n  font-size: 0.85rem;\n}\n\n.tl-stop-stepper {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 8px;\n}\n\n@media (min-width: 680px) {\n  .tl-stop-stepper {\n    grid-template-columns: repeat(4, auto);\n  }\n}\n\n.tl-stop-pill {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 12px;\n  border-radius: 8px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  font-size: 0.82rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition:\n    transform var(--dur-instant) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-stop-pill[data-state=\"past\"] {\n  background: var(--tl-mint);\n}\n\n.tl-stop-pill[data-state=\"active\"] {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n}\n\n.tl-stop-num {\n  padding: 2px 6px;\n  border-radius: 4px;\n  background: color-mix(in srgb, currentColor 14%, transparent);\n}\n\n.tl-rail-wrap {\n  width: 100%;\n  height: 6px;\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  overflow: hidden;\n  margin-bottom: 20px;\n}\n\n.tl-rail-fill {\n  width: 100%;\n  height: 100%;\n  background: var(--tl-ink);\n  transform-origin: left center;\n  transition: transform var(--dur-fast) var(--ease-out);\n}\n\n/* Main Stage Grid */\n.tl-stage-grid {\n  display: grid;\n  gap: 24px;\n  align-items: start;\n}\n\n@media (min-width: 1040px) {\n  .tl-stage-grid {\n    grid-template-columns: 0.94fr 1.06fr;\n  }\n}\n\n.tl-bench-panel {\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  padding: clamp(18px, 2.4vw, 28px);\n}\n\n.tl-bench-header {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.tl-badge-pill {\n  display: inline-flex;\n  align-items: center;\n  padding: 4px 10px;\n  border-radius: 999px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-mint);\n  font-weight: 600;\n}\n\n.tl-badge-pill[data-tone=\"blush\"] {\n  background: var(--tl-blush);\n}\n\n.tl-badge-pill[data-tone=\"lilac\"] {\n  background: var(--tl-lilac);\n}\n\n.tl-webhook-tag {\n  color: var(--tl-ink-muted);\n}\n\n.tl-bench-title {\n  font-family: var(--font-display);\n  font-size: clamp(1.4rem, 2.2vw, 1.85rem);\n  font-weight: 700;\n  margin: 0 0 8px;\n}\n\n.tl-bench-summary {\n  color: var(--tl-ink-muted);\n  margin: 0 0 16px;\n  font-size: 0.95rem;\n}\n\n.tl-live-note-card {\n  background: var(--tl-paper-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 12px 14px;\n  margin-bottom: 18px;\n}\n\n.tl-live-note-card[data-tone=\"blush\"] {\n  background: var(--tl-paper-warm);\n}\n\n.tl-live-note-card[data-tone=\"lilac\"] {\n  background: var(--tl-paper-lilac);\n}\n\n.tl-live-note-kicker {\n  color: var(--tl-ink-muted);\n  margin-bottom: 4px;\n}\n\n.tl-live-note-copy {\n  margin: 0;\n  font-weight: 600;\n  font-size: 0.92rem;\n}\n\n.tl-config-controls {\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n  border-top: 1.5px solid var(--tl-rule);\n  padding-top: 14px;\n}\n\n.tl-config-label {\n  display: block;\n  color: var(--tl-ink-muted);\n  margin-bottom: 8px;\n}\n\n.tl-slot-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 8px;\n}\n\n.tl-slot-chip {\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  font-family: var(--font-mono);\n  font-size: 0.74rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n\n.tl-slot-chip[data-selected=\"true\"] {\n  background: var(--tl-lilac);\n}\n\n.tl-config-row {\n  display: grid;\n  gap: 14px;\n}\n\n.tl-deposit-pills {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 8px;\n}\n\n.tl-deposit-btn {\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  font-size: 0.82rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n\n.tl-deposit-btn[data-selected=\"true\"] {\n  background: var(--tl-blush);\n}\n\n.tl-addon-list {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.tl-addon-toggle {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 10px;\n  padding: 8px 12px;\n  border-radius: 6px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  font-size: 0.85rem;\n  text-align: left;\n  cursor: pointer;\n}\n\n.tl-addon-toggle[data-checked=\"true\"] {\n  background: var(--tl-mint);\n}\n\n.tl-addon-box {\n  width: 20px;\n  height: 20px;\n  border-radius: 4px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 700;\n  flex-shrink: 0;\n}\n\n.tl-addon-text {\n  flex: 1;\n  font-weight: 500;\n}\n\n/* Right Column: Perforated Two-Part Ticket */\n.tl-ticket-stage {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.tl-perforated-ticket {\n  display: grid;\n  position: relative;\n}\n\n@media (min-width: 680px) {\n  .tl-perforated-ticket {\n    grid-template-columns: 1.35fr 24px 0.85fr;\n    align-items: stretch;\n  }\n}\n\n.tl-ticket-bench-half {\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  padding: clamp(16px, 2.2vw, 24px);\n  position: relative;\n  overflow: hidden;\n}\n\n.tl-ticket-top-row {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 10px;\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-bottom: 10px;\n  margin-bottom: 14px;\n}\n\n.tl-ticket-kicker {\n  color: var(--tl-ink-muted);\n  display: block;\n}\n\n.tl-ticket-shop {\n  font-family: var(--font-display);\n  font-size: 1.35rem;\n  font-weight: 700;\n  margin: 2px 0 0;\n}\n\n.tl-ticket-serial {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n  padding: 4px 9px;\n  border-radius: 5px;\n  font-weight: 600;\n}\n\n.tl-ticket-illustration-box {\n  margin-bottom: 14px;\n}\n\n.tl-archetype-svg {\n  width: 100%;\n  height: auto;\n  display: block;\n}\n\n.tl-ticket-service-block {\n  background: var(--tl-paper-warm);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 10px 12px;\n  margin-bottom: 14px;\n}\n\n.tl-ticket-sku-line {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n  color: var(--tl-ink-muted);\n  margin-bottom: 4px;\n}\n\n.tl-ticket-service-title {\n  font-weight: 700;\n  font-size: 0.98rem;\n}\n\n.tl-ticket-ledger-rows {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 7px;\n  font-size: 0.88rem;\n}\n\n.tl-ledger-row {\n  display: flex;\n  justify-content: space-between;\n  gap: 12px;\n  border-bottom: 1px dashed var(--tl-rule);\n  padding-bottom: 5px;\n}\n\n.tl-ledger-row dd {\n  margin: 0;\n  font-weight: 600;\n}\n\n.tl-ledger-row-total {\n  border-bottom: none;\n  border-top: 1.5px solid var(--tl-ink);\n  padding-top: 8px;\n  font-weight: 700;\n  font-size: 0.96rem;\n}\n\n/* Circular Counter Stamp */\n.tl-counter-stamp {\n  width: 96px;\n  height: 96px;\n  position: absolute;\n  right: 16px;\n  bottom: 14px;\n  opacity: 0;\n  transform: scale(1.38) rotate(-16deg);\n  transition:\n    transform var(--dur-base) var(--ease-spring),\n    opacity var(--dur-fast) var(--ease-out);\n  pointer-events: none;\n}\n\n.tl-counter-stamp[data-stamped=\"true\"] {\n  opacity: 0.94;\n  transform: scale(1) rotate(-6deg);\n}\n\n.tl-stamp-svg {\n  width: 100%;\n  height: 100%;\n}\n\n/* Perforation Seam */\n.tl-perforation-seam {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-height: 22px;\n}\n\n.tl-perf-line {\n  width: 100%;\n  height: 2px;\n  border-top: 2px dashed var(--tl-ink);\n}\n\n@media (min-width: 680px) {\n  .tl-perf-line {\n    width: 2px;\n    height: 100%;\n    border-top: none;\n    border-left: 2px dashed var(--tl-ink);\n  }\n}\n\n.tl-perf-scissors {\n  position: absolute;\n  background: var(--tl-paper-warm);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 3px;\n}\n\n/* Detachable Customer Claim Stub */\n.tl-ticket-customer-stub {\n  background: var(--tl-blush);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  padding: clamp(16px, 2vw, 22px);\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  gap: 12px;\n  transform: translate3d(0, 0, 0) rotate(0deg);\n  transform-origin: top left;\n  transition:\n    transform var(--dur-base) var(--ease-spring),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.tl-perforated-ticket[data-tone=\"mint\"] .tl-ticket-customer-stub {\n  background: var(--tl-mint);\n}\n\n.tl-perforated-ticket[data-tone=\"lilac\"] .tl-ticket-customer-stub {\n  background: var(--tl-lilac);\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .tl-perforated-ticket[data-detached=\"true\"] .tl-ticket-customer-stub {\n    transform: translate3d(14px, 8px, 0) rotate(3.2deg);\n  }\n}\n\n.tl-stub-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 6px;\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-bottom: 8px;\n}\n\n.tl-stub-state {\n  background: var(--tl-paper);\n  border: 1px solid var(--tl-ink);\n  border-radius: 4px;\n  padding: 2px 6px;\n  font-weight: 700;\n}\n\n.tl-stub-Serial-big {\n  font-size: 1.25rem;\n  font-weight: 700;\n}\n\n.tl-stub-slot {\n  font-weight: 700;\n  margin: 0;\n  font-size: 0.95rem;\n}\n\n.tl-stub-turnaround {\n  margin: -6px 0 0;\n  font-size: 0.84rem;\n  color: var(--tl-ink-muted);\n}\n\n.tl-stub-financials {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.tl-stub-pay-box {\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 10px 12px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.tl-stub-amount {\n  font-size: 1.3rem;\n}\n\n.tl-stub-protection {\n  font-size: 0.72rem;\n  font-weight: 600;\n}\n\n.tl-stub-barcode {\n  width: 100%;\n  height: 28px;\n  background: var(--tl-paper);\n  border: 1px solid var(--tl-ink);\n  border-radius: 4px;\n  padding: 2px 6px;\n}\n\n.tl-ticket-actions {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n}\n\n/* § II · Four Ways to Sell Time Bento */\n.tl-modes-section {\n  background: var(--tl-paper);\n}\n\n.tl-modes-bento {\n  display: grid;\n  gap: 20px;\n}\n\n@media (min-width: 860px) {\n  .tl-modes-bento {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n\n.tl-mode-card-inner {\n  height: 100%;\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  padding: clamp(20px, 2.5vw, 30px);\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  gap: 14px;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n\n.tl-mode-card-inner[data-tone=\"mint\"] {\n  background: var(--tl-paper-mint);\n}\n\n.tl-mode-card-inner[data-tone=\"blush\"] {\n  background: var(--tl-paper-warm);\n}\n\n.tl-mode-card-inner[data-tone=\"lilac\"] {\n  background: var(--tl-paper-lilac);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .tl-mode-card-inner:hover {\n    transform: translateY(-5px);\n  }\n}\n\n.tl-mode-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.tl-mode-num {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n  padding: 3px 8px;\n  border-radius: 4px;\n}\n\n.tl-mode-kicker {\n  color: var(--tl-ink-muted);\n}\n\n.tl-mode-title {\n  font-family: var(--font-display);\n  font-size: 1.45rem;\n  font-weight: 700;\n  margin: 0;\n}\n\n.tl-mode-desc {\n  color: var(--tl-ink-muted);\n  margin: 0;\n  font-size: 0.95rem;\n}\n\n.tl-mode-preview-box {\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  overflow: hidden;\n}\n\n.tl-mode-switch-bar {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  border-bottom: 1.5px solid var(--tl-ink);\n  background: var(--tl-paper-warm);\n}\n\n.tl-mode-switch-btn {\n  padding: 8px 10px;\n  border: none;\n  background: transparent;\n  color: var(--tl-ink);\n  font-weight: 600;\n  cursor: pointer;\n}\n\n.tl-mode-switch-btn[data-active=\"true\"] {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n}\n\n.tl-mode-snippet {\n  padding: 14px 16px;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.tl-snippet-title {\n  font-weight: 700;\n  font-size: 0.92rem;\n}\n\n.tl-snippet-meta,\n.tl-snippet-station {\n  color: var(--tl-ink-muted);\n}\n\n.tl-snippet-bottom {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n  border-top: 1px dashed var(--tl-rule);\n  padding-top: 8px;\n  margin-top: 4px;\n}\n\n.tl-snippet-badge,\n.tl-snippet-action {\n  background: var(--tl-mint);\n  border: 1px solid var(--tl-ink);\n  border-radius: 4px;\n  padding: 3px 8px;\n  font-weight: 600;\n}\n\n/* § III · Merchant Stories & Marquee */\n.tl-merchants-section {\n  padding-top: 0;\n  background: var(--tl-paper-lilac);\n}\n\n.tl-marquee-band {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-block: 12px;\n  overflow: hidden;\n  margin-bottom: clamp(48px, 6vw, 84px);\n}\n\n.tl-marquee-track {\n  display: flex;\n  width: max-content;\n  gap: 28px;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  html[data-tl-motion=\"live\"]:not([data-tl-paused=\"true\"]) .tl-marquee-track {\n    animation: tl-marquee 42s linear infinite;\n  }\n  .tl-marquee-band:hover .tl-marquee-track,\n  .tl-marquee-band:focus-within .tl-marquee-track {\n    animation-play-state: paused;\n  }\n}\n\n@keyframes tl-marquee {\n  from {\n    transform: translate3d(0, 0, 0);\n  }\n  to {\n    transform: translate3d(-50%, 0, 0);\n  }\n}\n\n.tl-marquee-item {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  white-space: nowrap;\n}\n\n.tl-marquee-dot {\n  color: var(--tl-blush);\n}\n\n.tl-dossier-grid {\n  display: grid;\n  gap: 24px;\n}\n\n@media (min-width: 980px) {\n  .tl-dossier-grid {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n\n.tl-dossier-inner {\n  height: 100%;\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  overflow: hidden;\n  display: flex;\n  flex-direction: column;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .tl-dossier-inner:hover {\n    transform: translateY(-6px);\n  }\n}\n\n.tl-dossier-media {\n  border-bottom: 2px solid var(--tl-ink);\n  background: var(--tl-paper-warm);\n}\n\n.tl-dossier-svg {\n  width: 100%;\n  height: auto;\n  display: block;\n}\n\n.tl-dossier-body {\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  flex: 1;\n  gap: 14px;\n}\n\n.tl-dossier-meta {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n  color: var(--tl-ink-muted);\n}\n\n.tl-dossier-title {\n  font-family: var(--font-display);\n  font-size: 1.4rem;\n  font-weight: 700;\n  margin: 0;\n}\n\n.tl-dossier-stat-box {\n  background: var(--tl-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 12px 14px;\n  display: flex;\n  align-items: center;\n  gap: 14px;\n}\n\n.tl-dossier-inner[data-tone=\"blush\"] .tl-dossier-stat-box {\n  background: var(--tl-blush);\n}\n\n.tl-dossier-inner[data-tone=\"lilac\"] .tl-dossier-stat-box {\n  background: var(--tl-lilac);\n}\n\n.tl-dossier-stat-big {\n  font-family: var(--font-display);\n  font-size: 2rem;\n  font-weight: 700;\n  line-height: 1;\n  flex-shrink: 0;\n}\n\n.tl-dossier-stat-label {\n  margin: 0;\n  font-weight: 700;\n  font-size: 0.86rem;\n}\n\n.tl-dossier-stat-sub {\n  margin: 3px 0 0;\n  font-size: 0.68rem;\n}\n\n.tl-dossier-quote {\n  margin: 0;\n  font-size: 0.92rem;\n  color: var(--tl-ink-muted);\n}\n\n.tl-dossier-owner {\n  margin-top: 8px;\n  color: var(--tl-ink);\n  font-weight: 600;\n}\n\n.tl-dossier-btn {\n  width: 100%;\n}\n\n/* Receipt Inspection Modal */\n.tl-receipt-dialog {\n  width: min(540px, 92vw);\n  margin: auto;\n  padding: 0;\n  border: none;\n  background: transparent;\n}\n\n.tl-receipt-dialog::backdrop {\n  background: color-mix(in srgb, #231F2B 60%, transparent);\n}\n\n.tl-receipt-modal-card {\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  border: 2.5px solid var(--tl-ink);\n  border-radius: 12px;\n  padding: 24px;\n  position: relative;\n}\n\n.tl-receipt-modal-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  gap: 12px;\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-bottom: 12px;\n  margin-bottom: 14px;\n}\n\n.tl-receipt-shop {\n  font-family: var(--font-display);\n  font-size: 1.5rem;\n  margin: 4px 0;\n}\n\n.tl-receipt-sub {\n  margin: 0;\n  color: var(--tl-ink-muted);\n}\n\n.tl-receipt-close {\n  width: 36px;\n  height: 36px;\n  border-radius: 8px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-blush);\n  font-weight: 700;\n  cursor: pointer;\n}\n\n.tl-receipt-customer {\n  background: var(--tl-paper-warm);\n  border: 1px solid var(--tl-ink);\n  border-radius: 6px;\n  padding: 8px 12px;\n  margin-bottom: 14px;\n}\n\n.tl-receipt-items {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  border-bottom: 1.5px dashed var(--tl-ink);\n  padding-bottom: 14px;\n  margin-bottom: 14px;\n}\n\n.tl-receipt-line {\n  display: grid;\n  grid-template-columns: 76px 1fr auto;\n  gap: 10px;\n  align-items: baseline;\n  font-size: 0.9rem;\n}\n\n.tl-receipt-splits {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  margin-bottom: 16px;\n}\n\n.tl-receipt-split-row {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.9rem;\n}\n\n.tl-receipt-footer-row {\n  position: relative;\n  padding-top: 10px;\n  border-top: 1.5px solid var(--tl-ink);\n}\n\n.tl-receipt-note {\n  margin: 0;\n  max-width: 72%;\n}\n\n/* § IV · Rate & Deposit Calculator + Plans */\n.tl-calc-section {\n  background: var(--tl-paper);\n}\n\n.tl-revenue-wrap {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.tl-calc-board {\n  display: grid;\n  gap: 24px;\n  background: var(--tl-paper-warm);\n  border: 2px solid var(--tl-ink);\n  border-radius: 12px;\n  padding: clamp(18px, 3vw, 32px);\n}\n\n@media (min-width: 960px) {\n  .tl-calc-board {\n    grid-template-columns: 1.15fr 0.85fr;\n    align-items: center;\n  }\n}\n\n.tl-calc-sliders {\n  display: flex;\n  flex-direction: column;\n  gap: 18px;\n}\n\n.tl-kicker-tag {\n  background: var(--tl-lilac);\n  border: 1px solid var(--tl-ink);\n  border-radius: 4px;\n  padding: 3px 8px;\n}\n\n.tl-calc-title {\n  font-family: var(--font-display);\n  font-size: 1.45rem;\n  margin: 8px 0 0;\n}\n\n.tl-slider-field {\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 12px 14px;\n}\n\n.tl-slider-label-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 10px;\n  font-weight: 600;\n  font-size: 0.92rem;\n  margin-bottom: 8px;\n}\n\n.tl-slider-readout {\n  background: var(--tl-mint);\n  border: 1px solid var(--tl-ink);\n  border-radius: 4px;\n  padding: 2px 8px;\n  font-weight: 700;\n}\n\n.tl-range-input {\n  width: 100%;\n  accent-color: var(--tl-ink);\n  cursor: pointer;\n}\n\n.tl-slider-scale {\n  display: flex;\n  justify-content: space-between;\n  color: var(--tl-ink-muted);\n  font-size: 0.66rem;\n  margin-top: 4px;\n}\n\n.tl-calc-receipt {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  gap: 18px;\n}\n\n.tl-calc-receipt-top {\n  display: flex;\n  justify-content: space-between;\n  color: var(--tl-mint);\n  border-bottom: 1px dashed color-mix(in srgb, #FAF4E8 28%, transparent);\n  padding-bottom: 10px;\n}\n\n.tl-calc-big-metric {\n  background: color-mix(in srgb, #FAF4E8 8%, #231F2B);\n  border: 1.5px solid var(--tl-mint);\n  border-radius: 8px;\n  padding: 16px;\n}\n\n.tl-calc-big-label {\n  color: var(--tl-blush);\n  display: block;\n  margin-bottom: 6px;\n}\n\n.tl-calc-big-value {\n  font-family: var(--font-display);\n  font-size: clamp(2rem, 3.4vw, 2.85rem);\n  color: var(--tl-paper);\n  display: block;\n  line-height: 1.05;\n}\n\n.tl-calc-per-mo {\n  font-size: 1.1rem;\n  font-weight: 500;\n}\n\n.tl-calc-big-note {\n  margin: 8px 0 0;\n  font-size: 0.85rem;\n  color: color-mix(in srgb, #FAF4E8 80%, #231F2B);\n}\n\n.tl-calc-breakdown {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  font-size: 0.88rem;\n}\n\n.tl-calc-row {\n  display: flex;\n  justify-content: space-between;\n  gap: 10px;\n  border-bottom: 1px solid color-mix(in srgb, #FAF4E8 16%, transparent);\n  padding-bottom: 6px;\n}\n\n.tl-calc-row dd {\n  margin: 0;\n  color: var(--tl-mint);\n}\n\n/* Plans Grid */\n.tl-plans-grid {\n  display: grid;\n  gap: 20px;\n}\n\n@media (min-width: 920px) {\n  .tl-plans-grid {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n\n.tl-plan-card {\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  gap: 16px;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n\n.tl-plan-card[data-tone=\"mint\"] {\n  background: var(--tl-paper-mint);\n}\n\n.tl-plan-card[data-tone=\"lilac\"] {\n  background: var(--tl-paper-lilac);\n}\n\n.tl-plan-card[data-recommended=\"true\"] {\n  border-width: 3px;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .tl-plan-card:hover {\n    transform: translateY(-5px);\n  }\n}\n\n.tl-plan-badge {\n  display: inline-block;\n  background: var(--tl-blush);\n  border: 1px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 3px 10px;\n  font-weight: 700;\n  margin-bottom: 10px;\n}\n\n.tl-plan-name {\n  font-family: var(--font-display);\n  font-size: 1.55rem;\n  margin: 0 0 6px;\n}\n\n.tl-plan-price-row {\n  display: flex;\n  align-items: baseline;\n  gap: 6px;\n  margin-bottom: 10px;\n}\n\n.tl-plan-price {\n  font-family: var(--font-display);\n  font-size: 2.4rem;\n  font-weight: 700;\n  line-height: 1;\n}\n\n.tl-plan-ideal {\n  margin: 0;\n  font-size: 0.9rem;\n  color: var(--tl-ink-muted);\n}\n\n.tl-plan-allowance {\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-weight: 600;\n}\n\n.tl-plan-features {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  font-size: 0.9rem;\n}\n\n.tl-plan-feature-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 8px;\n}\n\n.tl-plan-check {\n  font-weight: 700;\n}\n\n.tl-plan-cta {\n  width: 100%;\n}\n\n/* § V · FAQ Accordion */\n.tl-faq-section {\n  background: var(--tl-paper-mint);\n}\n\n.tl-faq-grid {\n  display: grid;\n  gap: 32px;\n  align-items: start;\n}\n\n@media (min-width: 960px) {\n  .tl-faq-grid {\n    grid-template-columns: 0.85fr 1.15fr;\n    gap: 48px;\n  }\n  .tl-faq-aside {\n    position: sticky;\n    top: 96px;\n  }\n}\n\n.tl-faq-lede {\n  color: var(--tl-ink-muted);\n  margin: 14px 0 20px;\n}\n\n.tl-faq-badge-card {\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 14px 16px;\n}\n\n.tl-faq-badge-card p {\n  margin: 6px 0 0;\n  font-size: 0.9rem;\n  color: var(--tl-ink-muted);\n}\n\n.tl-faq-list {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.tl-faq-card {\n  background: var(--tl-paper);\n  border: 2px solid var(--tl-ink);\n  border-radius: 10px;\n  overflow: hidden;\n}\n\n.tl-faq-card[data-open=\"true\"] {\n  background: var(--tl-paper-warm);\n}\n\n.tl-faq-q-wrap {\n  margin: 0;\n}\n\n.tl-faq-trigger {\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  padding: 18px 20px;\n  background: transparent;\n  border: none;\n  color: var(--tl-ink);\n  text-align: left;\n  cursor: pointer;\n}\n\n.tl-faq-q-left {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.tl-faq-tag {\n  color: var(--tl-ink-muted);\n}\n\n.tl-faq-q-text {\n  font-family: var(--font-display);\n  font-size: 1.12rem;\n  font-weight: 700;\n}\n\n.tl-faq-icon {\n  width: 30px;\n  height: 30px;\n  border-radius: 999px;\n  border: 1.5px solid var(--tl-ink);\n  background: var(--tl-mint);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 700;\n  flex-shrink: 0;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n\n.tl-faq-card[data-open=\"true\"] .tl-faq-icon {\n  transform: rotate(45deg);\n  background: var(--tl-blush);\n}\n\n.tl-faq-answer-grid {\n  display: grid;\n  grid-template-rows: 0fr;\n  transition: grid-template-rows var(--dur-base) var(--ease-out);\n}\n\n.tl-faq-answer-grid[data-open=\"true\"] {\n  grid-template-rows: 1fr;\n}\n\n.tl-faq-answer-inner {\n  overflow: hidden;\n}\n\n.tl-faq-answer-copy {\n  margin: 0;\n  padding: 0 20px 18px;\n  color: var(--tl-ink-muted);\n  font-size: 0.95rem;\n}\n\n/* § VI · Open Your Counter Form & Trial Pass */\n.tl-intake-section {\n  background: var(--tl-paper);\n}\n\n.tl-intake-grid {\n  display: grid;\n  gap: 36px;\n  align-items: start;\n}\n\n@media (min-width: 980px) {\n  .tl-intake-grid {\n    grid-template-columns: 0.88fr 1.12fr;\n    gap: 48px;\n  }\n}\n\n.tl-intake-lede {\n  color: var(--tl-ink-muted);\n  margin: 14px 0 24px;\n}\n\n.tl-intake-guarantees {\n  display: flex;\n  flex-direction: column;\n  gap: 14px;\n}\n\n.tl-guarantee-row {\n  display: flex;\n  align-items: flex-start;\n  gap: 12px;\n  background: var(--tl-paper-warm);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 12px 14px;\n}\n\n.tl-guarantee-dot {\n  font-family: var(--font-mono);\n  font-size: 0.75rem;\n  font-weight: 700;\n  background: var(--tl-blush);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 6px;\n  padding: 3px 7px;\n  flex-shrink: 0;\n}\n\n.tl-guarantee-row p {\n  margin: 3px 0 0;\n  font-size: 0.88rem;\n  color: var(--tl-ink-muted);\n}\n\n.tl-counter-form {\n  background: var(--tl-paper-warm);\n  border: 2px solid var(--tl-ink);\n  border-radius: 12px;\n  padding: clamp(20px, 3vw, 30px);\n}\n\n.tl-form-top-bar {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  gap: 8px;\n  border-bottom: 1.5px solid var(--tl-ink);\n  padding-bottom: 12px;\n  margin-bottom: 18px;\n  color: var(--tl-ink-muted);\n}\n\n.tl-form-grid {\n  display: grid;\n  gap: 16px;\n  margin-bottom: 16px;\n}\n\n@media (min-width: 620px) {\n  .tl-form-grid {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n\n.tl-field {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.tl-field-full {\n  margin-bottom: 18px;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .tl-field[data-invalid=\"true\"] {\n    animation: tl-shake 260ms var(--ease-out);\n  }\n}\n\n@keyframes tl-shake {\n  0%,\n  100% {\n    transform: translateX(0);\n  }\n  25% {\n    transform: translateX(-6px);\n  }\n  75% {\n    transform: translateX(6px);\n  }\n}\n\n.tl-label {"
+    },
+    {
+      "id": "tally-styles-2",
+      "location": "head",
+      "title": "TALLY Scoped Styles (Part 2/2)",
+      "maxChars": 45000,
+      "charCount": 7859,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "  font-weight: 600;\n  font-size: 0.88rem;\n}\n\n.tl-input,\n.tl-select,\n.tl-textarea {\n  width: 100%;\n  background: var(--tl-paper);\n  color: var(--tl-ink);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-family: var(--font-body);\n  font-size: 0.94rem;\n}\n\n.tl-error {\n  margin: 2px 0 0;\n  padding: 4px 8px;\n  background: var(--tl-blush);\n  border: 1px solid var(--tl-ink);\n  border-radius: 4px;\n  font-size: 0.8rem;\n  font-weight: 600;\n}\n\n.tl-form-footer {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 14px;\n  border-top: 1.5px dashed var(--tl-ink);\n  padding-top: 16px;\n}\n\n.tl-form-footnote {\n  margin: 0;\n  color: var(--tl-ink-muted);\n}\n\n/* Issued Trial Pass Success Card */\n.tl-trial-pass-card {\n  display: grid;\n  gap: 18px;\n  background: var(--tl-paper-mint);\n  border: 2.5px solid var(--tl-ink);\n  border-radius: 12px;\n  padding: clamp(20px, 3vw, 28px);\n}\n\n@media (min-width: 720px) {\n  .tl-trial-pass-card {\n    grid-template-columns: 1fr 180px;\n  }\n}\n\n.tl-pass-header {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.tl-pass-code {\n  background: var(--tl-ink);\n  color: var(--tl-paper);\n  padding: 4px 10px;\n  border-radius: 6px;\n}\n\n.tl-pass-title {\n  font-family: var(--font-display);\n  font-size: 1.5rem;\n  margin: 0 0 8px;\n}\n\n.tl-pass-disclaimer {\n  margin: 0 0 14px;\n  font-size: 0.88rem;\n  color: var(--tl-ink-muted);\n}\n\n.tl-pass-details {\n  margin: 0 0 18px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  background: var(--tl-paper);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 8px;\n  padding: 12px 14px;\n  font-size: 0.88rem;\n}\n\n.tl-pass-row {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  border-bottom: 1px dashed var(--tl-rule);\n  padding-bottom: 6px;\n}\n\n.tl-pass-row:last-child {\n  border-bottom: none;\n  padding-bottom: 0;\n}\n\n.tl-pass-row dt {\n  color: var(--tl-ink-muted);\n  font-size: 0.78rem;\n}\n\n.tl-pass-row dd {\n  margin: 0;\n  font-weight: 600;\n}\n\n.tl-pass-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 10px;\n}\n\n.tl-pass-stub {\n  background: var(--tl-blush);\n  border: 2px dashed var(--tl-ink);\n  border-radius: 10px;\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  position: relative;\n  text-align: center;\n}\n\n.tl-pass-stub .tl-counter-stamp {\n  position: static;\n  width: 88px;\n  height: 88px;\n}\n\n.tl-pass-stub-code {\n  font-weight: 700;\n  font-size: 1.05rem;\n}\n\n/* Footer */\n.tl-footer {\n  background: var(--tl-paper-warm);\n  padding-top: clamp(48px, 6vw, 80px);\n  padding-bottom: 36px;\n}\n\n.tl-footer-top {\n  display: grid;\n  gap: 32px;\n  margin-bottom: 36px;\n}\n\n@media (min-width: 920px) {\n  .tl-footer-top {\n    grid-template-columns: 0.9fr 1.1fr;\n    gap: 48px;\n  }\n}\n\n.tl-footer-motto {\n  color: var(--tl-ink-muted);\n  max-width: 42ch;\n  margin: 12px 0 16px;\n  font-size: 0.95rem;\n}\n\n.tl-footer-status {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: var(--tl-mint);\n  border: 1.5px solid var(--tl-ink);\n  border-radius: 999px;\n  padding: 5px 12px;\n  font-weight: 600;\n}\n\n.tl-footer-nav-cols {\n  display: grid;\n  gap: 24px;\n}\n\n@media (min-width: 600px) {\n  .tl-footer-nav-cols {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n\n.tl-footer-heading {\n  margin: 0 0 12px;\n  color: var(--tl-ink);\n  font-weight: 700;\n}\n\n.tl-footer-links,\n.tl-footer-meta-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.tl-footer-link {\n  color: var(--tl-ink);\n  text-decoration: none;\n  font-size: 0.92rem;\n  font-weight: 500;\n}\n\n.tl-footer-link:hover {\n  text-decoration: underline;\n}\n\n.tl-footer-meta-list {\n  color: var(--tl-ink-muted);\n}\n\n.tl-footer-scene-wrap {\n  border: 2px solid var(--tl-ink);\n  border-radius: 12px;\n  overflow: hidden;\n  background: var(--tl-paper);\n  margin-bottom: 24px;\n}\n\n.tl-footer-scene-svg {\n  width: 100%;\n  height: auto;\n  display: block;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  html[data-tl-motion=\"live\"]:not([data-tl-paused=\"true\"]) .tl-ambient-sign {\n    transform-origin: 456px 42px;\n    animation: tl-sign-sway 7s ease-in-out infinite alternate;\n  }\n}\n\n@keyframes tl-sign-sway {\n  from {\n    transform: rotate(-1.6deg);\n  }\n  to {\n    transform: rotate(1.6deg);\n  }\n}\n\n.tl-footer-bottom {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 14px;\n  border-top: 1.5px solid var(--tl-ink);\n  padding-top: 20px;\n}\n\n.tl-footer-copy {\n  margin: 0;\n  color: var(--tl-ink-muted);\n}\n\n.tl-footer-bottom-right {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n}\n\n.tl-back-top {\n  color: var(--tl-ink);\n  font-weight: 700;\n  text-decoration: none;\n}\n\n/* Placeholder Box (assets.tsx) */\n.tl-placeholder {\n  background: var(--tl-paper-warm);\n  border: 1.5px dashed var(--tl-ink);\n  border-radius: 8px;\n  min-height: 180px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 16px;\n}\n\n/* Reveal & Load Choreography Rules (Active only under live motion & no-preference) */\n@media (prefers-reduced-motion: no-preference) {\n  html[data-tl-motion=\"live\"] .tl-load-1 {\n    animation: tl-rise-in var(--dur-slow) var(--ease-out) 60ms both;\n  }\n  html[data-tl-motion=\"live\"] .tl-load-2 .tl-mask-inner {\n    animation: tl-mask-up var(--dur-slow) var(--ease-out-expo) 140ms both;\n  }\n  html[data-tl-motion=\"live\"] .tl-load-3 .tl-mask-inner {\n    animation: tl-mask-up var(--dur-slow) var(--ease-out-expo) 250ms both;\n  }\n  html[data-tl-motion=\"live\"] .tl-load-4 {\n    animation: tl-rise-in var(--dur-slow) var(--ease-out) 360ms both;\n  }\n  html[data-tl-motion=\"live\"] .tl-load-5 {\n    animation: tl-rise-in var(--dur-slow) var(--ease-out) 480ms both;\n  }\n\n  @keyframes tl-mask-up {\n    from {\n      transform: translate3d(0, 62%, 0);\n    }\n    to {\n      transform: translate3d(0, 0, 0);\n    }\n  }\n\n  @keyframes tl-rise-in {\n    from {\n      opacity: 0;\n      transform: translate3d(0, 20px, 0);\n    }\n    to {\n      opacity: 1;\n      transform: translate3d(0, 0, 0);\n    }\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal] {\n    transition:\n      opacity var(--dur-slow) var(--ease-out),\n      transform var(--dur-slow) var(--ease-out);\n    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal][data-done=\"true\"] {\n    transition-delay: 0ms;\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"rise\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translate3d(0, var(--reveal-shift), 0);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"cascade\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translate3d(0, var(--reveal-shift), 0) scale(0.97);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"draw\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: scaleX(0.15);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"mask\"] {\n    overflow: clip;\n    padding-bottom: 0.15em;\n    margin-bottom: -0.15em;\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"mask\"] .tl-mask-inner {\n    transition: transform var(--dur-slow) var(--ease-out-expo);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"mask\"]:not([data-in=\"true\"]) .tl-mask-inner {\n    transform: translate3d(0, 68%, 0);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"wipe\"] .tl-wipe-child {\n    transition:\n      clip-path var(--dur-slow) var(--ease-in-out),\n      transform var(--dur-slow) var(--ease-out);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"wipe\"]:not([data-in=\"true\"]) .tl-wipe-child {\n    clip-path: inset(0 0 100% 0);\n    transform: scale(1.05);\n  }\n\n  html[data-tl-motion=\"live\"] [data-reveal=\"wipe\"][data-in=\"true\"] .tl-wipe-child {\n    clip-path: inset(0 0 0 0);\n    transform: scale(1);\n  }\n}"
+    },
+    {
+      "id": "tally-runtime-1",
+      "location": "footer",
+      "title": "TALLY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 342,
+      "description": "Loads lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "lenis"
+      ],
+      "code": "// TALLY — Webflow Custom Code Runtime Bridge\n// Dependencies: lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

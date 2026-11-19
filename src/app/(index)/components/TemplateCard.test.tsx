@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { TemplateCard } from "./TemplateCard";
+import { McpSetupDialog, OPENLANDING_MCP_CONFIG_JSON } from "./McpSetupDialog";
 import { TEMPLATES } from "../data/templates";
 
 describe("TemplateCard", () => {
@@ -108,5 +109,24 @@ describe("TemplateCard", () => {
     const satoyamaHtml = renderToStaticMarkup(<TemplateCard template={satoyama} isEager={false} />);
     expect(satoyamaHtml).toContain("GPT-6.1 Sol High");
     expect(satoyamaHtml).toContain('data-testid="model-tag"');
+  });
+
+  it("exposes a menu trigger on the Copy prompt button and renders the MCP setup dialog when open", () => {
+    const snoot = TEMPLATES.find((t) => t.slug === "snoot")!;
+    const cardHtml = renderToStaticMarkup(<TemplateCard template={snoot} />);
+    expect(cardHtml).toContain('aria-haspopup="menu"');
+    expect(cardHtml).toContain('aria-expanded="false"');
+
+    const closedDialogHtml = renderToStaticMarkup(<McpSetupDialog open={false} onClose={() => {}} />);
+    expect(closedDialogHtml).toBe("");
+
+    const openDialogHtml = renderToStaticMarkup(<McpSetupDialog open={true} onClose={() => {}} />);
+    expect(openDialogHtml).toContain('role="dialog"');
+    expect(openDialogHtml).toContain("https://www.openlanding.page/api/mcp");
+    expect(openDialogHtml).toContain("https://mcp.webflow.com/mcp");
+    expect(openDialogHtml).toContain("Copy MCP config");
+    expect(JSON.parse(OPENLANDING_MCP_CONFIG_JSON).mcpServers.openlanding.url).toBe(
+      "https://www.openlanding.page/api/mcp"
+    );
   });
 });

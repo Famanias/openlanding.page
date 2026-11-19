@@ -1,0 +1,468 @@
+{
+  "slug": "loam",
+  "title": "LOAM",
+  "industry": "Biomaterials & Sustainable Packaging",
+  "description": "Grown, not made. An interactive 3D macro experience through living mycelium networks: scroll descends from the fruiting mushroom into the subterranean web that LOAM cultivates into custom molded packaging.",
+  "stack": "Next.js 16 · React 19 · Three.js WebGL · GSAP · Lenis",
+  "liveUrl": "https://www.openlanding.page/templates/loam",
+  "downloadUrl": "https://www.openlanding.page/downloads/loam.html",
+  "manifestUrl": "https://www.openlanding.page/copy/loam-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/loam-webflow-prompt.md",
+  "variables": {
+    "collectionName": "LOAM Tokens",
+    "colors": [
+      {
+        "name": "Color / Loam",
+        "cssVar": "--color-loam",
+        "value": "#080604",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Spore",
+        "cssVar": "--color-spore",
+        "value": "#f0e8d8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cap",
+        "cssVar": "--color-cap",
+        "value": "#7a5c43",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Foxfire",
+        "cssVar": "--color-foxfire",
+        "value": "#c8e64c",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Page Bg",
+        "cssVar": "--page-bg",
+        "value": "#080604",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sky Ambient",
+        "cssVar": "--sky-ambient",
+        "value": "rgba(247, 231, 206, 0.153)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Contrast",
+        "cssVar": "--text-contrast",
+        "value": "#f6efe3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sun Accent",
+        "cssVar": "--sun-accent",
+        "value": "#f7e7ce",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#18120C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#1C1712",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#2C251D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#33261B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 11",
+        "cssVar": "--color-palette-11",
+        "value": "#3A4F22",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 12",
+        "cssVar": "--color-palette-12",
+        "value": "#3B4F04",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 13",
+        "cssVar": "--color-palette-13",
+        "value": "#42382C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 14",
+        "cssVar": "--color-palette-14",
+        "value": "#4A4035",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 15",
+        "cssVar": "--color-palette-15",
+        "value": "#4E3522",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 16",
+        "cssVar": "--color-palette-16",
+        "value": "#5B7809",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 17",
+        "cssVar": "--color-palette-17",
+        "value": "#5C3314",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 18",
+        "cssVar": "--color-palette-18",
+        "value": "#63452D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 19",
+        "cssVar": "--color-palette-19",
+        "value": "#6E8F11",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 20",
+        "cssVar": "--color-palette-20",
+        "value": "#73533A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 21",
+        "cssVar": "--color-palette-21",
+        "value": "#7A5B42",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 22",
+        "cssVar": "--color-palette-22",
+        "value": "#84AB14",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 23",
+        "cssVar": "--color-palette-23",
+        "value": "#8A5229",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 24",
+        "cssVar": "--color-palette-24",
+        "value": "#D2C3AE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 25",
+        "cssVar": "--color-palette-25",
+        "value": "#D8CBB8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 26",
+        "cssVar": "--color-palette-26",
+        "value": "#E2D6C3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 27",
+        "cssVar": "--color-palette-27",
+        "value": "#E4F882",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 28",
+        "cssVar": "--color-palette-28",
+        "value": "#E5886E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 29",
+        "cssVar": "--color-palette-29",
+        "value": "#F4F8FB",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 30",
+        "cssVar": "--color-palette-30",
+        "value": "#FF9B54",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 31",
+        "cssVar": "--color-palette-31",
+        "value": "#FFFFFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 32",
+        "cssVar": "--color-palette-32",
+        "value": "#FF8A3D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 33",
+        "cssVar": "--color-palette-33",
+        "value": "#FFA751",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 34",
+        "cssVar": "--color-palette-34",
+        "value": "#060507",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 35",
+        "cssVar": "--color-palette-35",
+        "value": "#0C0805",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 36",
+        "cssVar": "--color-palette-36",
+        "value": "#161B14",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 37",
+        "cssVar": "--color-palette-37",
+        "value": "#8EB2E6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 38",
+        "cssVar": "--color-palette-38",
+        "value": "#FFBE6B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 39",
+        "cssVar": "--color-palette-39",
+        "value": "#F7FAF5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 40",
+        "cssVar": "--color-palette-40",
+        "value": "#131B28",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 41",
+        "cssVar": "--color-palette-41",
+        "value": "#2A1F13",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 42",
+        "cssVar": "--color-palette-42",
+        "value": "#3E4B37",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 43",
+        "cssVar": "--color-palette-43",
+        "value": "#4A361D",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Serif",
+        "cssVar": "--font-serif",
+        "family": "var(--font-serif",
+        "fallback": "EB Garamond, Georgia, serif)"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-sans",
+        "fallback": "Host Grotesk, -apple-system, BlinkMacSystemFont, sans-serif)"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-mono",
+        "fallback": "Sono, ui-monospace, SFMono-Regular, monospace)"
+      },
+      {
+        "name": "Font / EB Garamond",
+        "cssVar": "--font-eb-garamond",
+        "family": "EB Garamond",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "EB Garamond"
+      },
+      {
+        "name": "Font / Host Grotesk",
+        "cssVar": "--font-host-grotesk",
+        "family": "Host Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Host Grotesk"
+      },
+      {
+        "name": "Font / Sono",
+        "cssVar": "--font-sono",
+        "family": "Sono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Sono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "loam.webp",
+      "publicPath": "https://www.openlanding.page/gallery/loam.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "material-top.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/material-top.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "material-underside-and-cut-edge.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/material-underside-and-cut-edge.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-from-above.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-from-above.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-from-below.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-from-below.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-front.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-front.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-side.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-side.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mycelium-clump-back.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mycelium-clump-back.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mycelium-clump-front.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mycelium-clump-front.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "The fruit (hook)",
+      "summary": "One parasol mushroom (*Macrolepiota procera*) on dark, mossy forest floor in macro framing with drifting spore motes. \"What you see is the smallest part.\" (Inspectable: mushroom).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Under the cap (insight)",
+      "summary": "Camera tilts up beneath the gills; spores fall past the lens. \"A mushroom is only the fruit. The organism lives underground.\"",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".animate-cap-open"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Breaking ground (transition)",
+      "summary": "Ant-farm soil cross-section descent through leaf litter, humus, topsoil with thick tree roots, into subsoil clay.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "The network (signature)",
+      "summary": "- **4a (close clump):** Close on a fist-sized mycelium clump binding soil and bark. (Inspectable: clump).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "The material (product)",
+      "summary": "Subterranean threads converge and resolve into LOAM's molded packaging tray. Studio lighting lifts; supporting product forms slide into view; 3-step lifecycle strip (\"Grown in 7 days\", \"Protects in transit\", \"Composts back to soil\"). (Inspectable: tray with broken corner).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Return (conversion)",
+      "summary": "Camera ascends back through the soil to the surface; a ring of newly fruited mushrooms surrounds the first. Request a sample kit form with local validation and animated sprouting mushroom success.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "loam-styles-1",
+      "location": "head",
+      "title": "LOAM Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 3674,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@layer base {\n  :root {\n    --font-serif: var(--font-serif, 'EB Garamond', Georgia, serif);\n    --font-sans: var(--font-sans, 'Host Grotesk', -apple-system, BlinkMacSystemFont, sans-serif);\n    --font-mono: var(--font-mono, 'Sono', ui-monospace, SFMono-Regular, monospace);\n    --color-loam: #080604;\n    --color-spore: #f0e8d8;\n    --color-cap: #7a5c43;\n    --color-foxfire: #c8e64c;\n\n    /* Synchronized Sunlight / Time-of-Day CSS custom properties (default 0.75) */\n    --page-bg: #080604;\n    --sky-ambient: rgba(247, 231, 206, 0.153);\n    --text-contrast: #f6efe3;\n    --sun-accent: #f7e7ce;\n  }\n\n  html,\n  body,\n  .loam-body {\n    background-color: var(--page-bg, var(--color-loam));\n    color: var(--text-contrast, var(--color-spore));\n    font-family: var(--font-sans);\n    overflow-x: hidden;\n    margin: 0;\n    padding: 0;\n    transition: background-color 120ms linear, color 120ms linear;\n  }\n\n  h1,\n  h2,\n  h3,\n  .font-serif-display {\n    font-family: var(--font-serif);\n  }\n\n  .font-sans-body {\n    font-family: var(--font-sans);\n  }\n\n  .font-mono-label {\n    font-family: var(--font-mono);\n    font-variant-caps: all-small-caps;\n    letter-spacing: 0.14em;\n  }\n}\n\n/* ── Experience mode: hide static specimen fallback when WebGL is active ── */\nhtml[data-loam-mode=\"experience\"] #loam-specimen-root {\n  position: absolute !important;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0 0 0 0);\n  white-space: nowrap;\n  border: 0;\n}\n\n.scene-copy-shadow {\n  text-shadow:\n    0 2px 18px rgba(5, 4, 3, 0.95),\n    0 1px 4px rgba(5, 4, 3, 0.9);\n}\n\n/* Custom minimal botanical styling for the Sunlight / Time-of-Day range slider */\n.loam-sun-slider {\n  -webkit-appearance: none;\n  appearance: none;\n  background: transparent;\n  cursor: pointer;\n}\n\n.loam-sun-slider::-webkit-slider-runnable-track {\n  height: 2px;\n  border-radius: 1px;\n  background: linear-gradient(\n    90deg,\n    rgba(255, 138, 61, 0.55) 0%,\n    rgba(255, 167, 81, 0.65) 35%,\n    rgba(247, 231, 206, 0.75) 75%,\n    rgba(244, 248, 251, 0.9) 100%\n  );\n}\n\n.loam-sun-slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  margin-top: -5px;\n  height: 12px;\n  width: 12px;\n  border-radius: 9999px;\n  background: var(--sun-accent, #f7e7ce);\n  border: 1.5px solid #080604;\n  box-shadow: 0 0 8px rgba(247, 231, 206, 0.55);\n  transition: transform 150ms ease, background-color 100ms linear;\n}\n\n.loam-sun-slider:hover::-webkit-slider-thumb,\n.loam-sun-slider:focus-visible::-webkit-slider-thumb {\n  transform: scale(1.2);\n}\n\n.loam-sun-slider::-moz-range-track {\n  height: 2px;\n  border-radius: 1px;\n  background: linear-gradient(\n    90deg,\n    rgba(255, 138, 61, 0.55) 0%,\n    rgba(255, 167, 81, 0.65) 35%,\n    rgba(247, 231, 206, 0.75) 75%,\n    rgba(244, 248, 251, 0.9) 100%\n  );\n}\n\n.loam-sun-slider::-moz-range-thumb {\n  height: 12px;\n  width: 12px;\n  border-radius: 9999px;\n  background: var(--sun-accent, #f7e7ce);\n  border: 1.5px solid #080604;\n  box-shadow: 0 0 8px rgba(247, 231, 206, 0.55);\n  transition: transform 150ms ease, background-color 100ms linear;\n}\n\n@keyframes sproutPush {\n  0% {\n    transform: translateY(34px) scale(0.4);\n    opacity: 0;\n  }\n  55% {\n    transform: translateY(-3px) scale(1.03);\n    opacity: 1;\n  }\n  100% {\n    transform: translateY(0px) scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes capOpen {\n  0% {\n    transform: scaleX(0.55) scaleY(1.2);\n  }\n  100% {\n    transform: scaleX(1) scaleY(1);\n  }\n}\n\n.animate-sprout {\n  animation: sproutPush 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;\n}\n\n.animate-cap-open {\n  transform-origin: 50% 45%;\n  animation: capOpen 1.2s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;\n}"
+    },
+    {
+      "id": "loam-runtime-1",
+      "location": "footer",
+      "title": "LOAM Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 494,
+      "description": "Loads three, gsap, lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "gsap",
+        "lenis"
+      ],
+      "code": "// LOAM — Webflow Custom Code Runtime Bridge\n// Dependencies: three, gsap, lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

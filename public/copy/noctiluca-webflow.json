@@ -1,0 +1,402 @@
+{
+  "slug": "noctiluca",
+  "title": "Noctiluca",
+  "industry": "Light Museum",
+  "description": "A house made of moving light. The page is a 3D corridor you walk through: scroll moves the camera room by room, and every wall is a live shader gradient.",
+  "stack": "Next.js 16 · Tailwind v4 · React 19 · WebGL2 · CSS 3D",
+  "liveUrl": "https://www.openlanding.page/templates/noctiluca",
+  "downloadUrl": "https://www.openlanding.page/downloads/noctiluca.html",
+  "manifestUrl": "https://www.openlanding.page/copy/noctiluca-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/noctiluca-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Noctiluca Tokens",
+    "colors": [
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#07060B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lumen",
+        "cssVar": "--color-lumen",
+        "value": "#F3F0EA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glow",
+        "cssVar": "--color-glow",
+        "value": "#C9B8FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Dusk",
+        "cssVar": "--color-dusk",
+        "value": "#8E889B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glass",
+        "cssVar": "--color-glass",
+        "value": "#16131F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ember",
+        "cssVar": "--color-ember",
+        "value": "#FFA38F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nl Line",
+        "cssVar": "--nl-line",
+        "value": "color-mix(in srgb, var(--color-lumen) 14%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Nl Glass",
+        "cssVar": "--nl-glass",
+        "value": "color-mix(in srgb, var(--color-glass) 88%, transparent)",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Nl Display",
+        "cssVar": "--font-nl-display",
+        "family": "Syne",
+        "fallback": "Syne, ui-sans-serif, system-ui, sans-serif",
+        "googleFont": "Syne"
+      },
+      {
+        "name": "Font / Nl Body",
+        "cssVar": "--font-nl-body",
+        "family": "var(--font-schibsted)",
+        "fallback": "Schibsted Grotesk, ui-sans-serif, system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Nl Mono",
+        "cssVar": "--font-nl-mono",
+        "family": "var(--font-fragment)",
+        "fallback": "Fragment Mono, ui-monospace, Menlo, monospace"
+      },
+      {
+        "name": "Font / Fragment Mono",
+        "cssVar": "--font-fragment-mono",
+        "family": "Fragment Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Fragment Mono"
+      },
+      {
+        "name": "Font / Schibsted Grotesk",
+        "cssVar": "--font-schibsted-grotesk",
+        "family": "Schibsted Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Schibsted Grotesk"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Nl Gutter",
+        "cssVar": "--nl-gutter",
+        "value": "clamp(16px, 4vw, 56px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Nl P",
+        "cssVar": "--nl-p",
+        "value": "96.05vh",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nl Depth",
+        "cssVar": "--nl-depth",
+        "value": "calc(var(--nl-p) * 2.6)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Nl Hw",
+        "cssVar": "--nl-hw",
+        "value": "min(36vw, 66vh)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Nl Ceil",
+        "cssVar": "--nl-ceil",
+        "value": "-40vh",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nl Floor",
+        "cssVar": "--nl-floor",
+        "value": "33vh",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nl T",
+        "cssVar": "--nl-t",
+        "value": "9vh",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nl Z",
+        "cssVar": "--nl-z",
+        "value": "calc(var(--i) * var(--nl-depth) * -1)",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "noctiluca.webp",
+      "publicPath": "https://www.openlanding.page/gallery/noctiluca.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "alpenglow-peaks-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "alpenglow-peaks-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "alpenglow-peaks-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "alpenglow-peaks-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "exterior-dusk-loop-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/exterior-dusk-loop-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "exterior-dusk-loop.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/exterior-dusk-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-loop-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/noctiluca-shore-loop-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-loop.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/noctiluca-shore-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Foyer",
+      "summary": "(`#nl-foyer`):",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "I · Blue Hour",
+      "summary": "\"The twenty minutes after the sun.\" Label: Civil twilight, sun 0° to −6°, ≈ 460 nm, Lisbon June 21:05–21:38.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".nl-hours"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "II · Aurora",
+      "summary": "\"Curtains that answer the solar wind.\" Label: green line 557.7 nm, red line 630.0 nm, trace Tromsø 10 May 2024.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "III · Noctiluca",
+      "summary": "\"The sea, lit from inside.\" The only room that reacts to the pointer. Label: Noctiluca scintillans, ≈ 474 nm, 0.1 s flashes.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "IV · Alpenglow",
+      "summary": "\"The mountain keeps the sun after you lose it.\" Label: ≈ 610 nm, ≈ 400 km of atmosphere.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "V · The Score Room",
+      "summary": "\"Compose the next room.\"",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".nl-room-title",
+        ".nl-rail-room",
+        ".nl-room",
+        ".nl-score-layout",
+        ".nl-score-sheet",
+        ".nl-score-strip",
+        ".nl-score-readout"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "VI · Visit",
+      "summary": "\"Come in from the street.\"",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".nl-visit"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Exit",
+      "summary": "logo with tagline, \"The light keeps moving after you leave.\", footer nav, address, ©.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".nl-exit",
+        ".nl-exit-title",
+        ".nl-exit-nav",
+        ".nl-exit-meta"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "noctiluca-styles-1",
+      "location": "head",
+      "title": "Noctiluca Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 34653,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* Hallmark · macrostructure: bespoke (walk-through corridor) · tone: atmospheric · anchor hue: lilac 285°\n * theme: custom · vibe: \"a dark house of moving light\" · genre: atmospheric\n * paper #07060B (dark) · accent #C9B8FF (cool) · display Syne + body Schibsted Grotesk + Fragment Mono\n * nav: N5 floating pill + N3 side-rail (depth rail) · footer: Ft5 statement (the exit wall)\n */\n\n/* ─────────────── NOCTILUCA tokens ─────────────── */\n@theme {\n  --color-ink: #07060B; /* the house after dark: page ground, door walls */\n  --color-lumen: #F3F0EA; /* text, wall-label card stock */\n  --color-glow: #C9B8FF; /* the one UI accent: buttons, focus, the mark's light */\n  --color-dusk: #8E889B; /* muted text, hairlines */\n  --color-glass: #16131F; /* plaque glass */\n  --color-ember: #FFA38F; /* errors only */\n\n  --font-nl-display: var(--font-syne), \"Syne\", ui-sans-serif, system-ui, sans-serif;\n  --font-nl-body: var(--font-schibsted), \"Schibsted Grotesk\", ui-sans-serif, system-ui, sans-serif;\n  --font-nl-mono: var(--font-fragment), \"Fragment Mono\", ui-monospace, Menlo, monospace;\n\n  --ease-nl-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-nl-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n}\n\n/* ─────────────── base ─────────────── */\nhtml:has(.nl-body) {\n  background: var(--color-ink);\n  overflow-x: clip;\n  color-scheme: dark;\n}\n\n.nl-body {\n  --nl-gutter: clamp(16px, 4vw, 56px);\n  --nl-line: color-mix(in srgb, var(--color-lumen) 14%, transparent);\n  --nl-glass: color-mix(in srgb, var(--color-glass) 88%, transparent);\n\n  margin: 0;\n  overflow-x: clip;\n  background: var(--color-ink);\n  color: var(--color-lumen);\n  font-family: var(--font-nl-body);\n  font-size: 1rem;\n  line-height: 1.6;\n  -webkit-font-smoothing: antialiased;\n}\n\n.nl-body ::selection {\n  background: var(--color-glow);\n  color: var(--color-ink);\n}\n\n.nl-body :focus-visible {\n  outline: 2px solid var(--color-glow);\n  outline-offset: 3px;\n  border-radius: 6px;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  html:has(.nl-body):not([data-nl-mode=\"corridor\"]) {\n    scroll-behavior: smooth;\n  }\n}\n\n.nl-sr {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap;\n}\n\n.nl-skip {\n  position: fixed;\n  top: 12px;\n  left: 12px;\n  z-index: 40;\n  padding: 10px 16px;\n  border-radius: 999px;\n  background: var(--color-glow);\n  color: var(--color-ink);\n  font-weight: 600;\n  transform: translateY(-160%);\n}\n\n.nl-skip:focus-visible {\n  transform: none;\n}\n\n.nl-mono {\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.06em;\n}\n\n/* ─────────────── the still light (poster) and the live light (canvas) ─────────────── */\n.nl-poster,\n.nl-light {\n  position: fixed;\n  inset: 0;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n}\n\n.nl-poster {\n  z-index: 0;\n  background: var(--color-ink);\n}\n\n/* Walls of colour at the edges, a dark corridor in the middle: the corridor, drawn flat. */\n.nl-poster-layer {\n  position: absolute;\n  inset: 0;\n  opacity: 0;\n  transition: opacity 700ms var(--ease-nl-out);\n  background:\n    radial-gradient(ellipse 34% 40% at 50% 47%, var(--color-ink) 0 40%, transparent 100%),\n    radial-gradient(ellipse 90% 50% at 50% 115%, color-mix(in srgb, var(--nl-c) 45%, transparent), transparent 70%),\n    radial-gradient(ellipse 120% 60% at 50% -20%, color-mix(in srgb, var(--nl-b) 70%, transparent), transparent 70%),\n    linear-gradient(90deg, var(--nl-c) 0%, var(--nl-b) 20%, var(--nl-a) 40%, var(--nl-a) 60%, var(--nl-b) 80%, var(--nl-d) 100%);\n}\n\n.nl-poster-layer[data-active=\"true\"] {\n  opacity: 1;\n}\n\n.nl-light {\n  z-index: 1;\n  opacity: 0;\n  transition: opacity 1200ms var(--ease-nl-out);\n}\n\n.nl-light[data-ready=\"true\"] {\n  opacity: 1;\n}\n\n.nl-grain {\n  position: fixed;\n  inset: 0;\n  z-index: 30;\n  pointer-events: none;\n  opacity: 0.07;\n  background-image: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\");\n}\n\n.nl-main {\n  position: relative;\n  z-index: 2;\n}\n\n/* ─────────────── shared type ─────────────── */\n.nl-eyebrow {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem 0.9rem;\n  margin: 0 0 1rem;\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n.nl-eyebrow-num {\n  color: var(--color-glow);\n}\n\n.nl-hero-title {\n  margin: 0;\n  font-family: var(--font-nl-display);\n  font-weight: 700;\n  font-size: clamp(2.5rem, 10.5vw, 3.6rem);\n  line-height: 0.98;\n  letter-spacing: -0.025em;\n  text-wrap: balance;\n  overflow-wrap: anywhere;\n  min-width: 0;\n}\n\n.nl-hero-glow {\n  background: linear-gradient(92deg, var(--nl-d), var(--color-glow) 60%, var(--color-lumen));\n  -webkit-background-clip: text;\n  background-clip: text;\n  color: transparent;\n}\n\n.nl-room-title {\n  margin: 0 0 1rem;\n  font-family: var(--font-nl-display);\n  font-weight: 600;\n  font-size: clamp(1.85rem, 7.4vw, 2.6rem);\n  line-height: 1.02;\n  letter-spacing: -0.02em;\n  text-wrap: balance;\n  overflow-wrap: anywhere;\n  min-width: 0;\n}\n\n.nl-lead,\n.nl-copy {\n  margin: 0;\n  max-width: 38rem;\n  color: color-mix(in srgb, var(--color-lumen) 84%, transparent);\n}\n\n.nl-lead {\n  margin-top: 1.25rem;\n  font-size: 1.0625rem;\n}\n\n.nl-small {\n  margin: 1rem 0 0;\n  font-size: 0.875rem;\n  color: var(--color-dusk);\n  max-width: 30rem;\n}\n\n.nl-link {\n  color: var(--color-lumen);\n  text-decoration: underline;\n  text-decoration-color: color-mix(in srgb, var(--color-glow) 60%, transparent);\n  text-underline-offset: 0.25em;\n  white-space: nowrap;\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .nl-link:hover {\n    color: var(--color-glow);\n  }\n}\n\n.nl-next {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: baseline;\n  gap: 0.25rem 0.75rem;\n  margin: 1.5rem 0 0;\n  padding-top: 1rem;\n  border-top: 1px solid var(--nl-line);\n}\n\n.nl-next-k {\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n/* ─────────────── buttons and chips ─────────────── */\n.nl-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px;\n  margin-top: 1.75rem;\n}\n\n.nl-button {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  min-height: 44px;\n  padding: 0 1.35rem;\n  border-radius: 999px;\n  border: 1px solid transparent;\n  font-family: var(--font-nl-body);\n  font-weight: 600;\n  font-size: 0.9375rem;\n  white-space: nowrap;\n  text-decoration: none;\n  cursor: pointer;\n  transition:\n    transform 160ms var(--ease-nl-out),\n    background-color 160ms var(--ease-nl-out),\n    border-color 160ms var(--ease-nl-out);\n}\n\n.nl-button[data-variant=\"solid\"] {\n  background: var(--color-glow);\n  color: var(--color-ink);\n}\n\n.nl-button[data-variant=\"ghost\"] {\n  border-color: color-mix(in srgb, var(--color-lumen) 32%, transparent);\n  background: color-mix(in srgb, var(--color-ink) 45%, transparent);\n  color: var(--color-lumen);\n}\n\n.nl-button-arrow {\n  display: inline-block;\n  transition: transform 160ms var(--ease-nl-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .nl-button[data-variant=\"solid\"]:hover {\n    background: var(--color-lumen);\n  }\n  .nl-button[data-variant=\"ghost\"]:hover {\n    border-color: var(--color-glow);\n  }\n  .nl-button:hover .nl-button-arrow {\n    transform: translateX(3px);\n  }\n}\n\n.nl-button:active {\n  transform: scale(0.97);\n}\n\n.nl-button:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n\n.nl-chip {\n  min-height: 36px;\n  padding: 0 0.95rem;\n  border-radius: 999px;\n  border: 1px solid var(--nl-line);\n  background: transparent;\n  color: var(--color-lumen);\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  cursor: pointer;\n  transition:\n    transform 160ms var(--ease-nl-out),\n    background-color 160ms var(--ease-nl-out);\n}\n\n.nl-chip[aria-pressed=\"true\"] {\n  background: var(--color-lumen);\n  color: var(--color-ink);\n}\n\n.nl-chip:active {\n  transform: scale(0.97);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .nl-chip:hover {\n    border-color: var(--color-glow);\n  }\n}\n\n/* ─────────────── top bar (floating pill) ─────────────── */\n.nl-logo {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.6rem;\n  color: var(--color-lumen);\n}\n\n.nl-logo-text {\n  display: flex;\n  flex-direction: column;\n  line-height: 1;\n}\n\n.nl-logo-word {\n  font-family: var(--font-nl-display);\n  font-weight: 700;\n  font-size: 1.05rem;\n  letter-spacing: 0.04em;\n  text-transform: uppercase;\n}\n\n.nl-logo-tag {\n  margin-top: 0.35rem;\n  font-family: var(--font-nl-mono);\n  font-size: 0.6875rem;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n.nl-topbar {\n  position: fixed;\n  top: 12px;\n  left: 12px;\n  right: 12px;\n  z-index: 20;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  height: 56px;\n  padding: 0 6px 0 16px;\n  border-radius: 999px;\n  border: 1px solid var(--nl-line);\n  background: color-mix(in srgb, var(--color-ink) 72%, transparent);\n  backdrop-filter: blur(14px);\n}\n\n.nl-topbar-home {\n  border-radius: 999px;\n  text-decoration: none;\n}\n\n.nl-topbar-nav {\n  display: none;\n}\n\n.nl-topbar-nav ol {\n  display: flex;\n  gap: 4px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n\n.nl-topbar-nav a {\n  display: inline-flex;\n  align-items: baseline;\n  gap: 0.45rem;\n  min-height: 40px;\n  padding: 0.6rem 0.8rem;\n  border-radius: 999px;\n  color: var(--color-dusk);\n  font-size: 0.875rem;\n  text-decoration: none;\n  white-space: nowrap;\n}\n\n.nl-topbar-num {\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.08em;\n}\n\n.nl-topbar-name {\n  display: none;\n}\n\n.nl-topbar-nav a[aria-current=\"location\"] {\n  color: var(--color-lumen);\n  background: color-mix(in srgb, var(--color-lumen) 9%, transparent);\n}\n\n.nl-topbar-nav a[aria-current=\"location\"] .nl-topbar-num {\n  color: var(--color-glow);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .nl-topbar-nav a:hover {\n    color: var(--color-lumen);\n  }\n}\n\n.nl-topbar-cta {\n  min-height: 44px;\n}\n\n@media (max-width: 380px) {\n  .nl-logo-word {\n    font-size: 0.95rem;\n  }\n  .nl-topbar-cta {\n    padding: 0 1rem;\n  }\n}\n\n@media (min-width: 720px) {\n  .nl-topbar {\n    top: 16px;\n    left: 50%;\n    right: auto;\n    width: min(1120px, calc(100% - 32px));\n    transform: translateX(-50%);\n  }\n  .nl-topbar-nav {\n    display: block;\n  }\n}\n\n@media (min-width: 1180px) {\n  .nl-topbar-name {\n    display: inline;\n  }\n}\n\n/* ─────────────── depth rail (signature) ─────────────── */\n.nl-rail {\n  display: none;\n}\n\n@media (min-width: 900px) {\n  .nl-rail {\n    position: fixed;\n    right: 22px;\n    top: 50%;\n    z-index: 20;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-end;\n    gap: 18px;\n    transform: translateY(-50%);\n    pointer-events: none;\n  }\n}\n\n.nl-rail-track {\n  position: relative;\n  width: 34px;\n  height: 40vh;\n  container-type: size;\n  border-right: 1px solid var(--nl-line);\n}\n\n.nl-rail-tick {\n  position: absolute;\n  right: 8px;\n  transform: translateY(-50%);\n  font-family: var(--font-nl-mono);\n  font-size: 0.6875rem;\n  color: var(--color-dusk);\n}\n\n.nl-rail-tick::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  right: -9px;\n  width: 6px;\n  border-top: 1px solid var(--color-dusk);\n}\n\n.nl-rail-tick[data-active=\"true\"] {\n  color: var(--color-lumen);\n}\n\n.nl-rail-marker {\n  position: absolute;\n  top: 0;\n  right: -4px;\n  width: 7px;\n  height: 7px;\n  margin-top: -3.5px;\n  border-radius: 999px;\n  background: var(--color-glow);\n  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-glow) 22%, transparent);\n}\n\n.nl-rail-readout {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  gap: 2px;\n  margin: 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.6875rem;\n  letter-spacing: 0.1em;\n  text-transform: uppercase;\n  text-align: right;\n}\n\n.nl-rail-room {\n  color: var(--color-lumen);\n}\n\n.nl-rail-depth {\n  color: var(--color-glow);\n  font-variant-numeric: tabular-nums;\n}\n\n/* ─────────────── light switch (touch screens) ─────────────── */\n.nl-switch {\n  position: fixed;\n  left: 16px;\n  bottom: 16px;\n  z-index: 20;\n  display: inline-flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-height: 44px;\n  padding: 0 1.1rem 0 0.9rem;\n  border-radius: 999px;\n  border: 1px solid var(--nl-line);\n  background: color-mix(in srgb, var(--color-ink) 78%, transparent);\n  backdrop-filter: blur(10px);\n  color: var(--color-lumen);\n  font-weight: 600;\n  font-size: 0.875rem;\n  white-space: nowrap;\n  cursor: pointer;\n  transition: transform 160ms var(--ease-nl-out);\n}\n\n.nl-switch:active {\n  transform: scale(0.97);\n}\n\n.nl-switch-dot {\n  width: 10px;\n  height: 10px;\n  border-radius: 999px;\n  border: 1.5px solid var(--color-glow);\n}\n\n.nl-switch[aria-pressed=\"true\"] .nl-switch-dot {\n  background: var(--color-glow);\n  box-shadow: 0 0 12px var(--color-glow);\n}\n\n/* ─────────────── plaques, labels, portals (flow layout is the default) ─────────────── */\n.nl-room {\n  position: relative;\n  display: grid;\n  gap: 24px;\n  padding: clamp(104px, 16vh, 150px) var(--nl-gutter) clamp(56px, 10vh, 96px);\n  max-width: 76rem;\n  margin: 0 auto;\n}\n\n.nl-room[data-room=\"foyer\"] {\n  min-height: 100svh;\n  align-content: center;\n}\n\n.nl-plaque {\n  position: relative;\n  container-type: inline-size;\n  min-width: 0;\n  padding: clamp(22px, 3vw, 40px);\n  border-radius: 6px;\n  border: 1px solid var(--nl-line);\n  background: var(--nl-glass);\n  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--nl-c) 55%, transparent);\n}\n\n.nl-room[data-room=\"foyer\"] .nl-plaque,\n.nl-room[data-room=\"exit\"] .nl-plaque {\n  border: 0;\n  box-shadow: none;\n  background: radial-gradient(ellipse 75% 70% at 45% 50%, color-mix(in srgb, var(--color-ink) 78%, transparent), transparent 100%);\n}\n\n.nl-aside {\n  min-width: 0;\n}\n\n.nl-portal {\n  position: relative;\n  width: min(64vw, 260px);\n  aspect-ratio: 3 / 4;\n  margin: 0 auto;\n  border-radius: 999px 999px 4px 4px;\n  overflow: hidden;\n  background:\n    radial-gradient(ellipse 80% 45% at 50% 105%, var(--nl-d), transparent 70%),\n    radial-gradient(ellipse 120% 70% at 30% 20%, var(--nl-c), transparent 70%),\n    linear-gradient(180deg, var(--nl-a), var(--nl-b));\n  box-shadow:\n    inset 0 0 0 1px color-mix(in srgb, var(--color-lumen) 22%, transparent),\n    inset 0 -40px 60px color-mix(in srgb, var(--color-ink) 40%, transparent);\n}\n\n.nl-portal-numeral {\n  position: absolute;\n  left: 50%;\n  bottom: 14px;\n  transform: translateX(-50%);\n  font-family: var(--font-nl-display);\n  font-weight: 600;\n  font-size: 1.5rem;\n  color: var(--color-lumen);\n}\n\n.nl-room[data-room=\"foyer\"] .nl-portal,\n.nl-room[data-room=\"exit\"] .nl-portal {\n  display: none;\n}\n\n.nl-door,\n.nl-endwall {\n  display: none;\n}\n\n/* Hero facts and hint */\n.nl-facts {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 14px 24px;\n  margin: 2rem 0 0;\n  padding-top: 1.25rem;\n  border-top: 1px solid var(--nl-line);\n  max-width: 40rem;\n}\n\n.nl-facts dd {\n  display: flex;\n  flex-direction: column;\n  margin: 0;\n}\n\n.nl-facts-value {\n  font-family: var(--font-nl-display);\n  font-weight: 600;\n  font-size: 1.35rem;\n  line-height: 1.1;\n}\n\n.nl-facts-label {\n  font-family: var(--font-nl-mono);\n  font-size: 0.6875rem;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n@container (min-width: 34rem) {\n  .nl-facts {\n    grid-template-columns: repeat(4, minmax(0, 1fr));\n  }\n}\n\n.nl-hint {\n  display: none;\n}\n\n/* Wall labels: museum card stock, ink on lumen */\n.nl-label {\n  overflow: hidden;\n  border-radius: 4px;\n  background: var(--color-lumen);\n  color: var(--color-ink);\n  box-shadow: 0 30px 60px -30px var(--color-ink);\n}\n\n.nl-label-media {\n  display: block;\n  width: 100%;\n  aspect-ratio: 3 / 2;\n  object-fit: cover;\n}\n\n.nl-label-media img,\n.nl-label-media video,\nvideo.nl-label-media {\n  display: block;\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n\n.nl-label-body {\n  padding: 18px 20px 20px;\n}\n\n.nl-label-kicker {\n  margin: 0 0 0.4rem;\n  font-family: var(--font-nl-mono);\n  font-size: 0.6875rem;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-lumen));\n}\n\n.nl-label-title {\n  margin: 0 0 0.75rem;\n  font-family: var(--font-nl-display);\n  font-weight: 600;\n  font-size: 1.3rem;\n  line-height: 1.1;\n}\n\n.nl-label-rows {\n  display: grid;\n  gap: 4px;\n  margin: 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n}\n\n.nl-label-rows div {\n  display: grid;\n  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);\n  gap: 10px;\n  padding-top: 4px;\n  border-top: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);\n}\n\n.nl-label-rows dt {\n  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-lumen));\n}\n\n.nl-label-rows dd {\n  margin: 0;\n}\n\n.nl-label-note {\n  margin: 0.9rem 0 0;\n  font-size: 0.8125rem;\n  line-height: 1.45;\n}\n\n.nl-spectrum {\n  height: 8px;\n  margin-top: 14px;\n  border-radius: 2px;\n  background: linear-gradient(90deg, var(--nl-a), var(--nl-b), var(--nl-c), var(--nl-d));\n}\n\n.nl-placeholder {\n  display: grid;\n  place-items: center;\n  aspect-ratio: 3 / 2;\n  background:\n    repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-ink) 10%, transparent) 0 1px, transparent 1px 9px),\n    linear-gradient(135deg, var(--nl-b), var(--nl-c));\n  color: var(--color-lumen);\n}\n\n.nl-placeholder .nl-mono {\n  padding: 4px 8px;\n  border-radius: 3px;\n  background: color-mix(in srgb, var(--color-ink) 70%, transparent);\n}\n\n/* ─────────────── score room ─────────────── */\n.nl-score-layout {\n  display: grid;\n  gap: 24px;\n}\n\n.nl-mixer {\n  display: grid;\n  gap: 18px;\n  margin-top: 1.5rem;\n}\n\n.nl-mixer-presets {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n\n.nl-dials {\n  display: grid;\n  gap: 14px;\n}\n\n.nl-dial {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) auto;\n  align-items: baseline;\n  row-gap: 4px;\n}\n\n.nl-dial-label {\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n.nl-dial-value {\n  font-family: var(--font-nl-mono);\n  font-size: 0.8125rem;\n  font-variant-numeric: tabular-nums;\n}\n\n.nl-range {\n  grid-column: 1 / -1;\n  width: 100%;\n  height: 28px;\n  margin: 0;\n  background: transparent;\n  appearance: none;\n  cursor: pointer;\n}\n\n.nl-range::-webkit-slider-runnable-track {\n  height: 6px;\n  border-radius: 999px;\n  background: linear-gradient(90deg, var(--color-glow) var(--nl-fill, 0%), color-mix(in srgb, var(--color-lumen) 16%, transparent) var(--nl-fill, 0%));\n}\n\n.nl-range::-moz-range-track {\n  height: 6px;\n  border-radius: 999px;\n  background: linear-gradient(90deg, var(--color-glow) var(--nl-fill, 0%), color-mix(in srgb, var(--color-lumen) 16%, transparent) var(--nl-fill, 0%));\n}\n\n.nl-range[data-dial=\"hue\"]::-webkit-slider-runnable-track {\n  background: linear-gradient(90deg in oklch longer hue, oklch(72% 0.14 0), oklch(72% 0.14 359));\n}\n\n.nl-range[data-dial=\"hue\"]::-moz-range-track {\n  background: linear-gradient(90deg in oklch longer hue, oklch(72% 0.14 0), oklch(72% 0.14 359));\n}\n\n.nl-range::-webkit-slider-thumb {\n  width: 20px;\n  height: 20px;\n  margin-top: -7px;\n  border-radius: 999px;\n  border: 3px solid var(--color-ink);\n  background: var(--color-lumen);\n  box-shadow: 0 0 0 1px var(--color-lumen);\n  appearance: none;\n  transition: transform 160ms var(--ease-nl-out);\n}\n\n.nl-range::-moz-range-thumb {\n  width: 14px;\n  height: 14px;\n  border-radius: 999px;\n  border: 3px solid var(--color-ink);\n  background: var(--color-lumen);\n}\n\n.nl-range:active::-webkit-slider-thumb {\n  transform: scale(1.15);\n}\n\n.nl-score-sheet {\n  display: grid;\n  gap: 10px;\n  padding-top: 14px;\n  border-top: 1px solid var(--nl-line);\n}\n\n.nl-score-strip {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  height: 28px;\n  border-radius: 3px;\n  overflow: hidden;\n}\n\n.nl-score-readout {\n  margin: 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.8125rem;\n  color: var(--color-glow);\n}\n\n/* ─────────────── visit room ─────────────── */\n.nl-visit {\n  display: grid;\n  gap: 28px;\n}\n\n.nl-hours {\n  display: grid;\n  gap: 2px;\n  margin: 1.25rem 0 0;\n  font-size: 0.875rem;\n}\n\n.nl-hours div {\n  display: grid;\n  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);\n  gap: 12px;\n  padding: 6px 0;\n  border-top: 1px solid var(--nl-line);\n}\n\n.nl-hours dt {\n  color: var(--color-dusk);\n}\n\n.nl-hours dd {\n  margin: 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.8125rem;\n}\n\n.nl-form {\n  display: grid;\n  gap: 16px;\n  align-content: start;\n}\n\n.nl-field {\n  display: grid;\n  gap: 6px;\n  min-width: 0;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.nl-field > label,\n.nl-field > legend {\n  padding: 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  letter-spacing: 0.12em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n.nl-field input[type=\"date\"],\n.nl-field input[type=\"email\"],\n.nl-stepper input {\n  width: 100%;\n  min-height: 44px;\n  padding: 0 12px;\n  border-radius: 6px;\n  border: 1px solid color-mix(in srgb, var(--color-lumen) 20%, transparent);\n  background: color-mix(in srgb, var(--color-ink) 65%, transparent);\n  color: var(--color-lumen);\n  font: inherit;\n  color-scheme: dark;\n}\n\n.nl-field input[aria-invalid=\"true\"] {\n  border-color: var(--color-ember);\n}\n\n.nl-hint-text {\n  margin: 0;\n  font-size: 0.875rem;\n  color: var(--color-dusk);\n}\n\n.nl-slot-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(4.2rem, 1fr));\n  gap: 6px;\n  max-height: 8.6rem;\n  overflow-y: auto;\n  padding: 2px;\n  overscroll-behavior: contain;\n}\n\n.nl-slot {\n  position: relative;\n  display: block;\n  cursor: pointer;\n}\n\n.nl-slot input {\n  position: absolute;\n  inset: 0;\n  z-index: 1;\n  opacity: 0;\n  margin: 0;\n  cursor: pointer;\n}\n\n.nl-slot span {\n  display: grid;\n  place-items: center;\n  min-height: 36px;\n  border-radius: 6px;\n  border: 1px solid var(--nl-line);\n  font-family: var(--font-nl-mono);\n  font-size: 0.8125rem;\n  font-variant-numeric: tabular-nums;\n  transition: transform 120ms var(--ease-nl-out);\n}\n\n.nl-slot[data-late=\"true\"] span {\n  border-style: dashed;\n  border-color: color-mix(in srgb, var(--color-glow) 50%, transparent);\n}\n\n.nl-slot input:checked + span {\n  background: var(--color-glow);\n  border-color: var(--color-glow);\n  color: var(--color-ink);\n}\n\n.nl-slot input:focus-visible + span {\n  outline: 2px solid var(--color-glow);\n  outline-offset: 2px;\n}\n\n.nl-slot input:active + span {\n  transform: scale(0.97);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .nl-slot:hover span {\n    border-color: var(--color-glow);\n  }\n}\n\n.nl-form-row {\n  display: grid;\n  gap: 16px;\n}\n\n.nl-stepper {\n  display: grid;\n  grid-template-columns: 44px minmax(0, 1fr) 44px;\n  gap: 6px;\n}\n\n.nl-stepper input {\n  text-align: center;\n  appearance: textfield;\n  -moz-appearance: textfield;\n}\n\n.nl-stepper input::-webkit-inner-spin-button,\n.nl-stepper input::-webkit-outer-spin-button {\n  appearance: none;\n  margin: 0;\n}\n\n.nl-stepper button {\n  min-height: 44px;\n  border-radius: 6px;\n  border: 1px solid var(--nl-line);\n  background: transparent;\n  color: var(--color-lumen);\n  font-size: 1.1rem;\n  cursor: pointer;\n  transition: transform 120ms var(--ease-nl-out);\n}\n\n.nl-stepper button:active {\n  transform: scale(0.95);\n}\n\n.nl-stepper button:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n\n.nl-error {\n  margin: 0;\n  font-size: 0.8125rem;\n  color: var(--color-ember);\n}\n\n.nl-form-foot {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  padding-top: 14px;\n  border-top: 1px solid var(--nl-line);\n}\n\n.nl-total {\n  margin: 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.8125rem;\n  color: var(--color-glow);\n}\n\n.nl-held {\n  display: grid;\n  gap: 18px;\n  align-content: start;\n  padding: 22px;\n  border-radius: 6px;\n  border: 1px solid color-mix(in srgb, var(--color-glow) 40%, transparent);\n}\n\n.nl-held-text {\n  margin: 0;\n  font-family: var(--font-nl-display);\n  font-weight: 600;\n  font-size: 1.25rem;\n  line-height: 1.25;\n}\n\n.nl-held-text:focus-visible {\n  outline-offset: 6px;\n}\n\n@container (min-width: 46rem) {\n  .nl-visit {\n    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr);\n    gap: 40px;\n  }\n  .nl-score-layout {\n    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\n    gap: 40px;\n    align-items: start;\n  }\n  .nl-score-layout .nl-mixer {\n    margin-top: 0;\n  }\n  .nl-form-row {\n    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);\n  }\n}\n\n/* ─────────────── exit ─────────────── */\n.nl-exit {\n  display: grid;\n  gap: 18px;\n  justify-items: start;\n}\n\n.nl-exit-title {\n  margin: 0.5rem 0 0;\n}\n\n.nl-exit-nav {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px 22px;\n}\n\n.nl-exit-meta {\n  display: grid;\n  gap: 4px;\n  padding-top: 14px;\n  border-top: 1px solid var(--nl-line);\n  font-family: var(--font-nl-mono);\n  font-size: 0.75rem;\n  color: var(--color-dusk);\n}\n\n.nl-exit-meta p {\n  margin: 0;\n}\n\n/* ─────────────── flow layout on wide screens (reduced motion, short windows) ─────────────── */\n@media (min-width: 900px) {\n  html:not([data-nl-mode=\"corridor\"]) .nl-room:not([data-room=\"foyer\"]):not([data-room=\"exit\"]) {\n    grid-template-columns: 15rem minmax(0, 1fr) minmax(0, 20rem);\n    align-items: start;\n    gap: 32px;\n  }\n  html:not([data-nl-mode=\"corridor\"]) .nl-room[data-room=\"score\"],\n  html:not([data-nl-mode=\"corridor\"]) .nl-room[data-room=\"visit\"] {\n    grid-template-columns: 15rem minmax(0, 1fr);\n  }\n  html:not([data-nl-mode=\"corridor\"]) .nl-room[data-room=\"score\"] .nl-aside,\n  html:not([data-nl-mode=\"corridor\"]) .nl-room[data-room=\"visit\"] .nl-aside {\n    grid-column: 2;\n    max-width: 24rem;\n  }\n  html:not([data-nl-mode=\"corridor\"]) .nl-portal {\n    width: 100%;\n    position: sticky;\n    top: 110px;\n  }\n  html:not([data-nl-mode=\"corridor\"]) .nl-hero-title {\n    font-size: clamp(3.4rem, 6.4vw, 6rem);\n  }\n  html:not([data-nl-mode=\"corridor\"]) .nl-room-title {\n    font-size: clamp(2.2rem, 3.4vw, 3.2rem);\n  }\n}\n\n/* Phones and tablets: plaques swing into place as they arrive (CSS scroll timeline, transform only). */\n@media (prefers-reduced-motion: no-preference) {\n  @supports (animation-timeline: view()) {\n    html:not([data-nl-mode=\"corridor\"]) .nl-portal,\n    html:not([data-nl-mode=\"corridor\"]) .nl-plaque,\n    html:not([data-nl-mode=\"corridor\"]) .nl-aside {\n      animation: nl-swing linear both;\n      animation-timeline: view();\n      animation-range: entry 0% entry 90%;\n      transform-origin: 50% 100%;\n    }\n    html:not([data-nl-mode=\"corridor\"]) .nl-room[data-room=\"foyer\"] .nl-plaque {\n      animation: none;\n    }\n  }\n}\n\n@keyframes nl-swing {\n  from {\n    transform: perspective(900px) rotateX(22deg) translateY(48px) scale(0.96);\n  }\n  to {\n    transform: none;\n  }\n}\n\n/* ══════════════════════════════════════════════════════════════════\n * CORRIDOR MODE: the page is the house.\n * Geometry mirrors house/geometry.ts: P = 96.05vh (55° fov), rooms\n * 2.6 P apart, doors 1.7 P past each plaque, tunnel min(36vw, 66vh) wide.\n * The only thing JS moves is .nl-world's transform (the camera).\n * ══════════════════════════════════════════════════════════════════ */\nhtml[data-nl-mode=\"corridor\"] {\n  --nl-p: 96.05vh;\n  --nl-depth: calc(var(--nl-p) * 2.6);\n  --nl-hw: min(36vw, 66vh);\n  --nl-ceil: -40vh;\n  --nl-floor: 33vh;\n  --nl-t: 9vh; /* door thickness */\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-track {\n  position: relative;\n  height: calc(7 * 160vh + 100vh);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-stage {\n  position: sticky;\n  top: 0;\n  height: 100vh;\n  overflow: clip;\n  perspective: var(--nl-p);\n  perspective-origin: 50% 50%;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-world {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  width: 0;\n  height: 0;\n  transform-style: preserve-3d;\n  transform: translateZ(var(--nl-p));\n  will-change: transform;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room {\n  --nl-z: calc(var(--i) * var(--nl-depth) * -1);\n  position: absolute;\n  left: 0;\n  top: 0;\n  display: block;\n  width: 0;\n  height: 0;\n  max-width: none;\n  margin: 0;\n  padding: 0;\n  transform-style: preserve-3d;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-portal {\n  display: none;\n}\n\n/* Plaques hang at exactly 1:1 when the camera stands at their station. */\nhtml[data-nl-mode=\"corridor\"] .nl-plaque {\n  --nl-x: -50%;\n  position: absolute;\n  top: -2vh;\n  left: 0;\n  width: min(32vw, 31rem);\n  max-height: 70vh;\n  transform: translate3d(var(--nl-x), -50%, calc(var(--nl-z) - var(--nl-p)));\n  backface-visibility: hidden;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room[data-side=\"left\"] .nl-plaque {\n  --nl-x: 0%;\n  left: calc(var(--nl-hw) * -1 + 2.5vw);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room[data-side=\"right\"] .nl-plaque {\n  --nl-x: -100%;\n  left: calc(var(--nl-hw) - 2.5vw);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-plaque[data-width=\"hero\"] {\n  width: min(calc(var(--nl-hw) * 2 - 6vw), 62rem);\n  padding: 3vh 3vw;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-plaque[data-width=\"wide\"] {\n  width: min(calc(var(--nl-hw) * 2 - 5vw), 66rem);\n  background: color-mix(in srgb, var(--color-glass) 95%, transparent);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room[data-side=\"left\"] .nl-plaque[data-width=\"wide\"] {\n  left: calc(var(--nl-hw) * -1 + 2.5vw);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-hero-title {\n  font-size: min(6.4vw, 10.4vh, 6.6rem);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room-title {\n  font-size: min(3.2vw, 5.4vh, 3.3rem);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-lead,\nhtml[data-nl-mode=\"corridor\"] .nl-copy {\n  font-size: clamp(0.9375rem, 1.9vh, 1.0625rem);\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-hint {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  margin: 2rem 0 0;\n  font-family: var(--font-nl-mono);\n  font-size: 0.6875rem;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n.nl-hint-line {\n  position: relative;\n  width: 48px;\n  height: 1px;\n  overflow: hidden;\n  background: var(--nl-line);\n}\n\n.nl-hint-line::after {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background: var(--color-glow);\n  transform: translateX(-100%);\n  animation: nl-hint 2.4s var(--ease-nl-in-out) infinite;\n}\n\n@keyframes nl-hint {\n  to {\n    transform: translateX(100%);\n  }\n}\n\n/* The wall label hangs deeper, on the opposite wall, turned toward the walker. */\nhtml[data-nl-mode=\"corridor\"] .nl-aside {\n  position: absolute;\n  top: -4vh;\n  left: calc(var(--nl-hw) - 2vw);\n  width: min(19vw, 19rem);\n  transform: translate3d(-100%, -50%, calc(var(--nl-z) - var(--nl-p) * 1.38)) rotateY(24deg);\n  transform-origin: 100% 50%;\n  backface-visibility: hidden;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room[data-side=\"right\"] .nl-aside {\n  left: calc(var(--nl-hw) * -1 + 2vw);\n  transform: translate3d(0%, -50%, calc(var(--nl-z) - var(--nl-p) * 1.38)) rotateY(-24deg);\n  transform-origin: 0% 50%;\n}\n\n/* Doorways: a wall across the tunnel, an opening 0.92 × the half-width, three lit reveals. */\nhtml[data-nl-mode=\"corridor\"] .nl-door {\n  position: absolute;\n  display: block;\n  left: calc(var(--nl-hw) * -1);\n  top: var(--nl-ceil);\n  width: calc(var(--nl-hw) * 2);\n  height: calc(var(--nl-floor) - var(--nl-ceil));\n  transform: translateZ(calc(var(--nl-z) - var(--nl-p) * 1.7));\n  transform-style: preserve-3d;\n  pointer-events: none;\n}\n\n.nl-door-lintel,\n.nl-door-jamb {\n  position: absolute;\n  background:\n    linear-gradient(180deg, color-mix(in srgb, var(--nl-c) 16%, var(--color-ink)), var(--color-ink) 70%);\n}\n\n.nl-door-lintel {\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 30%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 0.4vh;\n  padding-bottom: 2.6vh;\n  border-bottom: 1px solid color-mix(in srgb, var(--nl-next-c) 50%, transparent);\n}\n\n.nl-door-numeral {\n  font-family: var(--font-nl-display);\n  font-weight: 600;\n  font-size: 5vh;\n  line-height: 1;\n  letter-spacing: 0.08em;\n  color: color-mix(in srgb, var(--color-lumen) 78%, transparent);\n  text-shadow: 0 -1px 0 color-mix(in srgb, var(--color-ink) 80%, transparent), 0 1px 0 color-mix(in srgb, var(--nl-next-d) 30%, transparent);\n}\n\n.nl-door-name {\n  font-family: var(--font-nl-mono);\n  font-size: 1.5vh;\n  letter-spacing: 0.3em;\n  text-transform: uppercase;\n  color: var(--color-dusk);\n}\n\n.nl-door-jamb {\n  top: 30%;\n  bottom: 0;\n  width: calc(var(--nl-hw) * 0.54);\n}\n\n.nl-door-jamb[data-side=\"left\"] {\n  left: 0;\n  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--nl-next-c) 50%, transparent);\n}\n\n.nl-door-jamb[data-side=\"right\"] {\n  right: 0;\n  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--nl-next-c) 50%, transparent);\n}\n\n.nl-door-reveal {\n  position: absolute;\n  backface-visibility: hidden;\n}\n\n.nl-door-reveal[data-side=\"left\"] {\n  top: 30%;\n  bottom: 0;\n  left: calc(var(--nl-hw) * 0.54);\n  width: var(--nl-t);\n  transform-origin: 0 50%;\n  transform: rotateY(90deg);\n  background: linear-gradient(90deg, color-mix(in srgb, var(--nl-c) 20%, var(--color-ink)), color-mix(in srgb, var(--nl-next-c) 75%, var(--color-ink)));\n}\n\n.nl-door-reveal[data-side=\"right\"] {\n  top: 30%;\n  bottom: 0;\n  left: calc(var(--nl-hw) * 1.46 - var(--nl-t));\n  width: var(--nl-t);\n  transform-origin: 100% 50%;\n  transform: rotateY(-90deg);\n  background: linear-gradient(90deg, color-mix(in srgb, var(--nl-next-c) 75%, var(--color-ink)), color-mix(in srgb, var(--nl-c) 20%, var(--color-ink)));\n}\n\n.nl-door-reveal[data-side=\"top\"] {\n  top: 30%;\n  left: calc(var(--nl-hw) * 0.54);\n  width: calc(var(--nl-hw) * 0.92);\n  height: var(--nl-t);\n  transform-origin: 50% 0;\n  transform: rotateX(-90deg);\n  background: linear-gradient(180deg, color-mix(in srgb, var(--nl-c) 12%, var(--color-ink)), color-mix(in srgb, var(--nl-next-b) 70%, var(--color-ink)));\n}\n\n.nl-door-sill {\n  display: none;\n}\n\n/* The end of the house: a solid wall closing the corridor behind the exit plaque. */\nhtml[data-nl-mode=\"corridor\"] .nl-endwall {\n  position: absolute;\n  display: block;\n  left: calc(var(--nl-hw) * -1);\n  top: var(--nl-ceil);\n  width: calc(var(--nl-hw) * 2);\n  height: calc(var(--nl-floor) - var(--nl-ceil));\n  transform: translateZ(calc(var(--nl-z) - var(--nl-p) * 2.4));\n  background:\n    radial-gradient(ellipse 50% 40% at 50% 100%, color-mix(in srgb, var(--color-glow) 22%, transparent), transparent 70%),\n    linear-gradient(180deg, color-mix(in srgb, var(--color-glass) 70%, var(--color-ink)), var(--color-ink));\n  pointer-events: none;\n}\n\nhtml[data-nl-mode=\"corridor\"] .nl-room[data-room=\"exit\"] .nl-plaque {\n  width: min(calc(var(--nl-hw) * 2 - 8vw), 44rem);\n}"
+    }
+  ]
+}

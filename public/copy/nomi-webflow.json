@@ -1,0 +1,683 @@
+{
+  "slug": "nomi",
+  "title": "NOMI",
+  "industry": "Tutoring & Education",
+  "description": "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
+  "stack": "Next.js 16 · Tailwind v4 · CSS/DOM Phone UI · Local Form State",
+  "liveUrl": "https://www.openlanding.page/templates/nomi",
+  "downloadUrl": "https://www.openlanding.page/downloads/nomi.html",
+  "manifestUrl": "https://www.openlanding.page/copy/nomi-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/nomi-webflow-prompt.md",
+  "variables": {
+    "collectionName": "NOMI Tokens",
+    "colors": [
+      {
+        "name": "Color / Error",
+        "cssVar": "--color-error",
+        "value": "oklch(52% 0.19 27)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Success",
+        "cssVar": "--color-success",
+        "value": "oklch(50% 0.12 150)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper",
+        "cssVar": "--color-paper",
+        "value": "oklch(97.6% 0.011 88)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper 2",
+        "cssVar": "--color-paper-2",
+        "value": "oklch(96.5% 0.02 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper 3",
+        "cssVar": "--color-paper-3",
+        "value": "oklch(93% 0.036 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "oklch(21% 0.025 170)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink 2",
+        "cssVar": "--color-ink-2",
+        "value": "oklch(31% 0.02 170)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Muted",
+        "cssVar": "--color-muted",
+        "value": "oklch(49% 0.024 165)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rule",
+        "cssVar": "--color-rule",
+        "value": "oklch(86.5% 0.022 140)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--color-accent",
+        "value": "oklch(50% 0.13 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Deep",
+        "cssVar": "--color-accent-deep",
+        "value": "oklch(42% 0.11 162)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Soft",
+        "cssVar": "--color-accent-soft",
+        "value": "oklch(88% 0.08 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Ink",
+        "cssVar": "--color-accent-ink",
+        "value": "oklch(99% 0.006 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Focus",
+        "cssVar": "--color-focus",
+        "value": "oklch(45% 0.14 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Mon",
+        "cssVar": "--p-mon",
+        "value": "oklch(85% 0.052 22)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Tue",
+        "cssVar": "--p-tue",
+        "value": "oklch(87.5% 0.058 64)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Wed",
+        "cssVar": "--p-wed",
+        "value": "oklch(91.5% 0.064 98)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Thu",
+        "cssVar": "--p-thu",
+        "value": "oklch(86.5% 0.075 160)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Fri",
+        "cssVar": "--p-fri",
+        "value": "oklch(87% 0.048 210)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Sat",
+        "cssVar": "--p-sat",
+        "value": "oklch(84% 0.045 270)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / P Sun",
+        "cssVar": "--p-sun",
+        "value": "oklch(84% 0.048 322)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Light",
+        "cssVar": "--light",
+        "value": "oklch(99.4% 0.016 84)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glint",
+        "cssVar": "--glint",
+        "value": "oklch(100% 0 0)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glass Surface",
+        "cssVar": "--glass-surface",
+        "value": "color-mix(in oklab, var(--light) 52%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Surface Strong",
+        "cssVar": "--glass-surface-strong",
+        "value": "color-mix(in oklab, var(--light) 75%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Surface Subtle",
+        "cssVar": "--glass-surface-subtle",
+        "value": "color-mix(in oklab, var(--light) 30%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Surface Tinted",
+        "cssVar": "--glass-surface-tinted",
+        "value": "color-mix(in oklab, var(--color-paper-2) 45%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Border",
+        "cssVar": "--glass-border",
+        "value": "color-mix(in oklab, var(--glint) 80%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Border Subtle",
+        "cssVar": "--glass-border-subtle",
+        "value": "color-mix(in oklab, var(--glint) 45%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Border Rule",
+        "cssVar": "--glass-border-rule",
+        "value": "color-mix(in oklab, var(--color-rule) 60%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Glass Glow Cyan",
+        "cssVar": "--glass-glow-cyan",
+        "value": "oklch(84% 0.08 215 / 0.55)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glass Glow Amber",
+        "cssVar": "--glass-glow-amber",
+        "value": "oklch(88% 0.09 90 / 0.60)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glass Glow Mint",
+        "cssVar": "--glass-glow-mint",
+        "value": "oklch(84% 0.11 160 / 0.55)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glass Glow Lilac",
+        "cssVar": "--glass-glow-lilac",
+        "value": "oklch(82% 0.08 320 / 0.55)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#FAF7EF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#E9F8EF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#D4F0E0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#0C1C16",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#007948",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#A9E8C6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#EEE4B4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#B1DDE6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#DAC1DE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#FFFDF1",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-nomi-display)",
+        "fallback": "Schibsted Grotesk, ui-sans-serif, sans-serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-nomi-body)",
+        "fallback": "Instrument Sans, ui-sans-serif, sans-serif"
+      },
+      {
+        "name": "Font / Outlier",
+        "cssVar": "--font-outlier",
+        "family": "var(--font-nomi-mono)",
+        "fallback": "DM Mono, ui-monospace, monospace"
+      },
+      {
+        "name": "Font / DM Mono",
+        "cssVar": "--font-dm-mono",
+        "family": "DM Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "DM Mono"
+      },
+      {
+        "name": "Font / Instrument Sans",
+        "cssVar": "--font-instrument-sans",
+        "family": "Instrument Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Instrument Sans"
+      },
+      {
+        "name": "Font / Schibsted Grotesk",
+        "cssVar": "--font-schibsted-grotesk",
+        "family": "Schibsted Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Schibsted Grotesk"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Gutter",
+        "cssVar": "--gutter",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Section Gap S",
+        "cssVar": "--section-gap-s",
+        "value": "80px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Section Gap",
+        "cssVar": "--section-gap",
+        "value": "96px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Section Gap L",
+        "cssVar": "--section-gap-l",
+        "value": "120px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Gap Columns",
+        "cssVar": "--gap-columns",
+        "value": "16px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Step",
+        "cssVar": "--step",
+        "value": "116px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Card H",
+        "cssVar": "--card-h",
+        "value": "150px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 3xs",
+        "cssVar": "--space-3xs",
+        "value": "2px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 2xs",
+        "cssVar": "--space-2xs",
+        "value": "4px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Xs",
+        "cssVar": "--space-xs",
+        "value": "8px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Sm",
+        "cssVar": "--space-sm",
+        "value": "12px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Md",
+        "cssVar": "--space-md",
+        "value": "16px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Lg",
+        "cssVar": "--space-lg",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Xl",
+        "cssVar": "--space-xl",
+        "value": "40px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 2xl",
+        "cssVar": "--space-2xl",
+        "value": "64px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 3xl",
+        "cssVar": "--space-3xl",
+        "value": "96px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 4xl",
+        "cssVar": "--space-4xl",
+        "value": "144px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Xs",
+        "cssVar": "--text-xs",
+        "value": "0.8125rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Sm",
+        "cssVar": "--text-sm",
+        "value": "0.875rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Md",
+        "cssVar": "--text-md",
+        "value": "1rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Lg",
+        "cssVar": "--text-lg",
+        "value": "1.25rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Xl",
+        "cssVar": "--text-xl",
+        "value": "1.5625rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 2xl",
+        "cssVar": "--text-2xl",
+        "value": "1.953rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 3xl",
+        "cssVar": "--text-3xl",
+        "value": "2.441rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Display S",
+        "cssVar": "--text-display-s",
+        "value": "clamp(2.25rem, 4vw + 0.5rem, 3.75rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Display",
+        "cssVar": "--text-display",
+        "value": "clamp(2.75rem, 5vw + 1rem, 5.25rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Section",
+        "cssVar": "--text-section",
+        "value": "clamp(2rem, 2.5vw + 1rem, 3.5rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Title",
+        "cssVar": "--text-title",
+        "value": "clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Lead",
+        "cssVar": "--text-lead",
+        "value": "clamp(1.125rem, 0.35vw + 1rem, 1.375rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Container",
+        "cssVar": "--container",
+        "value": "1440px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Card",
+        "cssVar": "--radius-card",
+        "value": "14px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Input",
+        "cssVar": "--radius-input",
+        "value": "10px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Pill",
+        "cssVar": "--radius-pill",
+        "value": "999px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Slab",
+        "cssVar": "--radius-slab",
+        "value": "28px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Device",
+        "cssVar": "--radius-device",
+        "value": "44px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Rule Hair",
+        "cssVar": "--rule-hair",
+        "value": "1px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nm Header H",
+        "cssVar": "--nm-header-h",
+        "value": "72px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nm Row",
+        "cssVar": "--nm-row",
+        "value": "72px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nm Btn",
+        "cssVar": "--nm-btn",
+        "value": "52px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Grain",
+        "cssVar": "--grain",
+        "value": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E\")",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Card",
+        "cssVar": "--shadow-card",
+        "value": "0 1px 2px oklch(30% 0.03 165 / 0.08), 0 24px 48px -24px oklch(40% 0.08 165 / 0.35)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Lift",
+        "cssVar": "--shadow-lift",
+        "value": "0 1px 1px oklch(30% 0.03 165 / 0.10), 8px 18px 28px -14px oklch(36% 0.06 165 / 0.32), 18px 40px 60px -30px oklch(40% 0.08 165 / 0.30)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tracking Display",
+        "cssVar": "--tracking-display",
+        "value": "-0.03em",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Glass Blur Sm",
+        "cssVar": "--glass-blur-sm",
+        "value": "blur(14px)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Glass Blur Md",
+        "cssVar": "--glass-blur-md",
+        "value": "blur(24px)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Glass Blur Lg",
+        "cssVar": "--glass-blur-lg",
+        "value": "blur(48px)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Glass Shadow",
+        "cssVar": "--glass-shadow",
+        "value": "0 16px 36px -12px oklch(21% 0.025 170 / 0.08), inset 0 1.5px 0 var(--glint)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Glass Shadow Deep",
+        "cssVar": "--glass-shadow-deep",
+        "value": "0 28px 56px -18px oklch(21% 0.025 170 / 0.12), inset 0 2px 0 var(--glint)",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "nomi.webp",
+      "publicPath": "https://www.openlanding.page/gallery/nomi.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/nomi/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nomi/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build a light-mode landing page in Next.js 16 (App Router), React, TypeScript and Tailwind CSS v4 for fictional NOMI, a calm mobile workspace for independent tutoring studios. The one action is requesting a private walkthrough. Do not copy ",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".16em",
+        ".lead",
+        ".container",
+        ".num",
+        ".figure",
+        ".visually-hidden",
+        ".keep-motion",
+        ".01ms",
+        ".css",
+        ".nm-body",
+        ".nm-site",
+        ".nm-mono"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "nomi-styles-1",
+      "location": "head",
+      "title": "NOMI Scoped Styles (Part 1/2)",
+      "maxChars": 45000,
+      "charCount": 44901,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "*, *::before, *::after { box-sizing: border-box; }\nhtml, body { overflow-x: clip; }\nhtml { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: var(--space-3xl); }\nbody { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.55; -webkit-font-smoothing: antialiased; caret-color: var(--color-accent); }\n::selection { background: color-mix(in oklab, var(--color-accent) 22%, transparent); color: var(--color-ink); }\n:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }\na { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }\nh1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight, 700); font-synthesis: none; letter-spacing: var(--tracking-display); line-height: 1.05; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }\nh1 { max-width: 20ch; font-size: var(--text-display); } h2 { max-width: 30ch; font-size: var(--text-section); } h3 { max-width: 40ch; font-size: var(--text-title); line-height: 1.2; }\n.lead { font-size: var(--text-lead); line-height: 1.45; max-width: 52ch; }\np { margin: 0; text-wrap: pretty; }\np:not([class]) { max-width: 65ch; }\nimg, video { max-width: 100%; height: auto; display: block; }\nsvg { display: block; }\n[hidden] { display: none !important; }\nbutton, input, select, textarea { font: inherit; }\n.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); box-sizing: border-box; }\n.num, .figure, td.num { font-variant-numeric: tabular-nums; }\n.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }\n[data-slot] { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--color-paper-2, var(--color-paper)), var(--color-paper-3, var(--color-paper))); }\n[data-slot] > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }\n[data-slot]:has(> img) > :not(img):not([data-keep]) { display: none !important; }\n@media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }\n@media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }\n@media (prefers-reduced-motion: reduce) { *:not(.keep-motion), *:not(.keep-motion)::before, *:not(.keep-motion)::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }\n/* photographs: natural sat=-15 con=-6 */\n[data-slot] > img { filter: saturate(0.85) contrast(0.94); }\n\n/* Hallmark · shape: Map / Diagram (draw 69adda; the pinned map leads, rows follow) · genre: modern-minimal · theme: Dose (deal 1/3, seed calm-mobile-workspace-app-39c5·19da969d·2026-10-23·r0) · redesign: full\n * hero: Stage · nav: slab · footer: mast · imagery: the product · signature: pick a moment and a line draws from it to the phone, whose plastic shell takes that moment's tint · dose: white · job: sign up · draw: 69adda\n * axes: light/grotesk-sans/chromatic-green · posture: committed · contrast: pass · fold: pass · v2.0.0 */\n/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */\n/* Hallmark · hero-review: in-thread · 3 findings · 3 resolved */\n/* Hallmark · finish-review: in-thread · 4 findings · 4 resolved · gap: none */\n/* Hallmark · dismissed 25 · the success message is one nine-word sentence inside a form tray, not running prose */\n/* Hallmark · answered F7 · the pill radius sits on meters, chips and the nav underline, which are tags and controls, not containers */\n/* Hallmark · answered F8 · the header's hairline progress rule is chrome; the page's one choreography is the pinned stage, and the hero lift is the hand-off into it */\n\n\n\n/* ---------------------------------------------------------------- page */\n\n.nm-body {\n  min-width: 320px;\n  background:\n    radial-gradient(ellipse 55% 45% at 18% 12%, var(--glass-glow-amber) 0%, transparent 70%),\n    radial-gradient(ellipse 50% 40% at 85% 16%, var(--glass-glow-cyan) 0%, transparent 68%),\n    radial-gradient(ellipse 60% 45% at 14% 52%, var(--glass-glow-mint) 0%, transparent 70%),\n    radial-gradient(ellipse 55% 40% at 88% 74%, var(--glass-glow-lilac) 0%, transparent 68%),\n    radial-gradient(ellipse 45% 35% at 45% 92%, var(--glass-glow-amber) 0%, transparent 70%),\n    var(--color-paper) var(--grain);\n  background-attachment: fixed;\n  overflow-x: clip;\n}\n.nm-site { position: relative; overflow-x: clip; }\n.nm-site > main { position: relative; z-index: 1; }\n.nm-mono { font-family: var(--font-outlier); font-variant-numeric: tabular-nums; }\n.nm-skip { position: absolute; z-index: var(--z-toast); top: calc(var(--space-3xl) * -1); left: var(--space-md); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-input); background: var(--color-ink); color: var(--color-paper); }\n.nm-skip:focus-visible { top: var(--space-md); }\n\n/* ---------------------------------------------------------------- glassmorphic background layer */\n\n.nm-glass-backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: clip; }\n\n/* 1. Luminous chromatic glass blooms using NOMI's plastic tint tokens */\n.nm-glass-blooms { position: absolute; inset: 0; overflow: clip; }\n.nm-bloom { position: absolute; border-radius: 50%; filter: blur(48px); opacity: 0.82; transform: translate3d(0, 0, 0); }\n.nm-bloom--cyan { top: 4%; left: -4%; width: clamp(340px, 40vw, 620px); height: clamp(340px, 40vw, 620px); background: radial-gradient(circle at 45% 45%, var(--tint-inbox) 0%, var(--glass-glow-cyan) 45%, transparent 72%); }\n.nm-bloom--amber { top: 10%; right: -6%; width: clamp(380px, 44vw, 700px); height: clamp(380px, 44vw, 700px); background: radial-gradient(circle at 50% 50%, var(--tint-schedule) 0%, var(--glass-glow-amber) 40%, transparent 70%); }\n.nm-bloom--mint { top: 38%; left: -8%; width: clamp(420px, 48vw, 780px); height: clamp(420px, 48vw, 780px); background: radial-gradient(circle at 45% 45%, var(--tint-progress) 0%, var(--glass-glow-mint) 45%, transparent 72%); }\n.nm-bloom--lilac { top: 64%; right: -6%; width: clamp(400px, 45vw, 720px); height: clamp(400px, 45vw, 720px); background: radial-gradient(circle at 50% 50%, var(--tint-payments) 0%, var(--glass-glow-lilac) 45%, transparent 70%); }\n.nm-bloom--warm { top: 85%; left: 8%; width: clamp(360px, 42vw, 660px); height: clamp(360px, 42vw, 660px); background: radial-gradient(circle at 45% 45%, var(--tint-schedule) 0%, var(--glass-glow-amber) 45%, transparent 72%); }\n\n/* 2. Prismatic daylight refraction shafts */\n.nm-glass-caustics { position: absolute; inset: 0; overflow: clip; }\n.nm-caustic-beam { position: absolute; background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 85%, transparent) 0%, color-mix(in oklab, var(--glint) 35%, transparent) 40%, transparent 70%); opacity: 0.65; transform: skewX(-16deg); filter: blur(20px); }\n.nm-caustic-beam--1 { top: -4%; left: 18%; width: 18%; height: 55%; }\n.nm-caustic-beam--2 { top: 32%; right: 12%; width: 22%; height: 48%; }\n.nm-caustic-beam--3 { top: 62%; left: 10%; width: 24%; height: 42%; }\n.nm-caustic-beam--4 { top: 82%; right: 18%; width: 20%; height: 38%; }\n\n/* 3. Etched architectural glass grid and precision registration marks */\n.nm-glass-grid { position: absolute; inset: 0; max-width: var(--container); margin-inline: auto; pointer-events: none; }\n.nm-grid-line { position: absolute; background: var(--glass-border-rule); pointer-events: none; }\n.nm-grid-line--h1 { top: 16%; left: 0; right: 0; height: 1px; }\n.nm-grid-line--h2 { top: 37%; left: 0; right: 0; height: 1px; }\n.nm-grid-line--h3 { top: 63%; left: 0; right: 0; height: 1px; }\n.nm-grid-line--h4 { top: 85%; left: 0; right: 0; height: 1px; }\n.nm-grid-line--v1 { top: 0; bottom: 0; left: var(--gutter); width: 1px; }\n.nm-grid-line--v2 { top: 0; bottom: 0; right: var(--gutter); width: 1px; }\n.nm-grid-line--v3 { top: 0; bottom: 0; left: 50%; width: 1px; opacity: 0.4; }\n.nm-grid-mark { position: absolute; font: 500 12px/1 var(--font-outlier); letter-spacing: 0.08em; color: color-mix(in oklab, var(--color-ink) 55%, transparent); transform: translate(-50%, -50%); user-select: none; }\n.nm-grid-mark--1 { top: 16%; left: var(--gutter); }\n.nm-grid-mark--2 { top: 37%; right: var(--gutter); }\n.nm-grid-mark--3 { top: 63%; left: calc(var(--gutter) + 20%); }\n.nm-grid-mark--4 { top: 85%; right: calc(var(--gutter) + 30%); }\n\n/* 4. Layered architectural frosted glass plates, lenses, and floating tablets */\n.nm-glass-plates { position: absolute; inset: 0; width: 100%; pointer-events: none; }\n.nm-glass-plate { position: absolute; border: 1.5px solid var(--glass-border-strong); border-radius: var(--radius-slab); background: var(--glass-surface); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); box-shadow: var(--glass-shadow-deep); overflow: hidden; pointer-events: none; }\n.nm-glass-bevel { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 75%, transparent) 0%, transparent 40%, color-mix(in oklab, var(--glint) 20%, transparent) 100%); pointer-events: none; }\n.nm-glass-specular { position: absolute; top: 0; left: 8%; right: 8%; height: 2px; background: linear-gradient(90deg, transparent, var(--glint), transparent); }\n.nm-glass-inner-glint { position: absolute; top: -30px; left: -30px; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, color-mix(in oklab, var(--glint) 70%, transparent), transparent 70%); filter: blur(14px); }\n.nm-glass-ring { position: absolute; inset: 28px; border-radius: 50%; border: 1.5px dashed color-mix(in oklab, var(--glint) 90%, transparent); opacity: 0.7; }\n.nm-glass-plate--hero { top: 90px; right: -4%; width: clamp(340px, 42vw, 620px); height: clamp(340px, 42vw, 620px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-schedule) 45%, var(--glass-border-strong)); }\n.nm-glass-plate--studios { top: 66%; right: -3%; width: clamp(320px, 36vw, 540px); height: clamp(320px, 36vw, 540px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-progress) 50%, var(--glass-border-strong)); }\n.nm-glass-plate--plans { top: 76%; right: -2%; width: clamp(300px, 34vw, 500px); height: clamp(300px, 34vw, 500px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-payments) 50%, var(--glass-border-strong)); }\n.nm-glass-plate--demo { top: 87%; right: -3%; width: clamp(320px, 36vw, 540px); height: clamp(320px, 36vw, 540px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-schedule) 45%, var(--glass-border-strong)); }\n\n/* A heading word sits in a mask so it can rise into place. */\n.nm-w { display: inline-block; overflow: clip; padding: 0.06em 0.04em 0.12em; margin: -0.06em -0.04em -0.12em; vertical-align: top; }\n.nm-w > span { display: inline-block; }\n\n/* ---------------------------------------------------------------- controls */\n\n.nm-btn { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); min-height: 52px; padding: 0 var(--space-lg); overflow: hidden; border: 0; border-radius: var(--radius-input); background: var(--light); color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); white-space: nowrap; text-decoration: none; cursor: pointer; box-shadow: inset 0 1px 0 var(--glint), 0 0 0 1px var(--color-rule), 0 3px 0 var(--color-rule); transition: transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out); }\n.nm-btn::before { content: \"\"; position: absolute; inset: 0; z-index: -1; background: var(--color-paper-3); transform: scaleX(0); transform-origin: right; transition: transform var(--dur-short) var(--ease-out); }\n.nm-btn svg { flex-shrink: 0; width: 18px; height: 18px; }\n.nm-btn:hover::before { transform: scaleX(1); transform-origin: left; }\n.nm-btn:active { transform: translateY(3px); box-shadow: inset 0 1px 0 var(--glint), 0 0 0 1px var(--color-rule), 0 0 0 var(--color-rule); }\n.nm-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }\n.nm-btn:disabled, .nm-btn[aria-disabled=\"true\"] { opacity: 0.55; cursor: not-allowed; transform: none; }\n.nm-btn--primary { background: linear-gradient(var(--color-accent), var(--color-accent-deep)); color: var(--color-accent-ink); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--glint) 40%, transparent), 0 0 0 1px var(--color-accent-deep), 0 3px 0 var(--color-accent-deep); }\n.nm-btn--primary::before { background: var(--color-accent-deep); }\n.nm-btn--primary:active { box-shadow: inset 0 1px 0 color-mix(in oklab, var(--glint) 40%, transparent), 0 0 0 1px var(--color-accent-deep), 0 0 0 var(--color-accent-deep); }\n.nm-btn--sm { min-height: 44px; padding: 0 var(--space-md); font-size: var(--text-sm); }\n\n/* ---------------------------------------------------------------- header: a slab that hides on the way down */\n\n.nm-header { position: fixed; inset: 0 0 auto; z-index: var(--z-sticky-nav); height: var(--nm-header-h); border-bottom: 1px solid var(--glass-border-rule); background: var(--glass-surface-frosted); backdrop-filter: var(--glass-blur-md) saturate(140%); -webkit-backdrop-filter: var(--glass-blur-md) saturate(140%); box-shadow: 0 4px 20px -8px oklch(21% 0.025 170 / 0.06); transition: transform var(--dur-long) var(--ease-out); }\n.nm-header::before { content: \"\"; position: absolute; inset: 100% 0 auto; height: var(--space-lg); background: linear-gradient(color-mix(in oklab, var(--color-ink) 8%, transparent), transparent); opacity: 0; pointer-events: none; transition: opacity var(--dur-short) var(--ease-out); }\n.nm-header[data-scrolled=\"true\"]::before { opacity: 1; }\n.nm-header[data-hidden=\"true\"]::before { opacity: 0; }\n.nm-header[data-hidden=\"true\"] { transform: translateY(-100%); }\n.nm-header::after { content: \"\"; position: absolute; inset: auto 0 -1px; height: 2px; background: var(--color-accent); transform: scaleX(0); transform-origin: left; }\n.nm-header-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); height: 100%; }\n.nm-home-link { display: inline-flex; border-radius: var(--radius-input); text-decoration: none; }\n\n.nm-logo { display: inline-flex; align-items: center; gap: var(--space-xs); color: var(--color-ink); }\n.nm-logo svg { flex-shrink: 0; width: 28px; height: 28px; }\n.nm-logo b { font: 700 1.25rem/1 var(--font-display); letter-spacing: -0.05em; }\n\n.nm-nav { position: relative; display: flex; gap: var(--space-xl); }\n.nm-nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; color: var(--color-ink-2); font: 500 var(--text-sm)/1 var(--font-body); text-decoration: none; transition: color var(--dur-short) var(--ease-out); }\n.nm-nav a::after { content: \"\"; position: absolute; inset: auto 0 var(--space-xs); height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform var(--dur-short) var(--ease-out); }\n.nm-nav a:hover { color: var(--color-ink); }\n.nm-nav a:hover::after { transform: scaleX(1); transform-origin: left; }\n.nm-nav a[aria-current=\"true\"] { color: var(--color-ink); }\n.nm-nav-ink { position: absolute; left: 0; bottom: var(--space-2xs); width: 100px; height: 3px; border-radius: var(--radius-pill); background: var(--color-accent); transform: translateX(var(--x, 0px)) scaleX(var(--s, 0)); transform-origin: left; transition: transform var(--dur-long) var(--ease-out), opacity var(--dur-short) var(--ease-out); pointer-events: none; }\n.js .nm-nav-ink { opacity: 0; }\n.js .nm-nav[data-on=\"true\"] .nm-nav-ink { opacity: 1; }\n\n/* ---------------------------------------------------------------- hero: the four moments as plastic cards */\n\n.nm-hero { position: relative; display: grid; align-items: center; min-height: 100dvh; padding-block: calc(var(--nm-header-h) + var(--space-lg)) var(--space-xl); overflow: clip; }\n.nm-hero-light { position: absolute; inset: 0; pointer-events: none; }\n.nm-hero-light i { position: absolute; top: -10%; bottom: -10%; background: var(--light); opacity: 0.7; transform: skewX(-14deg); filter: blur(22px); }\n.nm-hero-light i:nth-child(1) { left: 36%; width: 7%; }\n.nm-hero-light i:nth-child(2) { left: 49%; width: 4%; }\n.nm-hero-light i:nth-child(3) { left: 58%; width: 12%; }\n.nm-hero-light i:nth-child(4) { left: 78%; width: 5%; }\n.nm-hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: var(--space-2xl); }\n.nm-hero-copy { display: grid; justify-items: start; gap: var(--space-lg); }\n.nm-hero-copy h1 { max-width: 12ch; }\n.nm-hero-lead { max-width: 30ch; color: var(--color-ink-2); }\n.nm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-sm); }\n\n.nm-board { --pad: var(--space-lg); --step: 116px; --card-h: 150px; position: relative; height: calc(var(--pad) * 2 + var(--step) * 3 + var(--card-h)); border-radius: var(--radius-slab); background: color-mix(in oklab, var(--light) 58%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -28px 48px -36px color-mix(in oklab, var(--color-accent) 24%, transparent), 0 32px 64px -20px oklch(21% 0.025 170 / 0.12); }\n.nm-stack { margin: 0; padding: 0; list-style: none; }\n.nm-card { position: absolute; top: calc(var(--pad) + var(--i) * var(--step)); left: calc(var(--pad) + var(--dx)); z-index: calc(var(--i) + 1); width: 78%; height: var(--card-h); transform: rotate(var(--r)); }\n.nm-card:nth-child(1) { --dx: 0%; --r: -1.5deg; }\n.nm-card:nth-child(2) { --dx: 7%; --r: 1.2deg; }\n.nm-card:nth-child(3) { --dx: 2%; --r: -1deg; }\n.nm-card:nth-child(4) { --dx: 9%; --r: 1.6deg; }\n.nm-card[data-scene=\"inbox\"] { --t: var(--tint-inbox); }\n.nm-card[data-scene=\"schedule\"] { --t: var(--tint-schedule); }\n.nm-card[data-scene=\"progress\"] { --t: var(--tint-progress); }\n.nm-card[data-scene=\"payments\"] { --t: var(--tint-payments); }\n.nm-card-face { position: relative; display: grid; align-content: start; gap: var(--space-sm); height: 100%; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-card); background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 55%, transparent) 0%, transparent 28%), color-mix(in oklab, var(--t) 70%, var(--light)); backdrop-filter: var(--glass-blur-sm); -webkit-backdrop-filter: var(--glass-blur-sm); border: 1.5px solid color-mix(in oklab, var(--glint) 70%, transparent); color: var(--color-ink); text-decoration: none; box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -24px 36px -28px color-mix(in oklab, var(--t) 50%, var(--color-ink)), 0 22px 30px -20px color-mix(in oklab, var(--t) 80%, var(--color-ink)); transition: transform var(--dur-short) var(--ease-out); }\n.nm-card-face:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }\n.nm-card-top { display: flex; align-items: center; gap: var(--space-xs); font-size: var(--text-sm); }\n.nm-card-top svg { flex-shrink: 0; width: 20px; height: 20px; }\n.nm-card-top b { font-weight: 500; }\n.nm-card-cue { margin-left: auto; color: var(--color-ink-2); }\n.nm-card-main { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }\n.nm-card-main strong { font: 700 var(--text-xl)/1.1 var(--font-display); letter-spacing: var(--tracking-display); text-wrap: balance; }\n\n.nm-faces { display: inline-flex; flex-shrink: 0; }\n.nm-faces i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--light); box-shadow: 0 0 0 2px color-mix(in oklab, var(--t) 74%, var(--light)); font: 500 var(--text-xs)/1 var(--font-body); font-style: normal; }\n.nm-faces i + i { margin-left: calc(var(--space-xs) * -1); }\n.nm-days { display: inline-flex; flex-shrink: 0; gap: var(--space-2xs); }\n.nm-days i { display: grid; place-items: center; width: 26px; height: 34px; border-radius: var(--radius-input); background: color-mix(in oklab, var(--light) 70%, transparent); font: 500 var(--text-xs)/1 var(--font-body); font-style: normal; }\n.nm-days i[data-on=\"true\"] { background: var(--color-ink); color: var(--color-paper); }\n.nm-mini-ring { flex-shrink: 0; width: 44px; height: 44px; }\n.nm-stamp { display: inline-grid; flex-shrink: 0; place-items: center; padding: var(--space-2xs) var(--space-sm); border: 2px solid var(--color-accent-deep); border-radius: var(--radius-input); outline: 1px solid var(--color-accent-deep); outline-offset: 2px; color: var(--color-accent-deep); font: 500 var(--text-sm)/1.2 var(--font-body); transform: rotate(-3deg); }\n\n.nm-ring-track, .nm-ring-fill { fill: none; stroke-width: 5; }\n.nm-ring-track { stroke: color-mix(in oklab, var(--color-ink) 12%, transparent); }\n.nm-ring-fill { stroke: var(--color-accent); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0.28; transform: rotate(-90deg); transform-origin: center; transform-box: fill-box; }\n\n/* ---------------------------------------------------------------- launch: a pinned stage, a rail of moments and one phone */\n\n.nm-launch { position: relative; height: calc((var(--count) + 0.5) * 100dvh); background: color-mix(in oklab, var(--color-paper-2) 42%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border-top: 1.5px solid var(--glass-border-strong); border-bottom: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -2px 0 var(--glint); }\n.nm-stage { --nm-t: var(--tint-inbox); position: sticky; top: 0; display: grid; align-items: stretch; height: 100dvh; padding-block: var(--space-2xl) var(--space-xl); transition: --nm-t var(--dur-slow) var(--ease-in-out); }\n.nm-stage[data-scene=\"inbox\"] { --nm-t: var(--tint-inbox); }\n.nm-stage[data-scene=\"schedule\"] { --nm-t: var(--tint-schedule); }\n.nm-stage[data-scene=\"progress\"] { --nm-t: var(--tint-progress); }\n.nm-stage[data-scene=\"payments\"] { --nm-t: var(--tint-payments); }\n.nm-stage-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); align-items: center; gap: var(--nm-wire); height: 100%; min-height: 0; }\n.nm-stage-side { display: grid; justify-items: start; gap: var(--space-md); }\n.nm-stage-side h2 { max-width: 11ch; }\n.nm-stage-side .lead { max-width: 28ch; color: var(--color-ink-2); font-size: var(--text-md); }\n\n.nm-rail { position: relative; align-self: stretch; width: 100%; margin-top: var(--space-md); }\n.nm-rail ol { margin: 0; padding: 0; list-style: none; counter-reset: nm; }\n.nm-rail li { position: relative; display: flex; align-items: center; height: var(--nm-row); counter-increment: nm; }\n.nm-rail li::before, .nm-rail li::after { content: \"\"; position: absolute; left: 100%; top: calc(50% - 5px); width: var(--nm-wire); height: 10px; pointer-events: none; }\n.nm-rail li::before { background: repeating-linear-gradient(90deg, var(--color-rule) 0 6px, transparent 6px 12px) center / 100% 2px no-repeat; }\n.nm-rail li::after { background: radial-gradient(circle at calc(100% - 5px) 50%, var(--color-accent) 0 5px, transparent 5.5px), linear-gradient(var(--color-accent), var(--color-accent)) center / 100% 2px no-repeat; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-long) var(--ease-in-out); }\n.nm-rail li[data-on=\"true\"]::after { transform: scaleX(1); }\n.nm-rail-pill { position: absolute; inset: 0 0 auto; height: var(--nm-btn); border-radius: var(--radius-input); background: color-mix(in oklab, var(--nm-t) 82%, var(--light)); box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -14px 20px -16px color-mix(in oklab, var(--nm-t) 60%, var(--color-ink)); transform: translateY(calc(var(--active) * var(--nm-row) + (var(--nm-row) - var(--nm-btn)) / 2)); transition: transform var(--dur-long) var(--ease-in-out); }\n.nm-node { position: relative; z-index: 1; display: flex; align-items: center; gap: var(--space-md); width: 100%; height: var(--nm-btn); padding: 0 var(--space-md); border: 0; border-radius: var(--radius-input); background: none; color: var(--color-ink-2); font: 500 var(--text-lg)/1 var(--font-body); text-align: left; cursor: pointer; transition: color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }\n.nm-node::before { content: counter(nm, decimal-leading-zero); width: 1.75rem; font: 400 var(--text-sm)/1 var(--font-outlier); font-variant-numeric: tabular-nums; }\n.nm-node svg { flex-shrink: 0; width: 22px; height: 22px; }\n.nm-node:hover { color: var(--color-ink); }\n.nm-node:active { transform: translateY(2px); }\n.nm-node:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }\n.nm-node[aria-pressed=\"true\"] { color: var(--color-ink); }\n\n.nm-band { position: relative; display: grid; place-items: center; height: 100%; min-height: 0; overflow: clip; border-radius: var(--radius-slab); background: color-mix(in oklab, var(--nm-t) 42%, var(--light)); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -48px 72px -56px color-mix(in oklab, var(--nm-t) 60%, var(--color-ink)), 0 36px 64px -24px color-mix(in oklab, var(--nm-t) 40%, var(--color-ink)); }\n.nm-light { position: absolute; inset: 0; pointer-events: none; }\n.nm-light i { position: absolute; top: -10%; bottom: -10%; background: var(--light); opacity: 0.45; transform: skewX(-14deg); filter: blur(22px); }\n.nm-light i:nth-child(1) { left: 6%; width: 9%; }\n.nm-light i:nth-child(2) { left: 22%; width: 5%; }\n.nm-light i:nth-child(3) { left: 70%; width: 14%; }\n\n.nm-phone { position: relative; height: min(calc(100% - var(--space-xl)), 660px); max-height: 100%; aspect-ratio: 300 / 620; padding: var(--space-xs); border-radius: var(--radius-device); background: linear-gradient(color-mix(in oklab, var(--glint) 34%, transparent), transparent 16%), color-mix(in oklab, var(--nm-t) 84%, var(--color-ink)); box-shadow: inset 0 2px 0 var(--glint), inset 0 -28px 40px -30px color-mix(in oklab, var(--nm-t) 40%, var(--color-ink)), 0 44px 56px -32px color-mix(in oklab, var(--nm-t) 80%, var(--color-ink)); transform: perspective(1600px) rotateY(calc(-9deg + var(--active) * 3deg)) rotateX(3deg); transition: transform var(--dur-slow) var(--ease-out); }\n.nm-screen { display: flex; flex-direction: column; height: 100%; padding: var(--space-md) var(--space-md) var(--space-sm); overflow: hidden; border-radius: calc(var(--radius-device) - var(--space-xs)); background: var(--light); }\n.nm-status { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-bottom: var(--space-sm); font-size: var(--text-xs); }\n.nm-status i { width: 76px; height: 22px; border-radius: var(--radius-pill); background: var(--color-ink); }\n.nm-status svg { justify-self: end; width: 22px; height: 11px; }\n.nm-appbar { display: flex; align-items: center; justify-content: space-between; font: 700 var(--text-lg)/1 var(--font-display); letter-spacing: -0.05em; }\n.nm-greet { margin-top: var(--space-md); color: var(--color-muted); font-size: var(--text-xs); }\n.nm-scenes { position: relative; flex: 1; min-height: 0; margin-top: var(--space-2xs); overflow: clip; }\n.nm-scene { position: absolute; inset: 0; transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out), visibility 0s linear var(--dur-long); }\nhtml:not(.js) .nm-scene:not([data-active=\"true\"]) { display: none; }\n.js .nm-scene:not([data-active=\"true\"]) { visibility: hidden; opacity: 0; transform: translateY(calc(clamp(-1, var(--k), 1) * 14px)); }\n.nm-scene[data-active=\"true\"] { transition-delay: 0s; }\n.nm-scene-title { font: 700 var(--text-2xl)/1.05 var(--font-display); letter-spacing: var(--tracking-display); }\n.nm-scene-cue { margin-top: var(--space-2xs); color: var(--color-ink-2); font-size: var(--text-sm); }\n\n.nm-avatar { display: inline-grid; flex-shrink: 0; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: color-mix(in oklab, var(--tint-inbox) 76%, var(--light)); font: 500 var(--text-xs)/1 var(--font-body); }\n.nm-threads { display: grid; gap: var(--space-2xs); margin: var(--space-md) 0 0; padding: 0; list-style: none; }\n.nm-threads li { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: 1px solid var(--color-rule); font-size: var(--text-xs); color: var(--color-ink-2); }\n.nm-threads li:last-child { border-bottom: 0; }\n.nm-threads b { display: block; color: var(--color-ink); font-size: var(--text-sm); font-weight: 500; }\n.nm-week { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2xs); margin-top: var(--space-md); }\n.nm-week span { padding: var(--space-xs) 0; border-radius: var(--radius-input); background: var(--color-paper-2); text-align: center; font-size: var(--text-xs); }\n.nm-week span[data-on=\"true\"] { background: var(--color-ink); color: var(--color-paper); }\n.nm-slots { display: grid; gap: var(--space-xs); margin: var(--space-sm) 0 0; padding: 0; list-style: none; }\n.nm-slots li { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); border-radius: var(--radius-input); background: color-mix(in oklab, var(--tint-schedule) 80%, var(--light)); font-size: var(--text-sm); }\n.nm-slots li[data-free=\"true\"] { border: 1px dashed var(--color-muted); background: none; color: var(--color-ink-2); }\n.nm-slots b { font-weight: 500; }\n.nm-slots .nm-mono { font-size: var(--text-xs); }\n.nm-ring { position: relative; display: grid; place-items: center; width: 116px; height: 116px; margin: var(--space-md) 0; }\n.nm-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; }\n.nm-ring b { font-size: var(--text-lg); font-weight: 500; }\n.nm-scene .nm-ring-fill { stroke-dashoffset: 1; transition: stroke-dashoffset var(--dur-slow) var(--ease-out) var(--dur-short); }\n.nm-scene[data-active=\"true\"] .nm-ring-fill { stroke-dashoffset: 0.28; }\n.nm-skills { display: grid; gap: var(--space-md); margin: 0; padding: 0; list-style: none; font-size: var(--text-xs); }\n.nm-skills li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); align-items: center; }\n.nm-skills i { display: block; height: 6px; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-ink) 10%, transparent); }\n.nm-skills i::after { content: \"\"; display: block; height: 100%; border-radius: inherit; background: var(--color-accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-slow) var(--ease-out) var(--dur-short); }\n.nm-scene[data-active=\"true\"] .nm-skills i::after { transform: scaleX(var(--v)); }\n.nm-ledger { display: grid; gap: var(--space-xs); margin: var(--space-md) 0 0; padding: 0; list-style: none; }\n.nm-ledger li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: var(--space-md); border-radius: var(--radius-input); background: color-mix(in oklab, var(--tint-payments) 56%, var(--light)); color: var(--color-ink-2); font-size: var(--text-xs); }\n.nm-ledger b { display: block; color: var(--color-ink); font-size: var(--text-sm); font-weight: 500; }\n.nm-ledger em { padding: var(--space-3xs) var(--space-sm); border-radius: var(--radius-pill); background: var(--color-accent-soft); color: var(--color-accent-deep); font-style: normal; font-weight: 500; }\n\n.nm-app-card { margin-top: var(--space-sm); padding: var(--space-md); border-radius: var(--radius-card); background: color-mix(in oklab, var(--nm-t) 62%, var(--light)); box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -14px 18px -14px color-mix(in oklab, var(--nm-t) 60%, var(--color-ink)); }\n.nm-app-card strong { display: block; font: 700 var(--text-lg)/1.1 var(--font-display); letter-spacing: var(--tracking-display); }\n.nm-pips { display: flex; gap: var(--space-2xs); margin-top: var(--space-sm); }\n.nm-pips i { flex: 1; height: 4px; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-ink) 16%, transparent); transition: background-color var(--dur-short) var(--ease-out); }\n.nm-pips i[data-on=\"true\"] { background: var(--color-accent); }\n.nm-home { width: 36%; height: 4px; margin: var(--space-sm) auto 0; border-radius: var(--radius-pill); background: var(--color-ink); }\n\n/* ---------------------------------------------------------------- studios: three promises as rows */\n\n.nm-studios { padding-block: var(--section-gap); }\n.nm-studios h2 { max-width: 14ch; }\n.nm-rows { margin: var(--space-2xl) 0 0; padding: 0; list-style: none; }\n.nm-row { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: center; column-gap: var(--gap-columns); padding-block: var(--space-xl); }\n.nm-row::before { content: \"\"; position: absolute; inset: 0 0 auto; height: 1px; background: var(--color-rule); transform-origin: left; }\n.nm-row:last-child::after { content: \"\"; position: absolute; inset: auto 0 0; height: 1px; background: var(--color-rule); transform-origin: left; }\n.nm-row h3 { grid-column: 1 / 6; }\n.nm-row p { grid-column: 6 / 10; color: var(--color-ink-2); }\n.nm-row[data-scene=\"schedule\"] { --t: var(--tint-schedule); }\n.nm-row[data-scene=\"progress\"] { --t: var(--tint-progress); }\n.nm-row[data-scene=\"payments\"] { --t: var(--tint-payments); }\n.nm-row h3 { font-size: clamp(1.75rem, 1.2vw + 1.25rem, 2.5rem); }\n.nm-panel { display: grid; grid-column: 10 / 13; gap: var(--space-sm); padding: var(--space-md) var(--space-lg); border-radius: var(--radius-card); background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 65%, transparent), transparent 30%), color-mix(in oklab, var(--t) 45%, var(--light)); backdrop-filter: var(--glass-blur-sm); -webkit-backdrop-filter: var(--glass-blur-sm); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -18px 26px -22px color-mix(in oklab, var(--t) 45%, var(--color-ink)), 0 18px 30px -16px color-mix(in oklab, var(--t) 60%, var(--color-ink)); font-size: var(--text-sm); }\n.nm-panel-head { display: flex; align-items: center; gap: var(--space-xs); font-weight: 500; }\n.nm-panel-head svg { width: 20px; height: 20px; }\n.nm-panel-line { display: flex; align-items: center; gap: var(--space-sm); }\n.nm-panel-line em { margin-left: auto; padding: var(--space-3xs) var(--space-sm); border-radius: var(--radius-pill); background: var(--light); font-size: var(--text-xs); font-style: normal; font-weight: 500; }\n.nm-bar { display: block; flex: 1; height: 6px; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-ink) 12%, transparent); }\n.nm-bar::after { content: \"\"; display: block; height: 100%; border-radius: inherit; background: var(--color-accent); transform: scaleX(var(--v)); transform-origin: left; }\n\n/* ---------------------------------------------------------------- plans: one offer */\n\n.nm-plans { padding-block: var(--section-gap-s); background: color-mix(in oklab, var(--color-paper-2) 42%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border-top: 1.5px solid var(--glass-border-strong); border-bottom: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -2px 0 var(--glint); }\n.nm-plans-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: center; gap: var(--space-2xl); }\n.nm-plans-copy { display: grid; justify-items: start; gap: var(--space-lg); }\n.nm-plans-copy .lead { color: var(--color-ink-2); }\n.nm-offer { position: relative; display: grid; border-radius: var(--radius-card); background: color-mix(in oklab, var(--light) 75%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: var(--shadow-lift); }\n.nm-offer-main { padding: var(--space-xl); }\n.nm-offer h3 { font-size: var(--text-xl); }\n.nm-price { display: grid; gap: var(--space-2xs); margin-top: var(--space-md); }\n.nm-price strong { font: 700 clamp(4.5rem, 7vw, 6.5rem)/1 var(--font-display); letter-spacing: var(--tracking-display); }\n.nm-price span { color: var(--color-muted); }\n.nm-checks { display: grid; gap: var(--space-sm); margin: var(--space-lg) 0 0; padding: 0; list-style: none; }\n.nm-checks li { display: flex; align-items: center; gap: var(--space-sm); }\n.nm-checks svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--color-accent); }\n.nm-checks path { stroke-dasharray: 1; stroke-dashoffset: 0; }\n.nm-offer-stub { position: relative; padding: var(--space-lg) var(--space-xl) var(--space-xl); border-top: 2px dashed var(--color-rule); }\n.nm-offer-stub::before, .nm-offer-stub::after { content: \"\"; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--color-paper-2); }\n.nm-offer-stub::before { left: -12px; }\n.nm-offer-stub::after { right: -12px; }\n.nm-offer-stub .nm-btn { width: 100%; }\n\n/* ---------------------------------------------------------------- demo: a form on a tray, with a label that answers live */\n\n.nm-demo { padding-block: var(--section-gap); }\n.nm-demo-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; gap: var(--space-3xl); }\n.nm-demo-copy { display: grid; justify-items: start; gap: var(--space-lg); }\n.nm-demo-copy .lead { color: var(--color-ink-2); }\n.nm-facts { display: grid; gap: var(--space-xs); margin: 0; padding: 0; list-style: none; font-weight: 500; }\n.nm-form-wrap { position: relative; padding-top: var(--space-lg); }\n.nm-tag { position: absolute; z-index: 2; top: 0; right: var(--space-lg); display: grid; gap: var(--space-3xs); min-width: 13rem; max-width: 80%; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-input); background: var(--light); box-shadow: var(--shadow-card); font-size: var(--text-sm); transform: rotate(2deg); }\n.nm-tag b { overflow: hidden; font: 700 var(--text-md)/1.2 var(--font-display); text-overflow: ellipsis; white-space: nowrap; }\n.nm-tag span { overflow: hidden; color: var(--color-ink-2); text-overflow: ellipsis; white-space: nowrap; }\n.nm-tag em { justify-self: start; padding: var(--space-3xs) var(--space-sm); border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-ink) 8%, transparent); color: var(--color-muted); font-size: var(--text-xs); font-style: normal; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }\n.nm-tag em[data-on=\"true\"] { background: var(--color-accent-soft); color: var(--color-accent-deep); }\n.nm-tray { padding: var(--space-xl); border-radius: var(--radius-slab); background: color-mix(in oklab, var(--light) 58%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), 0 28px 56px -20px oklch(21% 0.025 170 / 0.12); }\n.nm-form { display: grid; }\n.nm-form > * { grid-area: 1 / 1; }\n.nm-fields { display: grid; gap: var(--space-md); padding-top: var(--space-lg); transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out); }\n.js .nm-fields[inert] { opacity: 0; transform: translateY(-8px); }\n.nm-form label { display: grid; gap: var(--space-xs); font-size: var(--text-sm); font-weight: 500; }\n.nm-form input, .nm-form select { width: 100%; min-height: 52px; padding: 0 var(--space-md); border: 1px solid var(--color-muted); border-radius: var(--radius-input); outline: 2px solid transparent; outline-offset: -3px; background: var(--light); color: var(--color-ink); font: 400 var(--text-md) var(--font-body); }\n.nm-form input::placeholder { color: var(--color-muted); }\n.nm-form input:focus-visible, .nm-form select:focus-visible { outline-color: var(--color-focus); }\n.nm-form input[aria-invalid=\"true\"] { border-color: var(--color-error); }\n.nm-form input.is-shake { animation: nm-shake var(--dur-long) var(--ease-out); }\n.nm-form select:invalid { color: var(--color-muted); }\n.nm-field { display: grid; gap: var(--space-2xs); }\n.nm-help { min-height: 1lh; color: var(--color-error); font-size: var(--text-sm); transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out); }\n.js .nm-help:not([data-on=\"true\"]) { opacity: 0; transform: translateY(-4px); }\n.nm-form .nm-btn { margin-top: var(--space-xs); }\n.nm-success { display: grid; align-content: center; justify-items: center; gap: var(--space-sm); padding: var(--space-xl) 0; text-align: center; transition: opacity var(--dur-long) var(--ease-out) var(--dur-short), transform var(--dur-long) var(--ease-out) var(--dur-short), visibility 0s linear var(--dur-long); }\nhtml:not(.js) .nm-success { display: none; }\n.js .nm-success:not([data-on=\"true\"]) { visibility: hidden; opacity: 0; transform: translateY(12px); }\n.nm-success[data-on=\"true\"] { transition-delay: var(--dur-short), var(--dur-short), 0s; }\n.nm-success h3 { font-size: var(--text-2xl); }\n.nm-success p { max-width: 32ch; color: var(--color-ink-2); }\n.nm-check { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--color-accent); color: var(--color-accent-ink); }\n.nm-check svg { width: 26px; height: 26px; }\n.nm-check path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--dur-long) var(--ease-out) calc(var(--dur-short) + 160ms); }\n.nm-success[data-on=\"true\"] .nm-check path { stroke-dashoffset: 0; }\n\n/* ---------------------------------------------------------------- footer: the mast */\n\n.nm-footer { padding-block: var(--section-gap-s) var(--space-xl); background: color-mix(in oklab, var(--color-paper-3) 50%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border-top: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint); }\n.nm-mast { padding-bottom: var(--space-xl); }\n.nm-logo--mast { gap: var(--space-md); }\n.nm-logo--mast svg { width: clamp(56px, 9vw, 128px); height: auto; }\n.nm-logo--mast b { font-size: clamp(5rem, 18vw, 16rem); line-height: 0.8; letter-spacing: -0.06em; }\n.nm-footer-base { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); }\n.nm-footer ul { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); margin: 0; padding: 0; list-style: none; }\n.nm-footer a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; }\n.nm-footer a:hover { text-decoration: underline; }\n.nm-footer p { color: var(--color-ink-2); font-size: var(--text-sm); }\n\n/* ---------------------------------------------------------------- motion: arrivals (self-running, so they play before any script) */\n\n@keyframes nm-down { from { transform: translateY(-100%); } to { transform: none; } }\n@keyframes nm-word { from { transform: translateY(112%); } to { transform: none; } }\n@keyframes nm-rise { from { opacity: 0; transform: translateY(var(--reveal-shift)); } to { opacity: 1; transform: none; } }\n@keyframes nm-drop { from { opacity: 0; transform: translateY(44px) rotate(calc(var(--r) + 4deg)); } to { opacity: 1; transform: rotate(var(--r)); } }\n@keyframes nm-stamp { from { opacity: 0; transform: rotate(-12deg) scale(1.5); } to { opacity: 1; transform: rotate(-3deg); } }\n@keyframes nm-sheet { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }\n@keyframes nm-ring { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0.28; } }\n@keyframes nm-shake { 0%, 100% { transform: none; } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }\n@keyframes nm-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }\n@keyframes nm-away { to { opacity: 0.2; transform: translateY(-56px) scale(0.97); } }\n\n@media (prefers-reduced-motion: no-preference) {\n  html { scroll-behavior: smooth; }\n  .nm-header { animation: nm-down var(--dur-long) var(--ease-out) backwards; }\n  .nm-hero h1 .nm-w > span { animation: nm-word var(--dur-hero) var(--ease-out) backwards; animation-delay: calc(160ms + var(--i) * 70ms); }\n  .nm-hero-lead { animation: nm-rise var(--dur-slow) var(--ease-out) backwards; animation-delay: 620ms; }\n  .nm-actions { animation: nm-rise var(--dur-slow) var(--ease-out) backwards; animation-delay: 740ms; }"
+    },
+    {
+      "id": "nomi-styles-2",
+      "location": "head",
+      "title": "NOMI Scoped Styles (Part 2/2)",
+      "maxChars": 45000,
+      "charCount": 11197,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "  .nm-card { animation: nm-drop var(--dur-hero) var(--ease-out) backwards; animation-delay: calc(420ms + var(--i) * 140ms); }\n  .nm-card .nm-stamp { animation: nm-stamp var(--dur-long) var(--ease-out) backwards; animation-delay: 1500ms; }\n  .nm-card .nm-ring-fill { animation: nm-ring var(--dur-hero) var(--ease-out) backwards; animation-delay: 1100ms; }\n  .nm-app-card { animation: nm-sheet var(--dur-long) var(--ease-out) backwards; }\n\n  .nm-card-face:hover { transform: translateY(-8px); }\n\n  /* arrivals tied to the scroll position, where the browser supports it */\n  @supports (animation-timeline: view()) {\n    .nm-header::after { animation: nm-grow linear both; animation-timeline: scroll(root); }\n    .nm-hero-copy, .nm-board { animation: nm-away linear both; animation-timeline: view(); animation-range: exit 20% exit 100%; }\n  }\n\n  /* reveals on scroll: hidden only when the script is running, then shown once */\n  .js [data-nm-reveal] { transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-in-out); }\n  .js [data-nm-reveal=\"mask\"] .nm-w > span { transition: transform var(--dur-slow) var(--ease-out); transition-delay: calc(var(--i) * 60ms); }\n  .js [data-nm-reveal=\"mask\"]:not([data-in=\"true\"]) .nm-w > span { transform: translateY(112%); }\n  .js [data-nm-reveal=\"rise\"]:not([data-in=\"true\"]) { opacity: 0; transform: translateY(var(--reveal-shift)); }\n  .js [data-nm-reveal=\"rise\"] { transition-delay: 220ms; }\n  .js [data-nm-reveal=\"stagger\"] > * { transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); transition-delay: calc(var(--i, 0) * var(--stagger)); }\n  .js [data-nm-reveal=\"stagger\"]:not([data-in=\"true\"]) > * { opacity: 0; transform: translateY(var(--reveal-shift)); }\n  .js [data-nm-reveal=\"stagger\"] .nm-row::before, .js [data-nm-reveal=\"stagger\"] .nm-row::after { transition: transform var(--dur-slow) var(--ease-in-out); transition-delay: calc(var(--i, 0) * var(--stagger)); }\n  .js [data-nm-reveal=\"stagger\"]:not([data-in=\"true\"]) .nm-row::before, .js [data-nm-reveal=\"stagger\"]:not([data-in=\"true\"]) .nm-row::after { transform: scaleX(0); }\n  /* the wipe clips the child, never the observed element: an observer ignores a fully clipped target */\n  .js [data-nm-reveal=\"wipe\"] > * { transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-in-out); }\n  .js [data-nm-reveal=\"wipe\"]:not([data-in=\"true\"]) > :not(.nm-tag) { opacity: 0; transform: translateY(var(--reveal-shift)); clip-path: inset(0 0 100% 0); }\n  .js [data-nm-reveal=\"wipe\"][data-in=\"true\"] > :not(.nm-tag) { clip-path: inset(-80px); }\n  .js [data-nm-reveal=\"wipe\"] > .nm-tag { transition: opacity var(--dur-slow) var(--ease-out) 360ms, transform var(--dur-slow) var(--ease-out) 360ms; }\n  .js [data-nm-reveal=\"wipe\"]:not([data-in=\"true\"]) > .nm-tag { opacity: 0; transform: translateY(calc(var(--reveal-shift) * -1)) rotate(2deg); }\n  .js .nm-row .nm-bar::after { transition: transform var(--dur-slow) var(--ease-out); transition-delay: calc(320ms + var(--i, 0) * var(--stagger)); }\n  .js [data-nm-reveal=\"stagger\"]:not([data-in=\"true\"]) .nm-bar::after { transform: scaleX(0); }\n  .js .nm-checks path { transition: stroke-dashoffset var(--dur-long) var(--ease-out); transition-delay: calc(360ms + var(--i, 0) * 120ms); }\n  .js .nm-offer-wrap:not([data-in=\"true\"]) .nm-checks path { stroke-dashoffset: 1; }\n}\n\n/* ---------------------------------------------------------------- narrow screens */\n\n@media (max-width: 60rem) {\n  .nm-nav { display: none; }\n  .nm-hero { min-height: 0; padding-block: calc(var(--nm-header-h) + var(--space-xl)) var(--space-2xl); }\n  .nm-hero-grid, .nm-plans-grid, .nm-demo-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }\n  .nm-hero-copy h1 { max-width: 14ch; }\n  .nm-board { --step: 108px; --card-h: 146px; }\n  .nm-launch { height: auto; padding-block: var(--section-gap-s); }\n  .nm-stage { position: static; height: auto; padding-block: 0; }\n  .nm-stage-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); height: auto; }\n  .nm-stage-side h2, .nm-stage-side .lead { max-width: 28ch; }\n  .nm-rail { order: 2; margin-top: 0; }\n  .nm-rail ol { display: flex; gap: var(--space-xs); overflow-x: auto; padding-bottom: var(--space-xs); }\n  .nm-rail li { flex: 0 0 auto; height: 52px; }\n  .nm-rail li::before, .nm-rail li::after, .nm-rail-pill { display: none; }\n  .nm-node { gap: var(--space-xs); padding: 0 var(--space-md); border-radius: var(--radius-pill); background: color-mix(in oklab, var(--nm-t) 24%, transparent); }\n  .nm-node::before { display: none; }\n  .nm-node[aria-pressed=\"true\"] { background: color-mix(in oklab, var(--nm-t) 82%, var(--light)); }\n  .nm-stage-grid > .nm-band { order: 1; height: auto; padding-block: var(--space-xl); }\n  .nm-stage-side { display: contents; }\n  .nm-stage-side h2 { order: 0; }\n  .nm-phone { height: 620px; max-height: none; transform: none; }\n  .nm-row { row-gap: var(--space-sm); }\n  .nm-row h3, .nm-row p, .nm-panel { grid-column: 1 / -1; }\n  .nm-panel { max-width: 22rem; }\n  .nm-tag { right: var(--space-md); }\n  .nm-offer-main, .nm-tray { padding: var(--space-lg); }\n  .nm-offer-stub { padding: var(--space-lg); }\n}\n\n@media (max-width: 40rem) {\n  .nm-board { --step: 104px; --card-h: 142px; }\n  .nm-card { width: 88%; }\n  .nm-card-cue, .nm-faces, .nm-days { display: none; }\n  .nm-card-main strong { font-size: var(--text-lg); }\n  .nm-actions .nm-btn { flex: 1 1 auto; }\n  .nm-footer-base { align-items: flex-start; flex-direction: column; }\n}\n\n/* ---------------------------------------------------------------- reduced motion: the finished page, nothing pinned */\n\n@media (prefers-reduced-motion: reduce) {\n  .nm-launch { height: auto; padding-block: var(--section-gap-s); }\n  .nm-stage { position: static; height: auto; padding-block: 0; }\n  .nm-stage-grid { height: auto; }\n  .nm-band { height: auto; padding-block: var(--space-xl); }\n  .nm-phone { transform: none; }\n  .nm-header, .nm-header::after { animation: none; }\n  .nm-header::after { display: none; }\n  .nm-hero h1 .nm-w > span, .nm-hero-lead, .nm-actions, .nm-card, .nm-card .nm-stamp, .nm-card .nm-ring-fill, .nm-app-card { animation: none; }\n  .nm-scene .nm-skills i::after { transform: scaleX(var(--v)); }\n  .nm-scene .nm-ring-fill { stroke-dashoffset: 0.28; }\n  .nm-checks path { stroke-dashoffset: 0; }\n}\n\n:root {\n  color-scheme: light;\n  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;\n  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.25rem; --text-xl: 1.5625rem; --text-2xl: 1.953rem; --text-3xl: 2.441rem;\n  --text-display-s: clamp(2.25rem, 4vw + 0.5rem, 3.75rem); --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);\n  --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem); --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem); --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);\n  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);\n  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;\n  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);\n  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;\n  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;\n  --color-paper: oklch(97.6% 0.011 88); --color-paper-2: oklch(96.5% 0.02 160); --color-paper-3: oklch(93% 0.036 160);\n  --color-ink: oklch(21% 0.025 170); --color-ink-2: oklch(31% 0.02 170); --color-muted: oklch(49% 0.024 165);\n  --color-rule: oklch(86.5% 0.022 140);\n  --color-accent: oklch(50% 0.13 160); --color-accent-deep: oklch(42% 0.11 162); --color-accent-soft: oklch(88% 0.08 160); --color-accent-ink: oklch(99% 0.006 160);\n  --color-focus: oklch(45% 0.14 160);\n  --p-mon: oklch(85% 0.052 22); --p-tue: oklch(87.5% 0.058 64); --p-wed: oklch(91.5% 0.064 98); --p-thu: oklch(86.5% 0.075 160);\n  --p-fri: oklch(87% 0.048 210); --p-sat: oklch(84% 0.045 270); --p-sun: oklch(84% 0.048 322);\n  --light: oklch(99.4% 0.016 84); --glint: oklch(100% 0 0);\n  --font-display: var(--font-nomi-display), \"Schibsted Grotesk\", ui-sans-serif, sans-serif; --font-body: var(--font-nomi-body), \"Instrument Sans\", ui-sans-serif, sans-serif;\n  --font-outlier: var(--font-nomi-mono), \"DM Mono\", ui-monospace, monospace;\n  --radius-card: 14px; --radius-input: 10px; --radius-pill: 999px; --radius-slab: 28px; --radius-device: 44px; --rule-hair: 1px;\n  /* NOMI: one plastic tint per moment, the chrome's height, motion tokens beyond the shared scale */\n  --tint-inbox: var(--p-fri); --tint-schedule: var(--p-wed); --tint-progress: var(--p-thu); --tint-payments: var(--p-sun);\n  --nm-header-h: 72px; --nm-row: 72px; --nm-btn: 52px; --nm-wire: var(--space-3xl);\n  --dur-slow: 640ms; --dur-hero: 900ms; --stagger: 70ms; --reveal-shift: 24px;\n  --grain: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E\");\n  --shadow-card: 0 1px 2px oklch(30% 0.03 165 / 0.08), 0 24px 48px -24px oklch(40% 0.08 165 / 0.35);\n  --shadow-lift: 0 1px 1px oklch(30% 0.03 165 / 0.10), 8px 18px 28px -14px oklch(36% 0.06 165 / 0.32), 18px 40px 60px -30px oklch(40% 0.08 165 / 0.30);\n  --tracking-display: -0.03em; --display-weight: 700;\n  /* Glassmorphic background & depth tokens */\n  --glass-surface: color-mix(in oklab, var(--light) 52%, transparent);\n  --glass-surface-strong: color-mix(in oklab, var(--light) 75%, transparent);\n  --glass-surface-subtle: color-mix(in oklab, var(--light) 30%, transparent);\n  --glass-surface-tinted: color-mix(in oklab, var(--color-paper-2) 45%, transparent);\n  --glass-border: color-mix(in oklab, var(--glint) 80%, transparent);\n  --glass-border-strong: var(--glint);\n  --glass-border-subtle: color-mix(in oklab, var(--glint) 45%, transparent);\n  --glass-border-rule: color-mix(in oklab, var(--color-rule) 60%, transparent);\n  --glass-blur-sm: blur(14px);\n  --glass-blur-md: blur(24px);\n  --glass-blur-lg: blur(48px);\n  --glass-shadow: 0 16px 36px -12px oklch(21% 0.025 170 / 0.08), inset 0 1.5px 0 var(--glint);\n  --glass-shadow-deep: 0 28px 56px -18px oklch(21% 0.025 170 / 0.12), inset 0 2px 0 var(--glint);\n  --glass-glow-cyan: oklch(84% 0.08 215 / 0.55);\n  --glass-glow-amber: oklch(88% 0.09 90 / 0.60);\n  --glass-glow-mint: oklch(84% 0.11 160 / 0.55);\n  --glass-glow-lilac: oklch(82% 0.08 320 / 0.55);\n}\n/* The launch stage's current plastic tint, registered so a change of moment fades the colour instead of cutting. */\n@property --nm-t { syntax: \"<color>\"; inherits: true; initial-value: transparent; }"
+    }
+  ]
+}

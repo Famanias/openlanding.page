@@ -1,0 +1,379 @@
+{
+  "slug": "forum",
+  "title": "FORUM",
+  "industry": "Digital Experience & Technology",
+  "description": "One intelligent system for your contacts, conversations, pipeline, and next move. An OpenLanding interactive product concept.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/forum",
+  "downloadUrl": "https://www.openlanding.page/downloads/forum.html",
+  "manifestUrl": "https://www.openlanding.page/copy/forum-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/forum-webflow-prompt.md",
+  "variables": {
+    "collectionName": "FORUM Tokens",
+    "colors": [
+      {
+        "name": "Color / Forum Ink",
+        "cssVar": "--forum-ink",
+        "value": "#171814",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Black",
+        "cssVar": "--forum-black",
+        "value": "#0E100C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Khaki",
+        "cssVar": "--forum-khaki",
+        "value": "#B9B28A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Khaki Dark",
+        "cssVar": "--forum-khaki-dark",
+        "value": "#8C876B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Ivory",
+        "cssVar": "--forum-ivory",
+        "value": "#F6F3EA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Pale",
+        "cssVar": "--forum-pale",
+        "value": "#D7D1B8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Line",
+        "cssVar": "--forum-line",
+        "value": "rgba(185, 178, 138, 0.38)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Line Subtle",
+        "cssVar": "--forum-line-subtle",
+        "value": "rgba(185, 178, 138, 0.18)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Forum Ink Line",
+        "cssVar": "--forum-ink-line",
+        "value": "rgba(23, 24, 20, 0.24)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Doto",
+        "cssVar": "--font-doto",
+        "family": "Doto",
+        "fallback": "Doto, IBM Plex Mono, Courier New, monospace",
+        "googleFont": "Doto"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-forum-mono)",
+        "fallback": "IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-forum-sans)",
+        "fallback": "var(--font-plus-jakarta-sans), Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, sans-serif"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "forum.webp",
+      "publicPath": "https://www.openlanding.page/gallery/forum.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-hero-forum-approved.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/01-hero-forum-approved.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-hero-monolith-clean.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/02-hero-monolith-clean.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-card-signal-observatory.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/03-card-signal-observatory.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-card-network-field.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/04-card-network-field.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-card-command-interface.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/05-card-command-interface.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-card-orbital-archive.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/06-card-orbital-archive.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-card-alignment-engine.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/07-card-alignment-engine.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-divider-wide.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/08-divider-wide.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-footer-mockup.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/09-footer-mockup.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230477731_7388dd6d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230477731_7388dd6d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230480445_ee49869f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230480445_ee49869f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230483564_5fc646f5.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230483564_5fc646f5.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230485819_0b74e975.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230485819_0b74e975.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230488708_7ad31867.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230488708_7ad31867.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230509291_1494f4f2.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230509291_1494f4f2.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230509535_3b0853c9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230509535_3b0853c9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230511256_f3458b8f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230511256_f3458b8f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794230513477_90dc9d29.jpg",
+      "publicPath": "https://www.openlanding.page/templates/forum/media_1794230513477_90dc9d29.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-demo-filtered.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r1-demo-filtered.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r1-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-finale-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r1-finale-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r1-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-finale-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r2-finale-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-intelligence-engine.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r2-intelligence-engine.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r2-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-signal-board.png",
+      "publicPath": "https://www.openlanding.page/templates/forum/r2-signal-board.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-hero-forum-approved.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/01-hero-forum-approved.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-hero-monolith-clean.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/02-hero-monolith-clean.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-card-signal-observatory.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/03-card-signal-observatory.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-card-network-field.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/04-card-network-field.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-card-command-interface.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/05-card-command-interface.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-card-orbital-archive.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/06-card-orbital-archive.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-card-alignment-engine.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/07-card-alignment-engine.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-divider-wide.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/08-divider-wide.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-footer-mockup.webp",
+      "publicPath": "https://www.openlanding.page/templates/forum/forum/09-footer-mockup.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "One intelligent system for your contacts, conversations, pipeline, and next move. An OpenLanding interactive product concept.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".dark",
+        ".01ms",
+        ".font-doto",
+        ".font-doto-hero",
+        ".02em",
+        ".font-doto-display",
+        ".015em",
+        ".font-doto-ui",
+        ".04em",
+        ".font-doto-body",
+        ".font-mono-tech",
+        ".font-prose-support"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "forum-styles-1",
+      "location": "head",
+      "title": "FORUM Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 2831,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\r\n\r\n:root {\r\n  --forum-ink: #171814;\r\n  --forum-black: #0E100C;\r\n  --forum-khaki: #B9B28A;\r\n  --forum-khaki-dark: #8C876B;\r\n  --forum-ivory: #F6F3EA;\r\n  --forum-pale: #D7D1B8;\r\n  --forum-line: rgba(185, 178, 138, 0.38);\r\n  --forum-line-subtle: rgba(185, 178, 138, 0.18);\r\n  --forum-ink-line: rgba(23, 24, 20, 0.24);\r\n  --font-doto: var(--font-forum-doto), 'Doto', 'IBM Plex Mono', 'Courier New', monospace;\r\n  --font-mono: var(--font-forum-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;\r\n  --font-sans: var(--font-forum-sans), var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n}\r\n\r\n@layer base {\r\n  html {\r\n    background-color: var(--forum-black);\r\n    color: var(--forum-ivory);\r\n    font-family: var(--font-doto);\r\n    scroll-behavior: smooth;\r\n  }\r\n\r\n  @media (prefers-reduced-motion: reduce) {\r\n    html {\r\n      scroll-behavior: auto;\r\n    }\r\n    *,\r\n    *::before,\r\n    *::after {\r\n      animation-duration: 0.01ms !important;\r\n      animation-iteration-count: 1 !important;\r\n      transition-duration: 0.01ms !important;\r\n      scroll-behavior: auto !important;\r\n    }\r\n  }\r\n}\r\n\r\n.font-doto {\r\n  font-family: var(--font-doto);\r\n  font-variation-settings: \"ROND\" 0;\r\n}\r\n\r\n.font-doto-hero {\r\n  font-family: var(--font-doto);\r\n  font-weight: 850;\r\n  font-variation-settings: \"ROND\" 10;\r\n  letter-spacing: -0.02em;\r\n}\r\n\r\n.font-doto-display {\r\n  font-family: var(--font-doto);\r\n  font-weight: 800;\r\n  font-variation-settings: \"ROND\" 5;\r\n  letter-spacing: -0.015em;\r\n}\r\n\r\n.font-doto-ui {\r\n  font-family: var(--font-doto);\r\n  font-weight: 700;\r\n  font-variation-settings: \"ROND\" 0;\r\n  letter-spacing: 0.04em;\r\n}\r\n\r\n.font-doto-body {\r\n  font-family: var(--font-doto);\r\n  font-weight: 500;\r\n  font-variation-settings: \"ROND\" 15;\r\n}\r\n\r\n.font-mono-tech {\r\n  font-family: var(--font-mono);\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.font-prose-support {\r\n  font-family: var(--font-sans);\r\n}\r\n\r\n/* Registration Crosshair Marks */\r\n.reg-cross {\r\n  position: relative;\r\n  width: 11px;\r\n  height: 11px;\r\n  display: inline-block;\r\n  pointer-events: none;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.reg-cross::before,\r\n.reg-cross::after {\r\n  content: '';\r\n  position: absolute;\r\n  background-color: currentColor;\r\n}\r\n\r\n.reg-cross::before {\r\n  top: 5px;\r\n  left: 0;\r\n  width: 11px;\r\n  height: 1px;\r\n}\r\n\r\n.reg-cross::after {\r\n  top: 0;\r\n  left: 5px;\r\n  width: 1px;\r\n  height: 11px;\r\n}\r\n\r\n/* Subtle dithered architectural surface pattern */\r\n.dither-grid-dark {\r\n  background-image: radial-gradient(rgba(185, 178, 138, 0.14) 1px, transparent 0);\r\n  background-size: 16px 16px;\r\n}\r\n\r\n.dither-grid-ivory {\r\n  background-image: radial-gradient(rgba(23, 24, 20, 0.16) 1px, transparent 0);\r\n  background-size: 16px 16px;\r\n}"
+    },
+    {
+      "id": "forum-runtime-1",
+      "location": "footer",
+      "title": "FORUM Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 350,
+      "description": "Loads motion, three in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion",
+        "three"
+      ],
+      "code": "// FORUM — Webflow Custom Code Runtime Bridge\n// Dependencies: motion, three\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

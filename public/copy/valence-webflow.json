@@ -1,0 +1,353 @@
+{
+  "slug": "valence",
+  "title": "VALENCE",
+  "industry": "B2B Lead Generation & Funnel Intelligence",
+  "description": "Ask only for what the asset earns. A smooth pastel B2B lead-capture showcase where a 3D capsule dossier unseals across a Splash Gate, a 1-field Squeeze Page, and a 4-field Lead Capture configurator.",
+  "stack": "Next.js 16 · Tailwind v4 · Three.js 3D · Pill UI · Lenis",
+  "liveUrl": "https://www.openlanding.page/templates/valence",
+  "downloadUrl": "https://www.openlanding.page/downloads/valence.html",
+  "manifestUrl": "https://www.openlanding.page/copy/valence-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/valence-webflow-prompt.md",
+  "variables": {
+    "collectionName": "VALENCE Tokens",
+    "colors": [
+      {
+        "name": "Color / Paper",
+        "cssVar": "--color-paper",
+        "value": "#FBF9F5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#1E1B2E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lavender",
+        "cssVar": "--color-lavender",
+        "value": "#E8E0F8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mint",
+        "cssVar": "--color-mint",
+        "value": "#D9F2E6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Peach",
+        "cssVar": "--color-peach",
+        "value": "#FCE2D5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--color-accent",
+        "value": "#5B46E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mauve",
+        "cssVar": "--color-mauve",
+        "value": "#645D7A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rose",
+        "cssVar": "--color-rose",
+        "value": "#D9385A",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Urbanist",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Urbanist"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-jakarta)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-jetbrains)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Weight Medium",
+        "cssVar": "--font-weight-medium",
+        "family": "500",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Weight Semibold",
+        "cssVar": "--font-weight-semibold",
+        "family": "600",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Weight Bold",
+        "cssVar": "--font-weight-bold",
+        "family": "700",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Weight Extrabold",
+        "cssVar": "--font-weight-extrabold",
+        "family": "800",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "28px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Spacing",
+        "cssVar": "--spacing",
+        "value": "0.25rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Container Md",
+        "cssVar": "--container-md",
+        "value": "28rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Container 2xl",
+        "cssVar": "--container-2xl",
+        "value": "42rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Xs",
+        "cssVar": "--text-xs",
+        "value": "0.75rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Sm",
+        "cssVar": "--text-sm",
+        "value": "0.875rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Base",
+        "cssVar": "--text-base",
+        "value": "1rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Lg",
+        "cssVar": "--text-lg",
+        "value": "1.125rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Xl",
+        "cssVar": "--text-xl",
+        "value": "1.25rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 2xl",
+        "cssVar": "--text-2xl",
+        "value": "1.5rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 3xl",
+        "cssVar": "--text-3xl",
+        "value": "1.875rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 4xl",
+        "cssVar": "--text-4xl",
+        "value": "2.25rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 5xl",
+        "cssVar": "--text-5xl",
+        "value": "3rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tracking Tight",
+        "cssVar": "--tracking-tight",
+        "value": "-0.025em",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Lift",
+        "cssVar": "--lift",
+        "value": "-6px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "valence.webp",
+      "publicPath": "https://www.openlanding.page/gallery/valence.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/valence/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Splash Page",
+      "summary": "Intermediary gatekeeping & launch announcement threshold (regional/industry cohort selection + single `\"Enter the 2026 Briefing\"` button).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Squeeze Page",
+      "summary": "Minimalist single-field email capture (one bold headline, two sentences of copy, and a single pill email input field) trading an address for the *14-Page Executive Digest* and waitlist pass.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Lead Capture (Lead Gen) Page",
+      "summary": "Comprehensive B2B multi-field qualification suite (`Full Name`, `Work Email`, `Company`, `Company Size`, `Role`) paired with verified enterprise social proof, benefit bullets, and a live interactive preview of the gated asset (*68-Page Funnel Architecture Monograph & Custom Benchmark Audit*).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".leading-none",
+        ".leading-snug",
+        ".leading-relaxed",
+        ".leading"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Floating Pill Header (`Header.tsx`)",
+      "summary": "Brand lockup, live 3-format pill switcher (`01 Splash Gate`, `02 Squeeze Page`, `03 Lead Capture`), live unlocked depth badge (`15% → 40% → 70% → 100%`), primary `\"Unseal Dossier\"` pill CTA, and mobile modal dialog menu.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".vl-pill",
+        ".vl-header",
+        ".vl-header-inner",
+        ".vl-load-header"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Stage 01 — The Splash Gate (`SplashGateSection.tsx`)",
+      "summary": "High-impact announcement hero & intermediary cohort selector (`North America · B2B SaaS`, `EMEA & UK · Consent-First`, `APAC · High-Velocity PLG`) with a single `\"Enter the 2026 Briefing\"` button beside the interactive 3D Pastel Capsule Monolith (`CapsuleCanvas.tsx`).",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "The 3-Format Value-Exchange Matrix (`CaptureMatrixSection.tsx`)",
+      "summary": "Scroll- and click-linked comparison stage contrasting Splash, Squeeze, and Lead Capture pages across median CVR, field friction, structural anatomy, and use cases.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Stage 02 — The Squeeze Fast-Lane (`SqueezeSection.tsx`)",
+      "summary": "Minimalist single-field email capture on a Pistachio Mint slab. Validating the single email input mints a deterministic `SQ-26-XXXX` pass code, unlocks Chapter 02 in the Gated Asset Preview, and carries the email forward into Stage 03.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Live Gated Asset Preview (`AssetPreviewSection.tsx`)",
+      "summary": "Interactive 4-chapter reader for the *2026 Funnel Architecture Monograph*. Visitors filter live SVG benchmark charts by `Company Size` and `Role` and watch locked chapters unseal as gates are completed.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Stage 03 — The B2B Lead-Capture Dossier (`LeadCaptureSection.tsx`)",
+      "summary": "Multi-field B2B qualification form (`Full Name`, `Work Email`, `Company`, `Company Size`, `Role`) paired with benefit bullets, count-up benchmark stats (`418` funnels, `3.4×` pipeline lift, `94%` routing signal), and verified peer social proof cards. Valid submission mints deterministic Dossier Key `VL-2026-XXXX` and unseals the 3D capsule to `100%`.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".leading-none",
+        ".leading-snug",
+        ".leading-relaxed",
+        ".leading"
+      ],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-10",
+      "index": 10,
+      "title": "Funnel Governance FAQ & Colophon (`FaqFooterSection.tsx`)",
+      "summary": "Benchmark marquee ticker, smooth `grid-template-rows` FAQ accordion, ambient motion pause/resume button, and Plum Ink colophon.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "valence-styles-1",
+      "location": "head",
+      "title": "VALENCE Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 33491,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-paper: #FBF9F5;\n  --color-ink: #1E1B2E;\n  --color-lavender: #E8E0F8;\n  --color-mint: #D9F2E6;\n  --color-peach: #FCE2D5;\n  --color-accent: #5B46E8;\n  --color-mauve: #645D7A;\n  --color-rose: #D9385A;\n\n  --font-display: var(--font-urbanist), system-ui, sans-serif;\n  --font-body: var(--font-jakarta), system-ui, sans-serif;\n  --font-mono: var(--font-jetbrains), ui-monospace, monospace;\n\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 28px;\n  --stagger: 70ms;\n}\n\n:root {\n  --color-paper: #FBF9F5;\n  --color-ink: #1E1B2E;\n  --color-lavender: #E8E0F8;\n  --color-mint: #D9F2E6;\n  --color-peach: #FCE2D5;\n  --color-accent: #5B46E8;\n  --color-mauve: #645D7A;\n  --color-rose: #D9385A;\n\n  --font-display: var(--font-urbanist), system-ui, sans-serif;\n  --font-body: var(--font-jakarta), system-ui, sans-serif;\n  --font-mono: var(--font-jetbrains), ui-monospace, monospace;\n\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 28px;\n  --stagger: 70ms;\n\n  --spacing: 0.25rem;\n  --container-md: 28rem;\n  --container-2xl: 42rem;\n  --text-xs: 0.75rem;\n  --text-xs--line-height: 1.333333;\n  --text-sm: 0.875rem;\n  --text-sm--line-height: 1.428571;\n  --text-base: 1rem;\n  --text-base--line-height: 1.5;\n  --text-lg: 1.125rem;\n  --text-lg--line-height: 1.555556;\n  --text-xl: 1.25rem;\n  --text-xl--line-height: 1.4;\n  --text-2xl: 1.5rem;\n  --text-2xl--line-height: 1.333333;\n  --text-3xl: 1.875rem;\n  --text-3xl--line-height: 1.2;\n  --text-4xl: 2.25rem;\n  --text-4xl--line-height: 1.111111;\n  --text-5xl: 3rem;\n  --text-5xl--line-height: 1;\n  --font-weight-medium: 500;\n  --font-weight-semibold: 600;\n  --font-weight-bold: 700;\n  --font-weight-extrabold: 800;\n  --tracking-tight: -0.025em;\n  --leading-snug: 1.375;\n  --leading-relaxed: 1.625;\n  --default-transition-duration: 150ms;\n  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  --tw-border-style: solid;\n  --tw-scale-x: 1;\n  --tw-scale-y: 1;\n  --tw-space-y-reverse: 0;\n}\n\nhtml {\n  scroll-padding-top: 112px;\n  scroll-behavior: smooth;\n  background-color: var(--color-paper);\n}\n\n.vl-body {\n  background-color: var(--color-paper);\n  color: var(--color-ink);\n  font-family: var(--font-body);\n  font-size: 16px;\n  line-height: 1.55;\n  -webkit-font-smoothing: antialiased;\n  overflow-x: clip;\n}\n\n.vl-display {\n  font-family: var(--font-display);\n  letter-spacing: -0.03em;\n}\n\n.vl-mono {\n  font-family: var(--font-mono);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  font-variant-numeric: tabular-nums;\n}\n\n.vl-container {\n  width: min(1280px, calc(100% - 2 * clamp(18px, 4.5vw, 60px)));\n  margin-inline: auto;\n}\n\n/* Smooth pastel slab surfaces & handoffs */\n.vl-slab {\n  position: relative;\n  border-radius: 36px;\n  transition: transform var(--dur-slow) var(--ease-out), opacity var(--dur-slow) var(--ease-out);\n}\n\n.vl-slab--lavender {\n  background: radial-gradient(\n    120% 100% at 80% 10%,\n    var(--color-lavender) 0%,\n    color-mix(in srgb, var(--color-lavender) 58%, var(--color-paper)) 65%,\n    var(--color-paper) 100%\n  );\n}\n\n.vl-slab--mint {\n  background: radial-gradient(\n    110% 100% at 20% 15%,\n    var(--color-mint) 0%,\n    color-mix(in srgb, var(--color-mint) 62%, var(--color-paper)) 70%,\n    var(--color-paper) 100%\n  );\n}\n\n.vl-slab--peach {\n  background: radial-gradient(\n    115% 100% at 75% 20%,\n    var(--color-peach) 0%,\n    color-mix(in srgb, var(--color-peach) 64%, var(--color-paper)) 72%,\n    var(--color-paper) 100%\n  );\n}\n\n.vl-slab--paper {\n  background-color: var(--color-paper);\n}\n\n/* Pill & Squircle Geometry */\n.vl-pill {\n  border-radius: 9999px;\n}\n\n.vl-squircle {\n  border-radius: 28px;\n}\n\n.vl-squircle-lg {\n  border-radius: 34px;\n}\n\n/* Top scroll progress hairline */\n.vl-progress-track {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 3px;\n  z-index: 60;\n  background: color-mix(in srgb, var(--color-lavender) 65%, transparent);\n  pointer-events: none;\n}\n\n.vl-progress-bar {\n  height: 100%;\n  width: 100%;\n  background: var(--color-accent);\n  transform-origin: left center;\n  transform: scaleX(var(--vl-progress, 0));\n  transition: transform var(--dur-instant) linear;\n}\n\n/* Floating pill header */\n.vl-header {\n  position: sticky;\n  top: 14px;\n  z-index: 50;\n  pointer-events: none;\n  transition: transform var(--dur-base) var(--ease-out), padding var(--dur-base) var(--ease-out);\n}\n\n.vl-header-inner {\n  pointer-events: auto;\n  border-radius: 9999px;\n  background: color-mix(in srgb, var(--color-paper) 88%, var(--color-lavender));\n  backdrop-filter: blur(14px);\n  border: 1.5px solid color-mix(in srgb, var(--color-ink) 14%, var(--color-lavender));\n  box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--color-ink) 10%, transparent);\n  padding: 10px 16px;\n  transition: padding var(--dur-base) var(--ease-out), background-color var(--dur-base) var(--ease-out);\n}\n\n.vl-header[data-scrolled=\"true\"] .vl-header-inner {\n  padding-top: 7px;\n  padding-bottom: 7px;\n  background: color-mix(in srgb, var(--color-paper) 94%, var(--color-lavender));\n}\n\n/* Interactive buttons with fill-wipe & spring press */\n.vl-btn {\n  position: relative;\n  isolation: isolate;\n  overflow: hidden;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 10px;\n  border-radius: 9999px;\n  padding: 13px 24px;\n  font-family: var(--font-body);\n  font-weight: 600;\n  font-size: 15px;\n  line-height: 1;\n  cursor: pointer;\n  border: 1.5px solid var(--color-ink);\n  transition:\n    transform var(--dur-instant) var(--ease-out),\n    color var(--dur-fast) var(--ease-out),\n    border-color var(--dur-fast) var(--ease-out),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.vl-btn:active:not(:disabled) {\n  transform: scale(0.97);\n  transition-timing-function: var(--ease-spring);\n}\n\n.vl-btn:disabled {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n\n.vl-btn--primary {\n  background-color: var(--color-accent);\n  color: var(--color-paper);\n  border-color: var(--color-accent);\n}\n\n.vl-btn--primary::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background-color: var(--color-ink);\n  transform: scaleX(0);\n  transform-origin: left center;\n  transition: transform var(--dur-base) var(--ease-out);\n  z-index: -1;\n  border-radius: inherit;\n}\n\n.vl-btn--secondary {\n  background-color: var(--color-paper);\n  color: var(--color-ink);\n  border-color: color-mix(in srgb, var(--color-ink) 24%, transparent);\n}\n\n.vl-btn--secondary::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background-color: var(--color-lavender);\n  transform: scaleX(0);\n  transform-origin: left center;\n  transition: transform var(--dur-base) var(--ease-out);\n  z-index: -1;\n  border-radius: inherit;\n}\n\n.vl-btn__arrow {\n  display: inline-block;\n  transition: transform var(--dur-fast) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .vl-btn--primary:hover:not(:disabled) {\n    border-color: var(--color-ink);\n  }\n  .vl-btn--primary:hover:not(:disabled)::before {\n    transform: scaleX(1);\n  }\n  .vl-btn--secondary:hover:not(:disabled)::before {\n    transform: scaleX(1);\n  }\n  .vl-btn:hover:not(:disabled) .vl-btn__arrow {\n    transform: translateX(4px);\n  }\n}\n\n/* Interactive Tilt & Spotlight Cards */\n.vl-card {\n  position: relative;\n  overflow: hidden;\n  border-radius: 28px;\n  border: 1.5px solid color-mix(in srgb, var(--color-ink) 12%, transparent);\n  background-color: var(--color-paper);\n  transition:\n    transform var(--dur-base) var(--ease-out),\n    border-color var(--dur-fast) var(--ease-out),\n    opacity var(--dur-base) var(--ease-out);\n  transform: perspective(950px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));\n}\n\n.vl-card::after {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  pointer-events: none;\n  opacity: 0;\n  background: radial-gradient(\n    280px circle at var(--mx, 50%) var(--my, 50%),\n    color-mix(in srgb, var(--color-accent) 18%, transparent),\n    transparent 70%\n  );\n  transition: opacity var(--dur-fast) var(--ease-out);\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .vl-card:hover {\n    --lift: -6px;\n    border-color: color-mix(in srgb, var(--color-accent) 48%, var(--color-ink));\n  }\n  .vl-card:hover::after {\n    opacity: 1;\n  }\n  .vl-card-grid:has(.vl-card:hover) .vl-card:not(:hover) {\n    opacity: 0.78;\n  }\n}\n\n/* Pill Form Inputs with floating labels & shake error */\n.vl-input-wrap {\n  position: relative;\n}\n\n.vl-input {\n  width: 100%;\n  border-radius: 9999px;\n  border: 1.5px solid color-mix(in srgb, var(--color-ink) 20%, transparent);\n  background-color: var(--color-paper);\n  color: var(--color-ink);\n  padding: 14px 22px;\n  font-family: var(--font-body);\n  font-size: 15px;\n  transition:\n    border-color var(--dur-fast) var(--ease-out),\n    background-color var(--dur-fast) var(--ease-out);\n}\n\n.vl-input:focus-visible {\n  outline: 2px solid var(--color-accent);\n  outline-offset: 2px;\n  border-color: var(--color-accent);\n}\n\n.vl-input[aria-invalid=\"true\"] {\n  border-color: var(--color-rose);\n  background-color: color-mix(in srgb, var(--color-rose) 6%, var(--color-paper));\n}\n\n@keyframes vl-shake {\n  0%, 100% { transform: translateX(0); }\n  25% { transform: translateX(-6px); }\n  50% { transform: translateX(6px); }\n  75% { transform: translateX(-4px); }\n}\n\n.vl-shake {\n  animation: vl-shake var(--dur-base) var(--ease-out);\n}\n\n/* Accordion animation via grid-template-rows */\n.vl-accordion-body {\n  display: grid;\n  grid-template-rows: 0fr;\n  transition: grid-template-rows var(--dur-base) var(--ease-out);\n}\n\n.vl-accordion-body[data-open=\"true\"] {\n  grid-template-rows: 1fr;\n}\n\n.vl-accordion-inner {\n  overflow: hidden;\n}\n\n/* Marquee */\n@keyframes vl-marquee-scroll {\n  from { transform: translate3d(0, 0, 0); }\n  to { transform: translate3d(-50%, 0, 0); }\n}\n\n.vl-marquee-track {\n  display: flex;\n  width: max-content;\n  animation: vl-marquee-scroll 46s linear infinite;\n}\n\n.vl-marquee-track:hover,\n.vl-marquee-track:focus-within,\n.vl-marquee-track[data-paused=\"true\"] {\n  animation-play-state: paused;\n}\n\n/* Placeholder art frame */\n.vl-placeholder {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border-radius: 24px;\n  overflow: hidden;\n  background-color: var(--color-lavender);\n  border: 1.5px solid color-mix(in srgb, var(--color-ink) 14%, transparent);\n}\n\n/* Visible Focus Ring */\n.vl-body :focus-visible {\n  outline: 2px solid var(--color-accent);\n  outline-offset: 3px;\n}\n\n/* Load choreography & Scroll Reveals — ONLY active when motion is allowed and JS set data-vl-motion=\"live\" */\n@keyframes vl-hero-drop {\n  from {\n    opacity: 0;\n    transform: translateY(-16px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes vl-hero-mask {\n  from {\n    transform: translateY(105%);\n  }\n  to {\n    transform: translateY(0);\n  }\n}\n\n@keyframes vl-hero-rise {\n  from {\n    opacity: 0;\n    transform: translateY(22px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes vl-float-slow {\n  0%, 100% {\n    transform: translate3d(0, 0, 0);\n  }\n  50% {\n    transform: translate3d(0, -8px, 0);\n  }\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  html[data-vl-motion=\"live\"] .vl-load-header {\n    animation: vl-hero-drop var(--dur-slow) var(--ease-out) 120ms both;\n  }\n\n  html[data-vl-motion=\"live\"] .vl-load-mask > span {\n    display: block;\n    animation: vl-hero-mask var(--dur-slow) var(--ease-out-expo) calc(220ms + var(--i, 0) * 90ms) both;\n  }\n\n  html[data-vl-motion=\"live\"] .vl-load-rise {\n    animation: vl-hero-rise var(--dur-slow) var(--ease-out) calc(440ms + var(--i, 0) * 80ms) both;\n  }\n\n  html[data-vl-motion=\"live\"] .vl-float-badge[data-paused=\"false\"] {\n    animation: vl-float-slow 8s var(--ease-in-out) infinite;\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal] {\n    transition:\n      opacity var(--dur-slow) var(--ease-out),\n      transform var(--dur-slow) var(--ease-out),\n      clip-path var(--dur-slow) var(--ease-in-out);\n    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"rise\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateY(var(--reveal-shift));\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"scale\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateY(20px) scale(0.95);\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"wipe\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateY(18px);\n    clip-path: inset(0 0 14% 0 round 28px);\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"wipe\"][data-in=\"true\"] {\n    opacity: 1;\n    transform: translateY(0);\n    clip-path: inset(0 0 0% 0 round 28px);\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"draw\"]:not([data-in=\"true\"]) {\n    transform: scaleX(0);\n    transform-origin: left center;\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"slide-left\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateX(-24px);\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"mask\"] {\n    overflow: clip;\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"mask\"] > .vl-mask-inner {\n    display: block;\n    transition: transform var(--dur-slow) var(--ease-out-expo);\n    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));\n  }\n\n  html[data-vl-motion=\"live\"] [data-reveal=\"mask\"]:not([data-in=\"true\"]) > .vl-mask-inner {\n    transform: translateY(108%);\n  }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .vl-marquee-track {\n    animation: none !important;\n  }\n  .vl-card {\n    transform: none !important;\n  }\n  [data-reveal] {\n    opacity: 1 !important;\n    transform: none !important;\n    clip-path: none !important;\n  }\n}\n\n/* --- Compiled Utility Layer --- */\n.w-full {\n  width: 100%;\n}\n.h-full {\n  height: 100%;\n}\n.object-cover {\n  object-fit: cover;\n}\n.text-xs {\n  font-size: var(--text-xs);\n  line-height: var(--tw-leading, var(--text-xs--line-height));\n}\n.flex {\n  display: flex;\n}\n.min-h-screen {\n  min-height: 100vh;\n}\n.flex-col {\n  flex-direction: column;\n}\n.justify-between {\n  justify-content: space-between;\n}\n.w-9 {\n  width: calc(var(--spacing) * 9);\n}\n.h-9 {\n  height: calc(var(--spacing) * 9);\n}\n.inline-flex {\n  display: inline-flex;\n}\n.items-center {\n  align-items: center;\n}\n.gap-2\\.5 {\n  gap: calc(var(--spacing) * 2.5);\n}\n.select-none {\n  -webkit-user-select: none;\n  user-select: none;\n}\n.w-8 {\n  width: calc(var(--spacing) * 8);\n}\n.h-8 {\n  height: calc(var(--spacing) * 8);\n}\n.shrink-0 {\n  flex-shrink: 0;\n}\n.text-xl {\n  font-size: var(--text-xl);\n  line-height: var(--tw-leading, var(--text-xl--line-height));\n}\n.font-extrabold {\n  --tw-font-weight: var(--font-weight-extrabold);\n  font-weight: var(--font-weight-extrabold);\n}\n.tracking-tight {\n  --tw-tracking: var(--tracking-tight);\n  letter-spacing: var(--tracking-tight);\n}\n.leading-none {\n  --tw-leading: 1;\n  line-height: 1;\n}\n.block {\n  display: block;\n}\n.relative {\n  position: relative;\n}\n.overflow-hidden {\n  overflow: hidden;\n}\n.rounded-\\[32px\\] {\n  border-radius: 32px;\n}\n.border {\n  border-style: var(--tw-border-style);\n  border-width: 1px;\n}\n.border-\\[\\#1E1B2E\\]\\/15 {\n  border-color: color-mix(in oklab, #1E1B2E 15%, transparent);\n}\n.bg-\\[\\#FBF9F5\\] {\n  background-color: #FBF9F5;\n}\n.p-5 {\n  padding: calc(var(--spacing) * 5);\n}\n.z-10 {\n  z-index: 10;\n}\n.flex-wrap {\n  flex-wrap: wrap;\n}\n.gap-2 {\n  gap: calc(var(--spacing) * 2);\n}\n.pb-3 {\n  padding-bottom: calc(var(--spacing) * 3);\n}\n.rounded-full {\n  border-radius: calc(infinity * 1px);\n}\n.bg-\\[\\#E8E0F8\\] {\n  background-color: #E8E0F8;\n}\n.px-3\\.5 {\n  padding-inline: calc(var(--spacing) * 3.5);\n}\n.py-1\\.5 {\n  padding-block: calc(var(--spacing) * 1.5);\n}\n.text-\\[11px\\] {\n  font-size: 11px;\n}\n.font-medium {\n  --tw-font-weight: var(--font-weight-medium);\n  font-weight: var(--font-weight-medium);\n}\n.text-\\[\\#1E1B2E\\] {\n  color: #1E1B2E;\n}\n.inline-block {\n  display: inline-block;\n}\n.h-2 {\n  height: calc(var(--spacing) * 2);\n}\n.w-2 {\n  width: calc(var(--spacing) * 2);\n}\n.bg-\\[\\#D9F2E6\\] {\n  background-color: #D9F2E6;\n}\n.px-3 {\n  padding-inline: calc(var(--spacing) * 3);\n}\n.py-1 {\n  padding-block: var(--spacing);\n}\n.mx-auto {\n  margin-inline: auto;\n}\n.justify-center {\n  justify-content: center;\n}\n.h-\\[290px\\] {\n  height: 290px;\n}\n.h-\\[360px\\] {\n  height: 360px;\n}\n@media (width >= 40rem) {\n  .sm\\:h-\\[400px\\] {\n    height: 400px;\n  }\n}\n.absolute {\n  position: absolute;\n}\n.inset-0 {\n  inset: 0px;\n}\n.cursor-grab {\n  cursor: grab;\n}\n.active\\:cursor-grabbing:active {\n  cursor: grabbing;\n}\n.transition-opacity {\n  transition-property: opacity;\n  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n  transition-duration: var(--tw-duration, var(--default-transition-duration));\n}\n.duration-500 {\n  --tw-duration: 500ms;\n  transition-duration: 500ms;\n}\n.opacity-100 {\n  opacity: 100%;\n}\n.opacity-0 {\n  opacity: 0%;\n}\n.pointer-events-none {\n  pointer-events: none;\n}\n.max-w-\\[360px\\] {\n  max-width: 360px;\n}\n.duration-300 {\n  --tw-duration: 300ms;\n  transition-duration: 300ms;\n}\n.mt-2 {\n  margin-top: calc(var(--spacing) * 2);\n}\n.border-t {\n  border-top-style: var(--tw-border-style);\n  border-top-width: 1px;\n}\n.border-\\[\\#1E1B2E\\]\\/10 {\n  border-color: color-mix(in oklab, #1E1B2E 10%, transparent);\n}\n.pt-3 {\n  padding-top: calc(var(--spacing) * 3);\n}\n.gap-1\\.5 {\n  gap: calc(var(--spacing) * 1.5);\n}\n.transition-transform {\n  transition-property: transform, translate, scale, rotate;\n  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n  transition-duration: var(--tw-duration, var(--default-transition-duration));\n}\n.active\\:scale-95:active {\n  --tw-scale-x: 95%;\n  --tw-scale-y: 95%;\n  --tw-scale-z: 95%;\n  scale: var(--tw-scale-x) var(--tw-scale-y);\n}\n.cursor-pointer {\n  cursor: pointer;\n}\n.bg-\\[\\#5B46E8\\] {\n  background-color: #5B46E8;\n}\n.text-\\[\\#FBF9F5\\] {\n  color: #FBF9F5;\n}\n.text-\\[\\#645D7A\\] {\n  color: #645D7A;\n}\n.border-2 {\n  border-style: var(--tw-border-style);\n  border-width: 2px;\n}\n.border-\\[\\#1E1B2E\\] {\n  border-color: #1E1B2E;\n}\n.p-7 {\n  padding: calc(var(--spacing) * 7);\n}\n@media (width >= 40rem) {\n  .sm\\:p-9 {\n    padding: calc(var(--spacing) * 9);\n  }\n}\n.gap-3 {\n  gap: calc(var(--spacing) * 3);\n}\n.bg-\\[\\#FCE2D5\\] {\n  background-color: #FCE2D5;\n}\n.px-4 {\n  padding-inline: calc(var(--spacing) * 4);\n}\n.font-semibold {\n  --tw-font-weight: var(--font-weight-semibold);\n  font-weight: var(--font-weight-semibold);\n}\n.h-2\\.5 {\n  height: calc(var(--spacing) * 2.5);\n}\n.w-2\\.5 {\n  width: calc(var(--spacing) * 2.5);\n}\n.bg-\\[\\#1E1B2E\\] {\n  background-color: #1E1B2E;\n}\n.mt-5 {\n  margin-top: calc(var(--spacing) * 5);\n}\n.text-3xl {\n  font-size: var(--text-3xl);\n  line-height: var(--tw-leading, var(--text-3xl--line-height));\n}\n.text-base {\n  font-size: var(--text-base);\n  line-height: var(--tw-leading, var(--text-base--line-height));\n}\n.mt-6 {\n  margin-top: calc(var(--spacing) * 6);\n}\n.grid {\n  display: grid;\n}\n.grid-cols-1 {\n  grid-template-columns: repeat(1, minmax(0, 1fr));\n}\n@media (width >= 40rem) {\n  .sm\\:grid-cols-3 {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n  }\n}\n.rounded-\\[22px\\] {\n  border-radius: 22px;\n}\n.p-4 {\n  padding: calc(var(--spacing) * 4);\n}\n.mt-1 {\n  margin-top: var(--spacing);\n}\n.text-2xl {\n  font-size: var(--text-2xl);\n  line-height: var(--tw-leading, var(--text-2xl--line-height));\n}\n.text-\\[\\#5B46E8\\] {\n  color: #5B46E8;\n}\n.p-6 {\n  padding: calc(var(--spacing) * 6);\n}\n@media (width >= 40rem) {\n  .sm\\:p-8 {\n    padding: calc(var(--spacing) * 8);\n  }\n}\n:where(.space-y-5 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));\n}\n.border-b {\n  border-bottom-style: var(--tw-border-style);\n  border-bottom-width: 1px;\n}\n.pb-4 {\n  padding-bottom: calc(var(--spacing) * 4);\n}\n.font-bold {\n  --tw-font-weight: var(--font-weight-bold);\n  font-weight: var(--font-weight-bold);\n}\n@media (width >= 40rem) {\n  .sm\\:grid-cols-2 {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}\n.gap-4 {\n  gap: calc(var(--spacing) * 4);\n}\n.pb-1\\.5 {\n  padding-bottom: calc(var(--spacing) * 1.5);\n}\n.pl-3 {\n  padding-left: calc(var(--spacing) * 3);\n}\n.text-\\[\\#D9385A\\] {\n  color: #D9385A;\n}\n.rounded-\\[24px\\] {\n  border-radius: 24px;\n}\n.text-sm {\n  font-size: var(--text-sm);\n  line-height: var(--tw-leading, var(--text-sm--line-height));\n}\n.pt-1 {\n  padding-top: var(--spacing);\n}\n@media (width >= 40rem) {\n  .sm\\:flex-row {\n    flex-direction: row;\n  }\n}\n@media (width >= 40rem) {\n  .sm\\:items-center {\n    align-items: center;\n  }\n}\n.px-8 {\n  padding-inline: calc(var(--spacing) * 8);\n}\n.py-4 {\n  padding-block: calc(var(--spacing) * 4);\n}\n.rounded-\\[28px\\] {\n  border-radius: 28px;\n}\n.border-\\[\\#1E1B2E\\]\\/20 {\n  border-color: color-mix(in oklab, #1E1B2E 20%, transparent);\n}\n.mt-4 {\n  margin-top: calc(var(--spacing) * 4);\n}\n@media (width >= 40rem) {\n  .sm\\:text-3xl {\n    font-size: var(--text-3xl);\n    line-height: var(--tw-leading, var(--text-3xl--line-height));\n  }\n}\n@media (width >= 40rem) {\n  .sm\\:text-base {\n    font-size: var(--text-base);\n    line-height: var(--tw-leading, var(--text-base--line-height));\n  }\n}\n:where(.space-y-3 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));\n}\n.items-stretch {\n  align-items: stretch;\n}\n@media (width >= 40rem) {\n  .sm\\:rounded-full {\n    border-radius: calc(infinity * 1px);\n  }\n}\n.p-2 {\n  padding: calc(var(--spacing) * 2);\n}\n.sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap;\n  border-width: 0;\n}\n.flex-1 {\n  flex: 1;\n}\n.bg-transparent {\n  background-color: transparent;\n}\n.px-5 {\n  padding-inline: calc(var(--spacing) * 5);\n}\n.py-3\\.5 {\n  padding-block: calc(var(--spacing) * 3.5);\n}\n.placeholder\\:text-\\[\\#645D7A\\]::placeholder {\n  color: #645D7A;\n}\n.focus\\:outline-none:focus {\n  --tw-outline-style: none;\n  outline-style: none;\n}\n.px-7 {\n  padding-inline: calc(var(--spacing) * 7);\n}\n.pl-4 {\n  padding-left: calc(var(--spacing) * 4);\n}\n.tabular-nums {\n  --tw-numeric-spacing: tabular-nums;\n  font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);\n}\n.py-3 {\n  padding-block: calc(var(--spacing) * 3);\n}\n.gap-8 {\n  gap: calc(var(--spacing) * 8);\n}\n.py-14 {\n  padding-block: calc(var(--spacing) * 14);\n}\n@media (width >= 40rem) {\n  .sm\\:py-20 {\n    padding-block: calc(var(--spacing) * 20);\n  }\n}\n:where(.space-y-10 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 10) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 10) * calc(1 - var(--tw-space-y-reverse)));\n}\n@media (width >= 64rem) {\n  .lg\\:flex-row {\n    flex-direction: row;\n  }\n}\n@media (width >= 64rem) {\n  .lg\\:items-end {\n    align-items: flex-end;\n  }\n}\n.gap-6 {\n  gap: calc(var(--spacing) * 6);\n}\n.max-w-2xl {\n  max-width: var(--container-2xl);\n}\n@media (width >= 40rem) {\n  .sm\\:text-5xl {\n    font-size: var(--text-5xl);\n    line-height: var(--tw-leading, var(--text-5xl--line-height));\n  }\n}\n.max-w-md {\n  max-width: var(--container-md);\n}\n.bg-\\[\\#E8E0F8\\]\\/55 {\n  background-color: color-mix(in oklab, #E8E0F8 55%, transparent);\n}\n@media (width >= 40rem) {\n  .sm\\:p-5 {\n    padding: calc(var(--spacing) * 5);\n  }\n}\n@media (width >= 80rem) {\n  .xl\\:flex-row {\n    flex-direction: row;\n  }\n}\n@media (width >= 80rem) {\n  .xl\\:items-center {\n    align-items: center;\n  }\n}\n.pr-2 {\n  padding-right: calc(var(--spacing) * 2);\n}\n.transition-all {\n  transition-property: all;\n  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n  transition-duration: var(--tw-duration, var(--default-transition-duration));\n}\n@media (width >= 64rem) {\n  .lg\\:grid-cols-12 {\n    grid-template-columns: repeat(12, minmax(0, 1fr));\n  }\n}\n.items-start {\n  align-items: flex-start;\n}\n@media (width >= 64rem) {\n  .lg\\:col-span-5 {\n    grid-column: span 5 / span 5;\n  }\n}\n.text-left {\n  text-align: left;\n}\n.opacity-80 {\n  opacity: 80%;\n}\n.py-0\\.5 {\n  padding-block: calc(var(--spacing) * 0.5);\n}\n.text-\\[10px\\] {\n  font-size: 10px;\n}\n.text-lg {\n  font-size: var(--text-lg);\n  line-height: var(--tw-leading, var(--text-lg--line-height));\n}\n@media (width >= 40rem) {\n  .sm\\:text-xl {\n    font-size: var(--text-xl);\n    line-height: var(--tw-leading, var(--text-xl--line-height));\n  }\n}\n.leading-snug {\n  --tw-leading: var(--leading-snug);\n  line-height: var(--leading-snug);\n}\n@media (width >= 64rem) {\n  .lg\\:col-span-7 {\n    grid-column: span 7 / span 7;\n  }\n}\n:where(.space-y-6 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 6) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-y-reverse)));\n}\n.text-\\[\\#1E1B2E\\]\\/90 {\n  color: color-mix(in oklab, #1E1B2E 90%, transparent);\n}\n.leading-relaxed {\n  --tw-leading: var(--leading-relaxed);\n  line-height: var(--leading-relaxed);\n}\n:where(.space-y-4 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 4) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));\n}\n:where(.space-y-1 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(var(--spacing) * var(--tw-space-y-reverse));\n  margin-block-end: calc(var(--spacing) * calc(1 - var(--tw-space-y-reverse)));\n}\n.h-4 {\n  height: calc(var(--spacing) * 4);\n}\n.p-0\\.5 {\n  padding: calc(var(--spacing) * 0.5);\n}\n.rounded-\\[20px\\] {\n  border-radius: 20px;\n}\n:where(.space-y-0\\.5 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 0.5) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 0.5) * calc(1 - var(--tw-space-y-reverse)));\n}\n@media (width >= 40rem) {\n  .sm\\:text-sm {\n    font-size: var(--text-sm);\n    line-height: var(--tw-leading, var(--text-sm--line-height));\n  }\n}\n.py-2\\.5 {\n  padding-block: calc(var(--spacing) * 2.5);\n}\n.hidden {\n  display: none;\n}\n@media (width >= 48rem) {\n  .md\\:inline-block {\n    display: inline-block;\n  }\n}\n.pr-4 {\n  padding-right: calc(var(--spacing) * 4);\n}\n@media (width >= 40rem) {\n  .sm\\:p-10 {\n    padding: calc(var(--spacing) * 10);\n  }\n}\n.transition-colors {\n  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;\n  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n  transition-duration: var(--tw-duration, var(--default-transition-duration));\n}\n@media (width >= 40rem) {\n  .sm\\:text-4xl {\n    font-size: var(--text-4xl);\n    line-height: var(--tw-leading, var(--text-4xl--line-height));\n  }\n}\n@media (width >= 40rem) {\n  .sm\\:text-lg {\n    font-size: var(--text-lg);\n    line-height: var(--tw-leading, var(--text-lg--line-height));\n  }\n}\n:where(.space-y-2\\.5 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 2.5) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 2.5) * calc(1 - var(--tw-space-y-reverse)));\n}\n:where(.space-y-2 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));\n}\n.grid-cols-2 {\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n}\n@media (width >= 48rem) {\n  .md\\:grid-cols-3 {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n  }\n}\n@media (width >= 40rem) {\n  .sm\\:p-7 {\n    padding: calc(var(--spacing) * 7);\n  }\n}\n.pt-4 {\n  padding-top: calc(var(--spacing) * 4);\n}\n:where(.space-y-14 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 14) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 14) * calc(1 - var(--tw-space-y-reverse)));\n}\n.pt-8 {\n  padding-top: calc(var(--spacing) * 8);\n}\n.pb-16 {\n  padding-bottom: calc(var(--spacing) * 16);\n}\n.rounded-\\[26px\\] {\n  border-radius: 26px;\n}\n@media (width >= 40rem) {\n  .sm\\:inline-block {\n    display: inline-block;\n  }\n}\n.rounded-\\[34px\\] {\n  border-radius: 34px;\n}\n.p-8 {\n  padding: calc(var(--spacing) * 8);\n}\n@media (width >= 40rem) {\n  .sm\\:p-12 {\n    padding: calc(var(--spacing) * 12);\n  }\n}\n:where(.space-y-8 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 8) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 8) * calc(1 - var(--tw-space-y-reverse)));\n}\n@media (width >= 48rem) {\n  .md\\:flex-row {\n    flex-direction: row;\n  }\n}\n@media (width >= 48rem) {\n  .md\\:items-center {\n    align-items: center;\n  }\n}\n.border-\\[\\#FBF9F5\\]\\/15 {\n  border-color: color-mix(in oklab, #FBF9F5 15%, transparent);\n}\n.pb-8 {\n  padding-bottom: calc(var(--spacing) * 8);\n}\n.text-\\[\\#E8E0F8\\]\\/80 {\n  color: color-mix(in oklab, #E8E0F8 80%, transparent);\n}\n.py-2 {\n  padding-block: calc(var(--spacing) * 2);\n}\n.border-\\[\\#FBF9F5\\]\\/30 {\n  border-color: color-mix(in oklab, #FBF9F5 30%, transparent);\n}\n.text-\\[\\#E8E0F8\\]\\/75 {\n  color: color-mix(in oklab, #E8E0F8 75%, transparent);\n}\n.focus\\:not-sr-only:focus {\n  position: static;\n  width: auto;\n  height: auto;\n  padding: 0;\n  margin: 0;\n  overflow: visible;\n  clip-path: none;\n  white-space: normal;\n}\n.focus\\:fixed:focus {\n  position: fixed;\n}\n.focus\\:top-4:focus {\n  top: calc(var(--spacing) * 4);\n}\n.focus\\:left-4:focus {\n  left: calc(var(--spacing) * 4);\n}\n.focus\\:z-50:focus {\n  z-index: 50;\n}\n.focus\\:rounded-full:focus {\n  border-radius: calc(infinity * 1px);\n}\n.focus\\:bg-\\[\\#5B46E8\\]:focus {\n  background-color: #5B46E8;\n}\n.focus\\:px-5:focus {\n  padding-inline: calc(var(--spacing) * 5);\n}\n.focus\\:py-2\\.5:focus {\n  padding-block: calc(var(--spacing) * 2.5);\n}\n.focus\\:text-sm:focus {\n  font-size: var(--text-sm);\n  line-height: var(--tw-leading, var(--text-sm--line-height));\n}\n.focus\\:font-semibold:focus {\n  --tw-font-weight: var(--font-weight-semibold);\n  font-weight: var(--font-weight-semibold);\n}\n.focus\\:text-\\[\\#FBF9F5\\]:focus {\n  color: #FBF9F5;\n}\n.px-2 {\n  padding-inline: calc(var(--spacing) * 2);\n}\n@media (width >= 64rem) {\n  .lg\\:flex {\n    display: flex;\n  }\n}\n.p-1 {\n  padding: var(--spacing);\n}\n.border-\\[\\#1E1B2E\\]\\/12 {\n  border-color: color-mix(in oklab, #1E1B2E 12%, transparent);\n}\n@media (hover: hover) {\n  .hover\\:text-\\[\\#1E1B2E\\]:hover {\n    color: #1E1B2E;\n  }\n}\n@media (width >= 40rem) {\n  .sm\\:inline-flex {\n    display: inline-flex;\n  }\n}\n@media (width >= 64rem) {\n  .lg\\:hidden {\n    display: none;\n  }\n}\n.py-12 {\n  padding-block: calc(var(--spacing) * 12);\n}\n@media (width >= 40rem) {\n  .sm\\:py-18 {\n    padding-block: calc(var(--spacing) * 18);\n  }\n}\n:where(.space-y-12 > :not(:last-child)) {\n  --tw-space-y-reverse: 0;\n  margin-block-start: calc(calc(var(--spacing) * 12) * var(--tw-space-y-reverse));\n  margin-block-end: calc(calc(var(--spacing) * 12) * calc(1 - var(--tw-space-y-reverse)));\n}\n@media (width >= 64rem) {\n  .lg\\:p-14 {\n    padding: calc(var(--spacing) * 14);\n  }\n}\n.pb-6 {\n  padding-bottom: calc(var(--spacing) * 6);\n}\n.mt-8 {\n  margin-top: calc(var(--spacing) * 8);\n}\n@media (width >= 64rem) {\n  .lg\\:gap-12 {\n    gap: calc(var(--spacing) * 12);\n  }\n}\n.leading-\\[1\\.02\\] {\n  --tw-leading: 1.02;\n  line-height: 1.02;\n}\n.mt-0\\.5 {\n  margin-top: calc(var(--spacing) * 0.5);\n}\n.h-5 {\n  height: calc(var(--spacing) * 5);\n}\n.w-5 {\n  width: calc(var(--spacing) * 5);\n}\n.grid-cols-3 {\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n}\n@media (width >= 48rem) {\n  .md\\:grid-cols-2 {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}\n.pt-6 {\n  padding-top: calc(var(--spacing) * 6);\n}\n.pb-12 {\n  padding-bottom: calc(var(--spacing) * 12);\n}\n@media (width >= 40rem) {\n  .sm\\:pt-8 {\n    padding-top: calc(var(--spacing) * 8);\n  }\n}\n@media (width >= 40rem) {\n  .sm\\:pb-16 {\n    padding-bottom: calc(var(--spacing) * 16);\n  }\n}\n@media (width >= 64rem) {\n  .lg\\:gap-10 {\n    gap: calc(var(--spacing) * 10);\n  }\n}\n.text-\\[clamp\\(2\\.5rem\\,5\\.4vw\\,4\\.65rem\\)\\] {\n  font-size: clamp(2.5rem, 5.4vw, 4.65rem);\n}\n.leading-\\[0\\.98\\] {\n  --tw-leading: 0.98;\n  line-height: 0.98;\n}\n.overflow-clip {\n  overflow: clip;\n}\n@media (width >= 40rem) {\n  .sm\\:p-6 {\n    padding: calc(var(--spacing) * 6);\n  }\n}\n.p-3\\.5 {\n  padding: calc(var(--spacing) * 3.5);\n}\n.px-2\\.5 {\n  padding-inline: calc(var(--spacing) * 2.5);\n}\n@media (width >= 40rem) {\n  .sm\\:py-16 {\n    padding-block: calc(var(--spacing) * 16);\n  }\n}\n.pt-2 {\n  padding-top: calc(var(--spacing) * 2);\n}\n.h-auto {\n  height: auto;\n}\n.inline {\n  display: inline;\n}"
+    },
+    {
+      "id": "valence-runtime-1",
+      "location": "footer",
+      "title": "VALENCE Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 425,
+      "description": "Loads three, lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "lenis"
+      ],
+      "code": "// VALENCE — Webflow Custom Code Runtime Bridge\n// Dependencies: three, lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

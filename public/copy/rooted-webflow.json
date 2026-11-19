@@ -1,0 +1,92 @@
+{
+  "slug": "rooted",
+  "title": "ROOTED",
+  "industry": "Botanical & Plant Care",
+  "description": "Keep track of watering, light, growth, and routines for every plant you love.",
+  "stack": "HTML · CSS · JavaScript",
+  "liveUrl": "https://www.openlanding.page/templates/rooted",
+  "downloadUrl": "https://www.openlanding.page/downloads/rooted.html",
+  "manifestUrl": "https://www.openlanding.page/copy/rooted-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/rooted-webflow-prompt.md",
+  "variables": {
+    "collectionName": "ROOTED Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#F0EEDF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#203725",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#436948",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#7B9C71",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#B97857",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#F8F6EC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#183221",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#CCD2BF",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "rooted.webp",
+      "publicPath": "https://www.openlanding.page/gallery/rooted.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/rooted/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Recreate the supplied ROOTED experience as one complete, self-contained HTML document at /rooted. The canonical source is public/downloads/rooted.html, imported from ROOTED_standalone.html. Preserve its copy, responsive layouts, embedded me",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": []
+}

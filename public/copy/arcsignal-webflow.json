@@ -1,0 +1,593 @@
+{
+  "slug": "arcsignal",
+  "title": "Arc & Signal",
+  "industry": "Enterprise AI & Infrastructure",
+  "description": "Connect models, agents, tools, and data in one orchestration layer built for clarity, control, and scale.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/arcsignal",
+  "downloadUrl": "https://www.openlanding.page/downloads/arcsignal.html",
+  "manifestUrl": "https://www.openlanding.page/copy/arcsignal-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/arcsignal-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Arc & Signal Tokens",
+    "colors": [
+      {
+        "name": "Color / Bg",
+        "cssVar": "--bg",
+        "value": "#0C0F1B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Abyss",
+        "cssVar": "--bg-abyss",
+        "value": "#080b16",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Deep",
+        "cssVar": "--bg-deep",
+        "value": "#0c1020",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Elevated",
+        "cssVar": "--bg-elevated",
+        "value": "#10172a",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Violet",
+        "cssVar": "--bg-violet",
+        "value": "#8c72ff",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Periwinkle",
+        "cssVar": "--bg-periwinkle",
+        "value": "#5d6bff",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Cyan Subtle",
+        "cssVar": "--bg-cyan-subtle",
+        "value": "#7fb5d4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Panel",
+        "cssVar": "--panel",
+        "value": "#11172A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Panel Raised",
+        "cssVar": "--panel-raised",
+        "value": "#171D32",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / White",
+        "cssVar": "--white",
+        "value": "#F3F4FA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Steel",
+        "cssVar": "--steel",
+        "value": "#9DA7C7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Muted",
+        "cssVar": "--muted",
+        "value": "#9299B4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Violet",
+        "cssVar": "--violet",
+        "value": "#A58AFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cobalt",
+        "cssVar": "--cobalt",
+        "value": "#5367F9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Line",
+        "cssVar": "--line",
+        "value": "rgba(157, 167, 199, 0.18)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Signal Core",
+        "cssVar": "--signal-core",
+        "value": "#D4C9FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Signal Mid",
+        "cssVar": "--signal-mid",
+        "value": "#977FFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Signal Edge",
+        "cssVar": "--signal-edge",
+        "value": "#5367F9",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Outfit",
+        "cssVar": "--font-outfit",
+        "family": "Outfit",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Outfit"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "arcsignal.webp",
+      "publicPath": "https://www.openlanding.page/gallery/arcsignal.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "ambient-01-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-01-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-02-capabilities.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-02-capabilities.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-03-platform.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-03-platform.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-04-reactor.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-04-reactor.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-05-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-05-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-01-hero.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-01-hero.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-02-capabilities.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-02-capabilities.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-03-platform.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-03-platform.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-04-cta-footer.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-04-cta-footer.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-mark.svg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-mark.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-reactor.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/final-reactor.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-stage06.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/final-stage06.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fresh-scene03.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/fresh-scene03.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-core-fallback.svg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/hero-core-fallback.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697452161_8861e84f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697452161_8861e84f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697458929_6d651f3d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697458929_6d651f3d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697461489_a7626cd9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697461489_a7626cd9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697463057_609c7628.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697463057_609c7628.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698354095_9f08d89d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698354095_9f08d89d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698357012_87c99930.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698357012_87c99930.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698360021_886c58ff.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698360021_886c58ff.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698362405_3d02b89e.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698362405_3d02b89e.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698682507_2c57eb90.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698682507_2c57eb90.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698686714_0d9a056b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698686714_0d9a056b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699131498_02f49fc0.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699131498_02f49fc0.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699131650_d859900d.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699131650_d859900d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699134257_86578865.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699134257_86578865.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699135699_9314e857.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699135699_9314e857.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699288257_c2e2f327.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699288257_c2e2f327.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793700976911_1aa43eea.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793700976911_1aa43eea.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793701798243_b5fabf93.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793701798243_b5fabf93.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793701842012_d3e30153.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793701842012_d3e30153.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793701855503_897a7c4f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793701855503_897a7c4f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705776413_dc7ba697.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793705776413_dc7ba697.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705789875_4c2f5781.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793705789875_4c2f5781.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856038405_e25bf8dc.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856038405_e25bf8dc.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856043962_d5419750.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856043962_d5419750.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856044287_da1f2684.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856044287_da1f2684.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856052987_fa374fb0.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856052987_fa374fb0.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856328350_b2331c36.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856328350_b2331c36.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856328759_7d90dde4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856328759_7d90dde4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856330943_01c2e0a3.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856330943_01c2e0a3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897704096_c924cfaa.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897704096_c924cfaa.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897863475_c6e12855.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897863475_c6e12855.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897864615_28380280.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897864615_28380280.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897866265_6ec43bf4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897866265_6ec43bf4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899140411_36bce402.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899140411_36bce402.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899143621_216e09fd.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899143621_216e09fd.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899145111_77875128.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899145111_77875128.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899147288_e1f89eb3.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899147288_e1f89eb3.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene02-capabilities-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/scene02-capabilities-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene03-platform-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/scene03-platform-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene04-reactor-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/scene04-reactor-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "signal-wave.svg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/signal-wave.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "verified-platform-centered.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/verified-platform-centered.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_4445da85.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_4445da85.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_6021a536.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_6021a536.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_7d4f43ba.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_7d4f43ba.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_d8941a19.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_d8941a19.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_e9ac556d.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_e9ac556d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-01-hero.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-01-hero.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-02-capabilities.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-02-capabilities.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-03-platform.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-03-platform.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-04-cta-footer.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-04-cta-footer.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Connect models, agents, tools, and data in one orchestration layer built for clarity, control, and scale.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".font-display",
+        ".02em",
+        ".font-mono-tech",
+        ".text-signal-gradient",
+        ".text-as-one-glow",
+        ".5px",
+        ".btn-signal-primary",
+        ".btn-signal-outline",
+        ".btn-arrow-icon",
+        ".line-mask",
+        ".04em",
+        ".line-mask-inner"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "arcsignal-styles-1",
+      "location": "head",
+      "title": "Arc & Signal Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 8883,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ":root {\r\n  --bg: #0C0F1B;\r\n  --bg-abyss: #080b16;\r\n  --bg-deep: #0c1020;\r\n  --bg-elevated: #10172a;\r\n  --bg-violet: #8c72ff;\r\n  --bg-periwinkle: #5d6bff;\r\n  --bg-cyan-subtle: #7fb5d4;\r\n  --bg-field-intensity: 0.36;\r\n  --bg-grid-opacity: 0.11;\r\n  --bg-focus-x: 68%;\r\n  --bg-focus-y: 42%;\r\n  --bg-secondary-x: 74%;\r\n  --bg-secondary-y: 52%;\r\n  --panel: #11172A;\r\n  --panel-raised: #171D32;\r\n  --white: #F3F4FA;\r\n  --steel: #9DA7C7;\r\n  --muted: #9299B4;\r\n  --violet: #A58AFF;\r\n  --cobalt: #5367F9;\r\n  --line: rgba(157, 167, 199, 0.18);\r\n  --signal-core: #D4C9FF;\r\n  --signal-mid: #977FFF;\r\n  --signal-edge: #5367F9;\r\n  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);\r\n  --ease-cinematic: cubic-bezier(0.76, 0, 0.24, 1);\r\n}\r\n\r\n@layer base {\r\n  html {\r\n    background-color: var(--bg-abyss);\r\n    color: var(--white);\r\n    font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n    scroll-behavior: smooth;\r\n  }\r\n\r\n  body {\r\n    background-color: var(--bg-abyss);\r\n    color: var(--white);\r\n    overflow-x: hidden;\r\n    margin: 0;\r\n    padding: 0;\r\n  }\r\n}\r\n\r\n.font-display {\r\n  font-family: var(--font-outfit), 'Outfit', var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;\r\n  letter-spacing: -0.02em;\r\n}\r\n\r\n.font-mono-tech {\r\n  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n/* Crisp violet-to-cobalt gradient text matching References 01 & 02 */\r\n.text-signal-gradient {\r\n  background: linear-gradient(92deg, #C4B0FF 0%, #977FFF 45%, #5367F9 100%);\r\n  -webkit-background-clip: text;\r\n  -webkit-text-fill-color: transparent;\r\n  background-clip: text;\r\n}\r\n\r\n/* Outlined luminous headline treatment for Reference 04 \"AS ONE.\" */\r\n.text-as-one-glow {\r\n  background: linear-gradient(90deg, rgba(165, 138, 255, 0.35) 0%, rgba(83, 103, 249, 0.35) 100%);\r\n  -webkit-background-clip: text;\r\n  -webkit-text-fill-color: transparent;\r\n  -webkit-text-stroke: 1.5px #A58AFF;\r\n  filter: drop-shadow(0 0 18px rgba(151, 127, 255, 0.45));\r\n}\r\n\r\n/* Primary button matching Reference 01 & 04 */\r\n.btn-signal-primary {\r\n  background: linear-gradient(92deg, #9B82FF 0%, #6D73FC 55%, #5367F9 100%);\r\n  box-shadow: 0 0 24px rgba(151, 127, 255, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n  border: 1px solid rgba(212, 201, 255, 0.5);\r\n  transition: transform 220ms var(--ease-editorial), box-shadow 220ms var(--ease-editorial);\r\n}\r\n\r\n.btn-signal-primary:hover {\r\n  box-shadow: 0 0 32px rgba(165, 138, 255, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.52);\r\n}\r\n\r\n/* Secondary outlined pill button matching References 01, 02, 03, 04 */\r\n.btn-signal-outline {\r\n  background: rgba(17, 23, 42, 0.65);\r\n  border: 1px solid rgba(157, 167, 199, 0.32);\r\n  box-shadow: inset 0 0 12px rgba(151, 127, 255, 0.06);\r\n  transition: transform 220ms var(--ease-editorial), border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;\r\n}\r\n\r\n.btn-signal-outline:hover {\r\n  border-color: rgba(165, 138, 255, 0.75);\r\n  background: rgba(23, 29, 50, 0.9);\r\n  box-shadow: 0 0 20px rgba(151, 127, 255, 0.24), inset 0 0 14px rgba(151, 127, 255, 0.14);\r\n}\r\n\r\n/* Directional arrow slide on button hover */\r\n.btn-arrow-icon {\r\n  transition: transform 240ms var(--ease-editorial);\r\n}\r\n\r\nbutton:hover .btn-arrow-icon,\r\na:hover .btn-arrow-icon {\r\n  transform: translate(2.5px, -2.5px);\r\n}\r\n\r\n/* Masked typography line container */\r\n.line-mask {\r\n  display: block;\r\n  overflow: hidden;\r\n  padding-bottom: 0.04em;\r\n}\r\n\r\n.line-mask-inner {\r\n  display: block;\r\n  will-change: transform;\r\n  transition: transform 720ms var(--ease-editorial), letter-spacing 820ms var(--ease-editorial);\r\n}\r\n\r\n/* Subtle architectural dot grid for canvases */\r\n.bg-dot-matrix {\r\n  background-image: radial-gradient(rgba(157, 167, 199, 0.16) 1px, transparent 1px);\r\n  background-size: 18px 18px;\r\n}\r\n\r\n/* Legacy utility kept transparent so #ambient-system owns the continuous viewport environment */\r\n.bg-architectural-grid {\r\n  background-color: transparent;\r\n}\r\n\r\n/* ============================================================================\r\n   PERSISTENT LIVING SIGNAL FIELD (#ambient-system)\r\n   One fixed, viewport-sized 7-layer atmospheric world shared across all scenes\r\n   ============================================================================ */\r\n#ambient-system {\r\n  position: fixed;\r\n  inset: 0;\r\n  z-index: 0;\r\n  pointer-events: none;\r\n  overflow: hidden;\r\n  isolation: isolate;\r\n  background-color: var(--bg-abyss);\r\n}\r\n\r\n.ambient-system__color,\r\n.ambient-system__volumes,\r\n.ambient-system__structure,\r\n.ambient-system__grid,\r\n.ambient-system__grain,\r\n.ambient-system__reading-guard {\r\n  position: absolute;\r\n  inset: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  pointer-events: none;\r\n}\r\n\r\n/* Layer 1: Deep Color Foundation — soft midnight/near-black field with localized focus */\r\n.ambient-system__color {\r\n  background:\r\n    radial-gradient(\r\n      ellipse 58% 66% at var(--bg-focus-x) var(--bg-focus-y),\r\n      rgba(92, 78, 178, calc(var(--bg-field-intensity) * 0.42)) 0%,\r\n      rgba(48, 60, 136, calc(var(--bg-field-intensity) * 0.18)) 44%,\r\n      transparent 74%\r\n    ),\r\n    radial-gradient(\r\n      ellipse 46% 52% at var(--bg-secondary-x) var(--bg-secondary-y),\r\n      rgba(74, 92, 196, calc(var(--bg-field-intensity) * 0.24)) 0%,\r\n      transparent 70%\r\n    ),\r\n    linear-gradient(152deg, var(--bg-abyss) 0%, var(--bg-deep) 58%, #090c18 100%);\r\n}\r\n\r\n/* Layer 2: Atmospheric Subsurface Volumes — feathered low-contrast dispersions */\r\n.ambient-system__volumes {\r\n  background:\r\n    radial-gradient(\r\n      ellipse 36% 48% at var(--bg-focus-x) var(--bg-focus-y),\r\n      rgba(130, 108, 235, calc(var(--bg-field-intensity) * 0.28)) 0%,\r\n      rgba(83, 103, 249, calc(var(--bg-field-intensity) * 0.11)) 48%,\r\n      transparent 76%\r\n    ),\r\n    radial-gradient(\r\n      ellipse 52% 42% at 76% 78%,\r\n      rgba(52, 72, 158, calc(var(--bg-field-intensity) * 0.19)) 0%,\r\n      transparent 74%\r\n    );\r\n  transform: translateZ(0);\r\n}\r\n\r\n/* Layer 3 & 5: Engineered Structural Field & Ghost Signal Conduits (SVG) */\r\n.ambient-system__structure {\r\n  opacity: 0.92;\r\n  will-change: transform;\r\n}\r\n\r\n/* Layer 4: Selective Technical Reference Grid — masked so it never looks like uniform wallpaper */\r\n.ambient-system__grid {\r\n  background-image:\r\n    linear-gradient(to right, rgba(142, 152, 206, 0.085) 1px, transparent 1px),\r\n    linear-gradient(to bottom, rgba(142, 152, 206, 0.085) 1px, transparent 1px);\r\n  background-size: 72px 72px;\r\n  opacity: var(--bg-grid-opacity);\r\n  -webkit-mask-image:\r\n    radial-gradient(\r\n      ellipse 56% 64% at var(--bg-focus-x) var(--bg-focus-y),\r\n      rgba(0, 0, 0, 0.95) 0%,\r\n      rgba(0, 0, 0, 0.45) 48%,\r\n      rgba(0, 0, 0, 0.08) 78%,\r\n      transparent 96%\r\n    );\r\n  mask-image:\r\n    radial-gradient(\r\n      ellipse 56% 64% at var(--bg-focus-x) var(--bg-focus-y),\r\n      rgba(0, 0, 0, 0.95) 0%,\r\n      rgba(0, 0, 0, 0.45) 48%,\r\n      rgba(0, 0, 0, 0.08) 78%,\r\n      transparent 96%\r\n    );\r\n}\r\n\r\n/* Layer 6: Controlled Fine Film Grain / Anti-Banding Dither */\r\n.ambient-system__grain {\r\n  opacity: 0.024;\r\n  background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\");\r\n  background-repeat: repeat;\r\n  background-size: 180px 180px;\r\n}\r\n\r\n/* Layer 7: Reading Protection Vignette — keeps left editorial column & frame perimeter calm and high-contrast */\r\n.ambient-system__reading-guard {\r\n  background:\r\n    linear-gradient(\r\n      90deg,\r\n      rgba(8, 11, 22, 0.78) 0%,\r\n      rgba(8, 11, 22, 0.52) 28%,\r\n      rgba(8, 11, 22, 0.12) 48%,\r\n      rgba(8, 11, 22, 0) 68%\r\n    ),\r\n    radial-gradient(\r\n      ellipse 95% 92% at 52% 50%,\r\n      transparent 58%,\r\n      rgba(6, 9, 18, 0.68) 100%\r\n    );\r\n}\r\n\r\n/* Scene 0 opening traveling grid light sweep */\r\n@keyframes gridLightSweep {\r\n  0% {\r\n    transform: translate3d(-35%, -25%, 0) rotate(-18deg);\r\n    opacity: 0;\r\n  }\r\n  25% {\r\n    opacity: 0.85;\r\n  }\r\n  100% {\r\n    transform: translate3d(55%, 35%, 0) rotate(-18deg);\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n.hero-grid-sweep {\r\n  background: radial-gradient(\r\n    ellipse 520px 180px at 50% 50%,\r\n    rgba(165, 138, 255, 0.22) 0%,\r\n    rgba(83, 103, 249, 0.10) 45%,\r\n    rgba(12, 15, 27, 0) 75%\r\n  );\r\n  animation: gridLightSweep 2.1s var(--ease-editorial) 1 forwards;\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  *, ::before, ::after {\r\n    animation-duration: 0.01ms !important;\r\n    animation-iteration-count: 1 !important;\r\n    transition-duration: 0.01ms !important;\r\n    scroll-behavior: auto !important;\r\n  }\r\n  .hero-grid-sweep {\r\n    animation: none !important;\r\n    opacity: 0 !important;\r\n  }\r\n}"
+    },
+    {
+      "id": "arcsignal-runtime-1",
+      "location": "footer",
+      "title": "Arc & Signal Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 276,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Arc & Signal — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

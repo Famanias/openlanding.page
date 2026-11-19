@@ -1,0 +1,1285 @@
+{
+  "slug": "savepoint",
+  "title": "SAVEPOINT.",
+  "industry": "Independent Games",
+  "description": "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.",
+  "stack": "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/savepoint",
+  "downloadUrl": "https://www.openlanding.page/downloads/savepoint.html",
+  "manifestUrl": "https://www.openlanding.page/copy/savepoint-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/savepoint-webflow-prompt.md",
+  "variables": {
+    "collectionName": "SAVEPOINT. Tokens",
+    "colors": [
+      {
+        "name": "Color / Bg",
+        "cssVar": "--bg",
+        "value": "#121419",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Deep",
+        "cssVar": "--bg-deep",
+        "value": "#0B0D12",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Surface",
+        "cssVar": "--surface",
+        "value": "#1B1F28",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Surface Elevated",
+        "cssVar": "--surface-elevated",
+        "value": "#252934",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text",
+        "cssVar": "--text",
+        "value": "#F2F0E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Muted",
+        "cssVar": "--text-muted",
+        "value": "#A9ADB7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Border",
+        "cssVar": "--border",
+        "value": "rgba(242,240,232,.15)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--accent",
+        "value": "#CDF266",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Violet",
+        "cssVar": "--violet",
+        "value": "#7971B7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Coral",
+        "cssVar": "--coral",
+        "value": "#F47D62",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Space Grotesk",
+        "cssVar": "--font-space-grotesk",
+        "family": "Space Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Space Grotesk"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "savepoint.webp",
+      "publicPath": "https://www.openlanding.page/gallery/savepoint.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "cartridge-shell-front.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/cartridge-shell-front.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cartridge-shell-rear.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/cartridge-shell-rear.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cartridge-shell-three-quarter.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/cartridge-shell-three-quarter.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "deck-01-front.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/deck-01-front.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "deck-01-slot-detail.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/deck-01-slot-detail.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "deck-01-three-quarter.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/deck-01-three-quarter.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-deck-wide.jpg",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/footer-deck-wide.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-deck-wide.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/footer-deck-wide.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-dead-channel.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-dead-channel.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-deep-current.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-deep-current.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-ghost-frequency.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-ghost-frequency.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-lost-signal.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-lost-signal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-moon-relay.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-moon-relay.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-mossheart.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-mossheart.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-neon-ruins.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-neon-ruins.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-paper-kingdom.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-paper-kingdom.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-sunken-arcade.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-sunken-arcade.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-turbo-saints.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-turbo-saints.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-dead-channel.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-dead-channel.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-deep-current.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-deep-current.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-ghost-frequency.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-ghost-frequency.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-lost-signal.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-lost-signal.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-moon-relay.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-moon-relay.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-mossheart.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-mossheart.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-neon-ruins.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-neon-ruins.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-paper-kingdom.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-paper-kingdom.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-sunken-arcade.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-sunken-arcade.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-turbo-saints.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-turbo-saints.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-archive-1366.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-archive-1366.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-archive-1920.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-archive-1920.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-archive-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-archive-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-aligning.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-aligning.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-booting.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-booting.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-game-detail.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-game-detail.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-screen-expanding.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-screen-expanding.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/glass.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "polymer.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/polymer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_albedo.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_albedo.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_ao.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_ao.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_height.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_height.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_normal.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_normal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_roughness.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_roughness.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_albedo.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_albedo.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_ao.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_ao.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_height.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_height.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_normal.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_normal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_roughness.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_roughness.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hardware-slot-guide.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hardware-slot-guide.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hardware-wireframe.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hardware-wireframe.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build a complete, isolated fictional game archive at `/savepoint` in Next.js App Router, React, TypeScript and Tailwind v4. Use imperative Three.js, GSAP with ScrollTrigger and Zustand. Read the installed Next.js documentation before using ",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".utility",
+        ".09em",
+        ".archive-hero",
+        ".site-header",
+        ".wordmark",
+        ".header-center",
+        ".status",
+        ".hero-type",
+        ".eyebrow",
+        ".055em",
+        ".support",
+        ".mobile-break"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "savepoint-styles-1",
+      "location": "head",
+      "title": "SAVEPOINT. Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 19827,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ":root{--bg:#121419;--bg-deep:#0B0D12;--surface:#1B1F28;--surface-elevated:#252934;--text:#F2F0E8;--text-muted:#A9ADB7;--border:rgba(242,240,232,.15);--accent:#CDF266;--violet:#7971B7;--coral:#F47D62;--ease-out:cubic-bezier(.22,1,.36,1);--ease-cinema:cubic-bezier(.76,0,.18,1)}\n*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text)}body{font-family:var(--font-sans),Arial,sans-serif}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer;font:inherit}button:disabled{cursor:default}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:6px}.utility{font:10px var(--font-mono),monospace;letter-spacing:.09em}.archive-hero{min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(ellipse at 50% 55%,#25293466,transparent 55%)}.site-header{height:90px;margin:0 4%;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:24px}.wordmark{display:flex;gap:10px;align-items:center;font:700 23px var(--font-display),sans-serif;letter-spacing:-1px}.wordmark span{color:var(--accent);margin-left:-9px}.header-center{color:var(--text-muted);font-size:9px}.status{display:flex;gap:10px;align-items:center}.status i{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px #cdf26666}.hero-type{text-align:center;padding:42px 16px 0;transition:opacity .4s}.eyebrow{display:flex;align-items:center;justify-content:center;gap:16px;color:var(--text-muted);font-size:9px}.eyebrow span{width:25px;height:1px;background:var(--border)}.hero-type h1{font:500 clamp(36px,5vw,78px)/.98 var(--font-display),sans-serif;letter-spacing:-.055em;margin:24px 0 20px}.hero-type h1 span{color:var(--text-muted)}.support{font-size:12px;color:var(--text-muted);line-height:1.7}.mobile-break{display:none}.stage{position:relative;width:100%;height:clamp(220px,34dvh,420px);flex:1;min-height:230px}.archive-canvas{display:block;width:100%;height:100%;touch-action:pan-y;outline:none}.stage-rule{position:absolute;top:28px;left:4%;right:4%;display:flex;justify-content:space-between;font:8px var(--font-mono),monospace;letter-spacing:.12em;color:#7d828f;pointer-events:none}.rail-baseline{position:absolute;bottom:13%;left:4%;right:4%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);pointer-events:none}.arrow{position:absolute;top:50%;width:48px;height:48px;border:1px solid var(--border);border-radius:50%;background:var(--bg);color:var(--text);font-size:22px;transition:background .2s}.arrow:hover{background:var(--surface-elevated)}.previous{left:4%}.next{right:4%}.archive-bottom{text-align:center;padding:0 4% 23px}.caption-mask{overflow:hidden}.caption-content{animation:caption-enter .55s var(--ease-out)}@keyframes caption-enter{from{transform:translateY(calc(var(--caption-direction)*105%))}to{transform:translateY(0)}}.caption .utility{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--accent)}.caption .utility span{color:var(--text-muted)}.caption i{height:10px;width:1px;background:var(--border);margin:0 5px}.caption h2{font:500 29px var(--font-display),sans-serif;letter-spacing:-1px;margin:9px 0 5px}.genre{font:9px var(--font-mono),monospace;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}.boot-button{display:inline-flex;gap:48px;justify-content:space-between;margin-top:19px;padding:16px 22px;background:var(--accent);color:var(--bg-deep);border:0;font:500 10px var(--font-mono),monospace;letter-spacing:.06em}.boot-button:hover{background:var(--text)}.instruction{font-size:8px;letter-spacing:.14em;color:var(--text-muted);margin:14px 0 30px}.bottom-line{border-top:1px solid var(--border);padding-top:18px;display:flex;justify-content:space-between;color:#7d828f;font-size:8px}.is-busy .hero-type,.is-busy .archive-bottom,.is-busy .stage-rule,.is-busy .arrow,.is-busy .rail-baseline{opacity:0;pointer-events:none}.is-busy .stage{position:fixed;inset:0;z-index:10;height:100dvh}.boot-status{position:fixed;bottom:28px;left:0;right:0;text-align:center;z-index:30}.boot-status p{color:var(--accent)}.boot-status button{border:1px solid var(--border);background:var(--bg);color:var(--text);padding:12px 22px;font:10px var(--font-mono),monospace;margin-top:12px}.screen-takeover{position:fixed;inset:0;z-index:20;visibility:hidden;pointer-events:none;background-size:cover;background-position:center;clip-path:inset(50%)}.screen-takeover.visible{visibility:visible}.game-detail{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;background:var(--bg-deep);pointer-events:auto;outline:none}.world-plate{position:absolute;inset:0 0 auto;height:100dvh;background-size:cover;background-position:center}.world-plate:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0b0d1233,#0b0d1200 30%,#0b0d12 100%),linear-gradient(90deg,#0b0d1299,transparent)}.world-header{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:24px 4%;gap:16px;font:10px var(--font-mono),monospace}.world-header button,.game-detail nav button{background:#121419bb;color:var(--text);border:1px solid var(--border);padding:15px;font:10px var(--font-mono),monospace}.game-detail article{position:relative;z-index:1;padding:clamp(180px,38dvh,450px) 7% 70px;max-width:1500px;margin:auto}.game-detail article>.utility{color:var(--world-accent);font-size:10px}.game-detail h1{font:500 clamp(50px,9vw,140px)/1 var(--font-display),sans-serif;letter-spacing:-.06em;text-transform:uppercase;margin:22px 0}.tagline{font-size:clamp(16px,2vw,25px)}.description{max-width:600px;font-size:15px;line-height:1.9;color:var(--text-muted)}.world-notes{margin-top:100px;max-width:650px}.world-notes h2,.archive-data h2{font:11px var(--font-mono),monospace;color:var(--world-accent);letter-spacing:.1em}.world-notes p{line-height:1.9;color:var(--text-muted);font-size:14px}.archive-data{display:flex;flex-wrap:wrap;gap:24px;border-block:1px solid var(--border);padding:30px 0;margin:45px 0;font:10px var(--font-mono),monospace}.game-detail nav{display:flex;justify-content:space-between;gap:12px}.motion-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);font-size:10px}.motion-fallback img{width:200px;max-height:70%;object-fit:contain}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-height:800px) and (min-width:768px){.site-header{height:72px}.hero-type{padding-top:27px}.hero-type h1{font-size:57px;margin:17px 0 12px}.stage{min-height:210px}.instruction{margin-bottom:22px}.caption h2{font-size:26px}.boot-button{margin-top:13px}}@media(max-width:767px){.site-header{height:72px}.wordmark{font-size:19px}.header-center{display:none}.status{font-size:7px}.hero-type{padding-top:38px}.eyebrow{font-size:7px;gap:8px}.eyebrow span{width:10px}.hero-type h1{font-size:clamp(33px,9vw,60px);margin-top:24px}.support{font-size:11px}.mobile-break{display:block}.stage{min-height:245px;max-height:36dvh}.stage-rule{font-size:7px;top:18px}.arrow{width:44px;height:44px;top:72%;background:#121419bb}.caption h2{font-size:27px}.bottom-line span:first-child{display:none}.instruction{margin-bottom:25px}.world-header{font-size:8px}.world-header button{font-size:8px}.game-detail article{padding-inline:6%}.game-detail nav button{font-size:8px}.archive-data{gap:18px}.game-detail h1{font-size:58px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}\n.archive-hero{height:100dvh}.stage{height:auto;min-height:0;max-height:none;flex:1 1 0}.archive-canvas{position:absolute;inset:0}.archive-bottom{flex-shrink:0}.hero-type,.site-header{flex-shrink:0}\n.screen-takeover[data-visible=\"false\"]{visibility:hidden}.world-header{position:sticky;top:0;background:linear-gradient(#0b0d12cc,transparent);z-index:3}.game-detail article{padding-top:clamp(140px,30dvh,350px)}\n\nhtml{scroll-behavior:smooth;scroll-padding-top:24px;scrollbar-color:var(--surface-elevated) var(--bg-deep)}\n::selection{background:var(--accent);color:var(--bg-deep)}\n.header-nav{display:flex;gap:25px;color:var(--text-muted)}\n.header-nav a:hover,.footer-bottom a:hover,.bottom-line a:hover{color:var(--accent)}\n.editorial-section{padding:0 6%;scroll-margin-top:24px}\n.section-rule{display:flex;justify-content:space-between;gap:20px;padding:25px 0;border-top:1px solid var(--border);color:var(--text-muted);font-size:9px}\n.section-title{font:500 clamp(40px,6.4vw,96px)/1.01 var(--font-display),sans-serif;letter-spacing:-.04em;margin:70px 0 62px;text-wrap:balance}\n.section-title span,.muted{color:var(--text-muted)}\n.section-title.centered{text-align:center}\n.device-story{padding-top:60px;padding-bottom:130px}\n.hardware-studio{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:7%;align-items:center}\n.inspection-stage{position:relative;min-width:0;height:480px;background:var(--bg-deep);overflow:hidden}\n.inspection-canvas{width:100%;height:100%;display:block}\n.studio-label,.studio-bottom{position:absolute;left:25px;right:25px;display:flex;justify-content:space-between;align-items:center;z-index:1;pointer-events:none;font-size:9px;color:var(--text-muted)}\n.studio-label{top:24px}.studio-label span:first-child{color:var(--text)}.studio-bottom{bottom:22px}\n.studio-bottom button{pointer-events:auto;border:0;background:transparent;color:var(--text-muted);font:inherit;min-height:44px;padding:0 0 0 12px}\n.studio-bottom button span{color:var(--accent);padding-left:15px}\n.studio-bottom button:disabled{opacity:.4}\n.inspection-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}\n.inspection-options button{width:100%;display:grid;grid-template-columns:24px 1fr 20px;gap:12px;align-items:center;text-align:left;min-height:72px;padding:18px 0;background:transparent;border:0;border-bottom:1px solid var(--border);color:var(--text-muted);font:500 12px var(--font-mono),monospace;line-height:1.5}\n.inspection-options button:first-child{border-top:1px solid var(--border)}\n.inspection-options button[aria-pressed=\"true\"]{color:var(--text)}\n.inspection-options button[aria-pressed=\"true\"]>span:first-child,.inspection-options button[aria-pressed=\"true\"]>span:last-child{color:var(--accent)}\n.inspection-options button:hover{color:var(--accent)}\n.inspection-copy{font-size:14px;line-height:1.85;color:var(--text-muted);min-height:100px;max-width:48ch;margin-top:28px}\n.study-detail{font-size:8px;color:var(--accent);line-height:1.8}\n.hardware-plates{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:40px}\n.hardware-plates figure{margin:0;min-width:0}\n.hardware-plates figure>img,.shell-pair{width:100%;height:260px;object-fit:cover;display:block;background:var(--bg-deep)}\n.shell-pair{display:flex;overflow:hidden}\n.shell-pair img{width:50%;height:100%;object-fit:cover}\n.hardware-plates figcaption{color:var(--text-muted);margin-top:14px;font-size:8px;line-height:1.6}\n.about-archive{padding-bottom:160px}\n.manifest-title{margin-block:85px 110px}.manifest-line{display:block;color:var(--text)!important}.manifest-line.muted{color:var(--text-muted)!important}\n.manifest-composition{display:grid;grid-template-columns:1.15fr 1fr;gap:11%;align-items:center}\n.manifest-images{height:650px;position:relative}\n.manifest-images figure{position:absolute;margin:0}\n.manifest-images img{width:100%;height:100%;object-fit:cover;display:block}\n.manifest-world-back{top:0;left:0;width:90%;height:420px}\n.manifest-world-front{bottom:0;right:-7%;width:67%;height:290px;border:8px solid var(--bg)}\n.manifest-images figcaption{font-size:8px;letter-spacing:.1em;color:var(--text-muted);padding-top:12px}\n.manifest-essay{max-width:500px;padding-block:30px}\n.manifest-lead{font:400 clamp(24px,2.4vw,36px)/1.35 var(--font-display),sans-serif;letter-spacing:-.025em;margin-top:0}\n.manifest-essay>p:not(.manifest-lead){color:var(--text-muted);font-size:14px;line-height:1.95}\n.manifest-spec{display:flex;flex-direction:column;gap:28px;margin-top:40px;padding-top:28px;border-top:1px solid var(--border);font-size:9px;line-height:1.9;color:var(--text-muted)}\n.manifest-spec>span:first-child{color:var(--accent)}\n.world-gallery{padding-bottom:140px}\n.catalog-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin:70px 0 45px}\n.catalog-heading .section-title{margin:0}.catalog-heading>p{color:var(--text-muted);font-size:13px;line-height:1.8;padding-bottom:6px}\n.catalog-filters{display:flex;flex-wrap:wrap;gap:8px;border-block:1px solid var(--border);padding:16px 0}\n.catalog-filters button{font:9px var(--font-mono),monospace;color:var(--text-muted);background:transparent;border:1px solid transparent;min-height:44px;padding:12px 15px}\n.catalog-filters button[aria-pressed=\"true\"]{color:var(--bg-deep);background:var(--accent)}\n.catalog-filters button:hover:not([aria-pressed=\"true\"]){color:var(--text);border-color:var(--border)}\n.catalog-count{color:var(--text-muted);font-size:8px;margin:24px 0 30px}\n.catalog-entry{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:6%;padding-bottom:50px;margin-bottom:50px;border-bottom:1px solid var(--border);align-items:center}\n.catalog-art{position:relative;aspect-ratio:1.85;overflow:hidden;background:var(--bg-deep)}\n.catalog-world{width:100%;height:100%;object-fit:cover;display:block;transition:transform .65s var(--ease-out)}\n.catalog-entry:hover .catalog-world{transform:scale(1.03)}\n.catalog-label{position:absolute;right:22px;bottom:22px;width:27%;height:auto;transform:rotate(-7deg);box-shadow:6px 12px 22px #0b0d1280;border:3px solid #252934}\n.catalog-art-code{position:absolute;top:18px;left:18px;padding:8px 10px;background:#0b0d12dd;color:var(--text);font-size:9px}\n.catalog-copy{min-width:0}.catalog-meta{display:flex;gap:24px;color:var(--text-muted);font-size:9px}.catalog-meta span:first-child{color:var(--game-accent)}\n.catalog-copy h3{font:500 clamp(30px,3vw,48px)/1.08 var(--font-display),sans-serif;letter-spacing:-.035em;margin:17px 0 12px;text-transform:uppercase}\n.catalog-genre{color:var(--text-muted);text-transform:uppercase;font-size:8px;line-height:1.7}\n.catalog-hook{font-size:13px;color:var(--text-muted);line-height:1.9;max-width:46ch;margin:22px 0 28px}\n.catalog-actions{display:flex;gap:24px;flex-wrap:wrap}\n.catalog-actions button{display:flex;gap:22px;justify-content:space-between;align-items:center;background:transparent;border:0;border-bottom:1px solid var(--border);color:var(--text);font:9px var(--font-mono),monospace;min-height:44px;padding:0 0 8px}\n.catalog-actions button:last-child{color:var(--accent)}.catalog-actions button:hover{border-color:var(--accent)}\n.site-footer{position:relative;padding-bottom:28px;text-align:center;background-color:var(--bg-deep);background-image:linear-gradient(180deg,rgba(11,13,18,.92) 0%,rgba(11,13,18,.68) 42%,rgba(11,13,18,.95) 100%),url('/templates/savepoint/footer-deck-wide.webp');background-position:center bottom;background-size:cover;background-repeat:no-repeat}\n.site-footer .section-rule{text-align:left}\n.site-footer .section-title{margin-top:100px;margin-bottom:45px}\n.return-button{background:var(--accent);color:var(--bg-deep);border:0;padding:22px 25px;display:inline-flex;gap:65px;font:10px var(--font-mono),monospace}\n.return-button:hover{background:var(--text)}\n.footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:28px;border-top:1px solid var(--border);margin-top:120px;padding-top:30px}\n.footer-bottom>.utility{color:var(--text-muted);font-size:8px}\n.footer-bottom nav{display:flex;gap:20px;font:9px var(--font-mono),monospace;color:var(--text-muted)}\n.footer-legal{display:flex;justify-content:space-between;gap:20px;color:var(--text-muted);font-size:7px;margin-top:35px;line-height:1.8;text-align:left}\n.custom-cursor{position:fixed;left:0;top:0;z-index:100;pointer-events:none;display:none}\n.custom-cursor:before{content:'';position:absolute;width:28px;height:28px;left:-14px;top:-14px;border:1px solid #f2f0e899;border-radius:50%;transition:background .15s,border-color .15s}\n.custom-cursor span{display:none}\n@media(hover:hover) and (pointer:fine){.custom-cursor[data-visible=\"true\"]{display:block}.custom-cursor[data-mode=\"spine\"]:before{width:14px;height:14px;left:-7px;top:-7px;border-color:var(--accent)}.custom-cursor[data-mode=\"boot\"]:before{width:68px;height:32px;left:-34px;top:-16px;border-radius:20px;background:var(--accent);border-color:var(--accent)}.custom-cursor[data-mode=\"boot\"] span{position:absolute;display:block;left:-34px;top:-16px;width:68px;height:32px;text-align:center;line-height:32px;font:10px/32px var(--font-mono),monospace;color:var(--bg-deep)}}\n@media(min-width:1700px){.editorial-section{padding-inline:max(6%,calc((100% - 1600px)/2))}.inspection-stage{height:560px}.hardware-plates figure>img,.shell-pair{height:320px}}\n@media(max-width:1100px){.hardware-studio{gap:4%;grid-template-columns:minmax(0,1.25fr) minmax(280px,1fr)}.inspection-stage{height:430px}.inspection-options button{font-size:10px;gap:9px}.inspection-copy{font-size:12px}.manifest-composition{gap:8%;grid-template-columns:1fr 1fr}.manifest-images{height:570px}.manifest-world-back{height:350px}.manifest-world-front{height:250px}.footer-bottom{flex-wrap:wrap}.footer-bottom nav{margin-left:auto}.catalog-actions{gap:18px}.catalog-actions button{font-size:8px}}\n@media(max-width:767px){.site-header{position:relative;height:88px;align-items:flex-start;padding-top:17px;gap:12px}.header-nav{position:absolute;bottom:13px;left:0;right:0;justify-content:space-between;font-size:8px;gap:12px}.status{padding-top:8px}.hero-type{padding-top:27px}.editorial-section{padding-inline:6%}.section-rule{font-size:7px;padding-block:20px;line-height:1.7}.section-title{font-size:clamp(36px,8.3vw,64px);margin:50px 0 38px;letter-spacing:-.035em}.device-story{padding-top:40px;padding-bottom:90px}.hardware-studio{display:flex;flex-direction:column;gap:30px}.inspection-stage{width:100%;height:360px}.inspection-controls{width:100%}.inspection-options button{font-size:10px;min-height:62px}.inspection-copy{min-height:0;font-size:13px;max-width:none}.studio-label,.studio-bottom{left:18px;right:18px;font-size:8px}.hardware-plates{grid-template-columns:1fr;gap:30px;margin-top:30px}.hardware-plates figure>img,.shell-pair{height:240px}.about-archive{padding-bottom:100px}.manifest-title{margin-block:55px 60px}.manifest-composition{grid-template-columns:1fr;gap:40px}.manifest-images{height:450px;margin-right:6%}.manifest-world-back{height:300px}.manifest-world-front{height:200px;width:70%;border-width:5px}.manifest-essay{max-width:none;padding-top:0}.manifest-lead{font-size:27px}.manifest-essay>p:not(.manifest-lead){font-size:13px}.manifest-spec{font-size:8px;gap:20px}.catalog-heading{display:block;margin:50px 0 30px}.catalog-heading>p{font-size:12px;margin-top:25px}.catalog-filters{gap:5px}.catalog-filters button{font-size:8px;padding-inline:10px}.catalog-entry{grid-template-columns:1fr;gap:26px;margin-bottom:35px;padding-bottom:35px}.catalog-copy h3{font-size:35px;margin-top:14px}.catalog-hook{font-size:13px;margin-block:18px}.catalog-actions{gap:30px}.catalog-actions button{font-size:9px}.catalog-label{right:18px;bottom:18px}.world-gallery{padding-bottom:55px}.site-footer .section-title{margin-top:60px}.return-button{gap:28px;padding:20px;font-size:9px}.footer-bottom{margin-top:80px;flex-direction:column;align-items:flex-start;gap:22px}.footer-bottom nav{margin-left:0;flex-wrap:wrap;gap:24px}.footer-legal{flex-direction:column;gap:10px;font-size:7px}.footer-bottom>.utility{font-size:8px}}"
+    },
+    {
+      "id": "savepoint-runtime-1",
+      "location": "footer",
+      "title": "SAVEPOINT. Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 419,
+      "description": "Loads three, gsap in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "gsap"
+      ],
+      "code": "// SAVEPOINT. — Webflow Custom Code Runtime Bridge\n// Dependencies: three, gsap\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

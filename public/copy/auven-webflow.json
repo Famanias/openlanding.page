@@ -1,0 +1,92 @@
+{
+  "slug": "auven",
+  "title": "AUVEN",
+  "industry": "Global Talent & Operations",
+  "description": "A premium outsourcing partner combining elite global talent with seamless operational integration.",
+  "stack": "HTML · CSS · JavaScript",
+  "liveUrl": "https://www.openlanding.page/templates/auven",
+  "downloadUrl": "https://www.openlanding.page/downloads/auven.html",
+  "manifestUrl": "https://www.openlanding.page/copy/auven-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/auven-webflow-prompt.md",
+  "variables": {
+    "collectionName": "AUVEN Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0a151e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#111f2a",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#060e14",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#a2aeb6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#d7b698",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#f0d7bd",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#f0eee9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#e2dfd8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "auven.webp",
+      "publicPath": "https://www.openlanding.page/gallery/auven.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/auven/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Recreate the supplied AUVEN experience as one complete, self-contained HTML document at /auven. The canonical source is public/downloads/auven.html, imported from AUVEN_Standalone_Experience.html. Preserve its copy, responsive layouts, embe",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": []
+}

@@ -1,0 +1,612 @@
+{
+  "slug": "koji",
+  "title": "KŌJI",
+  "industry": "Hospitality & Dining",
+  "description": "Fermentation kitchen in Tokyo with 3D WebGPU dish showcase, brutalist aesthetics, and scroll-scrubbed video.",
+  "stack": "Next.js 16 · Three.js (WebGPU/TSL) · Scroll-World",
+  "liveUrl": "https://www.openlanding.page/templates/koji",
+  "downloadUrl": "https://www.openlanding.page/downloads/koji.html",
+  "manifestUrl": "https://www.openlanding.page/copy/koji-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/koji-webflow-prompt.md",
+  "variables": {
+    "collectionName": "KŌJI Tokens",
+    "colors": [
+      {
+        "name": "Color / Sumi",
+        "cssVar": "--color-sumi",
+        "value": "#1A1918",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Shadow",
+        "cssVar": "--color-shadow",
+        "value": "#4A4743",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Beton",
+        "cssVar": "--color-beton",
+        "value": "#8E8A83",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Washi",
+        "cssVar": "--color-washi",
+        "value": "#EDEAE4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Shu",
+        "cssVar": "--color-shu",
+        "value": "#C8331F",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-dela-gothic)",
+        "fallback": "Arial Black, sans-serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-zen-kaku)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "DM Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "DM Mono"
+      },
+      {
+        "name": "Font / Dela Gothic One",
+        "cssVar": "--font-dela-gothic-one",
+        "family": "Dela Gothic One",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Dela Gothic One"
+      },
+      {
+        "name": "Font / Zen Kaku Gothic New",
+        "cssVar": "--font-zen-kaku-gothic-new",
+        "family": "Zen Kaku Gothic New",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Zen Kaku Gothic New"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Gutter",
+        "cssVar": "--gutter",
+        "value": "clamp(16px, 4vw, 64px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Topbar",
+        "cssVar": "--topbar",
+        "value": "72px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Rule",
+        "cssVar": "--rule",
+        "value": "3px solid var(--color-sumi)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Board Marks",
+        "cssVar": "--board-marks",
+        "value": "repeating-linear-gradient(180deg, transparent 0 58px, color-mix(in oklab, var(--color-sumi) 14%, transparent) 58px 60px),\r\n    repeating-linear-gradient(90deg, transparent 0 3px, color-mix(in oklab, var(--color-washi) 5%, transparent) 3px 4px, transparent 4px 11px)",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "koji.webp",
+      "publicPath": "https://www.openlanding.page/gallery/koji.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "building-exterior-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-1-2-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-1-2-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-1-2.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-1-2.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-2-3-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-2-3-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-2-3.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-2-3.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-3-4-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-3-4-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-3-4.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-3-4.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-4-5-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-4-5-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-4-5.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-4-5.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-1-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-1-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-1.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-1.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-2-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-2-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-2.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-2.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-3-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-3-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-3.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-3.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-4-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-4-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-4.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-4.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-5-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-5-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-5.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-5.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Sticky 72px top bar",
+      "summary": "(sumi): the hanko plus \"KŌJI 麹\", and on the right a **noren curtain** nav. That's five hanging shadow-grey panels split by slits, each with kanji (厨房 献立 塔 板前 予約), an English label from 900px up, and a 4px shu hem. On hover a panel turns shu and drops 4px.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-topbar",
+        ".kj-topbar__brand",
+        ".kj-flight__sticky",
+        ".sw-scrollbar",
+        ".sw-topbar"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero",
+      "summary": "(sumi):",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-hero",
+        ".kj-hero__grid",
+        ".kj-hero__copy",
+        ".kj-hero__kicker",
+        ".kj-hero__wordmark",
+        ".kj-hero__lead",
+        ".kj-hero__dish",
+        ".kj-hero__kanji"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Kitchen",
+      "summary": "(béton slab): \"Fermentation is the kitchen.\" Three pillars, each with giant kanji: 麹 Kōji, 味噌 Miso, 塩 Shio. Two photos.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-kitchen__photos"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Omakase",
+      "summary": "(sumi): \"Eleven courses. One counter.\" The **food flight** (below), then a menu card with the hanko, \"Autumn menu · ¥38,000\", and 11 courses in 5 groups in mono:",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-omakase",
+        ".kj-omakase__flight"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Building",
+      "summary": "(washi): a tower photo, \"A tower built to be rebuilt.\", the Metabolist idea (a core with plug-in capsules), a facts list.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-building",
+        ".kj-building__photo",
+        ".kj-building__copy"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Chef",
+      "summary": "(sumi): \"Ren Ishikawa.\", a pull quote with a 6px shu left rule, photo.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-chef",
+        ".kj-chef__copy",
+        ".kj-chef__bio",
+        ".kj-chef__photo"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Reserve",
+      "summary": "(béton): \"Twelve seats. Two seatings.\" A washi form card with these fields:",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Footer",
+      "summary": "(sumi, shu top rule): the hanko plus wordmark, address, hours, contact.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kj-footer",
+        ".kj-footer__brand",
+        ".kj-footer__wordmark",
+        ".kj-footer__info",
+        ".kj-footer__legal"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "koji-styles-1",
+      "location": "head",
+      "title": "KŌJI Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 18498,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* ─────────────── KŌJI design tokens: concrete, plus one signal ─────────────── */\r\n@theme {\r\n  --color-sumi: #1A1918; /* ink-black: hero, omakase, chef, footer */\r\n  --color-shadow: #4A4743; /* concrete in shade: rules, slab wipe */\r\n  --color-beton: #8E8A83; /* béton brut: kitchen and reservation slabs */\r\n  --color-washi: #EDEAE4; /* paper: text on dark, building slab */\r\n  --color-shu: #C8331F; /* vermilion seal red: the only accent */\r\n\r\n  --font-display: var(--font-dela-gothic), \"Arial Black\", sans-serif;\r\n  --font-body: var(--font-zen-kaku), system-ui, sans-serif;\r\n  --font-mono: var(--font-dm-mono), ui-monospace, monospace;\r\n\r\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\r\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\r\n}\r\n\r\n:root {\r\n  --gutter: clamp(16px, 4vw, 64px);\r\n  --topbar: 72px;\r\n  --rule: 3px solid var(--color-sumi);\r\n  /* Board-marked concrete: horizontal formwork boards plus faint vertical grain. */\r\n  --board-marks:\r\n    repeating-linear-gradient(180deg, transparent 0 58px, color-mix(in oklab, var(--color-sumi) 14%, transparent) 58px 60px),\r\n    repeating-linear-gradient(90deg, transparent 0 3px, color-mix(in oklab, var(--color-washi) 5%, transparent) 3px 4px, transparent 4px 11px);\r\n}\r\n\r\nhtml:has(.kj-body) {\r\n  scroll-padding-top: var(--topbar);\r\n}\r\n\r\n/* ─────────────── Base ─────────────── */\r\n.kj-body {\r\n  margin: 0;\r\n  background: var(--color-sumi);\r\n  color: var(--color-washi);\r\n  font-family: var(--font-body);\r\n  font-size: 1.0625rem;\r\n  line-height: 1.6;\r\n  -webkit-font-smoothing: antialiased;\r\n}\r\n\r\n.kj-body ::selection {\r\n  background: var(--color-shu);\r\n  color: var(--color-washi);\r\n}\r\n\r\n.kj-body :focus-visible {\r\n  outline: 3px solid var(--color-shu);\r\n  outline-offset: 2px;\r\n}\r\n\r\n.kj-mono {\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.12em;\r\n  text-transform: uppercase;\r\n  margin: 0;\r\n}\r\n\r\n.kj-shu {\r\n  color: var(--color-shu);\r\n}\r\n\r\n.kj-h2 {\r\n  font-family: var(--font-display);\r\n  font-weight: 400;\r\n  font-size: clamp(2.5rem, 6vw, 6rem);\r\n  line-height: 0.95;\r\n  letter-spacing: -0.01em;\r\n  margin: 0;\r\n  text-wrap: balance;\r\n}\r\n\r\n.kj-h3 {\r\n  font-family: var(--font-display);\r\n  font-weight: 400;\r\n  font-size: clamp(1.5rem, 2.2vw, 2.25rem);\r\n  line-height: 1.05;\r\n  margin: 0;\r\n}\r\n\r\n.kj-lead {\r\n  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);\r\n  max-width: 48ch;\r\n  margin: 0;\r\n}\r\n\r\n.kj-btn {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  height: 52px;\r\n  padding: 0 26px;\r\n  border: 0;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.8125rem;\r\n  letter-spacing: 0.12em;\r\n  text-transform: uppercase;\r\n  text-decoration: none;\r\n  cursor: pointer;\r\n  transition:\r\n    background-color 160ms var(--ease-out),\r\n    color 160ms var(--ease-out),\r\n    transform 160ms var(--ease-out);\r\n}\r\n\r\n.kj-btn:active {\r\n  transform: scale(0.97);\r\n}\r\n\r\n.kj-btn--shu {\r\n  background: var(--color-shu);\r\n  color: var(--color-washi);\r\n}\r\n\r\n@media (hover: hover) and (pointer: fine) {\r\n  .kj-btn--shu:hover {\r\n    background: var(--color-washi);\r\n    color: var(--color-sumi);\r\n  }\r\n}\r\n\r\n.kj-placeholder {\r\n  display: grid;\r\n  background: var(--board-marks), var(--color-shadow);\r\n  border: 2px dashed color-mix(in oklab, var(--color-washi) 35%, transparent);\r\n  color: var(--color-washi);\r\n}\r\n\r\n.kj-placeholder .kj-mono {\r\n  align-self: start;\r\n  justify-self: start;\r\n  padding: 12px 14px;\r\n  opacity: 0.75;\r\n}\r\n\r\n.kj-photo {\r\n  display: block;\r\n  overflow: hidden;\r\n}\r\n\r\n.kj-photo img {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n}\r\n\r\n/* ─────────────── Top bar + noren ─────────────── */\r\n.kj-topbar {\r\n  position: sticky;\r\n  top: 0;\r\n  z-index: 40;\r\n  height: var(--topbar);\r\n  display: flex;\r\n  align-items: stretch;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n  padding-left: var(--gutter);\r\n  background: var(--color-sumi);\r\n  border-bottom: var(--rule);\r\n  border-bottom-color: var(--color-shadow);\r\n}\r\n\r\n.kj-topbar__brand {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  gap: 12px;\r\n  color: var(--color-washi);\r\n  text-decoration: none;\r\n}\r\n\r\n.kj-noren {\r\n  display: flex;\r\n  gap: 4px;\r\n  padding: 0 var(--gutter) 0 0;\r\n}\r\n\r\n.kj-noren__panel {\r\n  position: relative;\r\n  display: grid;\r\n  align-content: end;\r\n  justify-items: center;\r\n  gap: 2px;\r\n  width: clamp(44px, 9vw, 112px);\r\n  padding: 0 4px 10px;\r\n  background: var(--color-shadow);\r\n  color: var(--color-washi);\r\n  text-decoration: none;\r\n  border-bottom: 4px solid var(--color-shu);\r\n  transform-origin: top center;\r\n  transition:\r\n    background-color 200ms var(--ease-out),\r\n    transform 260ms var(--ease-out);\r\n}\r\n\r\n.kj-noren__jp {\r\n  font-family: var(--font-display);\r\n  font-size: 1.125rem;\r\n  line-height: 1;\r\n}\r\n\r\n.kj-noren__label {\r\n  font-family: var(--font-mono);\r\n  font-size: 0.625rem;\r\n  letter-spacing: 0.12em;\r\n  text-transform: uppercase;\r\n  display: none;\r\n}\r\n\r\n@media (hover: hover) and (pointer: fine) {\r\n  .kj-noren__panel:hover {\r\n    background: var(--color-shu);\r\n    transform: translateY(4px);\r\n  }\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .kj-noren__label {\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (max-width: 599px) {\r\n  .kj-topbar__brand .kj-mono {\r\n    display: none;\r\n  }\r\n  .kj-noren__panel {\r\n    width: 52px;\r\n  }\r\n}\r\n\r\n/* ─────────────── Hero ─────────────── */\r\n.kj-hero {\r\n  position: relative;\r\n  background: var(--color-sumi);\r\n  overflow: hidden;\r\n}\r\n\r\n.kj-hero__grid {\r\n  position: relative;\r\n  display: grid;\r\n  gap: 32px;\r\n  padding: 48px var(--gutter) 56px;\r\n  min-height: calc(100svh - var(--topbar) - 56px);\r\n  box-sizing: border-box;\r\n}\r\n\r\n.kj-hero__copy {\r\n  position: relative;\r\n  z-index: 2;\r\n  display: grid;\r\n  gap: 24px;\r\n  align-content: end;\r\n  justify-items: start;\r\n}\r\n\r\n.kj-hero__kicker {\r\n  color: var(--color-beton);\r\n}\r\n\r\n.kj-wordmark {\r\n  font-family: var(--font-display);\r\n  font-weight: 400;\r\n  line-height: 0.8;\r\n  letter-spacing: -0.03em;\r\n  margin: 0;\r\n}\r\n\r\n.kj-hero__wordmark {\r\n  font-size: clamp(6rem, 21vw, 22rem); /* phones: as wide as the screen allows */\r\n  color: var(--color-washi);\r\n}\r\n\r\n.kj-wordmark__o {\r\n  color: var(--color-shu);\r\n}\r\n\r\n.kj-hero__lead {\r\n  max-width: 34ch;\r\n  margin: 0;\r\n  font-size: clamp(1.0625rem, 1.4vw, 1.3rem);\r\n  color: var(--color-washi);\r\n}\r\n\r\n.kj-hero__dish {\r\n  position: relative;\r\n  z-index: 1;\r\n  aspect-ratio: 1;\r\n  width: min(100%, 560px);\r\n  justify-self: center;\r\n}\r\n\r\n.kj-dish-poster {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n.kj-dish-poster img {\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n}\r\n\r\n.kj-hero__kanji {\r\n  position: absolute;\r\n  right: var(--gutter);\r\n  top: 24px;\r\n  margin: 0;\r\n  writing-mode: vertical-rl;\r\n  font-family: var(--font-display);\r\n  font-size: clamp(8rem, 24vw, 26rem);\r\n  line-height: 1;\r\n  color: color-mix(in oklab, var(--color-washi) 7%, var(--color-sumi));\r\n  pointer-events: none;\r\n  user-select: none;\r\n}\r\n\r\n.kj-signage {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0 var(--gutter);\r\n  min-height: 56px;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  align-items: center;\r\n  gap: 8px 28px;\r\n  background: var(--color-shu);\r\n  color: var(--color-washi);\r\n  font-family: var(--font-mono);\r\n  font-size: 0.8125rem;\r\n  letter-spacing: 0.14em;\r\n}\r\n\r\n.kj-signage li {\r\n  padding: 16px 0;\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .kj-hero__grid {\r\n    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr) auto;\r\n    align-items: end;\r\n    column-gap: clamp(24px, 3vw, 48px);\r\n  }\r\n  .kj-hero__wordmark {\r\n    font-size: clamp(6rem, 13.5vw, 14rem);\r\n  }\r\n  .kj-hero__dish {\r\n    align-self: center;\r\n  }\r\n  /* Desktop: the vertical 麹 becomes its own column beside the dish. */\r\n  .kj-hero__kanji {\r\n    position: static;\r\n    align-self: start;\r\n    font-size: clamp(6rem, 10vw, 11rem);\r\n    color: color-mix(in oklab, var(--color-washi) 14%, var(--color-sumi));\r\n  }\r\n}\r\n\r\n\r\n/* ─────────────── Hero dish: poster, then the real-time canvas ─────────────── */\r\n.kj-dish {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n.kj-dish__poster,\r\n.kj-dish__canvas {\r\n  position: absolute;\r\n  inset: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n.kj-dish__poster {\r\n  transition: opacity 400ms var(--ease-out);\r\n}\r\n\r\n.kj-dish__canvas {\r\n  opacity: 0;\r\n  cursor: grab;\r\n  touch-action: pan-y;\r\n  transition: opacity 400ms var(--ease-out);\r\n}\r\n\r\n.kj-dish__canvas:active {\r\n  cursor: grabbing;\r\n}\r\n\r\n.kj-dish[data-ready] .kj-dish__canvas {\r\n  opacity: 1;\r\n}\r\n\r\n.kj-dish[data-ready] .kj-dish__poster {\r\n  opacity: 0;\r\n}\r\n\r\n.kj-dish__start {\r\n  position: absolute;\r\n  left: 50%;\r\n  bottom: 16px;\r\n  transform: translateX(-50%);\r\n  white-space: nowrap;\r\n}\r\n\r\n.kj-dish__start:active {\r\n  transform: translateX(-50%) scale(0.97);\r\n}\r\n\r\n.kj-dish__hint {\r\n  position: absolute;\r\n  left: 50%;\r\n  bottom: -28px;\r\n  transform: translateX(-50%);\r\n  white-space: nowrap;\r\n  color: var(--color-beton);\r\n  opacity: 0;\r\n  transition: opacity 400ms var(--ease-out) 600ms;\r\n}\r\n\r\n.kj-dish[data-ready] .kj-dish__start {\r\n  position: absolute;\r\n  left: 50%;\r\n  bottom: 16px;\r\n  transform: translateX(-50%);\r\n  white-space: nowrap;\r\n}\r\n\r\n.kj-dish__start:active {\r\n  transform: translateX(-50%) scale(0.97);\r\n}\r\n\r\n.kj-dish__hint {\r\n  opacity: 1;\r\n}\r\n\r\n/* ─────────────── Slabs ─────────────── */\r\n.kj-slab {\r\n  position: relative;\r\n  padding: clamp(64px, 9vw, 128px) var(--gutter);\r\n  border-top: var(--rule);\r\n}\r\n\r\n.kj-slab--beton {\r\n  background: var(--board-marks), var(--color-beton);\r\n  color: var(--color-sumi);\r\n}\r\n\r\n.kj-slab--sumi {\r\n  background: var(--color-sumi);\r\n  color: var(--color-washi);\r\n  border-top-color: var(--color-shadow);\r\n}\r\n\r\n.kj-slab--washi {\r\n  background: var(--color-washi);\r\n  color: var(--color-sumi);\r\n}\r\n\r\n.kj-section-head {\r\n  display: grid;\r\n  gap: 18px;\r\n  margin-bottom: clamp(40px, 6vw, 72px);\r\n}\r\n\r\n/* Kitchen */\r\n.kj-pillars {\r\n  list-style: none;\r\n  margin: 0 0 48px;\r\n  padding: 0;\r\n  display: grid;\r\n  border-top: var(--rule);\r\n}\r\n\r\n.kj-pillar {\r\n  display: grid;\r\n  grid-template-columns: auto 1fr;\r\n  column-gap: 20px;\r\n  row-gap: 6px;\r\n  padding: 28px 0;\r\n  border-bottom: var(--rule);\r\n}\r\n\r\n.kj-pillar__kanji {\r\n  grid-row: span 2;\r\n  font-family: var(--font-display);\r\n  font-size: clamp(3rem, 6vw, 5.5rem);\r\n  line-height: 1;\r\n  min-width: 1.2em;\r\n}\r\n\r\n.kj-pillar p {\r\n  margin: 0;\r\n  max-width: 44ch;\r\n}\r\n\r\n.kj-kitchen__photos {\r\n  display: grid;\r\n  gap: 16px;\r\n}\r\n\r\n.kj-photo--wide {\r\n  aspect-ratio: 16 / 9;\r\n}\r\n\r\n.kj-photo--tall {\r\n  aspect-ratio: 4 / 5;\r\n}\r\n\r\n.kj-photo--square {\r\n  aspect-ratio: 1;\r\n  max-width: 280px;\r\n}\r\n\r\n/* Omakase */\n.kj-omakase {\n  display: grid;\n  gap: clamp(24px, 3vw, 36px);\n  padding-top: clamp(48px, 6vw, 80px);\n  padding-bottom: clamp(48px, 6vw, 80px);\n}\r\n\r\n.kj-omakase .kj-section-head {\r\n  margin-bottom: 0;\r\n}\r\n\r\n.kj-flight-slot {\r\n  aspect-ratio: 16 / 9;\r\n}\r\n\r\n.kj-menu {\n  border: 2px solid var(--color-shadow);\n  padding: 24px;\n  display: grid;\n  gap: 20px;\n  align-content: start;\n  align-self: start;\n}\r\n\r\n.kj-menu__head {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 14px;\r\n  color: var(--color-beton);\r\n}\r\n\r\n.kj-menu__groups,\r\n.kj-menu__courses {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.kj-menu__group {\r\n  padding: 14px 0;\r\n  border-top: 1px solid var(--color-shadow);\r\n  transition: color 300ms var(--ease-out);\r\n}\r\n\r\n.kj-menu__group[data-active] {\r\n  color: var(--color-washi);\r\n}\r\n\r\n.kj-menu__group[data-active] .kj-menu__group-name {\r\n  color: var(--color-shu);\r\n}\r\n\r\n.kj-menu__group-name {\r\n  margin: 0 0 8px;\r\n  font-family: var(--font-display);\r\n  font-size: 1.25rem;\r\n}\r\n\r\n.kj-menu__courses li {\r\n  display: grid;\r\n  grid-template-columns: 2.5ch 7.5rem 1fr;\r\n  gap: 12px;\r\n  padding: 4px 0;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.8125rem;\r\n  letter-spacing: 0.04em;\r\n}\r\n\r\n.kj-menu__n {\r\n  color: var(--color-shu);\r\n}\r\n\r\n.kj-menu__detail {\r\n  color: var(--color-beton);\r\n}\r\n\r\n\r\n/* ─────────────── Food flight ─────────────── */\r\n/* Static sequence: before clips exist, and under reduced motion. */\r\n.kj-flight-static {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 2px;\r\n  background: var(--color-shadow);\r\n  border: 2px solid var(--color-shadow);\r\n}\r\n\r\n.kj-flight-static__scene {\r\n  display: grid;\r\n  background: var(--color-sumi);\r\n}\r\n\r\n.kj-flight-static__still {\r\n  aspect-ratio: 16 / 9;\r\n}\r\n\r\n.kj-flight-static__copy {\r\n  display: grid;\r\n  gap: 6px;\r\n  padding: 16px 20px 20px;\r\n}\r\n\r\n.kj-flight-static__copy .kj-mono {\r\n  color: var(--color-shu);\r\n}\r\n\r\n.kj-flight-static__copy p:last-child {\r\n  margin: 0;\r\n  color: var(--color-beton);\r\n  font-family: var(--font-mono);\r\n  font-size: 0.8125rem;\r\n}\r\n\r\n/* Scrubbed flight: a tall track with a sticky, transformed stage the engine's fixed layers pin to. */\r\n.kj-flight {\r\n  position: relative;\r\n  height: calc(var(--flight-height) * 100vh);\r\n}\r\n\r\n.kj-flight__sticky {\r\n  position: sticky;\r\n  top: var(--topbar);\r\n  height: calc(100vh - var(--topbar));\r\n  overflow: hidden;\r\n  transform: translateZ(0); /* makes position: fixed children relative to this box */\r\n}\r\n\r\n.kj-flight__engine {\r\n  position: absolute;\r\n  inset: 0;\r\n  /* scroll-world theme */\r\n  --sw-bg: var(--color-sumi);\r\n  --sw-ink: var(--color-washi);\r\n  --sw-ink-soft: var(--color-beton);\r\n  --sw-accent: var(--color-shu);\r\n  --sw-font-display: var(--font-display);\r\n  --sw-font-body: var(--font-body);\r\n}\r\n\r\n.kj-flight__engine .sw-route__label {\r\n  background: var(--color-washi);\r\n  color: var(--color-sumi);\r\n  font-family: var(--font-mono);\r\n  letter-spacing: 0.1em;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.kj-flight__engine .sw-track,\r\n.kj-flight__engine .sw-scrollbar,\r\n.kj-flight__engine .sw-topbar {\r\n  display: none;\r\n}\r\n\r\n.kj-slabwipe {\r\n  position: absolute;\r\n  inset: 0;\r\n  z-index: 200;\r\n  background: var(--board-marks), var(--color-shadow);\r\n  transform: translateX(-101%);\r\n  animation: kj-slab 450ms var(--ease-in-out) forwards;\r\n  pointer-events: none;\r\n}\r\n\r\n@keyframes kj-slab {\r\n  0% {\r\n    transform: translateX(-101%);\r\n  }\r\n  45%,\r\n  55% {\r\n    transform: translateX(0);\r\n  }\r\n  100% {\r\n    transform: translateX(101%);\r\n  }\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  .kj-slabwipe {\r\n    display: none;\r\n  }\r\n}\r\n\r\n/* Building */\r\n.kj-building {\r\n  display: grid;\r\n  gap: 40px;\r\n}\r\n\r\n.kj-building__photo {\r\n  aspect-ratio: 3 / 4;\r\n}\r\n\r\n.kj-building__copy {\r\n  display: grid;\r\n  gap: 24px;\r\n  align-content: start;\r\n}\r\n\r\n.kj-facts {\r\n  margin: 0;\r\n  display: grid;\r\n  border-top: var(--rule);\r\n}\r\n\r\n.kj-facts > div {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n  padding: 12px 0;\r\n  border-bottom: 1px solid var(--color-beton);\r\n}\r\n\r\n.kj-facts dd {\r\n  margin: 0;\r\n  text-align: right;\r\n  font-weight: 500;\r\n}\r\n\r\n/* Chef */\r\n.kj-chef {\r\n  display: grid;\r\n  gap: 40px;\r\n}\r\n\r\n.kj-chef__copy {\r\n  display: grid;\r\n  gap: 24px;\r\n  align-content: center;\r\n}\r\n\r\n.kj-quote {\r\n  margin: 0;\r\n  padding-left: 20px;\r\n  border-left: 6px solid var(--color-shu);\r\n}\r\n\r\n.kj-quote p {\r\n  margin: 0;\r\n  font-family: var(--font-display);\r\n  font-size: clamp(1.5rem, 2.6vw, 2.5rem);\r\n  line-height: 1.2;\r\n}\r\n\r\n.kj-chef__bio {\r\n  margin: 0;\r\n  color: var(--color-beton);\r\n  max-width: 48ch;\r\n}\r\n\r\n.kj-chef__photo {\r\n  aspect-ratio: 4 / 5;\r\n}\r\n\r\n/* Reservation */\r\n.kj-form {\r\n  display: grid;\r\n  gap: 20px;\r\n  max-width: 920px;\r\n  padding: 28px;\r\n  background: var(--color-washi);\r\n  border: var(--rule);\r\n  box-shadow: 10px 10px 0 var(--color-sumi);\r\n  color: var(--color-sumi);\r\n}\r\n\r\n.kj-form--held {\r\n  gap: 12px;\r\n  min-height: 220px;\r\n  align-content: center;\r\n}\r\n\r\n.kj-form__row {\r\n  display: grid;\r\n  gap: 16px;\r\n}\r\n\r\n.kj-field {\r\n  display: grid;\r\n  gap: 8px;\r\n  min-width: 0;\r\n}\r\n\r\n.kj-field input,\r\n.kj-field select {\r\n  height: 52px;\r\n  padding: 0 14px;\r\n  border: 2px solid var(--color-sumi);\r\n  border-radius: 0;\r\n  background: var(--color-washi);\r\n  color: var(--color-sumi);\r\n  font: inherit;\r\n  min-width: 0;\r\n}\r\n\r\n.kj-field input:focus-visible,\r\n.kj-field select:focus-visible {\r\n  outline: 3px solid var(--color-shu);\r\n  outline-offset: 0;\r\n}\r\n\r\n.kj-field[data-invalid] input,\r\n.kj-field[data-invalid] select {\r\n  border-color: var(--color-shu);\r\n}\r\n\r\n.kj-field__error {\r\n  color: var(--color-shu);\r\n}\r\n\r\n.kj-form .kj-btn {\r\n  justify-self: start;\r\n}\r\n\r\n/* Footer */\r\n.kj-footer {\r\n  display: grid;\r\n  gap: 32px;\r\n  padding: 56px var(--gutter);\r\n  background: var(--color-sumi);\r\n  border-top: var(--rule);\r\n  border-top-color: var(--color-shu);\r\n}\r\n\r\n.kj-footer__brand {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 18px;\r\n}\r\n\r\n.kj-footer__wordmark {\r\n  font-size: clamp(3rem, 8vw, 6rem);\r\n}\r\n\r\n.kj-footer__info {\r\n  margin: 0;\r\n  display: grid;\r\n  gap: 16px;\r\n}\r\n\r\n.kj-footer__info dt {\r\n  color: var(--color-beton);\r\n  margin-bottom: 4px;\r\n}\r\n\r\n.kj-footer__info dd {\r\n  margin: 0;\r\n}\r\n\r\n.kj-footer__legal {\r\n  color: var(--color-shadow);\r\n}\r\n\r\n.kj-visually-hidden {\r\n  position: absolute;\r\n  width: 1px;\r\n  height: 1px;\r\n  overflow: hidden;\r\n  clip-path: inset(50%);\r\n  white-space: nowrap;\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .kj-pillars {\r\n    grid-template-columns: repeat(3, 1fr);\r\n    border-top: 0;\r\n  }\r\n  .kj-pillar {\r\n    grid-template-columns: 1fr;\r\n    border-top: var(--rule);\r\n    border-bottom: 0;\r\n    padding-right: 24px;\r\n  }\r\n  .kj-pillar__kanji {\r\n    grid-row: auto;\r\n  }\r\n  .kj-kitchen__photos {\r\n    grid-template-columns: 2fr 1fr;\r\n    align-items: end;\r\n  }\n  .kj-omakase {\n    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);\n    column-gap: 32px;\n  }\n  .kj-omakase .kj-section-head {\n    grid-column: 1 / -1;\n  }\n  .kj-omakase__flight:has([data-flight=\"scrub\"]) {\n    grid-column: 1 / -1;\n  }\n  .kj-omakase:has([data-flight=\"scrub\"]) .kj-menu {\n    grid-column: 1 / -1;\n    max-width: 920px;\n    width: 100%;\n    margin-inline: auto;\n  }\n  .kj-omakase:has([data-flight=\"static\"]) .kj-menu {\n    position: sticky;\n    top: calc(var(--topbar) + 24px);\n  }\r\n  .kj-building {\r\n    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);\r\n    column-gap: clamp(32px, 5vw, 80px);\r\n  }\r\n  .kj-chef {\r\n    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);\r\n    column-gap: clamp(32px, 5vw, 80px);\r\n  }\r\n  .kj-form__row {\r\n    grid-template-columns: 1.4fr 1fr 0.8fr;\r\n  }\r\n  .kj-form__row--two {\r\n    grid-template-columns: 1fr 1fr;\r\n  }\r\n  .kj-footer {\r\n    grid-template-columns: 1fr 1.2fr;\r\n    align-items: end;\r\n  }\r\n  .kj-footer__info {\r\n    grid-template-columns: repeat(3, 1fr);\r\n  }\r\n  .kj-footer__legal {\r\n    grid-column: 1 / -1;\r\n  }\r\n}"
+    },
+    {
+      "id": "koji-runtime-1",
+      "location": "footer",
+      "title": "KŌJI Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 341,
+      "description": "Loads three in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three"
+      ],
+      "code": "// KŌJI — Webflow Custom Code Runtime Bridge\n// Dependencies: three\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

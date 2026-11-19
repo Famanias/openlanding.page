@@ -1,0 +1,272 @@
+{
+  "slug": "glyphwork",
+  "title": "GLYPHWORK",
+  "industry": "Digital Experience & Technology",
+  "description": "Experimental Swiss-modernist independent type foundry and live variable typography laboratory.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/glyphwork",
+  "downloadUrl": "https://www.openlanding.page/downloads/glyphwork.html",
+  "manifestUrl": "https://www.openlanding.page/copy/glyphwork-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/glyphwork-webflow-prompt.md",
+  "variables": {
+    "collectionName": "GLYPHWORK Tokens",
+    "colors": [
+      {
+        "name": "Color / Gw Milk",
+        "cssVar": "--gw-milk",
+        "value": "#F7F7F0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Gw Ink",
+        "cssVar": "--gw-ink",
+        "value": "#111111",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Gw Magenta",
+        "cssVar": "--gw-magenta",
+        "value": "#F02F83",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Gw Yellow",
+        "cssVar": "--gw-yellow",
+        "value": "#E5F56B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Gw Violet",
+        "cssVar": "--gw-violet",
+        "value": "#6E57D5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": [
+      {
+        "name": "Size / Gw Tracking",
+        "cssVar": "--gw-tracking",
+        "value": "-0.004em",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "glyphwork.webp",
+      "publicPath": "https://www.openlanding.page/gallery/glyphwork.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "distilled-applications.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-applications.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distilled-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distilled-inspector.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-inspector.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distilled-licensing.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-licensing.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187736465_ab07586f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187736465_ab07586f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187738679_e92b5440.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187738679_e92b5440.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187740876_ff5d99c6.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187740876_ff5d99c6.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187741796_a2822c8e.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187741796_a2822c8e.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-desktop-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-inspector.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-desktop-inspector.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-applications.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-desktop-applications.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-desktop-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-final-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-final-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-application-poster.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/02-application-poster.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-application-packaging.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/03-application-packaging.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-reference.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/footer-reference.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glyph-specimen.svg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/glyph-specimen.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "header-reference.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/header-reference.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-application-poster.webp",
+      "publicPath": "https://www.openlanding.page/assets/glyphwork/02-application-poster.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-application-packaging.webp",
+      "publicPath": "https://www.openlanding.page/assets/glyphwork/03-application-packaging.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glyph-specimen.svg",
+      "publicPath": "https://www.openlanding.page/assets/glyphwork/glyph-specimen.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Experimental Swiss-modernist independent type foundry and live variable typography laboratory.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".woff2",
+        ".004em",
+        ".gw-specimen-live",
+        ".gw-mono",
+        ".gw-slider",
+        ".5px",
+        ".gw-slider-magenta",
+        ".gw-slider-violet",
+        ".gw-slider-ink",
+        ".gw-slider-yellow",
+        ".gw-vertical-rl",
+        ".gw-animate-hero"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "glyphwork-styles-1",
+      "location": "head",
+      "title": "GLYPHWORK Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 4697,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@font-face {\r\n  font-family: 'GlyphworkVariable';\r\n  src: url('/templates/glyphwork/glyphwork/01-specimen-variable.woff2') format('woff2-variations'),\r\n       url('/templates/glyphwork/glyphwork/01-specimen-variable.woff2') format('woff2');\r\n  font-weight: 100 1000;\r\n  font-stretch: 25% 151%;\r\n  font-style: oblique -10deg 0deg;\r\n  font-display: swap;\r\n}\r\n\r\n:root {\r\n  --gw-milk: #F7F7F0;\r\n  --gw-ink: #111111;\r\n  --gw-magenta: #F02F83;\r\n  --gw-yellow: #E5F56B;\r\n  --gw-violet: #6E57D5;\r\n  --gw-font-specimen: 'GlyphworkVariable', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;\r\n  --gw-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;\r\n\r\n  --gw-wght: 720;\r\n  --gw-wdth: 135;\r\n  --gw-slnt: -2.33;\r\n  --gw-opsz: 144;\r\n  --gw-tracking: -0.004em;\r\n}\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n  background-color: var(--gw-milk);\r\n  color: var(--gw-ink);\r\n  font-family: var(--gw-font-specimen);\r\n  scroll-behavior: smooth;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  background-color: var(--gw-milk);\r\n  color: var(--gw-ink);\r\n  overflow-x: hidden;\r\n  selection-background-color: var(--gw-yellow);\r\n  selection-color: var(--gw-ink);\r\n}\r\n\r\n::selection {\r\n  background-color: var(--gw-yellow);\r\n  color: var(--gw-ink);\r\n}\r\n\r\n.gw-specimen-live {\r\n  font-family: var(--gw-font-specimen);\r\n  font-variation-settings:\r\n    'wght' var(--gw-wght),\r\n    'wdth' var(--gw-wdth),\r\n    'slnt' var(--gw-slnt),\r\n    'opsz' var(--gw-opsz);\r\n  letter-spacing: var(--gw-tracking);\r\n  font-synthesis: none;\r\n}\r\n\r\n.gw-mono {\r\n  font-family: var(--gw-font-mono);\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n/* Custom Instrument Range Sliders */\r\n.gw-slider {\r\n  -webkit-appearance: none;\r\n  appearance: none;\r\n  width: 100%;\r\n  height: 20px;\r\n  background: transparent;\r\n  cursor: ew-resize;\r\n  margin: 0;\r\n}\r\n\r\n.gw-slider:focus-visible {\r\n  outline: 2px solid var(--gw-ink);\r\n  outline-offset: 2px;\r\n}\r\n\r\n.gw-slider::-webkit-slider-runnable-track {\r\n  height: 2px;\r\n  background: var(--gw-ink);\r\n  border: none;\r\n}\r\n\r\n.gw-slider::-moz-range-track {\r\n  height: 2px;\r\n  background: var(--gw-ink);\r\n  border: none;\r\n}\r\n\r\n.gw-slider::-webkit-slider-thumb {\r\n  -webkit-appearance: none;\r\n  appearance: none;\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 9999px;\r\n  border: 1.5px solid var(--gw-ink);\r\n  margin-top: -7px;\r\n  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1);\r\n}\r\n\r\n.gw-slider::-moz-range-thumb {\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 9999px;\r\n  border: 1.5px solid var(--gw-ink);\r\n  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1);\r\n}\r\n\r\n.gw-slider:hover::-webkit-slider-thumb,\r\n.gw-slider:active::-webkit-slider-thumb {\r\n  transform: scale(1.18);\r\n}\r\n\r\n.gw-slider-magenta::-webkit-slider-thumb {\r\n  background-color: var(--gw-magenta);\r\n}\r\n.gw-slider-magenta::-moz-range-thumb {\r\n  background-color: var(--gw-magenta);\r\n}\r\n\r\n.gw-slider-violet::-webkit-slider-thumb {\r\n  background-color: var(--gw-violet);\r\n}\r\n.gw-slider-violet::-moz-range-thumb {\r\n  background-color: var(--gw-violet);\r\n}\r\n\r\n.gw-slider-ink::-webkit-slider-thumb {\r\n  background-color: var(--gw-ink);\r\n}\r\n.gw-slider-ink::-moz-range-thumb {\r\n  background-color: var(--gw-ink);\r\n}\r\n\r\n.gw-slider-yellow::-webkit-slider-thumb {\r\n  background-color: var(--gw-yellow);\r\n}\r\n.gw-slider-yellow::-moz-range-thumb {\r\n  background-color: var(--gw-yellow);\r\n}\r\n\r\n/* Vertical text utility for Right Rail */\r\n.gw-vertical-rl {\r\n  writing-mode: vertical-rl;\r\n  text-orientation: mixed;\r\n}\r\n\r\n/* Hero Specimen Entrance Animation */\r\n@keyframes gwHeroExpand {\r\n  0% {\r\n    opacity: 0;\r\n    transform: scaleY(0.72) scaleX(0.86);\r\n    transform-origin: center 78%;\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n    transform: scaleY(1) scaleX(1);\r\n    transform-origin: center 78%;\r\n  }\r\n}\r\n\r\n@keyframes gwGuideSweep {\r\n  0% {\r\n    opacity: 0;\r\n    transform: scaleX(0.2);\r\n    transform-origin: left center;\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n    transform: scaleX(1);\r\n    transform-origin: left center;\r\n  }\r\n}\r\n\r\n.gw-animate-hero {\r\n  animation: gwHeroExpand 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;\r\n}\r\n\r\n.gw-animate-guide {\r\n  animation: gwGuideSweep 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  html {\r\n    scroll-behavior: auto;\r\n  }\r\n  .gw-animate-hero,\r\n  .gw-animate-guide {\r\n    animation: none !important;\r\n    transform: none !important;\r\n    opacity: 1 !important;\r\n  }\r\n  *,\r\n  *::before,\r\n  *::after {\r\n    animation-duration: 0.01ms !important;\r\n    animation-iteration-count: 1 !important;\r\n    transition-duration: 0.01ms !important;\r\n  }\r\n}"
+    },
+    {
+      "id": "glyphwork-runtime-1",
+      "location": "footer",
+      "title": "GLYPHWORK Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 273,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// GLYPHWORK — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

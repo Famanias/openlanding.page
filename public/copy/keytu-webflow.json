@@ -1,0 +1,555 @@
+{
+  "slug": "keytu",
+  "title": "KEYTU",
+  "industry": "Apparel & Goods",
+  "description": "Technical mountaineering apparel told as an ascent of K2. Pinned altitude meter and tritone photography.",
+  "stack": "Next.js 16 · Tailwind v4 · GSAP ScrollTrigger · Lenis",
+  "liveUrl": "https://www.openlanding.page/templates/keytu",
+  "downloadUrl": "https://www.openlanding.page/downloads/keytu.html",
+  "manifestUrl": "https://www.openlanding.page/copy/keytu-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/keytu-webflow-prompt.md",
+  "variables": {
+    "collectionName": "KEYTU Tokens",
+    "colors": [
+      {
+        "name": "Color / Black",
+        "cssVar": "--color-black",
+        "value": "#0B0C0E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Navy",
+        "cssVar": "--color-navy",
+        "value": "#0F1E33",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / White",
+        "cssVar": "--color-white",
+        "value": "#F5F6F7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Navy 1",
+        "cssVar": "--color-navy-1",
+        "value": "#16294A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Navy 2",
+        "cssVar": "--color-navy-2",
+        "value": "#2A3D5E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Navy 3",
+        "cssVar": "--color-navy-3",
+        "value": "#56657F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Navy 4",
+        "cssVar": "--color-navy-4",
+        "value": "#A5AEBD",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Navy 5",
+        "cssVar": "--color-navy-5",
+        "value": "#DDE1E7",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Barlow",
+        "fallback": "Arial Narrow, sans-serif",
+        "googleFont": "Barlow"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-barlow)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-plex-mono)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Barlow Condensed",
+        "cssVar": "--font-barlow-condensed",
+        "family": "Barlow Condensed",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Barlow Condensed"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Gutter",
+        "cssVar": "--gutter",
+        "value": "clamp(20px, 4vw, 64px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Topbar",
+        "cssVar": "--topbar",
+        "value": "68px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "keytu.webp",
+      "publicPath": "https://www.openlanding.page/gallery/keytu.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "basecamp-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "basecamp-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "basecamp-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "basecamp-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Top bar",
+      "summary": "(fixed, 68px, solid black): logo, section links, outline \"Expedition list\" button.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".crn-topbar",
+        ".crn-lookbook__bar"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero",
+      "summary": "(100svh): K2 photo under a black gradient. Bottom-left: mono kicker, display h1 \"Built above the treeline.\", lead paragraph, buttons \"Begin the ascent\" (solid white) and \"Expedition lookbook\" (outline).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".crn-hero",
+        ".crn-hero__image",
+        ".crn-hero__copy",
+        ".crn-hero__actions",
+        ".crn-hero__scroll",
+        ".crn-showcase__hero"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "The ascent",
+      "summary": "- **Desktop:** two columns. The left is a `position: sticky` stage (100svh under the bar). The right holds 7 chapters, each at least 100svh.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".crn-ascent"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Footer",
+      "summary": "## The stage",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".crn-footer"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "keytu-styles-1",
+      "location": "head",
+      "title": "KEYTU Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 23611,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* ─────────────── KEYTU design tokens: black, dark blue and white only ─────────────── */\r\n@theme {\r\n  --color-black: #0B0C0E;\r\n  --color-navy: #0F1E33;\r\n  --color-white: #F5F6F7;\r\n  /* Tints and shades of the dark blue: borders, muted text, mountain layers. */\r\n  --color-navy-1: #16294A;\r\n  --color-navy-2: #2A3D5E;\r\n  --color-navy-3: #56657F;\r\n  --color-navy-4: #A5AEBD;\r\n  --color-navy-5: #DDE1E7;\r\n\r\n  --font-display: var(--font-barlow-condensed), \"Arial Narrow\", sans-serif;\r\n  --font-body: var(--font-barlow), system-ui, sans-serif;\r\n  --font-mono: var(--font-plex-mono), ui-monospace, monospace;\r\n\r\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\r\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\r\n}\r\n\r\n:root {\r\n  --gutter: clamp(20px, 4vw, 64px);\r\n  --topbar: 68px;\r\n  --line: var(--color-navy-2);\r\n  --muted: var(--color-navy-4);\r\n}\r\n\r\n/* ─────────────── Base ─────────────── */\r\nhtml:has(.crn-body) {\r\n  scroll-padding-top: calc(var(--topbar) + 36svh); /* phones: top bar + sticky K2 strip */\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  html:has(.crn-body) {\r\n    scroll-padding-top: var(--topbar);\r\n  }\r\n}\r\n\r\n.crn-body {\r\n  margin: 0;\r\n  background: var(--color-black);\r\n  color: var(--color-white);\r\n  font-family: var(--font-body);\r\n  font-size: 1.0625rem;\r\n  line-height: 1.55;\r\n  -webkit-font-smoothing: antialiased;\r\n}\r\n\r\n.crn-body ::selection {\r\n  background: var(--color-white);\r\n  color: var(--color-navy);\r\n}\r\n\r\n.crn-body :focus-visible {\r\n  outline: 2px solid var(--color-white);\r\n  outline-offset: 3px;\r\n}\r\n\r\n.crn-label {\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.1em;\r\n  text-transform: uppercase;\r\n  margin: 0;\r\n}\r\n\r\n.crn-display {\r\n  font-family: var(--font-display);\r\n  font-weight: 800;\r\n  font-size: clamp(3.75rem, 10vw, 10.5rem);\r\n  line-height: 0.86;\r\n  letter-spacing: -0.01em;\r\n  text-transform: uppercase;\r\n  margin: 0;\r\n  text-wrap: balance;\r\n}\r\n\r\n.crn-h2 {\r\n  font-family: var(--font-display);\r\n  font-weight: 800;\r\n  font-size: clamp(2.75rem, 5.4vw, 5.5rem);\r\n  line-height: 0.9;\r\n  text-transform: uppercase;\r\n  margin: 0;\r\n  text-wrap: balance;\r\n}\r\n\r\n.crn-h3 {\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-size: clamp(1.5rem, 2vw, 2rem);\r\n  line-height: 1;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.01em;\r\n  margin: 0;\r\n}\r\n\r\n.crn-lead {\r\n  font-size: clamp(1.0625rem, 1.25vw, 1.25rem);\r\n  color: var(--color-navy-5);\r\n  max-width: 46ch;\r\n  margin: 0;\r\n}\r\n\r\n/* ─────────────── Buttons: emphasis by inversion, never by hue ─────────────── */\r\n.crn-btn {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 10px;\r\n  height: 48px;\r\n  padding: 0 22px;\r\n  border: 1px solid var(--color-white);\r\n  background: var(--color-white);\r\n  color: var(--color-black);\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.1em;\r\n  text-transform: uppercase;\r\n  text-decoration: none;\r\n  cursor: pointer;\r\n  transition:\r\n    background-color 200ms var(--ease-out),\r\n    color 200ms var(--ease-out),\r\n    transform 160ms var(--ease-out);\r\n}\r\n\r\n.crn-btn:active {\r\n  transform: scale(0.97);\r\n}\r\n\r\n.crn-btn--outline {\r\n  background: transparent;\r\n  color: var(--color-white);\r\n}\r\n\r\n@media (hover: hover) and (pointer: fine) {\r\n  .crn-btn:hover {\r\n    background: var(--color-navy);\r\n    color: var(--color-white);\r\n  }\r\n  .crn-btn--outline:hover {\r\n    background: var(--color-white);\r\n    color: var(--color-black);\r\n  }\r\n}\r\n\r\n/* ─────────────── Top bar ─────────────── */\r\n.crn-topbar {\r\n  position: fixed;\r\n  inset: 0 0 auto 0;\r\n  z-index: 30;\r\n  height: var(--topbar);\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 32px;\r\n  padding: 0 var(--gutter);\r\n  background: var(--color-black);\r\n  border-bottom: 1px solid var(--color-navy-1);\r\n}\r\n\r\n.crn-logo {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n  color: var(--color-white);\r\n  text-decoration: none;\r\n  font-family: var(--font-display);\r\n  font-weight: 800;\r\n  font-size: 1.75rem;\r\n  letter-spacing: 0.04em;\r\n  text-transform: uppercase;\r\n  line-height: 1;\r\n}\r\n\r\n.crn-nav {\r\n  display: none;\r\n  gap: 28px;\r\n  margin-left: auto;\r\n}\r\n\r\n.crn-nav a {\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.1em;\r\n  text-transform: uppercase;\r\n  color: var(--muted);\r\n  text-decoration: none;\r\n  transition: color 160ms var(--ease-out);\r\n}\r\n\r\n.crn-nav a:hover {\r\n  color: var(--color-white);\r\n}\r\n\r\n.crn-topbar .crn-btn {\r\n  margin-left: auto;\r\n  height: 40px;\r\n}\r\n\r\n@media (min-width: 1100px) {\r\n  .crn-nav {\r\n    display: flex;\r\n  }\r\n  .crn-topbar .crn-btn {\r\n    margin-left: 0;\r\n  }\r\n}\r\n\r\n/* ─────────────── Placeholders ─────────────── */\r\n.crn-placeholder {\r\n  display: grid;\r\n  background:\r\n    repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in oklab, var(--color-white) 4%, transparent) 14px 15px),\r\n    var(--color-navy-1);\r\n  border: 1px dashed var(--color-navy-3);\r\n}\r\n\r\n.crn-placeholder .crn-label {\r\n  align-self: start;\r\n  justify-self: start;\r\n  padding: 12px 14px;\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n/* ─────────────── Hero ─────────────── */\r\n.crn-hero {\r\n  position: relative;\r\n  min-height: 100svh;\r\n  display: grid;\r\n  align-items: end;\r\n  padding: calc(var(--topbar) + 40px) var(--gutter) 72px;\r\n  overflow: hidden;\r\n  isolation: isolate;\r\n  background: linear-gradient(180deg, var(--color-black) 0%, var(--color-navy) 100%);\r\n}\r\n\r\n.crn-hero__image {\r\n  position: absolute;\r\n  inset: 0;\r\n  z-index: -1;\r\n}\r\n\r\n.crn-hero__image img {\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n}\r\n\r\n.crn-hero__image.crn-placeholder {\r\n  border: 0;\r\n}\r\n\r\n.crn-hero::after {\r\n  content: \"\";\r\n  position: absolute;\r\n  inset: 0;\r\n  z-index: -1;\r\n  background: linear-gradient(180deg, transparent 30%, color-mix(in oklab, var(--color-black) 85%, transparent) 100%);\r\n}\r\n\r\n.crn-hero__copy {\r\n  display: grid;\r\n  gap: 24px;\r\n  max-width: 980px;\r\n}\r\n\r\n.crn-hero__copy > .crn-label {\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n.crn-hero__actions {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 12px;\r\n}\r\n\r\n.crn-hero__scroll {\r\n  position: absolute;\r\n  right: var(--gutter);\r\n  bottom: 28px;\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n/* ─────────────── Ascent: pinned K2 + chapters ─────────────── */\r\n.crn-ascent {\r\n  position: relative;\r\n  display: grid;\r\n  grid-template-columns: minmax(0, 1fr);\r\n  background: var(--color-black);\r\n}\r\n\r\n.crn-stage {\r\n  position: sticky;\r\n  top: var(--topbar);\r\n  z-index: 5;\r\n  height: 36svh;\r\n  overflow: hidden;\r\n  background: linear-gradient(180deg, var(--color-black) 0%, var(--color-navy) 68%, var(--color-navy-1) 100%);\r\n  border-bottom: 1px solid var(--color-navy-1);\r\n}\r\n\r\n.crn-k2 {\r\n  position: absolute;\r\n  inset: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  overflow: visible; /* ridges and glacier run past the viewBox so \"meet\" never shows an edge */\r\n}\r\n\r\n.crn-k2__route {\r\n  fill: none;\r\n  stroke: var(--color-navy-4);\r\n  stroke-width: 2;\r\n  stroke-dasharray: 4 7;\r\n  opacity: 0.7;\r\n}\r\n\r\n.crn-k2__climbed {\r\n  fill: none;\r\n  stroke: var(--color-white);\r\n  stroke-width: 3;\r\n  stroke-linecap: round;\r\n}\r\n\r\n.crn-k2__camp circle {\r\n  fill: var(--color-navy);\r\n  stroke: var(--color-navy-4);\r\n  stroke-width: 2;\r\n  transition: fill 300ms var(--ease-out);\r\n}\r\n\r\n.crn-k2__camp[data-reached] circle {\r\n  fill: var(--color-white);\r\n  stroke: var(--color-white);\r\n}\r\n\r\n.crn-k2__climber circle {\r\n  fill: var(--color-white);\r\n}\r\n\r\n.crn-k2__halo {\r\n  fill: none !important;\r\n  stroke: var(--color-white);\r\n  stroke-width: 1.5;\r\n  opacity: 0.5;\r\n}\r\n\r\n@media (prefers-reduced-motion: no-preference) {\r\n  .crn-k2__halo {\r\n    transform-box: fill-box;\r\n    transform-origin: center;\r\n    animation: crn-halo 2.4s var(--ease-out) infinite;\r\n  }\r\n}\r\n\r\n@keyframes crn-halo {\r\n  from {\r\n    transform: scale(0.5);\r\n    opacity: 0.8;\r\n  }\r\n  to {\r\n    transform: scale(1.6);\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n.crn-stage__coords {\r\n  position: absolute;\r\n  left: var(--gutter);\r\n  top: 18px;\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n/* Meter + readout */\r\n.crn-meter {\r\n  position: absolute;\r\n  inset: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.crn-meter__scale {\r\n  display: none;\r\n}\r\n\r\n.crn-readout {\r\n  position: absolute;\r\n  left: var(--gutter);\r\n  bottom: 16px;\r\n}\r\n\r\n.crn-readout__alt {\r\n  margin: 0;\r\n  font-family: var(--font-display);\r\n  font-weight: 800;\r\n  font-size: clamp(2.5rem, 6vw, 5.75rem);\r\n  line-height: 0.9;\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.crn-readout__camp {\r\n  margin-top: 6px;\r\n  color: var(--color-navy-5);\r\n}\r\n\r\n.crn-chapters {\r\n  min-width: 0;\r\n}\r\n\r\n.crn-chapter {\r\n  min-height: 80svh;\r\n  padding: 72px var(--gutter);\r\n  border-top: 1px solid var(--color-navy-1);\r\n  display: grid;\r\n  align-content: start;\r\n  gap: 24px;\r\n}\r\n\r\n.crn-chapter__alt {\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .crn-ascent {\r\n    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);\r\n  }\r\n\r\n  .crn-stage {\r\n    height: calc(100svh - var(--topbar));\r\n    border-bottom: 0;\r\n    border-right: 1px solid var(--color-navy-1);\r\n  }\r\n\r\n  .crn-meter__scale {\r\n    display: block;\r\n    position: absolute;\r\n    right: 36px;\r\n    top: 15%;\r\n    bottom: 18%;\r\n    width: 150px;\r\n  }\r\n\r\n  .crn-meter__track {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n    bottom: 0;\r\n    width: 2px;\r\n    background: var(--color-navy-2);\r\n  }\r\n\r\n  .crn-meter__fill {\r\n    position: absolute;\r\n    inset: 0;\r\n    background: var(--color-white);\r\n    transform-origin: bottom;\r\n  }\r\n\r\n  .crn-meter__camps {\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\r\n    position: absolute;\r\n    inset: 0;\r\n  }\r\n\r\n  .crn-meter__camps li {\r\n    position: absolute;\r\n    right: 14px;\r\n    transform: translateY(50%);\r\n    display: flex;\r\n    gap: 10px;\r\n    align-items: baseline;\r\n    white-space: nowrap;\r\n    font-family: var(--font-mono);\r\n    font-size: 0.6875rem;\r\n    letter-spacing: 0.08em;\r\n    text-transform: uppercase;\r\n    color: var(--color-navy-3);\r\n    transition: color 300ms var(--ease-out);\r\n  }\r\n\r\n  .crn-meter__camps li::after {\r\n    content: \"\";\r\n    position: absolute;\r\n    right: -18px;\r\n    top: 50%;\r\n    width: 8px;\r\n    height: 1px;\r\n    background: currentColor;\r\n  }\r\n\r\n  .crn-meter__camps li[data-state=\"passed\"] {\r\n    color: var(--color-navy-4);\r\n  }\r\n\r\n  .crn-meter__camps li[data-state=\"active\"] {\r\n    color: var(--color-white);\r\n  }\r\n\r\n  .crn-meter__alt {\r\n    font-variant-numeric: tabular-nums;\r\n  }\r\n\r\n  .crn-readout {\r\n    bottom: 36px;\r\n  }\r\n\r\n  .crn-chapter {\r\n    min-height: 100svh;\r\n    padding: 120px var(--gutter) 96px;\r\n  }\r\n}\r\n\r\n\r\n/* ─────────────── Chapter content ─────────────── */\r\n.crn-chapter__alt {\r\n  display: flex;\r\n  gap: 10px;\r\n}\r\n\r\n.crn-muted {\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n.crn-wide {\r\n  display: block;\r\n  aspect-ratio: 16 / 9;\r\n  overflow: hidden;\r\n}\r\n\r\n.crn-wide img,\r\n.crn-card__image img,\r\n.crn-feature__image img {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n}\r\n\r\n.crn-grid {\r\n  display: grid;\r\n  grid-template-columns: repeat(2, minmax(0, 1fr));\r\n  gap: 1px;\r\n  background: var(--color-navy-1);\r\n  border: 1px solid var(--color-navy-1);\r\n}\r\n\r\n.crn-card {\r\n  background: var(--color-black);\r\n  height: 100%;\r\n  display: flex;\r\n  flex-direction: column;\r\n  transition: background-color 200ms var(--ease-out);\r\n}\r\n\r\n@media (hover: hover) and (pointer: fine) {\r\n  .crn-card:hover {\r\n    background: var(--color-navy);\r\n  }\r\n}\r\n\r\n.crn-card__image {\r\n  display: block;\r\n  aspect-ratio: 4 / 5;\r\n  overflow: hidden;\r\n  border: 0;\r\n}\r\n\r\n.crn-card__body {\r\n  display: grid;\r\n  gap: 6px;\r\n  padding: 16px;\r\n}\r\n\r\n.crn-card__cat,\r\n.crn-card__meta {\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n.crn-feature__product {\r\n  display: grid;\r\n  gap: 24px;\r\n  padding: 24px;\r\n  border: 1px solid var(--color-navy-1);\r\n  background: var(--color-navy);\r\n}\r\n\r\n.crn-feature__image {\r\n  display: block;\r\n  aspect-ratio: 4 / 5;\r\n  overflow: hidden;\r\n}\r\n\r\n.crn-feature__info {\r\n  display: grid;\r\n  gap: 12px;\r\n  align-content: start;\r\n}\r\n\r\n.crn-feature__info > p:not(.crn-label) {\r\n  margin: 0;\r\n  color: var(--color-navy-5);\r\n}\r\n\r\n.crn-speclist {\r\n  margin: 8px 0 0;\r\n  display: grid;\r\n  border-top: 1px solid var(--color-navy-2);\r\n}\r\n\r\n.crn-speclist > div {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n  padding: 10px 0;\r\n  border-bottom: 1px solid var(--color-navy-2);\r\n}\r\n\r\n.crn-speclist dt {\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n.crn-speclist dd {\r\n  margin: 0;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.875rem;\r\n  text-align: right;\r\n}\r\n\r\n/* Layer diagram: three bars that pull apart with --spread (0..1); transform only */\r\n.crn-layers {\r\n  margin: 8px 0;\r\n  display: grid;\r\n  gap: 14px;\r\n}\r\n\r\n.crn-layers__stack {\r\n  position: relative;\r\n  height: 312px;\r\n}\r\n\r\n.crn-layers__panel {\r\n  position: absolute;\r\n  left: 0;\r\n  right: 0;\r\n  top: calc(var(--i) * 80px);\r\n  height: 72px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 18px;\r\n  padding: 0 20px;\r\n  border: 1px solid var(--color-navy-3);\r\n  background: var(--color-black);\r\n  color: var(--color-navy-4);\r\n  transform: translateY(calc(var(--i) * 40px * var(--spread, 0)));\r\n  transition:\r\n    background-color 300ms var(--ease-out),\r\n    color 300ms var(--ease-out),\r\n    border-color 300ms var(--ease-out);\r\n}\r\n\r\n.crn-layers__panel[data-layer=\"0\"] {\r\n  --i: 0;\r\n}\r\n\r\n.crn-layers__panel[data-layer=\"1\"] {\r\n  --i: 1;\r\n}\r\n\r\n.crn-layers__panel[data-layer=\"2\"] {\r\n  --i: 2;\r\n}\r\n\r\n.crn-layers__panel[data-active] {\r\n  background: var(--color-white);\r\n  color: var(--color-black);\r\n  border-color: var(--color-white);\r\n}\r\n\r\n.crn-layers__name {\r\n  font-family: var(--font-display);\r\n  font-weight: 800;\r\n  font-size: 2.25rem;\r\n  line-height: 1;\r\n  text-transform: uppercase;\r\n  min-width: 4.5ch;\r\n}\r\n\r\n.crn-layers__detail {\r\n  margin-left: auto;\r\n  text-align: right;\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .crn-grid {\r\n    grid-template-columns: repeat(3, minmax(0, 1fr));\r\n  }\r\n\r\n  .crn-feature__product {\r\n    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);\r\n  }\r\n\r\n}\r\n\r\n\r\n/* ─────────────── Showcase: colourway swap, spec sheets, fabric zoom ─────────────── */\r\n.crn-showcase__hero {\r\n  display: grid;\r\n  gap: 24px;\r\n}\r\n\r\n.crn-showcase__side {\r\n  display: grid;\r\n  gap: 14px;\r\n  align-content: start;\r\n}\r\n\r\n.crn-showcase__tagline {\r\n  margin: 0;\r\n  color: var(--color-navy-5);\r\n}\r\n\r\n.crn-showcase__image {\r\n  display: block;\r\n  aspect-ratio: 4 / 5;\r\n  overflow: hidden;\r\n}\r\n\r\n.crn-showcase__image img,\r\n.crn-swap__layer img,\r\n.crn-zoom__image img {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n}\r\n\r\n.crn-swap {\r\n  display: grid;\r\n  gap: 16px;\r\n}\r\n\r\n.crn-swap__image {\r\n  position: relative;\r\n  aspect-ratio: 4 / 5;\r\n  overflow: hidden;\r\n  background: var(--color-navy-1);\r\n}\r\n\r\n.crn-swap__layer {\r\n  position: absolute;\r\n  inset: 0;\r\n}\r\n\r\n.crn-swap__layer > * {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n.crn-swatches {\r\n  border: 0;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n}\r\n\r\n.crn-swatches legend {\r\n  float: left;\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n.crn-swatches__row {\r\n  display: flex;\r\n  gap: 10px;\r\n}\r\n\r\n.crn-swatch {\r\n  position: relative;\r\n  width: 44px;\r\n  height: 44px;\r\n  display: grid;\r\n  place-items: center;\r\n  cursor: pointer;\r\n}\r\n\r\n.crn-swatch input {\r\n  position: absolute;\r\n  inset: 0;\r\n  margin: 0;\r\n  opacity: 0;\r\n  cursor: pointer;\r\n}\r\n\r\n.crn-swatch__chip {\r\n  width: 28px;\r\n  height: 28px;\r\n  border-radius: 50%;\r\n  border: 1px solid var(--color-navy-3);\r\n  outline: 1px solid transparent;\r\n  outline-offset: 4px;\r\n  transition:\r\n    outline-color 160ms var(--ease-out),\r\n    transform 160ms var(--ease-out);\r\n}\r\n\r\n.crn-swatch[data-colour=\"black\"] .crn-swatch__chip {\r\n  background: var(--color-black);\r\n}\r\n\r\n.crn-swatch[data-colour=\"navy\"] .crn-swatch__chip {\r\n  background: var(--color-navy);\r\n}\r\n\r\n.crn-swatch[data-colour=\"white\"] .crn-swatch__chip {\r\n  background: var(--color-white);\r\n}\r\n\r\n.crn-swatch input:checked + .crn-swatch__chip {\r\n  outline-color: var(--color-white);\r\n}\r\n\r\n.crn-swatch input:focus-visible + .crn-swatch__chip {\r\n  outline: 2px solid var(--color-white);\r\n}\r\n\r\n.crn-swatch:active .crn-swatch__chip {\r\n  transform: scale(0.94);\r\n}\r\n\r\n/* Gear label */\r\n.crn-spec {\r\n  position: relative;\r\n  padding: 20px;\r\n  background: var(--color-white);\r\n  color: var(--color-black);\r\n  outline: 1px dashed var(--color-navy-3);\r\n  outline-offset: -8px;\r\n}\r\n\r\n.crn-spec__head {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 12px;\r\n  padding-bottom: 12px;\r\n  border-bottom: 2px solid var(--color-black);\r\n}\r\n\r\n.crn-spec__brand {\r\n  margin: 0;\r\n  font-family: var(--font-display);\r\n  font-weight: 800;\r\n  font-size: 1.25rem;\r\n  line-height: 1;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.04em;\r\n}\r\n\r\n.crn-spec__code {\r\n  margin-top: 2px;\r\n  color: var(--color-navy-3);\r\n}\r\n\r\n.crn-spec__name {\r\n  margin: 12px 0 8px;\r\n  font-family: var(--font-display);\r\n  font-weight: 600;\r\n  font-size: 1.5rem;\r\n  text-transform: uppercase;\r\n  line-height: 1;\r\n}\r\n\r\n.crn-spec__rows {\r\n  margin: 0;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.8125rem;\r\n}\r\n\r\n.crn-spec__rows > div {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n  padding: 8px 0;\r\n  border-bottom: 1px solid var(--color-navy-5);\r\n}\r\n\r\n.crn-spec__rows dt {\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.06em;\r\n  color: var(--color-navy-3);\r\n}\r\n\r\n.crn-spec__rows dd {\r\n  margin: 0;\r\n  text-align: right;\r\n  font-weight: 500;\r\n}\r\n\r\n.crn-spec__foot {\r\n  margin-top: 12px;\r\n  color: var(--color-navy-3);\r\n  font-size: 0.625rem;\r\n}\r\n\r\n/* Fabric zoom */\r\n.crn-zoom {\r\n  margin: 0;\r\n  display: grid;\r\n  gap: 10px;\r\n}\r\n\r\n.crn-zoom__box {\r\n  position: relative;\r\n  aspect-ratio: 16 / 9;\r\n  overflow: hidden;\r\n  cursor: zoom-in;\r\n  touch-action: manipulation;\r\n}\r\n\r\n.crn-zoom__image {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  transition: transform 300ms var(--ease-out);\r\n  transform-origin: var(--zx, 50%) var(--zy, 50%);\r\n}\r\n\r\n.crn-zoom__box[data-zoomed] .crn-zoom__image {\r\n  transform: scale(2.5);\r\n}\r\n\r\n.crn-zoom__loupe {\r\n  position: absolute;\r\n  width: 180px;\r\n  height: 180px;\r\n  border-radius: 50%;\r\n  border: 2px solid var(--color-white);\r\n  background-repeat: no-repeat;\r\n  pointer-events: none;\r\n}\r\n\r\n.crn-pair {\r\n  display: grid;\r\n  gap: 24px;\r\n}\r\n\r\n.crn-pair__item {\r\n  display: grid;\r\n  gap: 12px;\r\n  align-content: start;\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .crn-showcase__hero {\r\n    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n    align-items: start;\r\n  }\r\n  .crn-pair {\r\n    grid-template-columns: repeat(2, minmax(0, 1fr));\r\n  }\r\n}\r\n\r\n\r\n/* ─────────────── Summit: lookbook + signup ─────────────── */\r\n.crn-iconbtn {\r\n  width: 44px;\r\n  height: 44px;\r\n  display: grid;\r\n  place-items: center;\r\n  border: 1px solid var(--color-navy-3);\r\n  background: transparent;\r\n  color: var(--color-white);\r\n  cursor: pointer;\r\n  transition:\r\n    background-color 160ms var(--ease-out),\r\n    color 160ms var(--ease-out),\r\n    transform 160ms var(--ease-out);\r\n}\r\n\r\n.crn-iconbtn:active {\r\n  transform: scale(0.95);\r\n}\r\n\r\n@media (hover: hover) and (pointer: fine) {\r\n  .crn-iconbtn:hover {\r\n    background: var(--color-white);\r\n    color: var(--color-black);\r\n  }\r\n}\r\n\r\n.crn-lookbook {\r\n  display: grid;\r\n  gap: 14px;\r\n  min-width: 0;\r\n}\r\n\r\n.crn-lookbook__bar {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  gap: 16px;\r\n}\r\n\r\n.crn-lookbook__nav {\r\n  display: flex;\r\n  gap: 8px;\r\n}\r\n\r\n.crn-lookbook__track {\r\n  display: grid;\r\n  grid-auto-flow: column;\r\n  grid-auto-columns: 85%;\r\n  gap: 16px;\r\n  overflow-x: auto;\r\n  overscroll-behavior-x: contain;\r\n  scroll-snap-type: x mandatory;\r\n  scrollbar-width: thin;\r\n  scrollbar-color: var(--color-navy-3) transparent;\r\n  padding-bottom: 8px;\r\n  cursor: grab;\r\n}\r\n\r\n.crn-lookbook__track:active,\r\n.crn-lookbook__track[data-dragging] {\r\n  cursor: grabbing;\r\n}\r\n\r\n.crn-lookbook__track[data-dragging] {\r\n  scroll-snap-type: none;\r\n}\r\n\r\n.crn-lookbook__frame {\r\n  margin: 0;\r\n  scroll-snap-align: start;\r\n  display: grid;\r\n  gap: 10px;\r\n}\r\n\r\n.crn-lookbook__media {\r\n  position: relative;\r\n  aspect-ratio: 3 / 2;\r\n}\r\n\r\n.crn-lookbook__image {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  overflow: hidden;\r\n}\r\n\r\n.crn-lookbook__image img {\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n  pointer-events: none;\r\n  user-select: none;\r\n}\r\n\r\n.crn-hotspot {\r\n  position: absolute;\r\n  transform: translate(-50%, -50%);\r\n  z-index: 2;\r\n}\r\n\r\n.crn-hotspot__dot {\r\n  position: relative;\r\n  width: 44px;\r\n  height: 44px;\r\n  border-radius: 50%;\r\n  border: 0;\r\n  padding: 0;\r\n  cursor: pointer;\r\n  background: radial-gradient(circle, var(--color-white) 0 7px, color-mix(in oklab, var(--color-white) 25%, transparent) 8px 21px, transparent 22px);\r\n}\r\n\r\n/* The pulse lives on a ring behind the button, so the click target itself never moves. */\r\n.crn-hotspot__dot::after {\r\n  content: \"\";\r\n  position: absolute;\r\n  inset: 6px;\r\n  border-radius: 50%;\r\n  border: 1px solid var(--color-white);\r\n  opacity: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n@media (prefers-reduced-motion: no-preference) {\r\n  .crn-hotspot__dot[aria-expanded=\"false\"]::after {\r\n    animation: crn-beacon 2.4s var(--ease-out) infinite;\r\n  }\r\n}\r\n\r\n@keyframes crn-beacon {\r\n  from {\r\n    transform: scale(0.6);\r\n    opacity: 0.8;\r\n  }\r\n  to {\r\n    transform: scale(1.5);\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n.crn-hotspot__card {\r\n  position: absolute;\r\n  left: 50%;\r\n  bottom: calc(100% + 8px);\r\n  transform: translateX(-50%);\r\n  width: 220px;\r\n  padding: 14px 40px 14px 14px;\r\n  background: var(--color-white);\r\n  color: var(--color-black);\r\n  display: grid;\r\n  gap: 6px;\r\n  transform-origin: bottom center;\r\n}\r\n\r\n@media (prefers-reduced-motion: no-preference) {\r\n  .crn-hotspot__card {\r\n    animation: crn-pop 180ms var(--ease-out);\r\n  }\r\n}\r\n\r\n@keyframes crn-pop {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateX(-50%) translateY(6px) scale(0.96);\r\n  }\r\n}\r\n\r\n.crn-hotspot__card .crn-muted {\r\n  color: var(--color-navy-3);\r\n}\r\n\r\n.crn-hotspot__close {\r\n  position: absolute;\r\n  top: 6px;\r\n  right: 6px;\r\n  width: 32px;\r\n  height: 32px;\r\n  display: grid;\r\n  place-items: center;\r\n  border: 0;\r\n  background: transparent;\r\n  color: var(--color-black);\r\n  cursor: pointer;\r\n}\r\n\r\n.crn-summit__signup {\r\n  display: grid;\r\n  gap: 20px;\r\n  margin-top: 24px;\r\n  padding: 28px;\r\n  border: 1px solid var(--color-navy-2);\r\n  background: var(--color-navy);\r\n}\r\n\r\n.crn-summit__signup p {\r\n  margin: 8px 0 0;\r\n}\r\n\r\n.crn-signup {\r\n  display: grid;\r\n  gap: 10px;\r\n}\r\n\r\n.crn-signup .crn-label {\r\n  color: var(--color-navy-4);\r\n}\r\n\r\n.crn-signup__row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 10px;\r\n}\r\n\r\n.crn-signup input {\r\n  flex: 1 1 220px;\r\n  min-width: 0;\r\n  height: 48px;\r\n  padding: 0 14px;\r\n  border: 1px solid var(--color-navy-3);\r\n  background: var(--color-black);\r\n  color: var(--color-white);\r\n  font: inherit;\r\n}\r\n\r\n.crn-signup input::placeholder {\r\n  color: var(--color-navy-3);\r\n}\r\n\r\n.crn-signup input:focus-visible {\r\n  outline: 2px solid var(--color-white);\r\n  outline-offset: 0;\r\n}\r\n\r\n.crn-signup__error {\r\n  color: var(--color-white) !important;\r\n}\r\n\r\n.crn-signup--done {\r\n  gap: 6px;\r\n}\r\n\r\n@media (min-width: 900px) {\r\n  .crn-lookbook__track {\r\n    grid-auto-columns: 78%;\r\n  }\r\n}\r\n\r\n/* ─────────────── Footer ─────────────── */\r\n.crn-footer {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  gap: 16px;\r\n  flex-wrap: wrap;\r\n  padding: 40px var(--gutter);\r\n  border-top: 1px solid var(--color-navy-1);\r\n  color: var(--color-navy-4);\r\n}"
+    },
+    {
+      "id": "keytu-runtime-1",
+      "location": "footer",
+      "title": "KEYTU Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 422,
+      "description": "Loads gsap, lenis, motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "gsap",
+        "lenis",
+        "motion"
+      ],
+      "code": "// KEYTU — Webflow Custom Code Runtime Bridge\n// Dependencies: gsap, lenis, motion\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

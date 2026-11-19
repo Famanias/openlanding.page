@@ -1,0 +1,260 @@
+{
+  "slug": "nicopark",
+  "title": "Nico Park",
+  "industry": "Industrial & Product Design",
+  "description": "Playful, modular, tactile industrial and digital product design portfolio for independent product designer Nico Park, featuring LOOP personal audio hardware, FORMA workspace, and interactive design experiments.",
+  "stack": "Next.js 16 · React 19 · Tailwind v4 · Lucide · Motion",
+  "liveUrl": "https://www.openlanding.page/templates/nicopark",
+  "downloadUrl": "https://www.openlanding.page/downloads/nicopark.html",
+  "manifestUrl": "https://www.openlanding.page/copy/nicopark-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/nicopark-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Nico Park Tokens",
+    "colors": [
+      {
+        "name": "Color / Canvas",
+        "cssVar": "--canvas",
+        "value": "#F8F7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink",
+        "cssVar": "--ink",
+        "value": "#191919",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cobalt",
+        "cssVar": "--cobalt",
+        "value": "#3049F0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Coral",
+        "cssVar": "--coral",
+        "value": "#FF735D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Butter",
+        "cssVar": "--butter",
+        "value": "#F7E36B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lavender",
+        "cssVar": "--lavender",
+        "value": "#D5C8FC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Muted",
+        "cssVar": "--muted",
+        "value": "#515151",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Outline",
+        "cssVar": "--outline",
+        "value": "#222222",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Anton",
+        "cssVar": "--font-anton",
+        "family": "Anton",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Anton"
+      },
+      {
+        "name": "Font / Barlow Condensed",
+        "cssVar": "--font-barlow-condensed",
+        "family": "Barlow Condensed",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Barlow Condensed"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Radius Panel",
+        "cssVar": "--radius-panel",
+        "value": "24px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "nicopark.webp",
+      "publicPath": "https://www.openlanding.page/gallery/nicopark.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "forma-ui.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/forma-ui.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kindred-brand.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/kindred-brand.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-buttons.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-buttons.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-cover.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-cover.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-detail-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-detail-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-detail-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-detail-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-dial.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-dial.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-hero.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-hero.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-shell.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-shell.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "process-sketch-01.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/process-sketch-01.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "process-sketch-02.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/process-sketch-02.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "process-sketch-03.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/process-sketch-03.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "studio-workspace.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/studio-workspace.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "Design_portfolio_website_hero_se__cb8a8524_2K_28c33838.jpg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/aistudio/Design_portfolio_website_hero_se__cb8a8524_2K_28c33838.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build an isolated Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 landing template for an independent industrial and digital product designer named Nico Park.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".font-display",
+        ".015em",
+        ".font-condensed",
+        ".03em",
+        ".font-mono-tech",
+        ".tactile-panel",
+        ".tactile-panel-sm",
+        ".75px",
+        ".8deg",
+        ".animate-gentle-float",
+        ".animate-slow-spin",
+        ".animate-specular-sweep"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "nicopark-styles-1",
+      "location": "head",
+      "title": "Nico Park Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 2585,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ":root {\n  --canvas: #F8F7F2;\n  --ink: #191919;\n  --cobalt: #3049F0;\n  --coral: #FF735D;\n  --butter: #F7E36B;\n  --lavender: #D5C8FC;\n  --muted: #515151;\n  --outline: #222222;\n  --radius-panel: 24px;\n  --spring-ease: cubic-bezier(0.16, 1, 0.3, 1);\n  --overshoot-ease: cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n\n@layer base {\n  body {\n    background-color: var(--canvas);\n    color: var(--ink);\n    font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\n    overflow-x: hidden;\n  }\n}\n\n.font-display {\n  font-family: var(--font-anton), 'Anton', var(--font-barlow-condensed), 'Barlow Condensed', Impact, sans-serif;\n  letter-spacing: -0.015em;\n  line-height: 0.91;\n}\n\n.font-condensed {\n  font-family: var(--font-barlow-condensed), 'Barlow Condensed', sans-serif;\n  letter-spacing: 0.03em;\n}\n\n.font-mono-tech {\n  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;\n  font-variant-numeric: tabular-nums;\n}\n\n/* Tactile Panel Surface Rules */\n.tactile-panel {\n  border: 2px solid var(--outline);\n  border-radius: var(--radius-panel);\n  transition: transform 280ms var(--spring-ease), box-shadow 280ms var(--spring-ease);\n}\n\n.tactile-panel-sm {\n  border: 1.75px solid var(--outline);\n  border-radius: 18px;\n  transition: transform 240ms var(--spring-ease), box-shadow 240ms var(--spring-ease);\n}\n\n/* Specular sweep across LOOP clear dial */\n@keyframes specularSweep {\n  0%, 75% {\n    transform: translateX(-140%) rotate(25deg);\n    opacity: 0;\n  }\n  82% {\n    opacity: 0.55;\n  }\n  92% {\n    transform: translateX(140%) rotate(25deg);\n    opacity: 0;\n  }\n  100% {\n    transform: translateX(140%) rotate(25deg);\n    opacity: 0;\n  }\n}\n\n@keyframes gentleFloat {\n  0%, 100% {\n    transform: translate3d(0, 0px, 0) rotate(0deg);\n  }\n  50% {\n    transform: translate3d(0, -5px, 0) rotate(-0.8deg);\n  }\n}\n\n@keyframes slowSpin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.animate-gentle-float {\n  animation: gentleFloat 6.5s ease-in-out infinite;\n}\n\n.animate-slow-spin {\n  animation: slowSpin 28s linear infinite;\n}\n\n.animate-specular-sweep {\n  animation: specularSweep 9s ease-in-out infinite;\n}\n\n/* Reduced motion compliance */\n@media (prefers-reduced-motion: reduce) {\n  *,\n  *::before,\n  *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n  .animate-gentle-float,\n  .animate-slow-spin,\n  .animate-specular-sweep {\n    animation: none !important;\n  }\n}"
+    },
+    {
+      "id": "nicopark-runtime-1",
+      "location": "footer",
+      "title": "Nico Park Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 273,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Nico Park — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

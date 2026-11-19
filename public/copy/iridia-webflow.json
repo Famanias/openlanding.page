@@ -1,0 +1,448 @@
+{
+  "slug": "iridia",
+  "title": "IRIDIA",
+  "industry": "Kinetic Light & Optics",
+  "description": "The spatial architecture of kinetic light. The page is an orbital 3D prismatic pavilion with live Navier-Stokes shader gradients, real-time Cauchy dispersion and interactive synthesizer.",
+  "stack": "Next.js 16 · Tailwind v4 · React 19 · WebGL2 · CSS 3D",
+  "liveUrl": "https://www.openlanding.page/templates/iridia",
+  "downloadUrl": "https://www.openlanding.page/downloads/iridia.html",
+  "manifestUrl": "https://www.openlanding.page/copy/iridia-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/iridia-webflow-prompt.md",
+  "variables": {
+    "collectionName": "IRIDIA Tokens",
+    "colors": [
+      {
+        "name": "Color / Obsidian",
+        "cssVar": "--color-obsidian",
+        "value": "#0A0B10",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Prism",
+        "cssVar": "--color-prism",
+        "value": "#F5F3EF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hyperion",
+        "cssVar": "--color-hyperion",
+        "value": "#00F0FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Chroma",
+        "cssVar": "--color-chroma",
+        "value": "#FF3366",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Starlight",
+        "cssVar": "--color-starlight",
+        "value": "#FFE600",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Glass",
+        "cssVar": "--color-glass",
+        "value": "#141724",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Specular",
+        "cssVar": "--color-specular",
+        "value": "#8D93A8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Flare",
+        "cssVar": "--color-flare",
+        "value": "#FF4D00",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Bg",
+        "cssVar": "--ir-bg",
+        "value": "#0A0B10",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Fg",
+        "cssVar": "--ir-fg",
+        "value": "#F5F3EF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Accent",
+        "cssVar": "--ir-accent",
+        "value": "#00F0FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Secondary",
+        "cssVar": "--ir-secondary",
+        "value": "#FF3366",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Starlight",
+        "cssVar": "--ir-starlight",
+        "value": "#FFE600",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Glass",
+        "cssVar": "--ir-glass",
+        "value": "#141724",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Specular",
+        "cssVar": "--ir-specular",
+        "value": "#8D93A8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ir Flare",
+        "cssVar": "--ir-flare",
+        "value": "#FF4D00",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Space Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Space Grotesk"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-plus-jakarta)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "JetBrains Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "iridia.webp",
+      "publicPath": "https://www.openlanding.page/gallery/iridia.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "chamber-dispersion-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-dispersion-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-dispersion-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-dispersion-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "DOM in CSS 3D",
+      "summary": "- Perspective container (`perspective: 1200px`) holding the sections as faceted 3D planes at calibrated Z-depths and subtle rotation angles.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "WebGL2 Live Gradient Canvas",
+      "summary": "- Fixed background shader calculating Navier-Stokes curl noise fluid advection, Cauchy chromatic dispersion ($n(\\lambda) = A + B/\\lambda^2$), mouse velocity ripples, and film grain dither.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Spatial Navigation Bar",
+      "summary": "Fixed frosted glass pill with brand mark, coordinates (`47.3769° N · 8.5417° E`), live wavelength ticker, section anchors, and \"Synthesize\" CTA.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".ir-spatial-viewport",
+        ".ir-spatial-stage"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "The Prism Pavilion (Hero)",
+      "summary": "- Eyebrow: `OPTICAL FOUNDRY · ZURICH & KYOTO · ARCHITECTURAL SCALE`",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "The Spectral Chambers (Zones)",
+      "summary": "- Four distinct architectural zones: Phase 01 Refraction, Phase 02 Dispersion, Phase 03 Interference, Phase 04 Luminescence.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Exploded 3D Optics Dissection",
+      "summary": "- Interactive 3D layer separation: Substrate ($+120\\text{px}$), Nematic Lattice ($+40\\text{px}$), Diffraction Grating ($-40\\text{px}$), Quantum Dot Film ($-120\\text{px}$).",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "The Spectral Synthesizer (Signature Mechanic)",
+      "summary": "- Live interactive gradient workbench with sliders for Dispersion, Turbulence, Fluid Speed, and Chromatic Spread.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Architectural Installations",
+      "summary": "- Basel Spiral Refractor (12m dichroic glass fins), Kyoto Spectral Solarium (reflecting pool + micro-lenses), Reykjavik Chromatic Monolith (subarctic geodesic dome).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Commission Intake Form",
+      "summary": "- Client-side validated consultation request (name, email, installation scale, architectural space, target wavelength) with accessible error feedback and instant success confirmation without network calls.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-10",
+      "index": 10,
+      "title": "Colophon Footer",
+      "summary": "Technical coordinates, copyright, legal disclaimer, and legal entity registry.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "iridia-styles-1",
+      "location": "head",
+      "title": "IRIDIA Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 6065,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-obsidian: #0A0B10;\n  --color-prism: #F5F3EF;\n  --color-hyperion: #00F0FF;\n  --color-chroma: #FF3366;\n  --color-starlight: #FFE600;\n  --color-glass: #141724;\n  --color-specular: #8D93A8;\n  --color-flare: #FF4D00;\n\n  --font-display: var(--font-space-grotesk), system-ui, sans-serif;\n  --font-body: var(--font-plus-jakarta), system-ui, sans-serif;\n  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;\n\n  --ease-prism: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-flow: cubic-bezier(0.65, 0, 0.35, 1);\n}\n\n:root {\n  --ir-bg: #0A0B10;\n  --ir-fg: #F5F3EF;\n  --ir-accent: #00F0FF;\n  --ir-secondary: #FF3366;\n  --ir-starlight: #FFE600;\n  --ir-glass: #141724;\n  --ir-specular: #8D93A8;\n  --ir-flare: #FF4D00;\n}\n\nhtml {\n  background-color: #0A0B10;\n  color: #F5F3EF;\n  font-family: var(--font-body);\n  overflow-x: clip;\n  margin: 0;\n  padding: 0;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\nbody, .ir-body {\n  min-height: 100vh;\n  position: relative;\n  background-color: transparent;\n  color: #F5F3EF;\n  overflow-x: clip;\n  margin: 0;\n  padding: 0;\n}\n\n/* 3D Coordinate Space Container */\n.ir-spatial-viewport {\n  position: relative;\n  width: 100%;\n  perspective: 1200px;\n  perspective-origin: 50% 50%;\n  transform-style: preserve-3d;\n}\n\n.ir-spatial-stage {\n  position: relative;\n  width: 100%;\n  transform-style: preserve-3d;\n  will-change: transform;\n}\n\n/* Glass plaque surfaces */\n.ir-glass-panel {\n  background-color: color-mix(in srgb, #141724 86%, transparent);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border: 1px solid color-mix(in srgb, #8D93A8 22%, transparent);\n  box-shadow: 0 12px 32px -8px color-mix(in srgb, #0A0B10 80%, transparent),\n              inset 0 1px 0 0 color-mix(in srgb, #F5F3EF 8%, transparent);\n}\n\n.ir-glass-panel:hover {\n  border-color: color-mix(in srgb, #00F0FF 40%, transparent);\n}\n\n/* Refraction HUD line */\n.ir-hud-line {\n  height: 1px;\n  background: linear-gradient(\n    90deg,\n    color-mix(in srgb, #00F0FF 60%, transparent) 0%,\n    color-mix(in srgb, #8D93A8 20%, transparent) 50%,\n    transparent 100%\n  );\n}\n\n/* Interactive button styles */\n.ir-btn-primary {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  background-color: #00F0FF;\n  color: #0A0B10;\n  font-family: var(--font-body);\n  font-weight: 600;\n  font-size: 0.9375rem;\n  padding: 0.75rem 1.5rem;\n  border-radius: 4px;\n  border: 1px solid #00F0FF;\n  white-space: nowrap;\n  flex-shrink: 0;\n  transition: transform 180ms var(--ease-prism), filter 180ms var(--ease-prism), background-color 180ms var(--ease-prism);\n  cursor: pointer;\n  text-decoration: none;\n}\n\n.ir-btn-primary:hover {\n  transform: translateY(-1px);\n  filter: drop-shadow(0 0 12px color-mix(in srgb, #00F0FF 60%, transparent));\n}\n\n.ir-btn-primary:active {\n  transform: scale(0.97);\n}\n\n.ir-btn-secondary {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  background-color: color-mix(in srgb, #141724 60%, transparent);\n  color: #F5F3EF;\n  font-family: var(--font-body);\n  font-weight: 500;\n  font-size: 0.9375rem;\n  padding: 0.75rem 1.5rem;\n  border-radius: 4px;\n  border: 1px solid color-mix(in srgb, #8D93A8 30%, transparent);\n  backdrop-filter: blur(8px);\n  white-space: nowrap;\n  flex-shrink: 0;\n  transition: border-color 180ms var(--ease-prism), transform 180ms var(--ease-prism), background-color 180ms var(--ease-prism);\n  cursor: pointer;\n  text-decoration: none;\n}\n\n.ir-btn-secondary:hover {\n  border-color: #00F0FF;\n  background-color: color-mix(in srgb, #141724 90%, transparent);\n  transform: translateY(-1px);\n}\n\n.ir-btn-secondary:active {\n  transform: scale(0.97);\n}\n\n/* Wavelength chip */\n.ir-chip {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.375rem;\n  font-family: var(--font-mono);\n  font-size: 0.6875rem;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  padding: 0.25rem 0.625rem;\n  border-radius: 9999px;\n  background-color: color-mix(in srgb, #141724 80%, transparent);\n  border: 1px solid color-mix(in srgb, #8D93A8 25%, transparent);\n  color: #8D93A8;\n}\n\n.ir-chip.is-active {\n  border-color: #00F0FF;\n  color: #00F0FF;\n  background-color: color-mix(in srgb, #00F0FF 10%, transparent);\n}\n\n/* 3D Exploded Layer Item */\n.ir-layer-plate {\n  transition: transform 320ms var(--ease-prism), border-color 240ms var(--ease-prism);\n  transform-style: preserve-3d;\n}\n\n/* Range input styling */\ninput[type=\"range\"].ir-range {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 100%;\n  height: 6px;\n  background: color-mix(in srgb, #8D93A8 30%, transparent);\n  border-radius: 3px;\n  outline: none;\n}\n\ninput[type=\"range\"].ir-range::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background: #00F0FF;\n  cursor: pointer;\n  box-shadow: 0 0 10px color-mix(in srgb, #00F0FF 70%, transparent);\n  border: 2px solid #0A0B10;\n  transition: transform 120ms ease;\n}\n\ninput[type=\"range\"].ir-range::-webkit-slider-thumb:hover {\n  transform: scale(1.15);\n}\n\ninput[type=\"range\"].ir-range:focus-visible {\n  outline: 2px solid #00F0FF;\n  outline-offset: 4px;\n}\n\n/* Focus styles */\n:focus-visible {\n  outline: 2px solid #00F0FF;\n  outline-offset: 2px;\n}\n\n/* Placeholder for assets */\n.ir-placeholder {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, #141724 0%, #0A0B10 100%);\n  border: 1px dashed color-mix(in srgb, #8D93A8 40%, transparent);\n  color: #8D93A8;\n  padding: 1.5rem;\n  text-align: center;\n  min-height: 200px;\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n  .ir-spatial-viewport,\n  .ir-spatial-stage {\n    perspective: none !important;\n    transform: none !important;\n    transform-style: flat !important;\n  }\n  .ir-layer-plate {\n    transform: none !important;\n  }\n  * {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n  }\n}"
+    }
+  ]
+}

@@ -1,0 +1,400 @@
+{
+  "slug": "radius",
+  "title": "RADIUS",
+  "industry": "Urban Mobility & Cycling",
+  "description": "An electric urban bicycle concept that unfolds from a street billboard into an interactive build sheet.",
+  "stack": "Next.js 16 · React 19 · TypeScript · CSS",
+  "liveUrl": "https://www.openlanding.page/templates/radius",
+  "downloadUrl": "https://www.openlanding.page/downloads/radius.html",
+  "manifestUrl": "https://www.openlanding.page/copy/radius-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/radius-webflow-prompt.md",
+  "variables": {
+    "collectionName": "RADIUS Tokens",
+    "colors": [
+      {
+        "name": "Color / Rd Ink",
+        "cssVar": "--color-rd-ink",
+        "value": "#272B32",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Paper",
+        "cssVar": "--color-rd-paper",
+        "value": "#F3F0E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Orange",
+        "cssVar": "--color-rd-orange",
+        "value": "#F26836",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Blue",
+        "cssVar": "--color-rd-blue",
+        "value": "#244BA8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Mint",
+        "cssVar": "--color-rd-mint",
+        "value": "#B8E9DD",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Ink",
+        "cssVar": "--rd-ink",
+        "value": "#272B32",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Paper",
+        "cssVar": "--rd-paper",
+        "value": "#F3F0E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Orange",
+        "cssVar": "--rd-orange",
+        "value": "#F26836",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Blue",
+        "cssVar": "--rd-blue",
+        "value": "#244BA8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rd Mint",
+        "cssVar": "--rd-mint",
+        "value": "#B8E9DD",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Exo 2",
+        "cssVar": "--font-exo-2",
+        "family": "Exo 2",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Exo 2"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      },
+      {
+        "name": "Font / Space Grotesk",
+        "cssVar": "--font-space-grotesk",
+        "family": "Space Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Space Grotesk"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "radius.webp",
+      "publicPath": "https://www.openlanding.page/gallery/radius.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-bike-hero-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-bike-hero-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-bike-hero-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-bike-hero-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build an isolated Next.js 16 / React 19 / TypeScript landing-page template for RADIUS, an electric urban bicycle. The public gallery path is `/templates/radius`; keep template code within `src/app/(radius)/`, use relative imports, and prefi",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".css",
+        ".175",
+        ".rd-body",
+        ".rd-skip",
+        ".rd-placeholder",
+        ".rd-header",
+        ".2vw",
+        ".rd-home",
+        ".rd-desktop-nav",
+        ".4vw",
+        ".rd-header-cta",
+        ".045em"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "radius-styles-1",
+      "location": "head",
+      "title": "RADIUS Scoped Styles (Part 1/2)",
+      "maxChars": 45000,
+      "charCount": 44971,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@import \"tailwindcss/theme.css\" layer(theme);\n@import \"tailwindcss/preflight.css\" layer(base);\n\n@theme {\n  --color-rd-ink: #272B32;\n  --color-rd-paper: #F3F0E8;\n  --color-rd-orange: #F26836;\n  --color-rd-blue: #244BA8;\n  --color-rd-mint: #B8E9DD;\n}\n\n:root {\n  --rd-ink: #272B32;\n  --rd-paper: #F3F0E8;\n  --rd-orange: #F26836;\n  --rd-blue: #244BA8;\n  --rd-mint: #B8E9DD;\n  --rd-display: var(--font-rd-exo), sans-serif;\n  --rd-body-font: var(--font-rd-space), sans-serif;\n  --rd-mono: var(--font-rd-plex), monospace;\n  --rd-ease: cubic-bezier(.16, 1, .3, 1);\n  --rd-ease-io: cubic-bezier(.77, 0, .175, 1);\n  --rd-spring: linear(0, .35 8%, .82 20%, 1.06 30%, 1.02 42%, .99 58%, 1);\n  --rd-instant: 90ms;\n  --rd-fast: 180ms;\n  --rd-base: 420ms;\n  --rd-slow: 800ms;\n  --rd-hero-duration: 1200ms;\n  --rd-progress: 0;\n  --rd-unfold: 0;\n  --rd-unfold-top: 62%;\n  --rd-unfold-bottom: 18%;\n  --rd-mobile-cut-top: 27%;\n  --rd-mobile-cut-bottom: 78%;\n}\n\n* { box-sizing: border-box; }\nhtml { scroll-behavior: smooth; }\n.rd-body { margin: 0; background: var(--rd-paper); color: var(--rd-ink); font-family: var(--rd-body-font); overflow-x: clip; }\n.rd-body button, .rd-body input, .rd-body textarea, .rd-body select { font: inherit; }\n.rd-body button, .rd-body a, .rd-body summary { -webkit-tap-highlight-color: transparent; }\n.rd-body a { color: inherit; }\n.rd-body img, .rd-body svg { display: block; }\n.rd-body :focus-visible { outline: 3px solid var(--rd-orange); outline-offset: 4px; }\n.rd-body main { display: block; }\n.rd-skip { position: fixed; left: 12px; top: 12px; z-index: 200; padding: 12px; background: var(--rd-ink); color: var(--rd-paper) !important; transform: translateY(-160%); }\n.rd-skip:focus { transform: none; }\n.rd-placeholder { display: grid; place-items: center; background: color-mix(in srgb, var(--rd-ink) 12%, var(--rd-paper)); font: 500 11px/1.4 var(--rd-mono); min-height: 180px; }\n\n.rd-header { height: 76px; padding: 0 clamp(22px, 4.2vw, 72px); display: flex; align-items: center; gap: 34px; position: sticky; top: 0; z-index: 80; background: var(--rd-paper); border-bottom: 1px solid color-mix(in srgb, var(--rd-ink) 20%, transparent); transition: background-color var(--rd-fast) var(--rd-ease); }\nhtml[data-rd-scrolled=\"true\"] .rd-header { background: color-mix(in srgb, var(--rd-paper) 96%, transparent); }\n.rd-home { flex: 0 0 auto; width: 150px; transform-origin: left center; transition: transform var(--rd-base) var(--rd-ease); }\nhtml[data-rd-scrolled=\"true\"] .rd-home { transform: scale(.94); }\n.rd-home svg { width: 100%; height: auto; }\n.rd-desktop-nav { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 40px); margin: 0 auto; }\n.rd-desktop-nav a, .rd-header-cta { position: relative; text-decoration: none; text-transform: uppercase; font: 600 10px/1 var(--rd-mono); letter-spacing: .045em; white-space: nowrap; }\n.rd-desktop-nav a::after { content: \"\"; position: absolute; left: 0; right: 0; bottom: -9px; height: 3px; background: var(--rd-orange); transform: scaleX(0); transform-origin: left; transition: transform var(--rd-base) var(--rd-ease); }\n.rd-desktop-nav a:hover::after, .rd-desktop-nav a:focus-visible::after { transform: scaleX(1); }\n.rd-header-cta { display: flex; align-items: center; gap: 22px; border: 1px solid var(--rd-ink); padding: 13px 15px; transition: background var(--rd-fast), transform var(--rd-fast) var(--rd-spring); }\n.rd-header-cta:hover, .rd-header-cta:focus-visible { background: var(--rd-mint); }\n.rd-header-cta:active { transform: scale(.97); }\n.rd-mobile-menu { display: none; }\n.rd-progress { position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; pointer-events: none; }\n.rd-progress span { display: block; height: 100%; width: 100%; transform: scaleX(var(--rd-progress)); transform-origin: left; background: var(--rd-orange); }\n\n.rd-hero { position: relative; height: min(900px, calc(100svh - 76px)); min-height: 650px; overflow: hidden; isolation: isolate; background: var(--rd-paper); }\n.rd-hero-field { position: absolute; inset: 0; background: var(--rd-blue); clip-path: polygon(var(--rd-unfold-top) 0, 100% 0, 100% 100%, var(--rd-unfold-bottom) 100%); }\n.rd-hero-orange { position: absolute; inset: 0; background: var(--rd-orange); opacity: calc(1 - var(--rd-unfold)); clip-path: polygon(96% 0, 100% 0, 100% 100%, 58% 100%); }\n.rd-hero-ghost { position: absolute; z-index: 0; right: -2%; top: 13%; width: 76%; height: auto; fill: var(--rd-paper); opacity: .11; transform: translate3d(0, calc(var(--rd-unfold) * -28px), 0); }\n.rd-hero-coordinate { position: absolute; left: clamp(15px, 2vw, 30px); top: 70px; writing-mode: vertical-rl; transform: rotate(180deg); font: 500 9px/1 var(--rd-mono); letter-spacing: .13em; }\n.rd-hero-copy { position: relative; z-index: 4; padding: clamp(62px, 9vh, 100px) 0 85px clamp(70px, 7vw, 120px); width: min(47%, 620px); }\n.rd-kicker { margin: 0; font: 600 10px/1.4 var(--rd-mono); letter-spacing: .08em; text-transform: uppercase; }\n.rd-hero-kicker span { display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--rd-orange); }\n.rd-hero h1 { margin: 31px 0 23px; font: italic 900 clamp(68px, 7vw, 112px)/.82 var(--rd-display); letter-spacing: -.062em; text-transform: uppercase; }\n.rd-hero h1 span { display: block; white-space: nowrap; }\n.rd-hero h1 i { color: var(--rd-orange); font-style: normal; }\n.rd-hero-lead { max-width: 265px; font-size: 17px; line-height: 1.5; font-weight: 500; margin: 0 0 25px; }\n.rd-hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 19px; }\n.rd-button { position: relative; display: inline-flex; align-items: center; justify-content: space-between; gap: 44px; padding: 19px 21px; min-height: 54px; background: var(--rd-orange); color: var(--rd-ink); text-decoration: none; font-size: 13px; line-height: 1; font-weight: 700; overflow: hidden; isolation: isolate; transition: transform var(--rd-fast) var(--rd-spring); }\n.rd-button::before { content: \"\"; position: absolute; inset: 0; z-index: -1; background: var(--rd-mint); transform: scaleX(0); transform-origin: left; transition: transform var(--rd-base) var(--rd-ease); }\n.rd-button:hover::before, .rd-button:focus-visible::before { transform: scaleX(1); }\n.rd-button b { font-size: 16px; transition: transform var(--rd-fast) var(--rd-ease); }\n.rd-button:hover b { transform: translate(3px, -3px); }\n.rd-button:active { transform: scale(.97); }\n.rd-link { font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }\n.rd-link span { display: inline-block; transition: transform var(--rd-fast) var(--rd-ease); }\n.rd-link:hover span { transform: translate(3px, -3px); }\n.rd-hero-bike-wrap { position: absolute; z-index: 2; width: 69%; right: 0; bottom: 3%; transform: translate3d(0, calc(var(--rd-unfold) * -30px), 0); }\n.rd-hero-bike { display: block; width: 100%; }\n.rd-hero-bike img { width: 100%; height: auto; filter: drop-shadow(0 20px 15px color-mix(in srgb, var(--rd-ink) 25%, transparent)); }\n.rd-hero-wheel-intro { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--rd-paper); stroke-width: 5; opacity: 0; pointer-events: none; }\n.rd-wheel-selector { position: absolute; z-index: 5; right: 4.5%; bottom: 14%; display: flex; width: clamp(100px, 9vw, 138px); aspect-ratio: 1; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--rd-paper); border-radius: 50%; color: var(--rd-paper) !important; text-align: center; text-decoration: none; font: 500 9px/1.1 var(--rd-mono); transition: background-color var(--rd-base) var(--rd-ease), transform var(--rd-base) var(--rd-ease); }\n.rd-wheel-selector strong { font: 400 31px/1 var(--rd-body-font); }\n.rd-wheel-selector small { font: 500 9px/1.1 var(--rd-mono); }\n.rd-wheel-selector:hover, .rd-wheel-selector:focus-visible { background: var(--rd-paper); color: var(--rd-ink) !important; }\n@media (hover: hover) and (pointer: fine) { .rd-wheel-selector:hover { transform: rotate(8deg); } }\n.rd-wheel-selector:active { transform: scale(.96); transition-duration: var(--rd-instant); }\n.rd-hero-bottom { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; background: var(--rd-ink); color: var(--rd-paper); padding: 13px clamp(20px, 4vw, 65px); font: 600 9px/1 var(--rd-mono); letter-spacing: .08em; }\n\n.rd-breakdown { padding: 0 clamp(22px, 5vw, 80px) clamp(90px, 10vw, 160px); scroll-margin-top: 65px; }\n.rd-section-top { display: flex; justify-content: space-between; gap: 20px; padding: 26px 0; border-bottom: 1px solid var(--rd-ink); font: 600 10px/1.3 var(--rd-mono); letter-spacing: .06em; }\n.rd-breakdown-heading { display: grid; grid-template-columns: 1fr minmax(220px, 360px); align-items: end; gap: 40px; padding: clamp(72px, 9vw, 145px) 0 55px; }\n.rd-breakdown-heading h2 { margin: 20px 0 0; font: italic 900 clamp(54px, 7.5vw, 112px)/.9 var(--rd-display); letter-spacing: -.06em; }\n.rd-breakdown-heading h2 em { color: var(--rd-blue); font-style: inherit; }\n.rd-breakdown-heading > p { max-width: 340px; font-size: 16px; line-height: 1.6; margin: 0; }\n.rd-blueprint { position: relative; overflow: hidden; min-height: 420px; background: var(--rd-blue); color: var(--rd-paper); }\n.rd-blueprint-grid { position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(var(--rd-paper) 1px, transparent 1px), linear-gradient(90deg, var(--rd-paper) 1px, transparent 1px); background-size: 44px 44px; }\n.rd-blueprint-tag, .rd-blueprint-bottom { position: absolute; z-index: 2; left: 24px; right: 24px; display: flex; justify-content: space-between; font: 600 10px/1 var(--rd-mono); letter-spacing: .06em; }\n.rd-blueprint-tag { top: 24px; }.rd-blueprint-bottom { bottom: 24px; }\n.rd-blueprint-bike { display: block; position: relative; z-index: 1; width: min(78%, 1050px); margin: -2% auto; }\n.rd-blueprint-bike img { width: 100%; height: auto; }\n.rd-detail-strips { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rd-ink); }\n.rd-detail-strips > * { position: relative; min-height: 155px; padding: 25px 24px; border-right: 1px solid var(--rd-ink); text-decoration: none; }\n.rd-detail-strips > :first-child { border-left: 1px solid var(--rd-ink); }\n.rd-detail-strips span, .rd-angle-note span { font: 600 10px/1 var(--rd-mono); letter-spacing: .05em; }\n.rd-detail-strips p { margin: 20px 0 0; font-size: 15px; line-height: 1.4; }\n.rd-detail-strips b { position: absolute; right: 24px; bottom: 24px; font-size: 20px; transition: transform var(--rd-base) var(--rd-ease); }\n.rd-detail-strips a:hover b { transform: translate(5px, -5px); }\n.rd-detail-strips a:hover { background: var(--rd-mint); }\n.rd-angle-note { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); margin-top: clamp(80px, 10vw, 150px); background: var(--rd-ink); color: var(--rd-paper); }\n.rd-angle-photo { display: block; min-width: 0; width: 100%; min-height: 360px; overflow: hidden; }\n.rd-angle-photo img { width: 100%; height: 100%; object-fit: cover; }\n.rd-angle-note > div { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 50px; padding: clamp(28px, 4vw, 62px); }\n.rd-angle-note p { margin: 0; font: italic 800 clamp(34px, 3.5vw, 56px)/.95 var(--rd-display); letter-spacing: -.04em; }\n.rd-angle-note p em { color: var(--rd-mint); font-style: inherit; }\n.rd-angle-note a { font-size: 13px; font-weight: 700; text-underline-offset: 5px; }\n\n@media (prefers-reduced-motion: no-preference) {\n  [data-reveal] { transition: opacity var(--rd-slow) var(--rd-ease), transform var(--rd-slow) var(--rd-ease), clip-path var(--rd-slow) var(--rd-ease-io); }\n  .rd-js [data-reveal=\"rise\"]:not([data-in=\"true\"]) { opacity: 0; transform: translateY(28px); }\n  /* A narrow edge stays in the intersection box so the observer can start the wipe. */\n  .rd-js [data-reveal=\"wipe\"]:not([data-in=\"true\"]) { clip-path: inset(0 98% 0 0); }\n  .rd-js [data-reveal=\"draw\"]:not([data-in=\"true\"]) { transform: scaleX(.02); transform-origin: left; }\n  .rd-js [data-reveal=\"scale\"]:not([data-in=\"true\"]) { opacity: 0; transform: scale(.96); }\n  .rd-hero-field { animation: rd-field-in var(--rd-hero-duration) var(--rd-ease) backwards; }\n  html[data-rd-has-scrolled=\"true\"] .rd-hero-field { animation: none; }\n  .rd-hero-copy { animation: rd-copy-in var(--rd-base) var(--rd-ease) 60ms backwards; }\n  .rd-hero h1 span { animation: rd-line-in var(--rd-base) var(--rd-ease) backwards; }\n  .rd-hero h1 span:nth-child(1) { animation-delay: 120ms; }\n  .rd-hero h1 span:nth-child(2) { animation-delay: 170ms; }\n  .rd-hero h1 span:nth-child(3) { animation-delay: 220ms; }\n  .rd-hero-bike-wrap { animation: rd-bike-in var(--rd-hero-duration) var(--rd-ease) 100ms backwards; }\n  .rd-hero-wheel-intro { animation: rd-wheel-fade 900ms var(--rd-ease) 250ms backwards; }\n  .rd-hero-wheel-intro > g > g { animation: rd-wheel-turn 900ms var(--rd-ease) 250ms backwards; }\n  .rd-wheel-selector { animation: rd-selector-in var(--rd-slow) var(--rd-ease) 600ms backwards; }\n  @keyframes rd-field-in { from { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); } to { clip-path: polygon(62% 0,100% 0,100% 100%,18% 100%); } }\n  @keyframes rd-copy-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }\n  @keyframes rd-line-in { from { clip-path: inset(0 0 100% 0); transform: translateY(24px); } to { clip-path: inset(0); transform: translateY(0); } }\n  @keyframes rd-bike-in { from { opacity: 0; clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); } to { opacity: 1; clip-path: polygon(0 0,100% 0,100% 100%,0 100%); } }\n  @keyframes rd-wheel-fade { 0% { opacity: 0; } 25% { opacity: .42; } 100% { opacity: 0; } }\n  @keyframes rd-wheel-turn { from { transform: rotate(-8deg); } to { transform: rotate(0); } }\n  @keyframes rd-selector-in { from { opacity: 0; transform: rotate(-18deg) scale(.85); } to { opacity: 1; transform: rotate(0) scale(1); } }\n}\n@media (prefers-reduced-motion: reduce) {\n  html { scroll-behavior: auto; }\n  .rd-body *, .rd-body *::before, .rd-body *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }\n  .rd-hero-ghost, .rd-hero-bike-wrap, .rd-wheel-selector:hover, .rd-wheel-selector:focus-visible, .rd-wheel-selector:active, html[data-rd-scrolled=\"true\"] .rd-home { transform: none; }\n}\n@media (max-width: 900px) {\n  .rd-desktop-nav { gap: 18px; }\n  .rd-desktop-nav a:last-child { display: none; }\n  .rd-header { padding-inline: 24px; }\n  .rd-home { width: 130px; }\n  .rd-hero-copy { padding-left: 7%; }\n  .rd-hero h1 { font-size: clamp(55px, 7vw, 75px); }\n  .rd-hero-bike-wrap { width: 72%; }\n}\n@media (max-width: 700px) {\n  .rd-header, html[data-rd-scrolled=\"true\"] .rd-header { height: 64px; padding-inline: 20px; }\n  .rd-home { width: 132px; }\n  .rd-desktop-nav, .rd-header-cta { display: none; }\n  .rd-mobile-menu { display: block; margin-left: auto; }\n  .rd-mobile-menu summary { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 9px; list-style: none; cursor: pointer; }\n  .rd-mobile-menu summary::-webkit-details-marker { display: none; }\n  .rd-mobile-menu summary span { display: block; width: 25px; height: 2px; background: var(--rd-ink); transition: transform var(--rd-base) var(--rd-ease), opacity var(--rd-fast); }\n  .rd-mobile-menu[open] summary span:first-child { transform: translateY(7px) rotate(45deg); }\n  .rd-mobile-menu[open] summary span:nth-child(2) { opacity: 0; }\n  .rd-mobile-menu[open] summary span:last-child { transform: translateY(-7px) rotate(-45deg); }\n  .rd-mobile-menu nav { position: absolute; top: 100%; left: 0; right: 0; padding: 15px 22px 30px; background: var(--rd-ink); color: var(--rd-paper); }\n  .rd-mobile-menu nav a { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid color-mix(in srgb, var(--rd-paper) 30%, transparent); text-decoration: none; font: italic 800 25px/1 var(--rd-display); text-transform: uppercase; }\n  .rd-mobile-menu nav a span { font: 500 10px/1 var(--rd-mono); }\n  .rd-hero { height: 760px; min-height: 0; }\n  .rd-hero-field { clip-path: polygon(100% var(--rd-mobile-cut-top),100% 100%,0 100%,0 var(--rd-mobile-cut-bottom)); }\n  .rd-hero-orange { clip-path: polygon(100% 30%,100% 100%,57% 100%); }\n  .rd-hero-copy { width: 100%; padding: 46px 24px 0; }\n  .rd-hero h1 { font-size: clamp(56px, 14vw, 88px); margin: 25px 0 22px; }\n  .rd-hero-lead { font-size: 16px; max-width: 260px; margin-bottom: 20px; }\n  .rd-hero-actions { gap: 16px; }\n  .rd-hero-coordinate { display: none; }\n  .rd-hero-ghost { top: 50%; right: -5%; width: 100%; }\n  .rd-hero-bike-wrap { width: 100%; right: 0; bottom: 4%; }\n  .rd-wheel-selector { width: 82px; right: 5%; bottom: 8%; font-size: 8px; }\n  .rd-wheel-selector strong { font-size: 24px; }.rd-wheel-selector small { display: none; }\n  .rd-hero-bottom { padding: 12px 20px; font-size: 8px; }\n  .rd-breakdown { padding-inline: 20px; }\n  .rd-section-top { font-size: 9px; }\n  .rd-section-top span:last-child { text-align: right; }\n  .rd-breakdown-heading { grid-template-columns: 1fr; gap: 26px; padding: 75px 0 34px; }\n  .rd-breakdown-heading h2 { font-size: clamp(48px, 12vw, 76px); }\n  .rd-blueprint { min-height: 270px; display: grid; align-items: center; }\n  .rd-blueprint-bike { width: 100%; margin: 0; }\n  .rd-blueprint-tag, .rd-blueprint-bottom { left: 14px; right: 14px; font-size: 8px; }\n  .rd-detail-strips { grid-template-columns: 1fr; }\n  .rd-detail-strips > * { min-height: 110px; border-left: 1px solid var(--rd-ink); border-bottom: 1px solid var(--rd-ink); }\n  .rd-detail-strips > :last-child { border-bottom: 0; }\n  .rd-angle-note { grid-template-columns: minmax(0, 1fr); }\n  .rd-angle-photo { min-height: 0; aspect-ratio: 16 / 9; }\n  .rd-angle-note > div { min-height: 280px; }\n  @keyframes rd-field-in { from { clip-path: polygon(100% 100%,100% 100%,0 100%,0 100%); } to { clip-path: polygon(100% 27%,100% 100%,0 100%,0 78%); } }\n}\n@media (max-width: 360px) {\n  .rd-hero { height: 720px; }\n  .rd-hero h1 { font-size: 48px; }\n  .rd-hero-copy { padding-top: 37px; }\n}\n\n/* RADIUS multi-page extensions — preserves sharp 0px Swiss technical geometry and five registered --rd-* tokens. */\n\n.rd-sr {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap;\n}\n\n.rd-sub-hero {\n  position: relative;\n  overflow: hidden;\n  padding: clamp(32px, 4.5vw, 56px) clamp(22px, 5vw, 80px) clamp(44px, 6vw, 80px);\n  border-bottom: 1px solid var(--rd-ink);\n  background: var(--rd-paper);\n}\n\n.rd-sub-hero--blue {\n  background: var(--rd-blue);\n  color: var(--rd-paper);\n}\n\n.rd-sub-hero--ink {\n  background: var(--rd-ink);\n  color: var(--rd-paper);\n}\n\n.rd-sub-shell {\n  max-width: 1280px;\n  margin-inline: auto;\n}\n\n.rd-crumb {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 24px;\n  font: 600 10px/1 var(--rd-mono);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  text-decoration: none;\n  opacity: 0.82;\n}\n.rd-crumb:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }\n\n.rd-sub-hero__grid {\n  display: grid;\n  grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);\n  gap: clamp(24px, 4vw, 56px);\n  align-items: end;\n}\n\n.rd-sub-hero__title {\n  margin: 18px 0 0;\n  font: italic 900 clamp(46px, 6.4vw, 96px) / 0.88 var(--rd-display);\n  letter-spacing: -0.055em;\n  text-transform: uppercase;\n}\n\n.rd-sub-hero__title em {\n  color: var(--rd-orange);\n  font-style: inherit;\n}\n\n.rd-sub-hero--blue .rd-sub-hero__title em {\n  color: var(--rd-mint);\n}\n\n.rd-sub-hero__lede {\n  margin: 20px 0 0;\n  max-width: 54ch;\n  font-size: clamp(16px, 1.15vw, 19px);\n  line-height: 1.55;\n}\n\n.rd-spec-strip {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  border-top: 1px solid currentColor;\n  border-left: 1px solid currentColor;\n}\n\n.rd-spec-strip > div {\n  padding: 14px 16px;\n  border-right: 1px solid currentColor;\n  border-bottom: 1px solid currentColor;\n  display: grid;\n  gap: 6px;\n}\n\n.rd-spec-strip span {\n  font: 500 9.5px/1 var(--rd-mono);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  opacity: 0.78;\n}\n\n.rd-spec-strip strong {\n  font: italic 800 20px/1.05 var(--rd-display);\n  letter-spacing: -0.02em;\n  text-transform: uppercase;\n}\n\n.rd-sub-section {\n  padding: clamp(56px, 7vw, 108px) clamp(22px, 5vw, 80px);\n  border-bottom: 1px solid color-mix(in srgb, var(--rd-ink) 18%, transparent);\n}\n\n.rd-sub-section--blue {\n  background: var(--rd-blue);\n  color: var(--rd-paper);\n}\n\n.rd-sub-section--ink {\n  background: var(--rd-ink);\n  color: var(--rd-paper);\n}\n\n.rd-sub-section--alt {\n  background: color-mix(in srgb, var(--rd-ink) 5%, var(--rd-paper));\n}\n\n.rd-sub-head {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: flex-end;\n  justify-content: space-between;\n  gap: 20px;\n  margin-bottom: clamp(28px, 3.5vw, 44px);\n}\n\n.rd-sub-head h2 {\n  margin: 12px 0 0;\n  font: italic 900 clamp(34px, 4.4vw, 62px) / 0.92 var(--rd-display);\n  letter-spacing: -0.04em;\n  text-transform: uppercase;\n}\n\n.rd-sub-head h2 em {\n  color: var(--rd-orange);\n  font-style: inherit;\n}\n\n.rd-sub-toolbar {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 14px;\n  margin-bottom: 28px;\n}\n\n.rd-tabs-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n\n.rd-tab-btn {\n  padding: 11px 16px;\n  border: 1px solid var(--rd-ink);\n  background: var(--rd-paper);\n  color: var(--rd-ink);\n  font: 600 10px/1 var(--rd-mono);\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  cursor: pointer;\n  transition: background-color var(--rd-fast) var(--rd-ease), color var(--rd-fast), transform var(--rd-instant);\n}\n\n.rd-tab-btn[aria-pressed=\"true\"] {\n  background: var(--rd-orange);\n  color: var(--rd-ink);\n  border-color: var(--rd-ink);\n}\n\n.rd-tab-btn:hover {\n  background: var(--rd-mint);\n}\n\n.rd-tab-btn:active {\n  transform: scale(0.97);\n}\n\n.rd-sub-search {\n  min-width: 240px;\n  flex: 0 1 320px;\n  height: 40px;\n  padding: 0 14px;\n  border: 1px solid var(--rd-ink);\n  background: var(--rd-paper);\n  color: var(--rd-ink);\n  font: 500 13px/1 var(--rd-body-font);\n}\n\n.rd-grid-2 {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 24px;\n}\n\n.rd-grid-3 {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  border-top: 1px solid var(--rd-ink);\n  border-left: 1px solid var(--rd-ink);\n}\n\n.rd-cell-card {\n  border-right: 1px solid var(--rd-ink);\n  border-bottom: 1px solid var(--rd-ink);\n  padding: clamp(20px, 2.5vw, 30px);\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  gap: 18px;\n  background: var(--rd-paper);\n  transition: background-color var(--rd-fast) var(--rd-ease);\n}\n\n.rd-cell-card:hover {\n  background: color-mix(in srgb, var(--rd-mint) 36%, var(--rd-paper));\n}\n\n.rd-cell-card__media {\n  overflow: hidden;\n  border: 1px solid var(--rd-ink);\n  background: color-mix(in srgb, var(--rd-ink) 8%, var(--rd-paper));\n  aspect-ratio: 16 / 10;\n}\n\n.rd-cell-card__media img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  transition: transform var(--rd-slow) var(--rd-ease);\n}\n\n.rd-cell-card:hover .rd-cell-card__media img {\n  transform: scale(1.03);\n}\n\n.rd-cell-card__title {\n  margin: 10px 0 8px;\n  font: italic 800 clamp(22px, 2.2vw, 30px) / 0.98 var(--rd-display);\n  letter-spacing: -0.03em;\n  text-transform: uppercase;\n}\n\n.rd-cell-card__body {\n  margin: 0;\n  font-size: 14.5px;\n  line-height: 1.55;\n  opacity: 0.88;\n}\n\n.rd-finish-stage {\n  display: grid;\n  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);\n  gap: 24px;\n  border: 1px solid var(--rd-ink);\n  background: var(--rd-blue);\n  color: var(--rd-paper);\n  padding: clamp(20px, 3vw, 40px);\n}\n\n.rd-checklist {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 12px;\n}\n\n.rd-check-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 14px;\n  padding: 18px 20px;\n  border: 1px solid var(--rd-ink);\n  background: var(--rd-paper);\n  cursor: pointer;\n  text-align: left;\n  transition: background-color var(--rd-fast) var(--rd-ease);\n}\n\n.rd-check-item[aria-pressed=\"true\"] {\n  background: var(--rd-mint);\n}\n\n.rd-check-box {\n  flex: 0 0 22px;\n  height: 22px;\n  border: 1.5px solid var(--rd-ink);\n  display: grid;\n  place-items: center;\n  font: 700 12px/1 var(--rd-mono);\n  background: var(--rd-paper);\n}\n\n.rd-check-item[aria-pressed=\"true\"] .rd-check-box {\n  background: var(--rd-ink);\n  color: var(--rd-paper);\n}\n\n.rd-article {\n  max-width: 820px;\n  margin-inline: auto;\n  display: grid;\n  gap: 24px;\n}\n\n.rd-article__quote {\n  margin: 8px 0;\n  padding: 24px 28px;\n  border-left: 4px solid var(--rd-orange);\n  background: color-mix(in srgb, var(--rd-ink) 6%, var(--rd-paper));\n  font: italic 800 clamp(22px, 2.4vw, 32px) / 1.1 var(--rd-display);\n  letter-spacing: -0.02em;\n}\n\n.rd-article p {\n  margin: 0;\n  font-size: 17px;\n  line-height: 1.68;\n}\n\n@media (max-width: 900px) {\n  .rd-sub-hero__grid,\n  .rd-finish-stage,\n  .rd-grid-3 {\n    grid-template-columns: 1fr;\n  }\n  .rd-grid-2,\n  .rd-checklist {\n    grid-template-columns: 1fr;\n  }\n}\n\n@media (max-width: 600px) {\n  .rd-spec-strip {\n    grid-template-columns: 1fr;\n  }\n  .rd-sub-search {\n    width: 100%;\n    flex: 1 1 100%;\n  }\n}\n\n.rd-build {\n  background: var(--rd-paper);\n  color: var(--rd-ink);\n  padding: clamp(64px, 8vw, 128px) clamp(16px, 4.5vw, 72px);\n  scroll-margin-top: 80px;\n}\n\n.rd-build__heading {\n  align-items: end;\n  display: flex;\n  gap: 32px;\n  justify-content: space-between;\n  margin: 0 auto 40px;\n  max-width: 1600px;\n}\n\n.rd-build__eyebrow,\n.rd-build__stage-meta,\n.rd-build__stage-footer,\n.rd-build__summary-label {\n  font-family: var(--rd-mono);\n  font-size: 0.75rem;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  line-height: 1.4;\n}\n\n.rd-build__eyebrow {\n  margin: 0 0 24px;\n}\n\n.rd-build__heading h2 {\n  font-family: var(--rd-display);\n  font-size: clamp(3.75rem, 8vw, 8rem);\n  font-style: italic;\n  font-weight: 900;\n  letter-spacing: -0.045em;\n  line-height: 0.84;\n  margin: 0;\n  text-transform: uppercase;\n}\n\n.rd-build__heading h2 span {\n  color: var(--rd-orange);\n}\n\n.rd-build__intro {\n  font-family: var(--rd-body-font);\n  font-size: 1rem;\n  line-height: 1.5;\n  margin: 0 0 4px;\n  max-width: 260px;\n  text-wrap: pretty;\n}\n\n.rd-build__workbench {\n  border: 1px solid var(--rd-ink);\n  display: grid;\n  grid-template-columns: minmax(0, 1.38fr) minmax(340px, 0.72fr);\n  margin: 0 auto;\n  max-width: 1600px;\n}\n\n.rd-build__stage {\n  background: var(--rd-paper);\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  overflow: hidden;\n  padding: clamp(16px, 2vw, 32px);\n  position: relative;\n}\n\n.rd-build__stage::before,\n.rd-build__stage::after {\n  content: \"\";\n  pointer-events: none;\n  position: absolute;\n}\n\n.rd-build__stage::before {\n  border-left: 1px solid color-mix(in srgb, var(--rd-ink) 15%, transparent);\n  height: 100%;\n  left: 50%;\n  top: 0;\n}\n\n.rd-build__stage::after {\n  border-top: 1px solid color-mix(in srgb, var(--rd-ink) 15%, transparent);\n  left: 0;\n  top: 50%;\n  width: 100%;\n}\n\n.rd-build__stage-meta,\n.rd-build__stage-footer {\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  position: relative;\n  z-index: 1;\n}\n\n.rd-build__stage-meta span:last-child,\n.rd-build__stage-footer span:last-child {\n  text-align: right;\n}\n\n.rd-build__stage-footer {\n  align-items: end;\n  border-top: 1px solid var(--rd-ink);\n  padding-top: 16px;\n}\n\n.rd-build__stage-footer span:first-child {\n  color: var(--rd-blue);\n}\n\n.rd-build__bike {\n  aspect-ratio: 3 / 2;\n  isolation: isolate;\n  margin: auto 0;\n  position: relative;\n  width: 100%;\n  z-index: 1;\n}\n\n.rd-build__bike-image,\n.rd-build__bike-overlay {\n  height: 100%;\n  inset: 0;\n  position: absolute;\n  width: 100%;\n}\n\n.rd-build__bike-image {\n  clip-path: inset(0 100% 0 0);\n  opacity: 0;\n  transition: clip-path 420ms var(--rd-ease-io), opacity 420ms var(--rd-ease-io);\n}\n\n.rd-build__bike-image[data-active=\"true\"] {\n  clip-path: inset(0);\n  opacity: 1;\n  z-index: 2;\n}\n\n.rd-build__bike-image[data-previous=\"true\"] {\n  clip-path: inset(0);\n  opacity: 1;\n  transition: none;\n  z-index: 1;\n}\n\n.rd-build__bike-image img {\n  display: block;\n  height: 100%;\n  object-fit: contain;\n  width: 100%;\n}\n\n.rd-build__bike-overlay {\n  overflow: visible;\n  pointer-events: none;\n  z-index: 3;\n}\n\n.rd-build__noscript { margin: 0 0 20px; font-size: 14px; line-height: 1.5; }\n.rd-build__field:disabled, .rd-build__reset:disabled { cursor: not-allowed; }\n.rd-build__field:nth-of-type(2) { transition-delay: 70ms; }\n.rd-build__field:nth-of-type(3) { transition-delay: 140ms; }\n\n@media (prefers-reduced-motion: reduce) {\n  .rd-build__bike-image[data-previous=\"true\"] { display: none; }\n}\n\n.rd-build__part {\n  opacity: 0;\n  transition: opacity 420ms var(--rd-ease-io);\n}\n\n.rd-build__part[data-active=\"true\"] {\n  opacity: 1;\n}\n\n.rd-build__tire-base {\n  stroke: var(--rd-ink);\n  stroke-width: 20;\n}\n\n.rd-build__tire-tread {\n  stroke: color-mix(in srgb, var(--rd-ink) 85%, var(--rd-paper));\n  stroke-dasharray: 8 10;\n  stroke-width: 13;\n}\n\n.rd-build__rack-shadow {\n  opacity: 0.7;\n  stroke: var(--rd-paper);\n  stroke-width: 15;\n}\n\n.rd-build__rack-line {\n  stroke: var(--rd-ink);\n  stroke-width: 8;\n}\n\n.rd-build__rack-deck {\n  fill: var(--rd-ink);\n  stroke: var(--rd-ink);\n  stroke-width: 7;\n}\n\n.rd-build__basket-mount,\n.rd-build__basket-outline {\n  stroke: var(--rd-ink);\n  stroke-width: 10;\n}\n\n.rd-build__basket-wire {\n  stroke: var(--rd-ink);\n  stroke-width: 5;\n}\n\n.rd-build__light-mount {\n  fill: none;\n  stroke: var(--rd-ink);\n  stroke-width: 7;\n}\n\n.rd-build__light-body {\n  fill: var(--rd-ink);\n  stroke: var(--rd-paper);\n  stroke-width: 3;\n}\n\n.rd-build__light-front {\n  fill: var(--rd-mint);\n}\n\n.rd-build__light-rear {\n  fill: var(--rd-orange);\n}\n\n.rd-build__controls {\n  background: color-mix(in srgb, var(--rd-paper) 94%, var(--rd-ink));\n  border-left: 1px solid var(--rd-ink);\n  min-width: 0;\n  padding: clamp(24px, 3vw, 48px);\n}\n\n.rd-build__field {\n  border: 0;\n  margin: 0;\n  min-width: 0;\n  padding: 0 0 32px;\n}\n\n.rd-build__field + .rd-build__field {\n  border-top: 1px solid color-mix(in srgb, var(--rd-ink) 30%, transparent);\n  padding-top: 24px;\n}\n\n.rd-build__field--accessories {\n  padding-bottom: 0;\n}\n\n.rd-build__field legend {\n  display: block;\n  float: left;\n  font-family: var(--rd-body-font);\n  font-size: 1rem;\n  font-weight: 700;\n  margin: 0 0 16px;\n  padding: 0;\n  width: 100%;\n}\n\n.rd-build__field legend span {\n  color: var(--rd-blue);\n  display: inline-block;\n  font-family: var(--rd-mono);\n  font-size: 0.75rem;\n  margin-right: 12px;\n}\n\n.rd-build__finish-options,\n.rd-build__tire-options,\n.rd-build__accessories {\n  clear: both;\n}\n\n.rd-build__finish-options {\n  display: grid;\n  gap: 8px;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n}\n\n.rd-build__finish-label,\n.rd-build__tire-label,\n.rd-build__accessory-label {\n  cursor: pointer;\n  display: block;\n  min-width: 0;\n  position: relative;\n}\n\n.rd-build__input {\n  cursor: pointer;\n  height: 100%;\n  inset: 0;\n  margin: 0;\n  opacity: 0;\n  position: absolute;\n  width: 100%;\n  z-index: 1;\n}\n\n.rd-build__finish-card,\n.rd-build__tire-card,\n.rd-build__accessory-card {\n  transition: border-color 180ms var(--rd-ease), background-color 180ms var(--rd-ease), color 180ms var(--rd-ease);\n}\n\n.rd-build__finish-card {\n  align-items: flex-start;\n  background: var(--rd-paper);\n  border: 1px solid color-mix(in srgb, var(--rd-ink) 35%, transparent);\n  display: flex;\n  flex-direction: column;\n  font-family: var(--rd-body-font);\n  font-size: 0.75rem;\n  font-weight: 600;\n  gap: 12px;\n  min-height: 94px;\n  padding: 12px;\n}\n\n.rd-build__swatch {\n  border: 1px solid var(--rd-ink);\n  border-radius: 50%;\n  display: block;\n  height: 28px;\n  width: 28px;\n}\n\n.rd-build__swatch--graphite {\n  background: var(--rd-ink);\n}\n\n.rd-build__swatch--tangerine {\n  background: var(--rd-orange);\n}\n\n.rd-build__swatch--cream {\n  background: var(--rd-paper);\n}\n\n.rd-build__input:checked + .rd-build__finish-card,\n.rd-build__input:checked + .rd-build__tire-card {\n  border-color: var(--rd-blue);\n  box-shadow: inset 0 0 0 1px var(--rd-blue);\n}\n\n.rd-build__input:focus-visible + .rd-build__finish-card,\n.rd-build__input:focus-visible + .rd-build__tire-card,\n.rd-build__input:focus-visible + .rd-build__accessory-card {\n  outline: 3px solid var(--rd-blue);\n  outline-offset: 3px;\n}\n\n.rd-build__finish-label:hover .rd-build__finish-card,\n.rd-build__tire-label:hover .rd-build__tire-card {\n  border-color: var(--rd-blue);\n}\n\n.rd-build__tire-options {\n  display: grid;\n  gap: 8px;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n}\n\n.rd-build__tire-card {\n  align-items: center;\n  background: var(--rd-paper);\n  border: 1px solid color-mix(in srgb, var(--rd-ink) 35%, transparent);\n  display: flex;\n  gap: 8px;\n  min-height: 74px;\n  padding: 12px;\n}\n\n.rd-build__tire-card strong,\n.rd-build__tire-card small {\n  display: block;\n  font-family: var(--rd-body-font);\n}\n\n.rd-build__tire-card strong {\n  font-size: 0.875rem;\n  line-height: 1.2;\n}\n\n.rd-build__tire-card small {\n  font-size: 0.75rem;\n  line-height: 1.4;\n  margin-top: 4px;\n}\n\n.rd-build__tire-icon {\n  flex: 0 0 40px;\n  height: 40px;\n  width: 40px;\n}\n\n.rd-build__tire-icon circle {\n  fill: none;\n  stroke: var(--rd-ink);\n  stroke-width: 4;\n}\n\n.rd-build__tire-icon .rd-build__icon-city {\n  stroke: var(--rd-paper);\n  stroke-width: 1;\n}\n\n.rd-build__tire-icon .rd-build__icon-gravel {\n  stroke: var(--rd-paper);\n  stroke-dasharray: 2 4;\n  stroke-width: 3;\n}\n\n.rd-build__radio-mark {\n  border: 1px solid var(--rd-ink);\n  border-radius: 50%;\n  flex: 0 0 14px;\n  height: 14px;\n  margin-left: auto;\n  width: 14px;\n}\n\n.rd-build__input:checked + .rd-build__tire-card .rd-build__radio-mark {\n  background: var(--rd-blue);\n  box-shadow: inset 0 0 0 3px var(--rd-paper);\n}\n\n.rd-build__accessories {\n  border-top: 1px solid color-mix(in srgb, var(--rd-ink) 30%, transparent);\n}\n\n.rd-build__accessory-card {\n  align-items: center;\n  border-bottom: 1px solid color-mix(in srgb, var(--rd-ink) 30%, transparent);\n  display: flex;\n  font-family: var(--rd-body-font);\n  font-size: 0.875rem;\n  font-weight: 600;\n  gap: 12px;\n  min-height: 56px;\n  padding: 8px 0;\n}\n\n.rd-build__accessory-number {\n  color: var(--rd-blue);\n  font-family: var(--rd-mono);\n  font-size: 0.6875rem;\n}\n\n.rd-build__accessory-label:hover .rd-build__accessory-card {\n  color: var(--rd-blue);\n}\n\n.rd-build__switch {\n  background: color-mix(in srgb, var(--rd-ink) 30%, var(--rd-paper));\n  border: 1px solid var(--rd-ink);\n  border-radius: 20px;\n  display: flex;\n  height: 24px;\n  margin-left: auto;\n  padding: 3px;\n  transition: background-color 180ms var(--rd-ease);\n  width: 42px;\n}\n\n.rd-build__switch span {\n  background: var(--rd-ink);\n  border-radius: 50%;\n  height: 16px;\n  transition: transform 180ms var(--rd-ease);\n  width: 16px;\n}\n\n.rd-build__input:checked + .rd-build__accessory-card .rd-build__switch {\n  background: var(--rd-mint);\n}\n\n.rd-build__input:checked + .rd-build__accessory-card .rd-build__switch span {\n  transform: translateX(18px);\n}\n\n.rd-build__summary {\n  align-items: center;\n  background: var(--rd-ink);\n  color: var(--rd-paper);\n  display: flex;\n  gap: 32px;\n  justify-content: space-between;\n  margin: 0 auto;\n  max-width: 1600px;\n  padding: 24px clamp(24px, 3vw, 48px);\n}\n\n.rd-build__summary-label {\n  color: var(--rd-mint);\n  margin: 0 0 8px;\n}\n\n.rd-build__summary-text {\n  font-family: var(--rd-body-font);\n  font-size: 1rem;\n  line-height: 1.5;\n  margin: 0;\n}\n\n.rd-build__reset {\n  background: transparent;\n  border: 1px solid var(--rd-paper);\n  color: var(--rd-paper);\n  cursor: pointer;\n  flex: 0 0 auto;\n  font-family: var(--rd-body-font);\n  font-size: 0.875rem;\n  font-weight: 700;\n  min-height: 48px;\n  padding: 8px 16px;\n  transition: background-color 180ms var(--rd-ease), color 180ms var(--rd-ease), transform 90ms var(--rd-ease);\n}\n\n.rd-build__reset span {\n  display: inline-block;\n  font-size: 1.25rem;\n  margin-right: 8px;\n  vertical-align: -1px;\n}\n\n.rd-build__reset:hover,\n.rd-build__reset:focus-visible {\n  background: var(--rd-orange);\n  border-color: var(--rd-orange);\n  color: var(--rd-ink);\n}\n\n.rd-build__reset:focus-visible {\n  outline: 3px solid var(--rd-mint);\n  outline-offset: 3px;\n}\n\n.rd-build__reset:active {\n  transform: scale(0.98);\n}\n\n@media (max-width: 800px) {\n  .rd-build__heading {\n    align-items: start;\n    flex-direction: column;\n    gap: 24px;\n  }\n\n  .rd-build__intro {\n    max-width: 340px;\n  }\n\n  .rd-build__workbench {\n    grid-template-columns: minmax(0, 1fr);\n  }\n\n  .rd-build__stage {\n    border-bottom: 1px solid var(--rd-ink);\n  }\n\n  .rd-build__controls {\n    border-left: 0;\n  }\n}\n\n@media (max-width: 480px) {\n  .rd-build__heading h2 {\n    font-size: clamp(3rem, 14vw, 4.5rem);\n  }\n\n  .rd-build__stage {\n    padding: 16px 12px;\n  }\n\n  .rd-build__stage-meta,\n  .rd-build__stage-footer {\n    font-size: 0.625rem;\n  }\n\n  .rd-build__controls {\n    padding: 24px 16px;\n  }\n\n  .rd-build__finish-card {\n    padding: 10px;\n  }\n\n  .rd-build__tire-card {\n    gap: 4px;\n    padding: 8px;\n  }\n\n  .rd-build__tire-icon {\n    flex-basis: 32px;\n    height: 32px;\n    width: 32px;\n  }\n\n  .rd-build__summary {\n    align-items: flex-start;\n    flex-direction: column;\n    gap: 20px;\n    padding: 24px 16px;\n  }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .rd-build__bike-image,\n  .rd-build__part,\n  .rd-build__finish-card,\n  .rd-build__tire-card,\n  .rd-build__accessory-card,\n  .rd-build__switch,\n  .rd-build__switch span,\n  .rd-build__reset {\n    transition: none;\n  }\n}\n\n.rd-experience {\n  overflow: clip;\n  background: var(--rd-paper);\n  color: var(--rd-ink);\n  font-family: var(--rd-body-font), sans-serif;\n}\n\n.rd-experience *, .rd-experience *::before, .rd-experience *::after { box-sizing: border-box; }\n.rd-experience h2, .rd-experience h3, .rd-experience p, .rd-experience figure { margin: 0; }\n.rd-experience h2, .rd-experience h3 { text-wrap: balance; }\n.rd-experience p { text-wrap: pretty; }\n.rd-experience button, .rd-experience input { font: inherit; }\n.rd-experience button, .rd-experience a, .rd-experience summary { -webkit-tap-highlight-color: transparent; }\n.rd-experience :focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }\n.rd-exp-shell { width: min(100% - 96px, 1536px); margin-inline: auto; }\n.rd-exp-rule { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-top: 1px solid currentColor; font: 500 .7rem/1.3 var(--rd-mono), monospace; letter-spacing: .055em; }\n.rd-exp-label { display: block; font: 600 .7rem/1.35 var(--rd-mono), monospace; letter-spacing: .065em; }\n.rd-ride-section, .rd-story-section, .rd-fit-section, .rd-interest-section { padding: 96px 0; scroll-margin-top: 24px; }\n.rd-experience h2 { font: italic 900 clamp(3.5rem, 8.5vw, 9rem)/.84 var(--rd-display), sans-serif; letter-spacing: -.045em; }\n.rd-experience h2 em, .rd-experience h3 em { font-style: inherit; color: var(--rd-orange); }\n.rd-ride-section h2 em, .rd-fit-section h2 em { color: color-mix(in srgb, var(--rd-orange) 90%, var(--rd-ink)); }\n\n.rd-ride-intro { display: grid; grid-template-columns: 1.3fr .6fr; gap: 40px; align-items: end; padding: 56px 0 48px; }\n.rd-ride-intro > div { max-width: 370px; padding-bottom: 5px; }\n.rd-ride-intro p { margin-top: 16px; font-size: clamp(1.05rem, 1.5vw, 1.3rem); line-height: 1.45; }\n.rd-ride-intro__note { display: block; margin-top: 24px; font: 500 .65rem/1.4 var(--rd-mono), monospace; letter-spacing: .035em; }\n.rd-terrain { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(290px, .8fr); min-height: 545px; background: var(--rd-ink); color: var(--rd-paper); }\n.rd-terrain__visual { display: flex; position: relative; min-width: 0; flex-direction: column; overflow: hidden; background: var(--rd-blue); }\n.rd-terrain__map-label, .rd-terrain__map-foot { display: flex; position: relative; z-index: 1; justify-content: space-between; gap: 16px; padding: 24px; font: 500 .65rem/1.3 var(--rd-mono), monospace; letter-spacing: .05em; }\n.rd-terrain__map-foot { margin-top: auto; }\n.rd-terrain__map { position: absolute; inset: 0; width: 100%; height: 100%; }\n.rd-map-grid { fill: none; stroke: var(--rd-paper); stroke-width: 1; opacity: .19; }\n.rd-map-blocks { fill: none; stroke: var(--rd-paper); stroke-width: 1.5; opacity: .4; }\n.rd-map-route-edge, .rd-map-route, .rd-map-route-dash { fill: none; stroke-linecap: square; stroke-linejoin: bevel; }\n.rd-map-route-edge { stroke: var(--rd-paper); stroke-width: 51; }\n.rd-map-route { stroke: var(--rd-orange); stroke-width: 37; }\n.rd-map-route-dash { stroke: var(--rd-ink); stroke-width: 2; stroke-dasharray: 13 13; }\n.rd-map-pin { fill: var(--rd-ink); stroke: var(--rd-mint); stroke-width: 5; }\n.rd-map-pin-center { fill: var(--rd-mint); }\n.rd-map-arrow { fill: none; stroke: var(--rd-paper); stroke-width: 3; }\n.rd-map-progress path:first-child { fill: none; stroke: var(--rd-paper); stroke-width: 2; opacity: .4; }\n.rd-map-progress path:nth-child(2) { fill: none; stroke: var(--rd-mint); stroke-width: 5; }\n.rd-map-progress circle { fill: var(--rd-mint); }\n.rd-terrain__control { display: flex; flex-direction: column; padding: 26px 32px 30px; }\n.rd-terrain__control-top { display: flex; justify-content: space-between; align-items: center; font: 500 .65rem/1 var(--rd-mono), monospace; letter-spacing: .05em; }\n.rd-terrain__control-top span:last-child { color: var(--rd-mint); font-size: 1.4rem; }\n.rd-tire-diagram { width: min(58%, 190px); min-height: 135px; margin: 15px auto; fill: none; stroke: var(--rd-paper); stroke-width: 1; }\n.rd-tire-diagram__outer { stroke: var(--rd-mint); transition: stroke-width 420ms var(--rd-ease), stroke-dasharray 420ms var(--rd-ease); }\n.rd-tire-diagram__hub { fill: var(--rd-ink); stroke: var(--rd-mint); stroke-width: 3; }\n.rd-tire-diagram__arrow { stroke: var(--rd-orange); stroke-width: 3; }\n.rd-terrain__readout { min-height: 108px; }\n.rd-terrain__readout .rd-exp-label { color: var(--rd-mint); }\n.rd-terrain__readout strong { display: block; margin-top: 7px; font-size: 1.5rem; line-height: 1.1; }\n.rd-terrain__readout p { max-width: 330px; margin-top: 8px; font-size: .9rem; line-height: 1.45; }\n.rd-terrain__label { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; font: 600 .75rem/1.3 var(--rd-mono), monospace; }\n.rd-terrain__range { width: 100%; height: 28px; margin: 10px 0 0; accent-color: var(--rd-mint); cursor: pointer; }\n.rd-terrain__help { margin-top: 6px !important; font: 400 .7rem/1.45 var(--rd-mono), monospace; }\n.rd-terrain__presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 17px; background: var(--rd-paper); }\n.rd-terrain__presets button { min-height: 40px; border: 0; background: var(--rd-ink); color: var(--rd-paper); cursor: pointer; font: 600 .65rem/1 var(--rd-mono), monospace; transition: color 180ms var(--rd-ease), background 180ms var(--rd-ease); }\n.rd-terrain__presets button[aria-pressed=\"true\"], .rd-terrain__presets button:hover { background: var(--rd-mint); color: var(--rd-ink); }\n.rd-terrain__presets button:active { transform: translateY(1px); }\n\n.rd-story-section { background: var(--rd-ink); color: var(--rd-paper); }\n.rd-story-heading { display: flex; justify-content: space-between; gap: 32px; align-items: end; padding: 56px 0 48px; }\n.rd-story-heading p { max-width: 260px; padding-bottom: 5px; font-size: 1.1rem; line-height: 1.45; }\n.rd-story-main { position: relative; overflow: hidden; }\n.rd-story-main img { display: block; width: 100%; height: auto; aspect-ratio: 1.95; object-fit: cover; }\n.rd-story-main figcaption { display: flex; position: absolute; right: 0; bottom: 0; left: 0; justify-content: space-between; gap: 16px; padding: 20px 24px; color: var(--rd-paper); background: var(--rd-ink); font: 500 .65rem/1.3 var(--rd-mono), monospace; }\n.rd-story-details { display: grid; grid-template-columns: 1fr .62fr .48fr; gap: 24px; align-items: start; padding-top: 72px; }\n.rd-story-copy { max-width: 450px; padding: 8px 48px 0 0; }\n.rd-story-copy h3 { margin-top: 30px; font: italic 800 clamp(2.3rem, 4.7vw, 5rem)/.94 var(--rd-display), sans-serif; letter-spacing: -.035em; }\n.rd-story-copy p { max-width: 340px; margin-top: 24px; font-size: 1rem; line-height: 1.55; }\n.rd-story-copy a { display: inline-flex; justify-content: space-between; gap: 36px; min-width: 210px; margin-top: 32px; padding-bottom: 10px; border-bottom: 1px solid currentColor; color: var(--rd-mint); text-decoration: none; font-weight: 700; transition: color 180ms var(--rd-ease); }\n.rd-story-copy a:hover { color: var(--rd-orange); }\n.rd-story-details figure img { display: block; width: 100%; height: auto; object-fit: cover; }\n.rd-story-frame img { aspect-ratio: 4 / 5; }\n.rd-story-tire { margin-top: 88px !important; }"
+    },
+    {
+      "id": "radius-styles-2",
+      "location": "head",
+      "title": "RADIUS Scoped Styles (Part 2/2)",
+      "maxChars": 45000,
+      "charCount": 9326,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ".rd-story-tire img { aspect-ratio: 1; }\n.rd-story-details figcaption { padding-top: 12px; font: 500 .65rem/1.3 var(--rd-mono), monospace; }\n\n.rd-fit-section { background: var(--rd-paper); }\n.rd-fit-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 12%; padding-top: 64px; }\n.rd-fit-intro h2 { margin-top: 24px; }\n.rd-fit-intro > p { max-width: 340px; margin-top: 30px; font-size: 1.1rem; line-height: 1.5; }\n.rd-fit-stamp { display: grid; place-content: center; width: 150px; aspect-ratio: 1; margin-top: 64px; border: 2px solid currentColor; border-radius: 50%; transform: rotate(-12deg); font: 600 .8rem/1.3 var(--rd-mono), monospace; }\n.rd-fit-questions { border-top: 1px solid var(--rd-ink); }\n.rd-fit-question { border-bottom: 1px solid var(--rd-ink); }\n.rd-fit-question summary { display: grid; grid-template-columns: 42px 1fr 32px; gap: 16px; align-items: start; padding: 24px 0; cursor: pointer; list-style: none; }\n.rd-fit-question summary::-webkit-details-marker { display: none; }\n.rd-fit-question summary > span { padding-top: 5px; font: 600 .7rem/1 var(--rd-mono), monospace; }\n.rd-fit-question summary strong { font-size: clamp(1.1rem, 1.8vw, 1.45rem); line-height: 1.25; }\n.rd-fit-question summary b { justify-self: end; font-size: 1.8rem; line-height: .8; font-weight: 400; transition: transform 180ms var(--rd-ease); }\n.rd-fit-question[open] summary b { transform: rotate(45deg); }\n.rd-fit-question summary:hover strong { text-decoration: underline; text-underline-offset: 4px; }\n.rd-fit-question p { max-width: 560px; padding: 0 42px 28px 58px; font-size: 1rem; line-height: 1.55; }\n\n.rd-interest-section { background: var(--rd-mint); }\n.rd-interest-layout { display: grid; grid-template-columns: 1fr minmax(350px, .78fr); gap: 8%; align-items: start; padding-top: 64px; }\n.rd-interest-story { min-width: 0; }\n.rd-interest-story h2 { margin-top: 24px; }\n.rd-interest-story h2 em { color: var(--rd-blue); }\n.rd-interest-story > p { max-width: 350px; margin-top: 26px; font-size: 1.1rem; line-height: 1.45; }\n.rd-interest__illustration { display: block; width: min(100%, 600px); height: auto; margin: 38px 0 0; }\n.rd-interest-story__caption { display: block; margin-top: 4px; font: 600 .65rem/1.3 var(--rd-mono), monospace; letter-spacing: .05em; }\n.rd-interest__form, .rd-interest__success { padding: 40px; background: var(--rd-paper); color: var(--rd-ink); }\n.rd-interest__form-head { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--rd-ink); font: 600 .65rem/1.3 var(--rd-mono), monospace; }\n.rd-interest__form > p { margin: 24px 0 32px; font-size: 1rem; line-height: 1.5; }\n.rd-interest__form > .rd-interest__validation { margin: -12px 0 24px; color: var(--rd-blue); font-size: .85rem; font-weight: 700; }\n.rd-interest__form label { display: block; margin-top: 24px; font-weight: 700; font-size: .9rem; }\n.rd-interest__form input { display: block; width: 100%; height: 53px; margin-top: 8px; padding: 0 12px; border: 1px solid var(--rd-ink); border-radius: 0; background: transparent; color: var(--rd-ink); font-size: 1rem; }\n.rd-interest__form input::placeholder { color: var(--rd-ink); opacity: .6; }\n.rd-interest__form input[aria-invalid=\"true\"] { border-width: 2px; border-color: var(--rd-blue); }\n.rd-interest__error { display: block; margin-top: 6px; color: var(--rd-blue); font-size: .8rem; font-weight: 700; }\n.rd-interest__submit, .rd-interest__success button { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 24px; min-height: 56px; margin-top: 32px; padding: 14px 18px; border: 0; background: var(--rd-orange); color: var(--rd-ink); cursor: pointer; font-weight: 700; text-align: left; transition: background 180ms var(--rd-ease), transform 90ms var(--rd-ease); }\n.rd-interest__submit:hover, .rd-interest__success button:hover { background: var(--rd-mint); }\n.rd-interest__submit:active, .rd-interest__success button:active { transform: translateY(2px); }\n.rd-interest__submit:disabled { cursor: not-allowed; opacity: .7; }\n.rd-interest__disclaimer { display: block; margin-top: 18px; font: 600 .65rem/1.4 var(--rd-mono), monospace; }\n.rd-interest__form noscript p { margin: 20px 0 0; font-size: .85rem; }\n.rd-interest__success h3 { max-width: 360px; margin-top: 32px; font: italic 800 2.6rem/.95 var(--rd-display), sans-serif; }\n.rd-interest__success p { margin-top: 24px; line-height: 1.5; }\n\n.rd-exp-footer { padding: 64px 0 28px; background: var(--rd-ink); color: var(--rd-paper); }\n.rd-exp-footer__top { display: flex; justify-content: space-between; gap: 48px; padding: 48px 0 20px; }\n.rd-exp-footer__top p { margin-top: 15px; font: italic 800 clamp(2rem, 3.4vw, 3.5rem)/1 var(--rd-display), sans-serif; }\n.rd-exp-footer nav { display: grid; grid-template-columns: repeat(2, max-content); gap: 12px 40px; align-content: start; }\n.rd-exp-footer a { color: inherit; text-decoration: none; }\n.rd-exp-footer a:hover, .rd-exp-footer a:focus-visible { color: var(--rd-mint); text-decoration: underline; text-underline-offset: 4px; }\n.rd-parts-illustration { display: block; width: min(100%, 760px); height: auto; margin: 0 auto; opacity: .6; }\n.rd-exp-footer__bottom { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-top: 24px; border-top: 1px solid var(--rd-paper); }\n.rd-exp-footer__bottom strong { font: italic 900 clamp(3.5rem, 10vw, 10rem)/.75 var(--rd-display), sans-serif; letter-spacing: -.06em; }\n.rd-exp-footer__bottom strong span { color: var(--rd-orange); }\n.rd-exp-footer__bottom > span, .rd-exp-footer__bottom > a { font: 500 .65rem/1.4 var(--rd-mono), monospace; }\n\n@media (prefers-reduced-motion: no-preference) {\n  .rd-fit-question[open] p { animation: rd-detail-enter 420ms var(--rd-ease) both; }\n  .rd-interest__success { animation: rd-detail-enter 420ms var(--rd-ease) both; }\n}\n\n@keyframes rd-detail-enter {\n  from { opacity: 0; transform: translateY(12px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n\n@media (max-width: 1000px) {\n  .rd-exp-shell { width: min(100% - 64px, 1536px); }\n  .rd-terrain { grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); }\n  .rd-story-details { grid-template-columns: 1fr .7fr .55fr; }\n  .rd-story-copy { padding-right: 16px; }\n  .rd-fit-layout { gap: 8%; }\n  .rd-interest-layout { gap: 5%; }\n  .rd-interest__form, .rd-interest__success { padding: 32px; }\n}\n\n@media (max-width: 700px) {\n  .rd-exp-shell { width: calc(100% - 40px); }\n  .rd-ride-section, .rd-story-section, .rd-fit-section, .rd-interest-section { padding: 64px 0; }\n  .rd-exp-rule { font-size: .6rem; }\n  .rd-exp-rule span:last-child { text-align: right; }\n  .rd-experience h2 { font-size: clamp(3.25rem, 13vw, 5.5rem); }\n  .rd-ride-intro { grid-template-columns: 1fr; gap: 28px; padding: 40px 0 32px; }\n  .rd-ride-intro > div { max-width: 440px; }\n  .rd-ride-intro p { font-size: 1rem; }\n  .rd-ride-intro__note { margin-top: 16px; }\n  .rd-terrain { grid-template-columns: 1fr; }\n  .rd-terrain__visual { min-height: 290px; }\n  .rd-terrain__map-label, .rd-terrain__map-foot { padding: 16px; }\n  .rd-terrain__control { padding: 24px; }\n  .rd-tire-diagram { width: 155px; min-height: 0; margin: 0 auto; }\n  .rd-terrain__readout { min-height: 0; }\n  .rd-terrain__readout strong { font-size: 1.3rem; }\n  .rd-story-heading { display: block; padding: 40px 0 32px; }\n  .rd-story-heading p { max-width: 350px; margin-top: 24px; font-size: 1rem; }\n  .rd-story-main img { aspect-ratio: 1.15; object-position: 50% center; }\n  .rd-story-main figcaption { padding: 14px; font-size: .6rem; }\n  .rd-story-details { grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 48px; }\n  .rd-story-copy { grid-column: 1 / -1; max-width: 480px; padding: 0 0 16px; }\n  .rd-story-copy h3 { margin-top: 20px; font-size: clamp(2.5rem, 9vw, 4rem); }\n  .rd-story-copy p { margin-top: 16px; }\n  .rd-story-copy a { margin-top: 24px; }\n  .rd-story-tire { margin-top: 40px !important; }\n  .rd-fit-layout { grid-template-columns: 1fr; gap: 40px; padding-top: 40px; }\n  .rd-fit-intro h2 { margin-top: 18px; }\n  .rd-fit-intro > p { margin-top: 20px; font-size: 1rem; }\n  .rd-fit-stamp { width: 108px; margin-top: 28px; font-size: .65rem; }\n  .rd-fit-question summary { grid-template-columns: 24px 1fr 24px; gap: 12px; padding: 20px 0; }\n  .rd-fit-question p { padding: 0 32px 24px 36px; font-size: .95rem; }\n  .rd-interest-layout { grid-template-columns: 1fr; gap: 36px; padding-top: 40px; }\n  .rd-interest-story h2 { margin-top: 18px; }\n  .rd-interest-story > p { margin-top: 20px; font-size: 1rem; }\n  .rd-interest__illustration { max-width: 440px; margin-top: 20px; }\n  .rd-interest__form, .rd-interest__success { padding: 24px; }\n  .rd-interest__form > p { margin-bottom: 24px; }\n  .rd-exp-footer__top { display: block; padding-top: 40px; }\n  .rd-exp-footer nav { margin-top: 32px; }\n  .rd-parts-illustration { margin: 24px auto; }\n  .rd-exp-footer__bottom { flex-wrap: wrap; }\n  .rd-exp-footer__bottom strong { flex-basis: 100%; font-size: clamp(4.5rem, 19vw, 8rem); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .rd-experience *, .rd-experience *::before, .rd-experience *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }\n}"
+    }
+  ]
+}

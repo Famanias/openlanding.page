@@ -1,0 +1,474 @@
+{
+  "slug": "starriot",
+  "title": "STAR RIOT",
+  "industry": "Nightlife & Music",
+  "description": "Disco fever. Future sounds. Zero ordinary nights. Step into the place where the dance floor becomes the whole universe.",
+  "stack": "Next.js 16 · React 19 · Motion · Lucide",
+  "liveUrl": "https://www.openlanding.page/templates/starriot",
+  "downloadUrl": "https://www.openlanding.page/downloads/starriot.html",
+  "manifestUrl": "https://www.openlanding.page/copy/starriot-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/starriot-webflow-prompt.md",
+  "variables": {
+    "collectionName": "STAR RIOT Tokens",
+    "colors": [
+      {
+        "name": "Color / Sr Night 0",
+        "cssVar": "--color-sr-night-0",
+        "value": "#12041B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Night 1",
+        "cssVar": "--color-sr-night-1",
+        "value": "#1E092B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Night 2",
+        "cssVar": "--color-sr-night-2",
+        "value": "#2C103B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Mint",
+        "cssVar": "--color-sr-mint",
+        "value": "#30F0CC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Pink",
+        "cssVar": "--color-sr-pink",
+        "value": "#FC3CCC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Lime",
+        "cssVar": "--color-sr-lime",
+        "value": "#FCF03C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Purple",
+        "cssVar": "--color-sr-purple",
+        "value": "#9451FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Coral",
+        "cssVar": "--color-sr-coral",
+        "value": "#FF9BB0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr White",
+        "cssVar": "--color-sr-white",
+        "value": "#FFFDF8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Sr Lilac",
+        "cssVar": "--color-sr-lilac",
+        "value": "#CAB9D4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Night 0",
+        "cssVar": "--night-0",
+        "value": "#12041B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Night 1",
+        "cssVar": "--night-1",
+        "value": "#1E092B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Night 2",
+        "cssVar": "--night-2",
+        "value": "#2C103B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Electric Mint",
+        "cssVar": "--electric-mint",
+        "value": "#30F0CC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hot Pink",
+        "cssVar": "--hot-pink",
+        "value": "#FC3CCC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Acid Lime",
+        "cssVar": "--acid-lime",
+        "value": "#FCF03C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Electric Purple",
+        "cssVar": "--electric-purple",
+        "value": "#9451FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Warm Coral",
+        "cssVar": "--warm-coral",
+        "value": "#FF9BB0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper White",
+        "cssVar": "--paper-white",
+        "value": "#FFFDF8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Muted Lilac",
+        "cssVar": "--muted-lilac",
+        "value": "#CAB9D4",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Sr Display",
+        "cssVar": "--font-sr-display",
+        "family": "Anton",
+        "fallback": "Impact, Haettenschweiler, Anton, Franklin Gothic Heavy, sans-serif",
+        "googleFont": "Anton"
+      },
+      {
+        "name": "Font / Sr Sans",
+        "cssVar": "--font-sr-sans",
+        "family": "Public Sans",
+        "fallback": "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif",
+        "googleFont": "Public Sans"
+      },
+      {
+        "name": "Font / Sr Mono",
+        "cssVar": "--font-sr-mono",
+        "family": "JetBrains Mono",
+        "fallback": "monospace",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Impact",
+        "fallback": "Haettenschweiler, Anton, Franklin Gothic Heavy, Arial Narrow, Arial Black, sans-serif"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "-apple-system",
+        "fallback": "BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "SFMono-Regular",
+        "fallback": "Consolas, Liberation Mono, Menlo, monospace"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Container Max",
+        "cssVar": "--container-max",
+        "value": "1440px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "starriot.webp",
+      "publicPath": "https://www.openlanding.page/gallery/starriot.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/starriot/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_1a599d24.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/image_1a599d24.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_aa852dd2.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/image_aa852dd2.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581394941_95a17594.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581394941_95a17594.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581394941_a7d7971c.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581394941_a7d7971c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581400714_0d652aa3.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581400714_0d652aa3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581401401_ff039a04.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581401401_ff039a04.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581744578_582de51c.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581744578_582de51c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581749202_7fdf949a.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581749202_7fdf949a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581751624_c7ef1b81.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581751624_c7ef1b81.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793582239485_a0ba9cdb.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793582239485_a0ba9cdb.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/starriot/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Header & Brand Navigation",
+      "summary": "Custom split neon star glyph, primary links (`NIGHTS`, `THE SPACE`, `THE SOUND`, `FAQ`), mobile drawer.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-site-header",
+        ".sr-header-inner",
+        ".sr-brand-lockup",
+        ".sr-brand-star-svg",
+        ".sr-brand-wordmark",
+        ".sr-header-actions",
+        ".sr-btn-header",
+        ".sr-panel-header-row",
+        ".sr-section-header-split"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero Section (The Ignition)",
+      "summary": "Giant display type `TONIGHT, WE GO SUPERNOVA.`, live DJ lineup deck with BPM selector, interactive equalizer bars with transport controls, tonight set slots, colossal neon star portal, and vector disco dancers.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-hero-grid",
+        ".sr-hero-copy-col",
+        ".sr-hero-headline",
+        ".sr-hero-line",
+        ".sr-hero-line-1",
+        ".sr-hero-line-2",
+        ".sr-hero-line-3",
+        ".sr-hero-subcopy",
+        ".sr-hero-cta-row",
+        ".sr-hero-micro-bar",
+        ".sr-hero-stage"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Manifesto Section",
+      "summary": "`ORDINARY NIGHTS? NOT HERE.`, 3 core club pillars, spinning vinyl record, and animated ticker marquee.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-manifesto-section",
+        ".sr-manifesto-card",
+        ".sr-manifesto-headline",
+        ".sr-manifesto-prose",
+        ".sr-manifesto-pillars",
+        ".sr-manifesto-vinyl-art",
+        ".sr-nights-section",
+        ".sr-section-header-split",
+        ".sr-section-title",
+        ".sr-space-section",
+        ".sr-movement-section"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Nights Section (Pick Your Frequency)",
+      "summary": "Frequency filter tabs (`All`, `House & Edits`, `Classic Disco`, `Soul & Boogie`), 3 poster cards with 3D pointer tilt, accessible event detail dialog modal with lineup breakdown.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-manifesto-section",
+        ".sr-nights-section",
+        ".sr-section-header-split",
+        ".sr-section-title",
+        ".sr-frequency-filter-bar",
+        ".sr-nights-grid",
+        ".sr-space-section",
+        ".sr-movement-section",
+        ".sr-conversion-section"
+      ],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Sound Stage Section (The Sound Takes Over)",
+      "summary": "Scroll-controlled 3-stage progression (`01. WARM UP` → `02. TURN UP` → `03. ALL OUT`) with expanding bass rings, erupting supernova star, and live telemetry readout.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-hero-stage",
+        ".sr-manifesto-section",
+        ".sr-nights-section",
+        ".sr-section-header-split",
+        ".sr-section-title",
+        ".sr-sound-scroll-track",
+        ".sr-sound-sticky-stage",
+        ".sr-sound-stage-frame",
+        ".sr-stage-phase-controls",
+        ".sr-stage-pill-btn",
+        ".sr-sound-stage-headline"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Space Section (The Space)",
+      "summary": "4-zone architectural collage featuring sunken sprung floor with real-time under-floor lighting matrix switcher, triple mirror-ball orbit, 360° floor-level booth, and hospitality crew.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-manifesto-section",
+        ".sr-nights-section",
+        ".sr-section-header-split",
+        ".sr-section-title",
+        ".sr-space-section",
+        ".sr-space-bento-grid",
+        ".sr-space-card",
+        ".sr-space-card-floor",
+        ".sr-space-card-lights",
+        ".sr-space-card-booth",
+        ".sr-space-card-crew"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Movement Section (Voices From The 3 AM Floor)",
+      "summary": "Sticker photo-wall snap carousel with interactive peel note flips, plus FAQ accordion.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-manifesto-section",
+        ".sr-nights-section",
+        ".sr-section-header-split",
+        ".sr-section-title",
+        ".sr-space-section",
+        ".sr-space-card-floor",
+        ".sr-floor-matrix-bar",
+        ".sr-movement-section",
+        ".sr-conversion-section"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Guestlist Conversion Section",
+      "summary": "Priority floor access form with real-time validation, deterministic demo pass code generation (`SR-XXXX-YYY`), barcode graphic, and live RSVP counter.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-hero-section",
+        ".sr-manifesto-section",
+        ".sr-nights-section",
+        ".sr-section-header-split",
+        ".sr-section-title",
+        ".sr-space-section",
+        ".sr-movement-section",
+        ".sr-conversion-section",
+        ".sr-conversion-shell",
+        ".sr-guestlist-form"
+      ]
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Site Footer",
+      "summary": "Brand sign-off, quick links, fictional concept disclaimer, back-to-top control.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".sr-site-header",
+        ".sr-site-footer",
+        ".sr-footer-inner",
+        ".sr-footer-links"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "starriot-styles-1",
+      "location": "head",
+      "title": "STAR RIOT Scoped Styles (Part 1/2)",
+      "maxChars": 45000,
+      "charCount": 44972,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-sr-night-0: #12041B;\n  --color-sr-night-1: #1E092B;\n  --color-sr-night-2: #2C103B;\n  --color-sr-mint: #30F0CC;\n  --color-sr-pink: #FC3CCC;\n  --color-sr-lime: #FCF03C;\n  --color-sr-purple: #9451FF;\n  --color-sr-coral: #FF9BB0;\n  --color-sr-white: #FFFDF8;\n  --color-sr-lilac: #CAB9D4;\n\n  --font-sr-display: var(--font-anton), Impact, 'Haettenschweiler', 'Anton', 'Franklin Gothic Heavy', sans-serif;\n  --font-sr-sans: var(--font-public-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --font-sr-mono: var(--font-jetbrains-mono), monospace;\n}\n\n\r\n      /* ==========================================================================\r\n         01. DESIGN TOKENS & COLOR PALETTE (HIGH PRIORITY AUTHORITY)\r\n         ========================================================================== */\r\n      :root {\r\n        --night-0: #12041B;\r\n        --night-1: #1E092B;\r\n        --night-2: #2C103B;\r\n        --electric-mint: #30F0CC;\r\n        --hot-pink: #FC3CCC;\r\n        --acid-lime: #FCF03C;\r\n        --electric-purple: #9451FF;\r\n        --warm-coral: #FF9BB0;\r\n        --paper-white: #FFFDF8;\r\n        --muted-lilac: #CAB9D4;\r\n\r\n        --font-display: 'Impact', 'Haettenschweiler', 'Anton', 'Franklin Gothic Heavy', 'Arial Narrow', 'Arial Black', sans-serif;\r\n        --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\r\n        --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;\r\n\r\n        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\r\n        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);\r\n        --container-max: 1440px;\r\n        --bpm-duration: 0.5s;\r\n      }\r\n\r\n      /* ==========================================================================\r\n         02. RESET & CONTINUOUS NIGHT CANVAS\r\n         ========================================================================== */\r\n      *,\r\n      *::before,\r\n      *::after {\r\n        box-sizing: border-box;\r\n        margin: 0;\r\n        padding: 0;\r\n      }\r\n\r\n      html {\r\n        background-color: var(--night-0);\r\n        color: var(--paper-white);\r\n        font-family: var(--font-sans);\r\n        scroll-behavior: smooth;\r\n        overflow-x: clip;\r\n        color-scheme: dark;\r\n      }\r\n\r\n      .sr-body {\r\n        background-color: var(--night-0);\r\n        background-image:\r\n          radial-gradient(circle at 72% 22%, rgba(252, 60, 204, 0.14) 0%, rgba(148, 81, 255, 0.08) 28%, transparent 56%),\r\n          radial-gradient(circle at 62% 48%, rgba(48, 240, 204, 0.11) 0%, transparent 45%),\r\n          radial-gradient(circle at 20% 75%, rgba(148, 81, 255, 0.10) 0%, transparent 50%),\r\n          linear-gradient(180deg, var(--night-0) 0%, var(--night-1) 38%, var(--night-0) 74%, #0d0214 100%);\r\n        color: var(--paper-white);\r\n        line-height: 1.5;\r\n        overflow-x: clip;\r\n        position: relative;\r\n        min-height: 100vh;\r\n        -webkit-font-smoothing: antialiased;\r\n      }\r\n\r\n      /* Radial spotlight page-load reveal mask */\r\n      .sr-body::before {\r\n        content: '';\r\n        position: fixed;\r\n        inset: 0;\r\n        background: radial-gradient(circle at 65% 38%, transparent 0%, var(--night-0) 0%);\r\n        pointer-events: none;\r\n        z-index: 9999;\r\n        opacity: 0;\r\n        animation: sr-spotlightIgnite 1.15s var(--ease-out-expo) forwards;\r\n      }\r\n\r\n      .sr-body.sr-autostart::before,\n      .sr-body.autostart::before {\r\n        display: none;\r\n      }\r\n\r\n      @keyframes sr-spotlightIgnite {\r\n        0% {\r\n          opacity: 1;\r\n          background: radial-gradient(circle at 65% 38%, transparent 2%, var(--night-0) 8%);\r\n        }\r\n        70% {\r\n          opacity: 1;\r\n          background: radial-gradient(circle at 65% 38%, transparent 65%, var(--night-0) 110%);\r\n        }\r\n        100% {\r\n          opacity: 0;\r\n          visibility: hidden;\r\n        }\r\n      }\r\n\r\n      /* Accessible focus states */\r\n      :focus-visible {\r\n        outline: 3px solid var(--acid-lime);\r\n        outline-offset: 4px;\r\n        border-radius: 4px;\r\n      }\r\n\r\n      .sr-body a {\r\n        color: inherit;\r\n        text-decoration: none;\r\n      }\r\n\r\n      .sr-body button {\r\n        font-family: inherit;\r\n        cursor: pointer;\r\n        border: none;\r\n        background: none;\r\n        color: inherit;\r\n      }\r\n\r\n      .sr-body ul {\r\n        list-style: none;\r\n      }\r\n\r\n      img,\r\n      .sr-body svg {\r\n        display: block;\r\n        max-width: 100%;\r\n      }\r\n\r\n      .sr-only,\n      .sr-sr-only {\r\n        position: absolute;\r\n        width: 1px;\r\n        height: 1px;\r\n        padding: 0;\r\n        margin: -1px;\r\n        overflow: hidden;\r\n        clip: rect(0, 0, 0, 0);\r\n        white-space: nowrap;\r\n        border: 0;\r\n      }\r\n\r\n      .sr-container {\r\n        width: 100%;\r\n        max-width: var(--container-max);\r\n        margin: 0 auto;\r\n        padding: 0 clamp(1.25rem, 4vw, 3.5rem);\r\n      }\r\n\r\n      .sr-body section {\r\n        scroll-margin-top: 90px;\r\n        position: relative;\r\n      }\r\n\r\n      /* ==========================================================================\r\n         03. DISPLAY TYPOGRAPHY SYSTEM\r\n         ========================================================================== */\r\n      .sr-display-type {\r\n        font-family: var(--font-display);\r\n        font-weight: 900;\r\n        text-transform: uppercase;\r\n        font-style: italic;\r\n        line-height: 0.88;\r\n        letter-spacing: 0.01em;\r\n        color: var(--paper-white);\r\n        transform: skewX(-4deg);\r\n        transform-origin: left bottom;\r\n      }\r\n\r\n      .sr-kicker-label {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        gap: 0.55rem;\r\n        font-size: 0.78rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.16em;\r\n        text-transform: uppercase;\r\n        color: var(--electric-mint);\r\n        margin-bottom: 1rem;\r\n      }\r\n\r\n      .sr-kicker-label .sr-spark {\r\n        color: var(--acid-lime);\r\n        display: inline-block;\r\n        animation: sr-pulseSpark 2.4s infinite ease-in-out;\r\n      }\r\n\r\n      @keyframes sr-pulseSpark {\r\n        0%, 100% { transform: scale(1) rotate(0deg); }\r\n        50% { transform: scale(1.25) rotate(18deg); color: var(--hot-pink); }\r\n      }\r\n\r\n      /* ==========================================================================\r\n         04. TOP NAVIGATION BAR (3-ZONE CONTRACT)\r\n         ========================================================================== */\r\n      .sr-site-header {\r\n        position: sticky;\r\n        top: 0;\r\n        z-index: 100;\r\n        background: rgba(18, 4, 27, 0.82);\r\n        backdrop-filter: blur(16px);\r\n        -webkit-backdrop-filter: blur(16px);\r\n        border-bottom: 1px solid rgba(202, 185, 212, 0.12);\r\n        transition: background 0.25s ease, border-color 0.25s ease;\r\n      }\r\n\r\n      .sr-header-inner {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        gap: 2rem;\r\n        height: 76px;\r\n        max-width: var(--container-max);\r\n        margin: 0 auto;\r\n        padding: 0 clamp(1.25rem, 4vw, 3.5rem);\r\n      }\r\n\r\n      .sr-brand-lockup {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        gap: 0.75rem;\r\n        white-space: nowrap;\r\n        flex-shrink: 0;\r\n        group: brand;\r\n      }\r\n\r\n      .sr-brand-star-svg {\r\n        width: 42px;\r\n        height: 42px;\r\n        flex-shrink: 0;\r\n        transition: transform 0.35s var(--ease-spring);\r\n        animation: sr-wordmarkSnapLeft 0.75s var(--ease-spring) both;\r\n      }\r\n\r\n      .sr-brand-wordmark {\r\n        font-family: var(--font-display);\r\n        font-size: 1.55rem;\r\n        font-weight: 900;\r\n        font-style: italic;\r\n        line-height: 0.86;\r\n        letter-spacing: 0.03em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n        display: flex;\r\n        flex-direction: column;\r\n        animation: sr-wordmarkSnapRight 0.75s var(--ease-spring) 0.08s both;\r\n      }\r\n\r\n      .sr-brand-lockup:hover .sr-brand-star-svg {\r\n        transform: rotate(-16deg) scale(1.12);\r\n      }\r\n\r\n      @keyframes sr-wordmarkSnapLeft {\r\n        0% { opacity: 0; transform: translateX(-22px) rotate(-35deg) scale(0.6); }\r\n        100% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }\r\n      }\r\n\r\n      @keyframes sr-wordmarkSnapRight {\r\n        0% { opacity: 0; transform: translateX(22px) skewX(-18deg); }\r\n        100% { opacity: 1; transform: translateX(0) skewX(0deg); }\r\n      }\r\n\r\n      .sr-primary-nav {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 2.25rem;\r\n      }\r\n\r\n      .sr-nav-link {\r\n        position: relative;\r\n        font-size: 0.92rem;\r\n        font-weight: 700;\r\n        letter-spacing: 0.06em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n        padding: 0.35rem 0;\r\n        white-space: nowrap;\r\n        flex-shrink: 0;\r\n        transition: color 0.18s ease;\r\n      }\r\n\r\n      .sr-nav-link::after {\r\n        content: '';\r\n        position: absolute;\r\n        left: 0;\r\n        bottom: -2px;\r\n        width: 100%;\r\n        height: 3px;\r\n        background: linear-gradient(90deg, var(--electric-mint), var(--acid-lime), var(--hot-pink));\r\n        transform: scaleX(0) skewX(-20deg);\r\n        transform-origin: right center;\r\n        transition: transform 0.24s var(--ease-out-expo);\r\n        border-radius: 2px;\r\n      }\r\n\r\n      .sr-nav-link:hover,\r\n      .sr-nav-link:focus-visible {\r\n        color: var(--electric-mint);\r\n      }\r\n\r\n      .sr-nav-link:hover::after,\r\n      .sr-nav-link:focus-visible::after {\r\n        transform: scaleX(1) skewX(-20deg);\r\n        transform-origin: left center;\r\n      }\r\n\r\n      .sr-header-actions {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 0.85rem;\r\n        flex-shrink: 0;\r\n      }\r\n\r\n      /* ==========================================================================\r\n         05. BUTTON HOVER / CLICK SYSTEMS\r\n         ========================================================================== */\r\n      .sr-btn-neon-pill {\r\n        position: relative;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        gap: 0.55rem;\r\n        padding: 0.85rem 1.75rem;\r\n        border-radius: 999px;\r\n        font-family: var(--font-display);\r\n        font-size: 1.05rem;\r\n        font-weight: 900;\r\n        font-style: italic;\r\n        letter-spacing: 0.04em;\r\n        text-transform: uppercase;\r\n        color: var(--night-0);\r\n        background: linear-gradient(95deg, var(--electric-mint) 0%, #68f7b8 38%, var(--hot-pink) 100%);\r\n        box-shadow:\r\n          0 0 24px rgba(48, 240, 204, 0.38),\r\n          0 0 36px rgba(252, 60, 204, 0.28);\r\n        overflow: hidden;\r\n        white-space: nowrap;\r\n        flex-shrink: 0;\r\n        transition: transform 0.18s var(--ease-spring), box-shadow 0.18s ease;\r\n        z-index: 1;\r\n      }\r\n\r\n      .sr-btn-neon-pill.sr-btn-header {\r\n        padding: 0.65rem 1.4rem;\r\n        font-size: 0.92rem;\r\n        font-family: var(--font-sans);\r\n        font-style: normal;\r\n        font-weight: 800;\r\n      }\r\n\r\n      /* Moving gradient light band across primary button */\r\n      .sr-btn-neon-pill::before {\r\n        content: '';\r\n        position: absolute;\r\n        top: 0;\r\n        left: -120%;\r\n        width: 75%;\r\n        height: 100%;\r\n        background: linear-gradient(\r\n          90deg,\r\n          transparent,\r\n          rgba(255, 253, 248, 0.68),\r\n          var(--acid-lime),\r\n          transparent\r\n        );\r\n        transform: skewX(-25deg);\r\n        transition: left 0.45s var(--ease-out-expo);\r\n        z-index: -1;\r\n      }\r\n\r\n      .sr-btn-neon-pill:hover::before,\r\n      .sr-btn-neon-pill:focus-visible::before {\r\n        left: 140%;\r\n      }\r\n\r\n      .sr-btn-neon-pill:hover {\r\n        transform: translateY(-2px) scale(1.03);\r\n        box-shadow:\r\n          0 0 30px rgba(48, 240, 204, 0.6),\r\n          0 0 48px rgba(252, 60, 204, 0.45);\r\n      }\r\n\r\n      .sr-btn-neon-pill:active {\r\n        transform: translateY(1px) scale(0.97);\r\n      }\r\n\r\n      .sr-btn-arrow {\r\n        display: inline-block;\r\n        transition: transform 0.22s var(--ease-spring);\r\n      }\r\n\r\n      .sr-btn-neon-pill:hover .sr-btn-arrow,\r\n      .sr-btn-outline-trace:hover .sr-btn-arrow {\r\n        transform: translate(4px, -4px) scale(1.15);\r\n      }\r\n\r\n      /* Secondary Outline Button with animated border trace */\r\n      .sr-btn-outline-trace {\r\n        position: relative;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        gap: 0.55rem;\r\n        padding: 0.85rem 1.75rem;\r\n        border-radius: 999px;\r\n        font-family: var(--font-display);\r\n        font-size: 1.05rem;\r\n        font-weight: 900;\r\n        font-style: italic;\r\n        letter-spacing: 0.04em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n        background: rgba(30, 9, 43, 0.65);\r\n        border: 2px solid rgba(255, 253, 248, 0.72);\r\n        overflow: hidden;\r\n        white-space: nowrap;\r\n        flex-shrink: 0;\r\n        transition:\r\n          transform 0.18s var(--ease-spring),\r\n          border-color 0.18s ease,\r\n          color 0.18s ease,\r\n          box-shadow 0.18s ease;\r\n      }\r\n\r\n      .sr-btn-outline-trace::before {\r\n        content: '';\r\n        position: absolute;\r\n        inset: 0;\r\n        background: linear-gradient(90deg, rgba(48, 240, 204, 0.18), rgba(252, 60, 204, 0.22));\r\n        transform: scaleX(0);\r\n        transform-origin: left center;\r\n        transition: transform 0.28s var(--ease-out-expo);\r\n        z-index: 0;\r\n      }\r\n\r\n      .sr-btn-outline-trace > * {\r\n        position: relative;\r\n        z-index: 1;\r\n      }\r\n\r\n      .sr-btn-outline-trace:hover,\r\n      .sr-btn-outline-trace:focus-visible {\r\n        border-color: var(--electric-mint);\r\n        color: var(--acid-lime);\r\n        transform: translateY(-2px);\r\n        box-shadow: 0 0 22px rgba(48, 240, 204, 0.28);\r\n      }\r\n\r\n      .sr-btn-outline-trace:hover::before,\r\n      .sr-btn-outline-trace:focus-visible::before {\r\n        transform: scaleX(1);\r\n      }\r\n\r\n      .sr-btn-outline-trace:active {\r\n        transform: scale(0.97);\r\n      }\r\n\r\n      /* Mobile Hamburger Toggle */\r\n      .sr-mobile-menu-btn {\r\n        display: none;\r\n        width: 44px;\r\n        height: 44px;\r\n        border-radius: 10px;\r\n        border: 1.5px solid rgba(48, 240, 204, 0.5);\r\n        background: rgba(44, 16, 59, 0.8);\r\n        align-items: center;\r\n        justify-content: center;\r\n        color: var(--electric-mint);\r\n      }\r\n\r\n      .sr-mobile-nav-drawer {\r\n        display: none;\r\n        background: rgba(18, 4, 27, 0.97);\r\n        border-bottom: 2px solid var(--electric-mint);\r\n        padding: 1.25rem clamp(1.25rem, 4vw, 3.5rem) 1.75rem;\r\n      }\r\n\r\n      .sr-mobile-nav-drawer.sr-open {\r\n        display: block;\r\n      }\r\n\r\n      .sr-mobile-nav-list {\r\n        display: flex;\r\n        flex-direction: column;\r\n        gap: 0.9rem;\r\n        margin-bottom: 1.25rem;\r\n      }\r\n\r\n      .sr-mobile-nav-list .sr-body a {\r\n        font-family: var(--font-display);\r\n        font-size: 1.5rem;\r\n        font-style: italic;\r\n        letter-spacing: 0.04em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n        padding: 0.35rem 0;\r\n        border-bottom: 1px solid rgba(202, 185, 212, 0.14);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         06. SECTION 1 — THE IGNITION (HERO)\r\n         ========================================================================== */\r\n      .sr-hero-section {\r\n        position: relative;\r\n        padding: clamp(1.5rem, 3.5vw, 3rem) 0 clamp(3rem, 5vw, 4.5rem);\r\n        overflow: hidden;\r\n      }\r\n\r\n      .sr-hero-grid {\r\n        display: grid;\r\n        grid-template-columns: minmax(0, 5.2fr) minmax(0, 6.8fr);\r\n        align-items: center;\r\n        gap: clamp(1.5rem, 2.5vw, 2.5rem);\r\n        position: relative;\r\n        z-index: 2;\r\n      }\r\n\r\n      .sr-hero-copy-col {\r\n        position: relative;\r\n        z-index: 5;\r\n        padding-right: 0.5rem;\r\n      }\r\n\r\n      .sr-hero-headline {\r\n        font-size: clamp(2.85rem, 5.1vw, 5.15rem);\r\n        line-height: 0.89;\r\n        margin-bottom: 1.35rem;\r\n        letter-spacing: 0.01em;\r\n      }\r\n\r\n      .sr-hero-line {\r\n        display: block;\r\n        padding-right: 0.22em;\r\n      }\r\n\r\n      .sr-hero-line-1 {\r\n        animation: sr-heroWipe1 0.65s var(--ease-out-expo) 0.12s both;\r\n      }\r\n      .sr-hero-line-2 {\r\n        animation: sr-heroWipe2 0.65s var(--ease-out-expo) 0.22s both;\r\n      }\r\n      .sr-hero-line-3 {\r\n        animation: sr-heroWipe3 0.72s var(--ease-spring) 0.32s both;\r\n      }\r\n\r\n      /* Highlighted cutout/neon treatment on SUPERNOVA. */\r\n      .sr-supernova-word {\r\n        display: inline-block;\r\n        padding-right: 0.18em;\r\n        background: linear-gradient(92deg, var(--paper-white) 0%, var(--acid-lime) 38%, var(--electric-mint) 78%, var(--hot-pink) 100%);\r\n        -webkit-background-clip: text;\r\n        background-clip: text;\r\n        color: transparent;\r\n        filter: drop-shadow(4px 4px 0px var(--hot-pink)) drop-shadow(0 0 18px rgba(48, 240, 204, 0.35));\r\n      }\r\n\r\n      @keyframes sr-heroWipe1 {\r\n        0% { opacity: 0; transform: translateY(28px) skewX(-12deg) scaleY(1.15); }\r\n        100% { opacity: 1; transform: translateY(0) skewX(0deg) scaleY(1); }\r\n      }\r\n      @keyframes sr-heroWipe2 {\r\n        0% { opacity: 0; transform: translateX(-32px) skewX(10deg); }\r\n        100% { opacity: 1; transform: translateX(0) skewX(0deg); }\r\n      }\r\n      @keyframes sr-heroWipe3 {\r\n        0% { opacity: 0; transform: translateY(34px) scale(0.88); }\r\n        100% { opacity: 1; transform: translateY(0) scale(1); }\r\n      }\r\n\r\n      .sr-hero-subcopy {\r\n        font-size: clamp(1rem, 1.25vw, 1.18rem);\r\n        color: var(--muted-lilac);\r\n        max-width: 44ch;\r\n        margin-bottom: 1.85rem;\r\n        font-weight: 500;\r\n        line-height: 1.55;\r\n      }\r\n\r\n      .sr-hero-cta-row {\r\n        display: flex;\r\n        flex-wrap: wrap;\r\n        align-items: center;\r\n        gap: 1rem;\r\n        margin-bottom: 1.65rem;\r\n      }\r\n\r\n      .sr-hero-micro-bar {\r\n        display: inline-flex;\r\n        flex-wrap: wrap;\r\n        align-items: center;\r\n        gap: 0.55rem;\r\n        font-size: 0.76rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.14em;\r\n        text-transform: uppercase;\r\n        color: var(--muted-lilac);\r\n        border-top: 1px solid rgba(202, 185, 212, 0.18);\r\n        padding-top: 0.95rem;\r\n      }\r\n\r\n      .sr-hero-micro-bar .sr-dot-sep {\r\n        color: var(--hot-pink);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         07. HERO RIGHT COLUMN — LAYERED INTERACTIVE ILLUSTRATION STAGE\r\n         ========================================================================== */\r\n      .sr-hero-stage {\r\n        position: relative;\r\n        width: 100%;\r\n        min-height: 610px;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        perspective: 1100px;\r\n        user-select: none;\r\n      }\r\n\r\n      /* Main composite illustration SVG canvas (Dancers, 3D Star, Disco Ball, Lightning, Clouds) */\r\n      .sr-hero-art-svg {\r\n        width: 108%;\r\n        max-width: 820px;\r\n        height: auto;\r\n        overflow: visible;\r\n        position: relative;\r\n        z-index: 2;\r\n        filter: drop-shadow(0 16px 40px rgba(18, 4, 27, 0.7));\r\n      }\r\n\r\n      /* Animated SVG sub-groups */\r\n      .sr-svg-star-portal {\r\n        transform-origin: 495px 315px;\r\n        animation: sr-starUnfold 1.1s var(--ease-spring) 0.15s both, sr-starFloat 6s ease-in-out 1.3s infinite alternate;\r\n      }\r\n\r\n      @keyframes sr-starUnfold {\r\n        0% { transform: scale(0.25) rotate(-42deg); opacity: 0; }\r\n        100% { transform: scale(1) rotate(0deg); opacity: 1; }\r\n      }\r\n\r\n      @keyframes sr-starFloat {\r\n        0% { transform: translate3d(0, 0, 0) rotate(0deg); }\r\n        100% { transform: translate3d(0, -10px, 0) rotate(3.5deg); }\r\n      }\r\n\r\n      .sr-svg-disco-ball {\r\n        transform-origin: 575px 110px;\r\n        animation: sr-discoSwing 4.5s ease-in-out infinite alternate;\r\n      }\r\n\r\n      @keyframes sr-discoSwing {\r\n        0% { transform: rotate(-3deg); }\r\n        100% { transform: rotate(3.5deg); }\r\n      }\r\n\r\n      .sr-svg-dancer-left {\r\n        transform-origin: 185px 560px;\r\n        animation: sr-dancerLeftEnter 0.85s var(--ease-spring) 0.28s both, sr-dancerGrooveA 1.8s ease-in-out 1.2s infinite alternate;\r\n      }\r\n\r\n      .sr-svg-dancer-right {\r\n        transform-origin: 615px 560px;\r\n        animation: sr-dancerRightEnter 0.85s var(--ease-spring) 0.36s both, sr-dancerGrooveB 1.6s ease-in-out 1.2s infinite alternate;\r\n      }\r\n\r\n      @keyframes sr-dancerLeftEnter {\r\n        0% { opacity: 0; transform: translate(-35px, 40px) rotate(-10deg); }\r\n        100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }\r\n      }\r\n\r\n      @keyframes sr-dancerRightEnter {\r\n        0% { opacity: 0; transform: translate(35px, 40px) rotate(10deg); }\r\n        100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }\r\n      }\r\n\r\n      @keyframes sr-dancerGrooveA {\r\n        0% { transform: rotate(-1.2deg) translateY(0); }\r\n        100% { transform: rotate(1.6deg) translateY(-6px); }\r\n      }\r\n\r\n      @keyframes sr-dancerGrooveB {\r\n        0% { transform: rotate(1.4deg) translateY(0); }\r\n        100% { transform: rotate(-1.4deg) translateY(-7px); }\r\n      }\r\n\r\n      /* Floating Retro-OS Nightlife UI Panels (Real HTML/CSS/SVG) */\r\n      .sr-club-ui-panel {\r\n        position: absolute;\r\n        background: rgba(18, 4, 27, 0.92);\r\n        border: 2px solid var(--electric-mint);\r\n        border-radius: 14px;\r\n        box-shadow:\r\n          0 16px 34px rgba(0, 0, 0, 0.65),\r\n          0 0 20px rgba(48, 240, 204, 0.22);\r\n        overflow: hidden;\r\n        z-index: 6;\r\n        backdrop-filter: blur(10px);\r\n        transition: transform 0.28s var(--ease-spring), box-shadow 0.25s ease, border-color 0.25s ease;\r\n      }\r\n\r\n      .sr-club-ui-panel:hover,\r\n      .sr-club-ui-panel:focus-within {\r\n        border-color: var(--acid-lime);\r\n        box-shadow:\r\n          0 20px 40px rgba(0, 0, 0, 0.78),\r\n          0 0 28px rgba(252, 240, 60, 0.35);\r\n        z-index: 10;\r\n      }\r\n\r\n      .sr-ui-window-bar {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        padding: 0.38rem 0.65rem;\r\n        background: linear-gradient(90deg, var(--electric-mint) 0%, #7bfce4 65%, var(--acid-lime) 100%);\r\n        border-bottom: 2px solid var(--night-0);\r\n      }\r\n\r\n      .sr-ui-dots {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 5px;\r\n      }\r\n\r\n      .sr-ui-dot {\r\n        width: 9px;\r\n        height: 9px;\r\n        border-radius: 50%;\r\n        border: 1.5px solid var(--night-0);\r\n      }\r\n      .sr-ui-dot.sr-pink { background: var(--hot-pink); }\r\n      .sr-ui-dot.sr-lime { background: var(--acid-lime); }\r\n      .sr-ui-dot.sr-mint { background: var(--electric-mint); }\r\n\r\n      .sr-ui-window-tag {\r\n        font-size: 0.64rem;\r\n        font-weight: 900;\r\n        letter-spacing: 0.1em;\r\n        color: var(--night-0);\r\n        text-transform: uppercase;\r\n      }\r\n\r\n      /* Panel 1: LINEUP Deck (Top Left of Stage) */\r\n      .sr-panel-lineup {\r\n        top: 3%;\r\n        left: 12%;\r\n        width: 212px;\r\n        transform: rotate(-4deg) skewX(-2deg);\r\n      }\r\n      .sr-panel-lineup:hover,\r\n      .sr-panel-lineup:focus-within {\r\n        transform: rotate(-1deg) scale(1.04);\r\n      }\r\n\r\n      .sr-panel-header-row {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        padding: 0.5rem 0.75rem 0.35rem;\r\n        border-bottom: 1px solid rgba(202, 185, 212, 0.16);\r\n      }\r\n\r\n      .sr-panel-title {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 0.45rem;\r\n        font-family: var(--font-display);\r\n        font-size: 1.05rem;\r\n        font-style: italic;\r\n        letter-spacing: 0.04em;\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      .sr-dj-list {\r\n        padding: 0.35rem 0.55rem 0.55rem;\r\n        display: flex;\r\n        flex-direction: column;\r\n        gap: 0.35rem;\r\n      }\r\n\r\n      .sr-dj-row-btn {\r\n        width: 100%;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        padding: 0.35rem 0.45rem;\r\n        border-radius: 8px;\r\n        background: rgba(44, 16, 59, 0.55);\r\n        border: 1px solid transparent;\r\n        transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;\r\n        text-align: left;\r\n      }\r\n\r\n      .sr-dj-row-btn:hover,\r\n      .sr-dj-row-btn.sr-active {\r\n        background: rgba(48, 240, 204, 0.15);\r\n        border-color: var(--electric-mint);\r\n      }\r\n\r\n      .sr-dj-avatar-wrap {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 0.5rem;\r\n      }\r\n\r\n      .sr-dj-avatar {\r\n        width: 24px;\r\n        height: 24px;\r\n        border-radius: 50%;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        font-size: 0.68rem;\r\n        font-weight: 900;\r\n        color: var(--night-0);\r\n        flex-shrink: 0;\r\n      }\r\n\r\n      .sr-dj-name {\r\n        font-size: 0.76rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.05em;\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      .sr-dj-play-badge {\r\n        width: 22px;\r\n        height: 22px;\r\n        border-radius: 50%;\r\n        background: var(--electric-mint);\r\n        color: var(--night-0);\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        font-size: 0.62rem;\r\n        font-weight: 900;\r\n        flex-shrink: 0;\r\n        transition: transform 0.18s ease, background 0.18s ease;\r\n      }\r\n\r\n      .sr-dj-row-btn.sr-active .sr-dj-play-badge {\r\n        background: var(--acid-lime);\r\n        transform: scale(1.12);\r\n      }\r\n\r\n      /* Panel 2: EVENTS TONIGHT (Center-Bottom between Dancers) */\r\n      .sr-panel-tonight {\r\n        bottom: 20%;\r\n        left: 26%;\r\n        width: 214px;\r\n        transform: rotate(2.5deg) skewX(-2deg);\r\n        border-color: rgba(202, 185, 212, 0.65);\r\n      }\r\n      .sr-panel-tonight:hover,\r\n      .sr-panel-tonight:focus-within {\r\n        transform: rotate(0deg) scale(1.04);\r\n      }\r\n\r\n      .sr-tonight-slots {\r\n        padding: 0.45rem 0.55rem 0.6rem;\r\n        display: flex;\r\n        flex-direction: column;\r\n        gap: 0.3rem;\r\n      }\r\n\r\n      .sr-slot-btn {\r\n        width: 100%;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        padding: 0.38rem 0.6rem;\r\n        border-radius: 6px;\r\n        font-size: 0.74rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.04em;\r\n        color: var(--paper-white);\r\n        background: rgba(44, 16, 59, 0.5);\r\n        transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;\r\n      }\r\n\r\n      .sr-slot-btn.sr-active,\r\n      .sr-slot-btn:hover {\r\n        background: var(--acid-lime);\r\n        color: var(--night-0);\r\n        box-shadow: 0 0 14px rgba(252, 240, 60, 0.45);\r\n      }\r\n\r\n      .sr-slot-time {\r\n        font-variant-numeric: tabular-nums;\r\n        opacity: 0.9;\r\n      }\r\n\r\n      /* Panel 3: EQUALIZER / VISUALIZER (Top-Right of Stage above Dancer B) */\r\n      .sr-panel-eq {\r\n        top: 11%;\r\n        right: 0%;\r\n        width: 202px;\r\n        transform: rotate(3.5deg) skewX(-3deg);\r\n      }\r\n      .sr-panel-eq:hover,\r\n      .sr-panel-eq:focus-within {\r\n        transform: rotate(1deg) scale(1.04);\r\n      }\r\n\r\n      .sr-eq-body {\r\n        padding: 0.65rem 0.75rem 0.6rem;\r\n      }\r\n\r\n      .sr-eq-bars-grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(7, 1fr);\r\n        align-items: end;\r\n        gap: 5px;\r\n        height: 76px;\r\n        padding-bottom: 0.5rem;\r\n        border-bottom: 1px solid rgba(202, 185, 212, 0.2);\r\n      }\r\n\r\n      .sr-eq-col {\r\n        display: flex;\r\n        flex-direction: column-reverse;\r\n        gap: 3px;\r\n        height: 100%;\r\n        justify-content: flex-start;\r\n      }\r\n\r\n      .sr-eq-seg {\r\n        width: 100%;\r\n        height: 7px;\r\n        border-radius: 2px;\r\n        transition: opacity 0.15s ease, transform 0.15s ease;\r\n      }\r\n\r\n      .sr-eq-col:nth-child(1) .sr-eq-seg { background: var(--electric-mint); }\r\n      .sr-eq-col:nth-child(2) .sr-eq-seg { background: #38b6ff; }\r\n      .sr-eq-col:nth-child(3) .sr-eq-seg { background: var(--electric-purple); }\r\n      .sr-eq-col:nth-child(4) .sr-eq-seg { background: var(--hot-pink); }\r\n      .sr-eq-col:nth-child(5) .sr-eq-seg { background: #ff6b6b; }\r\n      .sr-eq-col:nth-child(6) .sr-eq-seg { background: var(--acid-lime); }\r\n      .sr-eq-col:nth-child(7) .sr-eq-seg { background: var(--electric-mint); }\r\n\r\n      @keyframes sr-eqBounce {\r\n        0%, 100% { transform: scaleY(0.35); opacity: 0.55; }\r\n        50% { transform: scaleY(1); opacity: 1; }\r\n      }\r\n\r\n      .sr-eq-playing .sr-eq-col:nth-child(1) { animation: sr-eqBounce calc(var(--bpm-duration) * 1.1) infinite ease-in-out; }\r\n      .sr-eq-playing .sr-eq-col:nth-child(2) { animation: sr-eqBounce calc(var(--bpm-duration) * 0.85) infinite ease-in-out 0.1s; }\r\n      .sr-eq-playing .sr-eq-col:nth-child(3) { animation: sr-eqBounce calc(var(--bpm-duration) * 1.25) infinite ease-in-out 0.2s; }\r\n      .sr-eq-playing .sr-eq-col:nth-child(4) { animation: sr-eqBounce calc(var(--bpm-duration) * 0.75) infinite ease-in-out 0.05s; }\r\n      .sr-eq-playing .sr-eq-col:nth-child(5) { animation: sr-eqBounce calc(var(--bpm-duration) * 0.95) infinite ease-in-out 0.18s; }\r\n      .sr-eq-playing .sr-eq-col:nth-child(6) { animation: sr-eqBounce calc(var(--bpm-duration) * 0.8) infinite ease-in-out 0.12s; }\r\n      .sr-eq-playing .sr-eq-col:nth-child(7) { animation: sr-eqBounce calc(var(--bpm-duration) * 1.15) infinite ease-in-out 0.25s; }\r\n\r\n      .sr-eq-controls {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        gap: 0.75rem;\r\n        margin-top: 0.45rem;\r\n      }\r\n\r\n      .sr-eq-ctrl-btn {\r\n        font-size: 0.75rem;\r\n        color: var(--paper-white);\r\n        padding: 0.2rem 0.35rem;\r\n        border-radius: 4px;\r\n      }\r\n\r\n      .sr-eq-ctrl-btn.sr-play-toggle {\r\n        width: 28px;\r\n        height: 28px;\r\n        border-radius: 50%;\r\n        background: var(--paper-white);\r\n        color: var(--night-0);\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        font-weight: 900;\r\n        box-shadow: 0 0 12px var(--hot-pink);\r\n      }\r\n\r\n      .sr-eq-scrubber {\r\n        margin-top: 0.4rem;\r\n        height: 4px;\r\n        background: rgba(255, 253, 248, 0.2);\r\n        border-radius: 99px;\r\n        position: relative;\r\n      }\r\n\r\n      .sr-eq-scrubber-fill {\r\n        width: 68%;\r\n        height: 100%;\r\n        background: linear-gradient(90deg, var(--electric-mint), var(--acid-lime));\r\n        border-radius: 99px;\r\n        position: relative;\r\n      }\r\n\r\n      .sr-eq-scrubber-fill::after {\r\n        content: '';\r\n        position: absolute;\r\n        right: -5px;\r\n        top: -3px;\r\n        width: 10px;\r\n        height: 10px;\r\n        border-radius: 50%;\r\n        background: var(--paper-white);\r\n        box-shadow: 0 0 8px var(--acid-lime);\r\n      }\r\n\r\n      /* Perforated CLUB PASS Ticket Stub (Bottom Right of Stage) */\r\n      .sr-club-pass-stub {\r\n        position: absolute;\r\n        bottom: 12%;\r\n        right: 1%;\r\n        width: 156px;\r\n        background: linear-gradient(155deg, #240b36 0%, #150421 62%, var(--acid-lime) 140%);\r\n        border: 2px solid var(--acid-lime);\r\n        border-radius: 12px;\r\n        padding: 0.65rem 0.75rem;\r\n        transform: rotate(-8deg) skewX(-4deg);\r\n        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.65), 0 0 18px rgba(252, 240, 60, 0.28);\r\n        z-index: 6;\r\n        text-align: center;\r\n        transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;\r\n      }\r\n\r\n      .sr-club-pass-stub:hover,\r\n      .sr-club-pass-stub:focus-visible {\r\n        transform: rotate(-2deg) scale(1.07);\r\n        box-shadow: 0 18px 34px rgba(0, 0, 0, 0.8), 0 0 26px rgba(252, 60, 204, 0.5);\r\n      }\r\n\r\n      .sr-pass-label {\r\n        display: block;\r\n        background: var(--acid-lime);\r\n        color: var(--night-0);\r\n        font-family: var(--font-display);\r\n        font-size: 0.86rem;\r\n        font-style: italic;\r\n        padding: 0.15rem 0.4rem;\r\n        border-radius: 4px;\r\n        margin: 0.35rem 0;\r\n        letter-spacing: 0.06em;\r\n      }\r\n\r\n      .sr-pass-barcode {\r\n        height: 22px;\r\n        width: 100%;\r\n        background: repeating-linear-gradient(\r\n          90deg,\r\n          var(--night-0) 0px,\r\n          var(--night-0) 3px,\r\n          transparent 3px,\r\n          transparent 5px,\r\n          var(--night-0) 5px,\r\n          var(--night-0) 6px,\r\n          transparent 6px,\r\n          transparent 9px\r\n        );\r\n        background-color: var(--acid-lime);\r\n        border-radius: 3px;\r\n      }\r\n\r\n      /* Scroll Teaser Badge at Bottom of Hero */\r\n      .sr-scroll-teaser-wrap {\r\n        display: flex;\r\n        justify-content: center;\r\n        margin-top: 1.25rem;\r\n        position: relative;\r\n        z-index: 5;\r\n      }\r\n\r\n      .sr-scroll-teaser-link {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        gap: 0.75rem;\r\n        padding: 0.55rem 1.25rem;\r\n        border-radius: 999px;\r\n        background: rgba(44, 16, 59, 0.75);\r\n        border: 1px solid rgba(48, 240, 204, 0.4);\r\n        font-size: 0.78rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.14em;\r\n        text-transform: uppercase;\r\n        color: var(--electric-mint);\r\n        transition: transform 0.2s var(--ease-spring), border-color 0.2s ease, background 0.2s ease;\r\n      }\r\n\r\n      .sr-scroll-teaser-link:hover {\r\n        transform: translateY(3px);\r\n        border-color: var(--acid-lime);\r\n        color: var(--acid-lime);\r\n        background: rgba(44, 16, 59, 0.95);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         08. SECTION 2 — WELCOME TO THE RIOT (MANIFESTO + TICKER)\r\n         ========================================================================== */\r\n      .sr-manifesto-section {\r\n        padding: clamp(3.5rem, 7vw, 6.5rem) 0 clamp(2.5rem, 5vw, 4.5rem);\r\n        position: relative;\r\n      }\r\n\r\n      .sr-manifesto-card {\r\n        position: relative;\r\n        background: linear-gradient(135deg, rgba(44, 16, 59, 0.72) 0%, rgba(30, 9, 43, 0.9) 100%);\r\n        border: 2px solid rgba(48, 240, 204, 0.32);\r\n        border-radius: 28px;\r\n        padding: clamp(2rem, 4.5vw, 4rem);\r\n        display: grid;\r\n        grid-template-columns: 1.25fr 0.75fr;\r\n        gap: 2.5rem;\r\n        align-items: center;\r\n        overflow: hidden;\r\n      }\r\n\r\n      .sr-manifesto-headline {\r\n        font-size: clamp(2.5rem, 5vw, 4.6rem);\r\n        margin-bottom: 1.25rem;\r\n      }\r\n\r\n      .sr-manifesto-headline .sr-stroke-accent {\r\n        color: var(--acid-lime);\r\n        text-shadow: 3px 3px 0px var(--hot-pink);\r\n      }\r\n\r\n      .sr-manifesto-prose {\r\n        font-size: clamp(1.05rem, 1.3vw, 1.22rem);\r\n        color: var(--muted-lilac);\r\n        max-width: 58ch;\r\n        margin-bottom: 1.75rem;\r\n        line-height: 1.65;\r\n      }\r\n\r\n      .sr-manifesto-pillars {\r\n        display: flex;\r\n        flex-wrap: wrap;\r\n        gap: 1.25rem;\r\n        font-size: 0.82rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.1em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      .sr-manifesto-vinyl-art {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        position: relative;\r\n      }\r\n\r\n      .sr-spin-vinyl {\r\n        animation: sr-slowSpin 14s linear infinite;\r\n        max-width: 270px;\r\n      }\r\n\r\n      @keyframes sr-slowSpin {\r\n        from { transform: rotate(0deg); }\r\n        to { transform: rotate(360deg); }\r\n      }\r\n\r\n      /* Marching Kinetic Ticker */\r\n      .sr-riot-ticker {\r\n        margin-top: 3rem;\r\n        background: var(--acid-lime);\r\n        color: var(--night-0);\r\n        padding: 0.8rem 0;\r\n        transform: rotate(-1.4deg) scale(1.02);\r\n        border-top: 3px solid var(--night-0);\r\n        border-bottom: 3px solid var(--night-0);\r\n        box-shadow: 0 10px 30px rgba(252, 240, 60, 0.2);\r\n        overflow: hidden;\r\n        display: flex;\r\n      }\r\n\r\n      .sr-ticker-track {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 2.2rem;\r\n        white-space: nowrap;\r\n        font-family: var(--font-display);\r\n        font-size: clamp(1.3rem, 2.2vw, 1.75rem);\r\n        font-style: italic;\r\n        font-weight: 900;\r\n        letter-spacing: 0.05em;\r\n        text-transform: uppercase;\r\n        animation: sr-tickerMarch 22s linear infinite;\r\n        padding-right: 2.2rem;\r\n      }\r\n\r\n      .sr-riot-ticker:hover .sr-ticker-track {\r\n        animation-play-state: paused;\r\n      }\r\n\r\n      @keyframes sr-tickerMarch {\r\n        0% { transform: translateX(0); }\r\n        100% { transform: translateX(-50%); }\r\n      }\r\n\r\n      /* ==========================================================================\r\n         09. SECTION 3 — PICK YOUR FREQUENCY (UPCOMING NIGHTS + MODAL)\r\n         ========================================================================== */\r\n      .sr-nights-section {\r\n        padding: clamp(4rem, 7vw, 6.5rem) 0;\r\n      }\r\n\r\n      .sr-section-header-split {\r\n        display: flex;\r\n        flex-wrap: wrap;\r\n        align-items: flex-end;\r\n        justify-content: space-between;\r\n        gap: 1.5rem;\r\n        margin-bottom: 2.75rem;\r\n      }\r\n\r\n      .sr-section-title {\r\n        font-size: clamp(2.6rem, 4.8vw, 4.4rem);\r\n      }\r\n\r\n      .sr-frequency-filter-bar {\r\n        display: inline-flex;\r\n        flex-wrap: wrap;\r\n        gap: 0.45rem;\r\n        padding: 0.35rem;\r\n        background: rgba(44, 16, 59, 0.85);\r\n        border: 1.5px solid rgba(202, 185, 212, 0.24);\r\n        border-radius: 12px;\r\n      }\r\n\r\n      .sr-freq-tab-btn {\r\n        padding: 0.5rem 1rem;\r\n        border-radius: 8px;\r\n        font-size: 0.78rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.08em;\r\n        text-transform: uppercase;\r\n        color: var(--muted-lilac);\r\n        white-space: nowrap;\r\n        transition: background 0.18s ease, color 0.18s ease;\r\n      }\r\n\r\n      .sr-freq-tab-btn.sr-active,\r\n      .sr-freq-tab-btn:hover {\r\n        background: var(--electric-mint);\r\n        color: var(--night-0);\r\n      }\r\n\r\n      .sr-nights-grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(3, minmax(0, 1fr));\r\n        gap: 1.85rem;\r\n      }\r\n\r\n      .sr-night-poster-card {\r\n        --card-accent: var(--electric-mint);\r\n        --tilt-x: 0deg;\r\n        --tilt-y: 0deg;\r\n        position: relative;\r\n        background: linear-gradient(170deg, var(--night-2) 0%, var(--night-0) 100%);\r\n        border: 2.5px solid var(--card-accent);\r\n        border-radius: 24px;\r\n        overflow: hidden;\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n        transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));\r\n        transition: transform 0.22s var(--ease-out-expo), box-shadow 0.25s ease;\r\n      }\r\n\r\n      .sr-night-poster-card[data-theme=\"pink\"] {\r\n        --card-accent: var(--hot-pink);\r\n      }\r\n      .sr-night-poster-card[data-theme=\"lime\"] {\r\n        --card-accent: var(--acid-lime);\r\n      }\r\n\r\n      .sr-night-poster-card.sr-hidden-card {\r\n        display: none;\r\n      }\r\n\r\n      .sr-night-poster-card:hover,\r\n      .sr-night-poster-card:focus-within {\r\n        box-shadow: 0 20px 44px rgba(0, 0, 0, 0.75), 0 0 32px color-mix(in srgb, var(--card-accent) 42%, transparent);\r\n      }\r\n\r\n      .sr-poster-art-frame {\r\n        position: relative;\r\n        height: 250px;\r\n        background: radial-gradient(circle at 50% 45%, rgba(148, 81, 255, 0.26), var(--night-0) 85%);\r\n        border-bottom: 2px solid var(--card-accent);\r\n        overflow: hidden;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n      }\r\n\r\n      .sr-poster-svg-scene {\r\n        width: 100%;\r\n        height: 100%;\r\n        transition: transform 0.45s var(--ease-spring);\r\n      }\r\n\r\n      .sr-night-poster-card:hover .sr-poster-svg-scene {\r\n        transform: scale(1.09) rotate(-2deg);\r\n      }\r\n\r\n      /* Hover peel sticker badge on poster */\r\n      .sr-poster-peel-tag {\r\n        position: absolute;\r\n        top: 14px;\r\n        right: 14px;\r\n        background: var(--card-accent);\r\n        color: var(--night-0);\r\n        font-family: var(--font-display);\r\n        font-size: 0.82rem;\r\n        font-style: italic;\r\n        padding: 0.28rem 0.65rem;\r\n        border-radius: 6px;\r\n        letter-spacing: 0.06em;\r\n        transform: rotate(5deg);\r\n        transition: transform 0.25s var(--ease-spring);\r\n      }\r\n\r\n      .sr-night-poster-card:hover .sr-poster-peel-tag {\r\n        transform: rotate(-6deg) scale(1.1);\r\n      }\r\n\r\n      .sr-poster-content {\r\n        padding: 1.6rem;\r\n        display: flex;\r\n        flex-direction: column;\r\n        flex: 1;\r\n        justify-content: space-between;\r\n      }\r\n\r\n      .sr-poster-schedule {\r\n        font-size: 0.76rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.14em;\r\n        text-transform: uppercase;\r\n        color: var(--card-accent);\r\n        margin-bottom: 0.45rem;\r\n      }\r\n\r\n      .sr-poster-title {\r\n        font-size: clamp(1.85rem, 2.4vw, 2.35rem);\r\n        margin-bottom: 0.6rem;\r\n      }\r\n\r\n      .sr-poster-desc {\r\n        font-size: 0.95rem;\r\n        color: var(--muted-lilac);\r\n        margin-bottom: 1.25rem;\r\n      }\r\n\r\n      .sr-poster-lineup-meta {\r\n        font-size: 0.78rem;\r\n        font-weight: 700;\r\n        color: var(--paper-white);\r\n        padding-top: 0.85rem;\r\n        border-top: 1px solid rgba(202, 185, 212, 0.16);\r\n        margin-bottom: 1.35rem;\r\n      }\r\n\r\n      .sr-poster-cta-btn {\r\n        width: 100%;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        padding: 0.8rem 1.15rem;\r\n        border-radius: 12px;\r\n        background: rgba(255, 253, 248, 0.07);\r\n        border: 1.5px solid var(--card-accent);\r\n        font-family: var(--font-display);\r\n        font-size: 1rem;\r\n        font-style: italic;\r\n        letter-spacing: 0.05em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n        transition: background 0.2s ease, color 0.2s ease;\r\n      }\r\n\r\n      .sr-poster-cta-btn:hover,\r\n      .sr-poster-cta-btn:focus-visible {\r\n        background: var(--card-accent);\r\n        color: var(--night-0);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         10. ACCESSIBLE EVENT DETAIL DIALOG MODAL\r\n         ========================================================================== */\r\n      dialog.sr-club-modal {\r\n        margin: auto;\r\n        width: min(92vw, 620px);\r\n        background: var(--night-1);\r\n        color: var(--paper-white);\r\n        border: 2.5px solid var(--electric-mint);\r\n        border-radius: 24px;\r\n        padding: 0;\r\n        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.9), 0 0 45px rgba(48, 240, 204, 0.32);\r\n        overflow: hidden;\r\n      }\r\n\r\n      dialog.sr-club-modal::backdrop {\r\n        background: rgba(12, 2, 19, 0.82);\r\n        backdrop-filter: blur(8px);\r\n      }\r\n\r\n      .sr-modal-top-bar {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        padding: 0.85rem 1.35rem;\r\n        background: linear-gradient(90deg, var(--electric-mint), var(--acid-lime));\r\n        color: var(--night-0);\r\n      }\r\n\r\n      .sr-modal-top-title {\r\n        font-family: var(--font-display);\r\n        font-size: 1.1rem;\r\n        font-style: italic;\r\n        letter-spacing: 0.06em;\r\n      }\r\n\r\n      .sr-modal-close-btn {\r\n        width: 34px;\r\n        height: 34px;\r\n        border-radius: 50%;\r\n        background: var(--night-0);\r\n        color: var(--paper-white);\r\n        font-weight: 900;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n      }\r\n\r\n      .sr-modal-body {\r\n        padding: 1.75rem;\r\n      }\r\n\r\n      .sr-modal-schedule-kicker {\r\n        font-size: 0.78rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.14em;\r\n        color: var(--hot-pink);\r\n        text-transform: uppercase;\r\n        margin-bottom: 0.35rem;\r\n      }\r\n\r\n      .sr-modal-event-heading {\r\n        font-size: clamp(2rem, 3.5vw, 2.75rem);\r\n        margin-bottom: 0.75rem;\r\n      }\r\n\r"
+    },
+    {
+      "id": "starriot-styles-2",
+      "location": "head",
+      "title": "STAR RIOT Scoped Styles (Part 2/2)",
+      "maxChars": 45000,
+      "charCount": 17964,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "      .sr-modal-event-summary {\r\n        color: var(--muted-lilac);\r\n        margin-bottom: 1.35rem;\r\n      }\r\n\r\n      .sr-modal-lineup-box {\r\n        background: rgba(18, 4, 27, 0.75);\r\n        border: 1px solid rgba(48, 240, 204, 0.28);\r\n        border-radius: 14px;\r\n        padding: 1.1rem;\r\n        margin-bottom: 1.5rem;\r\n      }\r\n\r\n      .sr-modal-lineup-row {\r\n        display: flex;\r\n        justify-content: space-between;\r\n        padding: 0.45rem 0;\r\n        border-bottom: 1px solid rgba(202, 185, 212, 0.12);\r\n        font-size: 0.9rem;\r\n      }\r\n      .sr-modal-lineup-row:last-child {\r\n        border-bottom: none;\r\n      }\r\n\r\n      /* ==========================================================================\r\n         11. SECTION 4 — THE SOUND TAKES OVER (SCROLL-CONTROLLED 3-STAGE SCENE)\r\n         ========================================================================== */\r\n      .sr-sound-scroll-track {\r\n        position: relative;\r\n        min-height: auto;\r\n        padding: clamp(3rem, 5.5vw, 4.5rem) 0;\r\n      }\r\n\r\n      .sr-sound-sticky-stage {\r\n        position: relative;\r\n        top: 0;\r\n        min-height: auto;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        padding: 0;\r\n      }\r\n\r\n      .sr-sound-stage-frame {\r\n        width: 100%;\r\n        background: radial-gradient(circle at 50% 50%, rgba(44, 16, 59, 0.9) 0%, rgba(18, 4, 27, 0.96) 100%);\r\n        border: 2px solid rgba(48, 240, 204, 0.35);\r\n        border-radius: 32px;\r\n        padding: clamp(1.5rem, 3.5vw, 3rem);\r\n        display: grid;\r\n        grid-template-columns: 1fr 1.1fr;\r\n        gap: 2rem;\r\n        align-items: center;\r\n        position: relative;\r\n        overflow: hidden;\r\n        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);\r\n      }\r\n\r\n      .sr-stage-phase-controls {\r\n        display: flex;\r\n        flex-wrap: wrap;\r\n        gap: 0.6rem;\r\n        margin-bottom: 1.35rem;\r\n      }\r\n\r\n      .sr-stage-pill-btn {\r\n        padding: 0.45rem 0.95rem;\r\n        border-radius: 8px;\r\n        font-family: var(--font-display);\r\n        font-size: 0.92rem;\r\n        font-style: italic;\r\n        letter-spacing: 0.06em;\r\n        background: rgba(18, 4, 27, 0.8);\r\n        border: 1.5px solid rgba(202, 185, 212, 0.3);\r\n        color: var(--muted-lilac);\r\n        transition: all 0.2s ease;\r\n      }\r\n\r\n      .sr-stage-pill-btn.sr-active {\r\n        background: var(--acid-lime);\r\n        color: var(--night-0);\r\n        border-color: var(--acid-lime);\r\n        box-shadow: 0 0 18px rgba(252, 240, 60, 0.45);\r\n      }\r\n\r\n      .sr-sound-stage-headline {\r\n        font-size: clamp(2.3rem, 4.4vw, 4rem);\r\n        margin-bottom: 1rem;\r\n        min-height: 2.7em;\r\n      }\r\n\r\n      .sr-sound-stage-subcopy {\r\n        color: var(--muted-lilac);\r\n        font-size: 1.05rem;\r\n        max-width: 46ch;\r\n        margin-bottom: 1.5rem;\r\n        min-height: 3.2em;\r\n      }\r\n\r\n      .sr-sound-telemetry-bar {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 1.5rem;\r\n        font-size: 0.82rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.1em;\r\n        text-transform: uppercase;\r\n        color: var(--electric-mint);\r\n        font-variant-numeric: tabular-nums;\r\n      }\r\n\r\n      .sr-sound-visual-canvas {\r\n        position: relative;\r\n        height: 380px;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n      }\r\n\r\n      .sr-sound-stage-svg {\r\n        width: 100%;\r\n        max-width: 460px;\r\n        height: auto;\r\n        overflow: visible;\r\n      }\r\n\r\n      .sr-stage-ring-group,\r\n      .sr-stage-supernova-group,\r\n      .sr-stage-dancers-group {\r\n        transition: transform 0.25s ease-out, opacity 0.25s ease-out;\r\n        transform-origin: 220px 200px;\r\n      }\r\n\r\n      /* ==========================================================================\r\n         12. SECTION 5 — THE SPACE (ASYMMETRIC VISUAL COLLAGE)\r\n         ========================================================================== */\r\n      .sr-space-section {\r\n        padding: clamp(4rem, 7vw, 6.5rem) 0;\r\n      }\r\n\r\n      .sr-space-bento-grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(12, 1fr);\r\n        gap: 1.5rem;\r\n      }\r\n\r\n      .sr-space-card {\r\n        position: relative;\r\n        background: linear-gradient(150deg, rgba(44, 16, 59, 0.82), rgba(18, 4, 27, 0.94));\r\n        border: 2px solid rgba(202, 185, 212, 0.22);\r\n        border-radius: 26px;\r\n        padding: clamp(1.5rem, 3vw, 2.4rem);\r\n        overflow: hidden;\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n        transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo);\r\n      }\r\n\r\n      .sr-space-card:hover {\r\n        border-color: var(--electric-mint);\r\n        transform: translateY(-4px);\r\n      }\r\n\r\n      .sr-space-card-floor { grid-column: span 7; }\r\n      .sr-space-card-lights { grid-column: span 5; }\r\n      .sr-space-card-booth { grid-column: span 5; }\r\n      .sr-space-card-crew { grid-column: span 7; }\r\n\r\n      .sr-space-sticker-tag {\r\n        display: inline-block;\r\n        align-self: flex-start;\r\n        font-family: var(--font-display);\r\n        font-size: 0.95rem;\r\n        font-style: italic;\r\n        padding: 0.25rem 0.75rem;\r\n        border-radius: 6px;\r\n        background: var(--hot-pink);\r\n        color: var(--night-0);\r\n        letter-spacing: 0.06em;\r\n        transform: rotate(-2deg);\r\n        margin-bottom: 1rem;\r\n      }\r\n\r\n      .sr-space-card-lights .sr-space-sticker-tag { background: var(--electric-mint); transform: rotate(2deg); }\r\n      .sr-space-card-booth .sr-space-sticker-tag { background: var(--acid-lime); transform: rotate(-1.5deg); }\r\n      .sr-space-card-crew .sr-space-sticker-tag { background: var(--warm-coral); transform: rotate(1.5deg); }\r\n\r\n      .sr-space-card-title {\r\n        font-size: clamp(1.75rem, 2.6vw, 2.4rem);\r\n        margin-bottom: 0.65rem;\r\n      }\r\n\r\n      .sr-space-card-copy {\r\n        color: var(--muted-lilac);\r\n        font-size: 0.98rem;\r\n        max-width: 50ch;\r\n        margin-bottom: 1.25rem;\r\n      }\r\n\r\n      /* Interactive Floor Matrix mini-controller inside THE FLOOR card */\r\n      .sr-floor-matrix-bar {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 0.6rem;\r\n        flex-wrap: wrap;\r\n        margin-top: 0.75rem;\r\n      }\r\n\r\n      .sr-matrix-swatch-btn {\r\n        padding: 0.38rem 0.8rem;\r\n        border-radius: 8px;\r\n        font-size: 0.74rem;\r\n        font-weight: 800;\r\n        text-transform: uppercase;\r\n        letter-spacing: 0.06em;\r\n        border: 1.5px solid rgba(255, 253, 248, 0.35);\r\n        background: rgba(18, 4, 27, 0.7);\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      .sr-matrix-swatch-btn.sr-active {\r\n        border-color: var(--acid-lime);\r\n        background: var(--acid-lime);\r\n        color: var(--night-0);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         13. SECTION 6 — MEET THE MOVEMENT (COMMUNITY GALLERY + FAQ)\r\n         ========================================================================== */\r\n      .sr-movement-section {\r\n        padding: clamp(4rem, 7vw, 6.5rem) 0;\r\n      }\r\n\r\n      .sr-carousel-controls {\r\n        display: flex;\r\n        align-items: center;\r\n        gap: 0.75rem;\r\n      }\r\n\r\n      .sr-carousel-arrow-btn {\r\n        width: 46px;\r\n        height: 46px;\r\n        border-radius: 50%;\r\n        border: 2px solid var(--electric-mint);\r\n        background: rgba(44, 16, 59, 0.7);\r\n        color: var(--paper-white);\r\n        font-size: 1.1rem;\r\n        font-weight: 900;\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;\r\n      }\r\n\r\n      .sr-carousel-arrow-btn:hover {\r\n        background: var(--electric-mint);\r\n        color: var(--night-0);\r\n        transform: scale(1.08);\r\n      }\r\n\r\n      .sr-sticker-wall-track {\r\n        display: grid;\r\n        grid-template-columns: repeat(4, minmax(260px, 1fr));\r\n        gap: 1.5rem;\r\n        overflow-x: auto;\r\n        scroll-snap-type: x mandatory;\r\n        padding: 1rem 0.25rem 1.5rem;\r\n        scrollbar-width: thin;\r\n        scrollbar-color: var(--electric-mint) var(--night-1);\r\n      }\r\n\r\n      .sr-sticker-card {\r\n        scroll-snap-align: start;\r\n        background: var(--night-2);\r\n        border: 2px solid rgba(255, 253, 248, 0.24);\r\n        border-radius: 20px;\r\n        padding: 1.25rem;\r\n        position: relative;\r\n        transition: transform 0.28s var(--ease-spring), border-color 0.22s ease;\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n      }\r\n\r\n      .sr-sticker-card:nth-child(odd) { transform: rotate(-1.5deg); }\r\n      .sr-sticker-card:nth-child(even) { transform: rotate(1.5deg); }\r\n\r\n      .sr-sticker-card:hover,\r\n      .sr-sticker-card:focus-within {\r\n        transform: rotate(0deg) translateY(-6px) scale(1.02);\r\n        border-color: var(--hot-pink);\r\n      }\r\n\r\n      .sr-sticker-flip-btn {\r\n        margin-top: 0.85rem;\r\n        align-self: flex-start;\r\n        font-size: 0.74rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.1em;\r\n        text-transform: uppercase;\r\n        color: var(--acid-lime);\r\n        text-decoration: underline;\r\n      }\r\n\r\n      .sr-sticker-back-note {\r\n        display: none;\r\n        margin-top: 0.75rem;\r\n        padding: 0.75rem;\r\n        border-radius: 10px;\r\n        background: rgba(18, 4, 27, 0.88);\r\n        border: 1px dashed var(--acid-lime);\r\n        font-size: 0.84rem;\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      .sr-sticker-card.sr-flipped .sr-sticker-back-note {\r\n        display: block;\r\n      }\r\n\r\n      /* FAQ Accordion */\r\n      .sr-faq-wrap {\r\n        margin-top: clamp(3.5rem, 6vw, 5.5rem);\r\n        max-width: 920px;\r\n        margin-left: auto;\r\n        margin-right: auto;\r\n      }\r\n\r\n      .sr-faq-list {\r\n        display: flex;\r\n        flex-direction: column;\r\n        gap: 0.9rem;\r\n        margin-top: 2rem;\r\n      }\r\n\r\n      .sr-faq-item {\r\n        background: rgba(44, 16, 59, 0.55);\r\n        border: 1.5px solid rgba(202, 185, 212, 0.22);\r\n        border-radius: 16px;\r\n        overflow: hidden;\r\n        transition: border-color 0.2s ease;\r\n      }\r\n\r\n      .sr-faq-item.sr-open {\r\n        border-color: var(--electric-mint);\r\n      }\r\n\r\n      .sr-faq-trigger {\r\n        width: 100%;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        gap: 1rem;\r\n        padding: 1.15rem 1.4rem;\r\n        text-align: left;\r\n        font-family: var(--font-display);\r\n        font-size: 1.25rem;\r\n        font-style: italic;\r\n        letter-spacing: 0.03em;\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      .sr-faq-icon {\r\n        color: var(--acid-lime);\r\n        font-style: normal;\r\n        transition: transform 0.25s var(--ease-spring);\r\n      }\r\n\r\n      .sr-faq-item.sr-open .sr-faq-icon {\r\n        transform: rotate(45deg);\r\n        color: var(--hot-pink);\r\n      }\r\n\r\n      .sr-faq-answer {\r\n        display: none;\r\n        padding: 0 1.4rem 1.25rem;\r\n        color: var(--muted-lilac);\r\n        font-size: 0.96rem;\r\n        line-height: 1.6;\r\n      }\r\n\r\n      .sr-faq-item.sr-open .sr-faq-answer {\r\n        display: block;\r\n      }\r\n\r\n      /* ==========================================================================\r\n         14. SECTION 7 — CONVERSION FINALE (GUESTLIST SIGN-UP)\r\n         ========================================================================== */\r\n      .sr-conversion-section {\r\n        padding: clamp(4rem, 7vw, 6.5rem) 0;\r\n      }\r\n\r\n      .sr-conversion-shell {\r\n        background:\r\n          radial-gradient(circle at 88% 18%, rgba(252, 60, 204, 0.22), transparent 45%),\r\n          radial-gradient(circle at 12% 85%, rgba(48, 240, 204, 0.18), transparent 48%),\r\n          linear-gradient(145deg, var(--night-2) 0%, var(--night-0) 100%);\r\n        border: 2.5px solid var(--electric-mint);\r\n        border-radius: 32px;\r\n        padding: clamp(2rem, 4.5vw, 4rem);\r\n        display: grid;\r\n        grid-template-columns: 1.05fr 0.95fr;\r\n        gap: 2.5rem;\r\n        align-items: center;\r\n        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.78);\r\n      }\r\n\r\n      .sr-guestlist-form {\r\n        background: rgba(18, 4, 27, 0.85);\r\n        border: 1.5px solid rgba(202, 185, 212, 0.24);\r\n        border-radius: 22px;\r\n        padding: 1.85rem;\r\n      }\r\n\r\n      .sr-form-group {\r\n        margin-bottom: 1.15rem;\r\n      }\r\n\r\n      .sr-form-label {\r\n        display: block;\r\n        font-size: 0.78rem;\r\n        font-weight: 800;\r\n        letter-spacing: 0.1em;\r\n        text-transform: uppercase;\r\n        color: var(--paper-white);\r\n        margin-bottom: 0.45rem;\r\n      }\r\n\r\n      .sr-form-input,\r\n      .sr-form-select {\r\n        width: 100%;\r\n        padding: 0.8rem 1rem;\r\n        border-radius: 10px;\r\n        border: 1.5px solid rgba(202, 185, 212, 0.32);\r\n        background: rgba(44, 16, 59, 0.65);\r\n        color: var(--paper-white);\r\n        font-family: var(--font-sans);\r\n        font-size: 0.96rem;\r\n        transition: border-color 0.18s ease, box-shadow 0.18s ease;\r\n      }\r\n\r\n      .sr-form-input:focus,\r\n      .sr-form-select:focus {\r\n        outline: none;\r\n        border-color: var(--electric-mint);\r\n        box-shadow: 0 0 0 3px rgba(48, 240, 204, 0.25);\r\n      }\r\n\r\n      .sr-form-error {\r\n        display: none;\r\n        margin-top: 0.35rem;\r\n        font-size: 0.8rem;\r\n        font-weight: 700;\r\n        color: var(--warm-coral);\r\n      }\r\n\r\n      .sr-form-error.sr-visible {\r\n        display: block;\r\n      }\r\n\r\n      .sr-demo-pass-confirmation {\r\n        display: none;\r\n        background: rgba(18, 4, 27, 0.92);\r\n        border: 2px solid var(--acid-lime);\r\n        border-radius: 22px;\r\n        padding: 1.85rem;\r\n        text-align: left;\r\n      }\r\n\r\n      .sr-demo-pass-confirmation.sr-visible {\r\n        display: block;\r\n      }\r\n\r\n      .sr-demo-disclaimer-banner {\r\n        margin-top: 1rem;\r\n        padding: 0.75rem 1rem;\r\n        border-radius: 10px;\r\n        background: rgba(252, 60, 204, 0.14);\r\n        border: 1px solid var(--hot-pink);\r\n        font-size: 0.8rem;\r\n        color: var(--paper-white);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         15. SECTION 8 — FOOTER\r\n         ========================================================================== */\r\n      .sr-site-footer {\r\n        border-top: 1px solid rgba(202, 185, 212, 0.16);\r\n        padding: 3rem 0 3.5rem;\r\n        background: rgba(12, 2, 19, 0.9);\r\n      }\r\n\r\n      .sr-footer-inner {\r\n        display: flex;\r\n        flex-wrap: wrap;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        gap: 1.5rem;\r\n      }\r\n\r\n      .sr-footer-links {\r\n        display: flex;\r\n        flex-wrap: wrap;\r\n        gap: 1.5rem;\r\n        font-size: 0.85rem;\r\n        font-weight: 700;\r\n        text-transform: uppercase;\r\n        letter-spacing: 0.08em;\r\n        color: var(--muted-lilac);\r\n      }\r\n\r\n      .sr-footer-links a:hover {\r\n        color: var(--electric-mint);\r\n      }\r\n\r\n      /* ==========================================================================\r\n         16. RESPONSIVE BREAKPOINTS & REDUCED MOTION\r\n         ========================================================================== */\r\n      @media (max-width: 1120px) {\r\n        .sr-hero-grid {\r\n          grid-template-columns: 1fr;\r\n          gap: 2rem;\r\n        }\r\n        .sr-hero-copy-col {\r\n          max-width: 680px;\r\n        }\r\n        .sr-hero-stage {\r\n          min-height: 540px;\r\n        }\r\n        .sr-manifesto-card,\r\n        .sr-sound-stage-frame,\r\n        .sr-conversion-shell {\r\n          grid-template-columns: 1fr;\r\n        }\r\n        .sr-nights-grid {\r\n          grid-template-columns: repeat(2, minmax(0, 1fr));\r\n        }\r\n        .sr-space-card-floor,\r\n        .sr-space-card-lights,\r\n        .sr-space-card-booth,\r\n        .sr-space-card-crew {\r\n          grid-column: span 6;\r\n        }\r\n      }\r\n\r\n      @media (max-width: 780px) {\r\n        .sr-primary-nav,\r\n        .sr-header-actions .sr-btn-header {\r\n          display: none;\r\n        }\r\n        .sr-mobile-menu-btn {\r\n          display: inline-flex;\r\n        }\r\n        .sr-hero-stage {\r\n          min-height: 440px;\r\n          display: flex;\r\n          flex-direction: column;\r\n          gap: 0.85rem;\r\n        }\r\n        .sr-club-ui-panel {\r\n          position: relative;\r\n          top: auto !important;\r\n          left: auto !important;\r\n          right: auto !important;\r\n          bottom: auto !important;\r\n          width: 100% !important;\r\n          transform: none !important;\r\n        }\r\n        .sr-club-pass-stub {\r\n          position: relative;\r\n          bottom: auto;\r\n          right: auto;\r\n          width: 100%;\r\n          transform: none;\r\n        }\r\n        .sr-nights-grid {\r\n          grid-template-columns: 1fr;\r\n        }\r\n        .sr-space-card-floor,\r\n        .sr-space-card-lights,\r\n        .sr-space-card-booth,\r\n        .sr-space-card-crew {\r\n          grid-column: span 12;\r\n        }\r\n        .sr-sound-scroll-track {\r\n          min-height: auto;\r\n        }\r\n        .sr-sound-sticky-stage {\r\n          position: relative;\r\n          top: 0;\r\n          min-height: auto;\r\n        }\r\n      }\r\n\r\n      @media (prefers-reduced-motion: reduce) {\r\n        *,\r\n        *::before,\r\n        *::after {\r\n          animation-duration: 0.01ms !important;\r\n          animation-iteration-count: 1 !important;\r\n          transition-duration: 0.01ms !important;\r\n          scroll-behavior: auto !important;\r\n        }\r\n        .sr-sound-scroll-track {\r\n          min-height: auto;\r\n        }\r\n        .sr-sound-sticky-stage {\r\n          position: relative;\r\n          top: 0;\r\n        }\r\n      }"
+    },
+    {
+      "id": "starriot-runtime-1",
+      "location": "footer",
+      "title": "STAR RIOT Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 273,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// STAR RIOT — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}
