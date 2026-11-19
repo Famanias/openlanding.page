@@ -63,7 +63,9 @@ describe("template detail page", () => {
     expect(html).toContain('href="/templates/calder"');
     expect(html).toContain("View live template");
     expect(html).toContain("Copy prompt");
+    expect(html).toContain("Copy Webflow prompt");
     expect(html).toContain('href="/copy/calder-prompt.md"');
+    expect(html).toContain('href="/copy/calder-webflow-prompt.md"');
     expect(html).toContain('href="/downloads/calder.html"');
     expect(html).toContain("How to use this template with an AI coding agent");
     expect(html).toContain('id="step-4"');
@@ -93,6 +95,8 @@ describe("template detail page", () => {
     for (const t of PUBLIC_TEMPLATES) {
       expect(fs.existsSync(path.join("public/gallery", `${t.slug}.webp`)), t.slug).toBe(true);
       expect(fs.existsSync(path.join("public/copy", `${t.slug}-prompt.md`)), t.slug).toBe(true);
+      expect(fs.existsSync(path.join("public/copy", `${t.slug}-webflow-prompt.md`)), t.slug).toBe(true);
+      expect(fs.existsSync(path.join("public/copy", `${t.slug}-webflow.json`)), t.slug).toBe(true);
     }
   });
 });

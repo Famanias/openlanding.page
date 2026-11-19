@@ -6,9 +6,10 @@ import { hubBreadcrumbJsonLd, type HubBreadcrumbItem } from "../../../../lib/hub
 import { serializeJsonLd, templateDetailJsonLd } from "../../../../lib/json-ld";
 import { templatePath } from "../../../../lib/template-routing";
 import { CopyPromptButton } from "./CopyPromptButton";
+import { CopyWebflowPromptButton } from "./CopyWebflowPromptButton";
 import {
   buildHowToSteps, buildTemplateFaq, categoryLabel, detailHeading, detailSummary, downloadPath, formatCreatedDate,
-  formatStack, galleryCapturePath, howToSummary, promptPath, relatedTemplates,
+  formatStack, galleryCapturePath, howToSummary, promptPath, relatedTemplates, webflowPromptPath,
 } from "./detail-content";
 
 const MIT_URL = "https://opensource.org/licenses/MIT";
@@ -51,9 +52,14 @@ export function TemplateDetailView({ template: t, templates }: { template: Templ
               <span>View live template</span>
             </a>
             <CopyPromptButton prompt={t.promptMarkdown} className="detail-action" />
+            <CopyWebflowPromptButton template={t} className="detail-action" />
             <a href={promptPath(t.slug)} className="detail-action">
               <FileText size={18} aria-hidden="true" />
               <span>Open prompt (Markdown)</span>
+            </a>
+            <a href={webflowPromptPath(t.slug)} className="detail-action">
+              <FileText size={18} aria-hidden="true" />
+              <span>Open Webflow prompt</span>
             </a>
             {t.hasDownload && (
               <a href={downloadPath(t.slug)} download={`${t.slug}.html`} className="detail-action">

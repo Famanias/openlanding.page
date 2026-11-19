@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { TEMPLATES, type TemplateItem } from "../../data/templates";
 import {
   buildHowToSteps, buildTemplateFaq, DETAIL_DESCRIPTION_MAX, DETAIL_TITLE_MAX, detailDescription, detailHeading, detailSummary,
-  detailTitle, findTemplate, formatCreatedDate, formatStack, relatedTemplates, templatePlatform,
+  detailTitle, findTemplate, formatCreatedDate, formatStack, relatedTemplates, templatePlatform, webflowManifestPath, webflowPromptPath,
 } from "./detail-content";
+import { fetchOrBuildWebflowPrompt } from "./CopyWebflowPromptButton";
 
 const calder = TEMPLATES.find(t => t.slug === "calder")!;
 const sample = (patch: Partial<TemplateItem>): TemplateItem => ({ ...calder, ...patch });
@@ -77,17 +78,28 @@ describe("how-to and FAQ", () => {
     expect(buildHowToSteps(sample({ stack: "HTML · CSS", hasDownload: false }))[3].text).toContain("No build step");
   });
 
-  it("answers four template-specific questions", () => {
+  it("answers five template-specific questions including Webflow import", () => {
     const faq = buildTemplateFaq(calder);
     expect(faq.map(q => q.question)).toEqual([
       "Is CALDER & ROWE free?",
       "What is CALDER & ROWE built with?",
       "Can I use CALDER & ROWE commercially?",
       "How do I customise CALDER & ROWE with AI?",
+      "Can I import CALDER & ROWE into Webflow?",
     ]);
     expect(faq[0].answer.startsWith("Yes.")).toBe(true);
     expect(faq[1].answer).toContain(calder.model);
+    expect(faq[4].answer).toContain("Copy Webflow prompt");
+    expect(faq[4].answer).toContain("/api/mcp");
+    expect(webflowPromptPath("snoot")).toBe("/copy/snoot-webflow-prompt.md");
+    expect(webflowManifestPath("snoot")).toBe("/copy/snoot-webflow.json");
     expect(buildTemplateFaq(sample({ hasDownload: false }))[0].answer).not.toContain("download");
+  });
+
+  it("falls back to building the Webflow prompt client-side when fetch is unavailable or fails", async () => {
+    const prompt = await fetchOrBuildWebflowPrompt(calder);
+    expect(prompt).toContain("Webflow MCP Import Prompt: CALDER & ROWE");
+    expect(prompt).toContain("data_variable_tool");
   });
 });
 
