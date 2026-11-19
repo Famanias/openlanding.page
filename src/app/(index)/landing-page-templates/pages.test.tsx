@@ -1,3 +1,4 @@
+import React from "react";
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { catalogIndexPath, categoryHubPath, templateDetailPath } from "../../../lib/catalog-routes";
@@ -5,8 +6,10 @@ import { PUBLIC_TEMPLATES } from "../../../lib/seo";
 import { templatePath } from "../../../lib/template-routing";
 import { getCategoryHubSummaries } from "../data/category-copy";
 import { CATEGORIES } from "../data/templates";
+import { CatalogChrome } from "./CatalogChrome";
 import CatalogIndexPage, { generateMetadata as generateIndexMetadata } from "./page";
 import CategoryHubPage, {
+  CategoryHubContent,
   generateMetadata as generateCategoryMetadata,
   generateStaticParams,
 } from "./category/[id]/page";
@@ -54,8 +57,17 @@ describe("category hub pages", () => {
     expect(meta.alternates?.canonical).toBe(categoryHubPath("3d"));
     expect(meta.openGraph?.url).toBe(categoryHubPath("3d"));
 
+    const shellHtml = renderToStaticMarkup(
+      CategoryHubPage({ params: Promise.resolve({ id: "3d" }) }),
+    );
+    expect(shellHtml).toContain('class="catalog-header"');
+    expect(shellHtml).toContain('aria-label="Breadcrumb"');
+    expect(shellHtml).toContain("More template categories");
+
     const html = renderToStaticMarkup(
-      await CategoryHubPage({ params: Promise.resolve({ id: "3d" }) }),
+      <CatalogChrome currentNav="category">
+        {await CategoryHubContent({ params: Promise.resolve({ id: "3d" }) })}
+      </CatalogChrome>,
     );
     expect(html).toContain("3D landing page templates");
     expect(html).toContain(`href="${catalogIndexPath()}"`);
@@ -78,8 +90,8 @@ describe("category hub pages", () => {
       generateCategoryMetadata({ params: Promise.resolve({ id: "unknown-cat" }) }),
     ).rejects.toThrow();
     await expect(
-      CategoryHubPage({ params: Promise.resolve({ id: "unknown-cat" }) }),
+      CategoryHubContent({ params: Promise.resolve({ id: "unknown-cat" }) }),
     ).rejects.toThrow();
-    await expect(CategoryHubPage({ params: Promise.resolve({ id: "all" }) })).rejects.toThrow();
+    await expect(CategoryHubContent({ params: Promise.resolve({ id: "all" }) })).rejects.toThrow();
   });
 });

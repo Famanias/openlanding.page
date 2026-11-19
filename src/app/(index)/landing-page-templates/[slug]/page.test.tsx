@@ -1,15 +1,23 @@
 import fs from "node:fs";
 import path from "node:path";
+import React from "react";
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import TemplateDetailPage, { generateMetadata, generateStaticParams } from "./page";
+import TemplateDetailPage, {
+  TemplateDetailContent,
+  generateMetadata,
+  generateStaticParams,
+} from "./page";
+import { CatalogChrome } from "../CatalogChrome";
 import { ARCHIVED_TEMPLATES } from "../../data/templates";
 import { PUBLIC_TEMPLATES } from "../../../../lib/seo";
 
 const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
 
 async function render(slug: string): Promise<string> {
-  return renderToStaticMarkup(await TemplateDetailPage(params(slug)));
+  return renderToStaticMarkup(
+    <CatalogChrome>{await TemplateDetailContent(params(slug))}</CatalogChrome>,
+  );
 }
 
 function jsonLdGraph(html: string): { "@type": string | string[]; [key: string]: unknown }[] {
@@ -27,7 +35,7 @@ describe("template detail page", () => {
   it("404s for unknown, archived and reserved slugs", async () => {
     const rejected = ["does-not-exist", "category", ...ARCHIVED_TEMPLATES.map(t => t.slug)];
     for (const slug of rejected) {
-      await expect(TemplateDetailPage(params(slug)), slug).rejects.toMatchObject({ digest: expect.stringContaining("404") });
+      await expect(TemplateDetailContent(params(slug)), slug).rejects.toMatchObject({ digest: expect.stringContaining("404") });
       expect(await generateMetadata(params(slug))).toEqual({});
     }
   });
@@ -49,6 +57,11 @@ describe("template detail page", () => {
   });
 
   it("server-renders breadcrumb, answer-first copy, facts, actions, how-to, FAQ and related links", async () => {
+    const shellHtml = renderToStaticMarkup(TemplateDetailPage(params("calder")));
+    expect(shellHtml).toContain('class="catalog-header"');
+    expect(shellHtml).toContain('aria-label="Breadcrumb"');
+    expect(shellHtml).toContain('class="detail-body"');
+
     const html = await render("calder");
     expect(html).toContain('<nav aria-label="Breadcrumb"');
     expect(html).toContain('href="/landing-page-templates">Landing page templates</a>');

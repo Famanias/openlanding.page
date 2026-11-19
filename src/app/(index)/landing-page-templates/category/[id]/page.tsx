@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import {
   catalogIndexPath,
   categoryHubPath,
@@ -12,7 +13,7 @@ import { SITE_NAME } from "../../../../../lib/site";
 import { templatePath } from "../../../../../lib/template-routing";
 import { getCategoryHubById, getCategoryHubSummaries } from "../../../data/category-copy";
 import { sortTemplates } from "../../../data/filters";
-import { CatalogChrome } from "../../CatalogChrome";
+import { CatalogBreadcrumb, CatalogChrome } from "../../CatalogChrome";
 import "../../catalog.css";
 
 type CategoryHubParams = Promise<{ id: string }>;
@@ -48,7 +49,62 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryHubPage({ params }: { params: CategoryHubParams }) {
+function CategoryHubFallback() {
+  const allHubs = getCategoryHubSummaries(PUBLIC_TEMPLATES);
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Landing page templates", path: catalogIndexPath() },
+    { name: "Category", path: "#" },
+  ];
+
+  return (
+    <>
+      <CatalogBreadcrumb breadcrumbs={breadcrumbs} />
+      <header className="catalog-hero" aria-busy="true">
+        <p className="catalog-kicker">CATEGORY HUB</p>
+        <h1 className="catalog-title">Landing page templates</h1>
+        <p className="catalog-intro">
+          Free, MIT-licensed landing page templates with full source and AI rebuild prompts.
+        </p>
+        <ul className="catalog-stats">
+          <li>{PUBLIC_TEMPLATES.length} templates</li>
+          <li>MIT License · Full source &amp; AI prompts</li>
+        </ul>
+      </header>
+
+      <section className="catalog-section" aria-labelledby="hub-templates-heading">
+        <div className="catalog-section-head">
+          <h2 id="hub-templates-heading">Templates</h2>
+          <p className="catalog-section-note">
+            Inspect each template&apos;s source and prompt, or launch its live demo
+          </p>
+        </div>
+        <div className="hub-card-grid" aria-hidden="true" />
+      </section>
+
+      <section className="catalog-section" aria-labelledby="hub-other-categories-heading">
+        <div className="catalog-section-head">
+          <h2 id="hub-other-categories-heading">More template categories</h2>
+          <Link href={catalogIndexPath()} className="category-links-all">
+            View full catalog ({PUBLIC_TEMPLATES.length})
+          </Link>
+        </div>
+        <ul className="category-links-list">
+          {allHubs.map((other) => (
+            <li key={other.id}>
+              <Link href={categoryHubPath(other.id)} className="category-link-pill">
+                <span>{other.label}</span>
+                <span className="category-link-count">{other.count}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
+  );
+}
+
+export async function CategoryHubContent({ params }: { params: CategoryHubParams }) {
   const { id } = await params;
   const hub = getCategoryHubById(id, PUBLIC_TEMPLATES);
   if (!hub) notFound();
@@ -71,7 +127,8 @@ export default async function CategoryHubPage({ params }: { params: CategoryHubP
   });
 
   return (
-    <CatalogChrome breadcrumbs={breadcrumbs} currentNav="category">
+    <>
+      <CatalogBreadcrumb breadcrumbs={breadcrumbs} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
 
       <header className="catalog-hero">
@@ -149,6 +206,16 @@ export default async function CategoryHubPage({ params }: { params: CategoryHubP
           ))}
         </ul>
       </section>
+    </>
+  );
+}
+
+export default function CategoryHubPage({ params }: { params: CategoryHubParams }) {
+  return (
+    <CatalogChrome currentNav="category">
+      <Suspense fallback={<CategoryHubFallback />}>
+        <CategoryHubContent params={params} />
+      </Suspense>
     </CatalogChrome>
   );
 }

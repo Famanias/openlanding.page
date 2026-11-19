@@ -4,12 +4,44 @@ import { BracketsAngle } from "@phosphor-icons/react/dist/ssr";
 import { catalogIndexPath } from "../../../lib/catalog-routes";
 import type { HubBreadcrumbItem } from "../../../lib/hub-json-ld";
 
+export function CatalogBreadcrumb({
+  breadcrumbs,
+}: {
+  breadcrumbs: readonly HubBreadcrumbItem[];
+}) {
+  return (
+    <nav aria-label="Breadcrumb" className="catalog-breadcrumb">
+      <ol className="catalog-breadcrumb-list">
+        {breadcrumbs.map((crumb, index) => {
+          const isLast = index === breadcrumbs.length - 1;
+          return (
+            <React.Fragment key={crumb.path}>
+              {index > 0 && (
+                <li aria-hidden="true" className="catalog-breadcrumb-sep">
+                  ›
+                </li>
+              )}
+              <li>
+                {isLast ? (
+                  <span aria-current="page">{crumb.name}</span>
+                ) : (
+                  <Link href={crumb.path}>{crumb.name}</Link>
+                )}
+              </li>
+            </React.Fragment>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
 export function CatalogChrome({
   breadcrumbs,
   currentNav,
   children,
 }: {
-  breadcrumbs: readonly HubBreadcrumbItem[];
+  breadcrumbs?: readonly HubBreadcrumbItem[];
   currentNav?: "index" | "category" | "about";
   children: React.ReactNode;
 }) {
@@ -46,29 +78,7 @@ export function CatalogChrome({
 
       <main className="catalog-main">
         <div className="page-container catalog-container">
-          <nav aria-label="Breadcrumb" className="catalog-breadcrumb">
-            <ol className="catalog-breadcrumb-list">
-              {breadcrumbs.map((crumb, index) => {
-                const isLast = index === breadcrumbs.length - 1;
-                return (
-                  <React.Fragment key={crumb.path}>
-                    {index > 0 && (
-                      <li aria-hidden="true" className="catalog-breadcrumb-sep">
-                        ›
-                      </li>
-                    )}
-                    <li>
-                      {isLast ? (
-                        <span aria-current="page">{crumb.name}</span>
-                      ) : (
-                        <Link href={crumb.path}>{crumb.name}</Link>
-                      )}
-                    </li>
-                  </React.Fragment>
-                );
-              })}
-            </ol>
-          </nav>
+          {breadcrumbs && <CatalogBreadcrumb breadcrumbs={breadcrumbs} />}
           {children}
         </div>
       </main>
