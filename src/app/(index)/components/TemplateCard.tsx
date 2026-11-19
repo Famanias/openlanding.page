@@ -98,6 +98,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
         : "Copy prompt";
 
   return (
+    <>
     <motion.article layout={reducedMotion || instantMotion ? false : "position"} initial={false}
       transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card">
       <div className="template-preview aspect-video" data-kind="product">
@@ -181,7 +182,8 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
         {voteError && <p className="copy-error" role="alert">{voteError}</p>}
         {copyError && <p className="copy-error" role="alert">{copyError}</p>}
       </div>
-      <McpSetupDialog open={mcpDialogOpen} onClose={() => setMcpDialogOpen(false)} />
     </motion.article>
+    <McpSetupDialog open={mcpDialogOpen} onClose={() => setMcpDialogOpen(false)} />
+    </>
   );
 }
