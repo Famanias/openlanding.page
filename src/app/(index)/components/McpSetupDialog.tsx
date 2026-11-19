@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Check, Copy, X } from "@phosphor-icons/react/dist/ssr";
 import { SITE_URL } from "../../../lib/site";
 
@@ -56,7 +57,7 @@ export function McpSetupDialog({ open, onClose }: McpSetupDialogProps) {
     }
   };
 
-  return (
+  const dialogNode = (
     <div
       className="community-dialog-backdrop"
       onClick={(e) => {
@@ -115,4 +116,9 @@ export function McpSetupDialog({ open, onClose }: McpSetupDialogProps) {
       </div>
     </div>
   );
+
+  if (typeof document !== "undefined" && document.body) {
+    return createPortal(dialogNode, document.body);
+  }
+  return dialogNode;
 }
