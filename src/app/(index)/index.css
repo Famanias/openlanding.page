@@ -190,13 +190,19 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .card-action-btn:not(:disabled):hover { color: var(--color-ink); transform: translateY(-1px); }
 .card-action-btn:disabled:not([aria-busy='true']) { opacity: .5; cursor: not-allowed; }
 .card-action-btn[data-copied='true'] { color: var(--color-success); }
-.card-copy-menu-wrap { position: relative; display: inline-flex; flex-shrink: 0; }
-.card-copy-popover { position: absolute; top: calc(100% + 6px); right: 0; z-index: 30; width: max-content; min-width: 232px; padding: 5px; border: 1px solid var(--color-rule-2); border-radius: 9px; background: var(--color-paper-2); box-shadow: 0 14px 32px rgba(0, 0, 0, .55); display: flex; flex-direction: column; gap: 2px; }
-.card-copy-item { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: var(--space-md); padding: 7px 10px; border: 0; border-radius: 6px; background: transparent; color: var(--color-ink); font-size: 12px; text-align: left; white-space: nowrap; cursor: pointer; }
-.card-copy-item:hover, .card-copy-item:focus-visible { background: var(--color-paper); outline: none; }
-.card-copy-item small { color: var(--color-muted); font-size: 11px; flex-shrink: 0; }
-.card-copy-item-mcp { border-top: 1px solid var(--color-rule); margin-top: 2px; padding-top: 8px; }
+.prompt-modal-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); }
+.prompt-modal-option { display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md); border: 1px solid var(--color-rule-2); border-radius: 10px; background: var(--color-paper); color: var(--color-ink); text-align: left; cursor: pointer; transition: border-color 180ms var(--ease-out), transform 180ms var(--ease-out); }
+.prompt-modal-option:hover, .prompt-modal-option:focus-visible { border-color: var(--color-accent); transform: translateY(-1px); outline: none; }
+.prompt-modal-option[data-copied='true'] { border-color: var(--color-success); }
+.prompt-modal-option-head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); width: 100%; }
+.prompt-modal-option-head strong { font-size: 14px; font-weight: 600; color: var(--color-ink); }
+.prompt-modal-badge { padding: 2px 7px; border-radius: 999px; border: 1px solid var(--color-rule-2); background: var(--color-paper-2); color: var(--color-muted); font-size: 11px; white-space: nowrap; }
+.prompt-modal-option-desc { margin: 0; font-size: 12px; color: var(--color-muted); line-height: 1.45; }
+.prompt-modal-mcp-section { display: flex; flex-direction: column; gap: var(--space-xs); padding-top: var(--space-xs); border-top: 1px solid var(--color-rule); }
+.prompt-modal-mcp-header { display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
+.prompt-modal-mcp-copy { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 10px; font-size: 12px; }
 .mcp-config-pre { margin: 0; padding: var(--space-md); border: 1px solid var(--color-rule); border-radius: 8px; background: var(--color-paper); color: var(--color-ink); font-size: 12px; line-height: 1.5; overflow-x: auto; }
+@media (max-width: 639px) { .prompt-modal-options { grid-template-columns: minmax(0, 1fr); } }
 .card-details-link { flex-shrink: 0; padding: var(--space-2xs) var(--space-2xs); color: var(--color-muted); font-size: 12px; border-radius: 4px; transition: color 180ms var(--ease-out); }
 .card-details-link:hover { color: var(--color-ink); }
 .copy-error { font-size: 12px; color: var(--color-error); }

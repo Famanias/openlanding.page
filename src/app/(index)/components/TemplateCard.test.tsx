@@ -111,17 +111,20 @@ describe("TemplateCard", () => {
     expect(satoyamaHtml).toContain('data-testid="model-tag"');
   });
 
-  it("exposes a menu trigger on the Copy prompt button and renders the MCP setup dialog when open", () => {
+  it("exposes a dialog trigger on the Copy prompt button and renders the centered prompt & MCP modal when open", () => {
     const snoot = TEMPLATES.find((t) => t.slug === "snoot")!;
     const cardHtml = renderToStaticMarkup(<TemplateCard template={snoot} />);
-    expect(cardHtml).toContain('aria-haspopup="menu"');
+    expect(cardHtml).toContain('aria-haspopup="dialog"');
     expect(cardHtml).toContain('aria-expanded="false"');
 
-    const closedDialogHtml = renderToStaticMarkup(<McpSetupDialog open={false} onClose={() => {}} />);
+    const closedDialogHtml = renderToStaticMarkup(<McpSetupDialog open={false} onClose={() => {}} template={snoot} />);
     expect(closedDialogHtml).toBe("");
 
-    const openDialogHtml = renderToStaticMarkup(<McpSetupDialog open={true} onClose={() => {}} />);
+    const openDialogHtml = renderToStaticMarkup(<McpSetupDialog open={true} onClose={() => {}} template={snoot} />);
     expect(openDialogHtml).toContain('role="dialog"');
+    expect(openDialogHtml).toContain("Copy Snoot prompt");
+    expect(openDialogHtml).toContain("Copy code prompt");
+    expect(openDialogHtml).toContain("Copy Webflow prompt");
     expect(openDialogHtml).toContain("https://www.openlanding.page/api/mcp");
     expect(openDialogHtml).toContain("https://mcp.webflow.com/mcp");
     expect(openDialogHtml).toContain("Copy MCP config");
