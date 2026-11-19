@@ -115,12 +115,14 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
           {copyError && <p className="copy-error" role="alert">{copyError}</p>}
         </div>
       </motion.article>
-      <McpSetupDialog
-        open={promptDialogOpen}
-        onClose={() => setPromptDialogOpen(false)}
-        template={template}
-        onCopied={(kind) => setCopiedAction(kind)}
-      />
+      {promptDialogOpen && (
+        <McpSetupDialog
+          open={promptDialogOpen}
+          onClose={() => setPromptDialogOpen(false)}
+          template={template}
+          onCopied={(kind) => setCopiedAction(kind)}
+        />
+      )}
     </>
   );
 }

@@ -30,8 +30,13 @@ export interface McpSetupDialogProps {
 }
 
 export function McpSetupDialog({ open, onClose, template, onCopied }: McpSetupDialogProps) {
+  const [mounted, setMounted] = useState(false);
   const [copiedKind, setCopiedKind] = useState<"prompt" | "webflow" | "mcp" | null>(null);
   const [copyError, setCopyError] = useState("");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -242,7 +247,7 @@ export function McpSetupDialog({ open, onClose, template, onCopied }: McpSetupDi
     </div>
   );
 
-  if (typeof document !== "undefined" && document.body) {
+  if (mounted && typeof document !== "undefined" && document.body) {
     return createPortal(dialogNode, document.body);
   }
   return dialogNode;
