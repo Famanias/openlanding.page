@@ -56,6 +56,30 @@ Create or select a Variable Collection named **`GRANDSTAND Tokens`**, then creat
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `GRANDSTAND` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `grandstand.webp` (image/webp) — https://www.openlanding.page/gallery/grandstand.webp (Gallery preview capture)
+- `01-stage-empty-1600.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/01-stage-empty-1600.avif (Template media asset)
+- `01-stage-empty-1600.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/01-stage-empty-1600.webp (Template media asset)
+- `01-stage-empty-800.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/01-stage-empty-800.avif (Template media asset)
+- `01-stage-empty-800.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/01-stage-empty-800.webp (Template media asset)
+- `02-stage-performance-1600.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/02-stage-performance-1600.avif (Template media asset)
+- `02-stage-performance-1600.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/02-stage-performance-1600.webp (Template media asset)
+- `02-stage-performance-800.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/02-stage-performance-800.avif (Template media asset)
+- `02-stage-performance-800.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/02-stage-performance-800.webp (Template media asset)
+- `03-poster-a-1600.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/03-poster-a-1600.avif (Template media asset)
+- `03-poster-a-1600.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/03-poster-a-1600.webp (Template media asset)
+- `03-poster-a-800.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/03-poster-a-800.avif (Template media asset)
+- `03-poster-a-800.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/03-poster-a-800.webp (Template media asset)
+- `04-poster-b-1600.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/04-poster-b-1600.avif (Template media asset)
+- `04-poster-b-1600.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/04-poster-b-1600.webp (Template media asset)
+- `04-poster-b-800.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/04-poster-b-800.avif (Template media asset)
+- `04-poster-b-800.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/04-poster-b-800.webp (Template media asset)
+- `05-poster-c-1600.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/05-poster-c-1600.avif (Template media asset)
+- `05-poster-c-1600.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/05-poster-c-1600.webp (Template media asset)
+- `05-poster-c-800.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/05-poster-c-800.avif (Template media asset)
+- `05-poster-c-800.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/05-poster-c-800.webp (Template media asset)
+- `06-cast-ensemble-1600.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/06-cast-ensemble-1600.avif (Template media asset)
+- `06-cast-ensemble-1600.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/06-cast-ensemble-1600.webp (Template media asset)
+- `06-cast-ensemble-800.avif` (image/avif) — https://www.openlanding.page/templates/grandstand/06-cast-ensemble-800.avif (Template media asset)
+- `06-cast-ensemble-800.webp` (image/webp) — https://www.openlanding.page/templates/grandstand/06-cast-ensemble-800.webp (Template media asset)
 
 ---
 

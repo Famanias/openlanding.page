@@ -150,6 +150,162 @@
       "publicPath": "https://www.openlanding.page/gallery/waypoint.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "hero-bg-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/hero-bg-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-bg.jpg",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/hero-bg.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-bg.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/hero-bg.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "topographic-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/topographic-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "topographic-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/topographic-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-01-hero-dashboard-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-01-hero-dashboard-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-01-hero-dashboard-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-01-hero-dashboard-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-02-pipeline-board-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-02-pipeline-board-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-02-pipeline-board-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-02-pipeline-board-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-03-candidate-profile-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-03-candidate-profile-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-03-candidate-profile-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-03-candidate-profile-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-04-outreach-workspace-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-04-outreach-workspace-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-04-outreach-workspace-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-04-outreach-workspace-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-05-insights-dashboard-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-05-insights-dashboard-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-05-insights-dashboard-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-05-insights-dashboard-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-06-ui-fragments-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-06-ui-fragments-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-06-ui-fragments-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-06-ui-fragments-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-07-mobile-screens-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-07-mobile-screens-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-07-mobile-screens-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-07-mobile-screens-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-08-topographic-background-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-08-topographic-background-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-08-topographic-background-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-08-topographic-background-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-09-feature-collage-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-09-feature-collage-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-09-feature-collage-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-09-feature-collage-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-10-journal-workspace-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-10-journal-workspace-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "waypoint-10-journal-workspace-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/waypoint/waypoint-10-journal-workspace-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

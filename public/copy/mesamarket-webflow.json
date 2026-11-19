@@ -194,6 +194,390 @@
       "publicPath": "https://www.openlanding.page/gallery/mesamarket.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-produce-tomato-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/01-produce-tomato-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-produce-tomato-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/01-produce-tomato-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-produce-tomato-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/01-produce-tomato-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-produce-tomato-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/01-produce-tomato-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-produce-tomato-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/01-produce-tomato-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-carrot-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/02-carrot-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-carrot-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/02-carrot-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-carrot-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/02-carrot-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-carrot-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/02-carrot-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-carrot-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/02-carrot-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-lemon-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/03-lemon-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-lemon-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/03-lemon-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-lemon-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/03-lemon-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-lemon-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/03-lemon-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-lemon-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/03-lemon-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-kale-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/04-kale-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-kale-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/04-kale-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-kale-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/04-kale-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-kale-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/04-kale-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-kale-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/04-kale-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-pepper-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/05-pepper-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-pepper-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/05-pepper-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-pepper-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/05-pepper-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-pepper-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/05-pepper-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-pepper-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/05-pepper-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-eggplant-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/06-eggplant-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-eggplant-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/06-eggplant-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-eggplant-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/06-eggplant-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-eggplant-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/06-eggplant-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-eggplant-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/06-eggplant-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-apple-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/07-apple-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-apple-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/07-apple-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-apple-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/07-apple-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-apple-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/07-apple-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-apple-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/07-apple-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-bread-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/08-bread-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-bread-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/08-bread-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-bread-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/08-bread-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-bread-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/08-bread-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-bread-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/08-bread-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-kitchen-editorial-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/09-kitchen-editorial-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-kitchen-editorial-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/09-kitchen-editorial-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-kitchen-editorial-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/09-kitchen-editorial-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-kitchen-editorial-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/09-kitchen-editorial-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-kitchen-editorial.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/09-kitchen-editorial.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-grower-portrait-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/10-grower-portrait-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-grower-portrait-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/10-grower-portrait-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-grower-portrait-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/10-grower-portrait-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-grower-portrait-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/10-grower-portrait-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-grower-portrait.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/10-grower-portrait.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "11-market-table-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/11-market-table-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "11-market-table-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/11-market-table-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "11-market-table-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/11-market-table-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "11-market-table-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/11-market-table-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "11-market-table.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/11-market-table.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "12-printed-paper-texture-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/12-printed-paper-texture-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "12-printed-paper-texture-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/12-printed-paper-texture-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "12-printed-paper-texture-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/12-printed-paper-texture-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "12-printed-paper-texture-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/12-printed-paper-texture-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "12-printed-paper-texture.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/12-printed-paper-texture.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "empty-basket_203c86a9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/aistudio/empty-basket_203c86a9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "full-basket_652003f9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/aistudio/full-basket_652003f9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "Mesa_Market_interactive_website___d7f72adb_b9737de3.mp4",
+      "publicPath": "https://www.openlanding.page/templates/mesamarket/aistudio/Mesa_Market_interactive_website___d7f72adb_b9737de3.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
     }
   ],
   "sections": [

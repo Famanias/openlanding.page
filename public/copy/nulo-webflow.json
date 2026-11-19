@@ -116,6 +116,12 @@
       "publicPath": "https://www.openlanding.page/gallery/nulo.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/nulo/preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

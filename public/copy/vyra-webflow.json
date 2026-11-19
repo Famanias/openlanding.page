@@ -81,6 +81,12 @@
       "publicPath": "https://www.openlanding.page/gallery/vyra.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/vyra/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

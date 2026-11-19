@@ -115,6 +115,150 @@
       "publicPath": "https://www.openlanding.page/gallery/grandstand.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-stage-empty-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/01-stage-empty-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-stage-empty-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/01-stage-empty-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-stage-empty-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/01-stage-empty-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-stage-empty-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/01-stage-empty-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-stage-performance-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/02-stage-performance-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-stage-performance-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/02-stage-performance-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-stage-performance-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/02-stage-performance-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-stage-performance-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/02-stage-performance-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-poster-a-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/03-poster-a-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-poster-a-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/03-poster-a-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-poster-a-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/03-poster-a-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-poster-a-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/03-poster-a-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-poster-b-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/04-poster-b-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-poster-b-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/04-poster-b-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-poster-b-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/04-poster-b-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-poster-b-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/04-poster-b-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-poster-c-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/05-poster-c-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-poster-c-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/05-poster-c-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-poster-c-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/05-poster-c-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-poster-c-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/05-poster-c-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-cast-ensemble-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/06-cast-ensemble-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-cast-ensemble-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/06-cast-ensemble-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-cast-ensemble-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/06-cast-ensemble-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-cast-ensemble-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/grandstand/06-cast-ensemble-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

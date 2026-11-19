@@ -70,6 +70,156 @@
       "publicPath": "https://www.openlanding.page/gallery/glyphwork.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "distilled-applications.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-applications.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distilled-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distilled-inspector.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-inspector.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distilled-licensing.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/distilled-licensing.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187736465_ab07586f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187736465_ab07586f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187738679_e92b5440.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187738679_e92b5440.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187740876_ff5d99c6.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187740876_ff5d99c6.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794187741796_a2822c8e.jpg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/media_1794187741796_a2822c8e.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-desktop-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-inspector.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-desktop-inspector.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r1-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-applications.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-desktop-applications.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-desktop-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-final-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/r2-final-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-application-poster.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/02-application-poster.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-application-packaging.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/03-application-packaging.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-reference.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/footer-reference.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glyph-specimen.svg",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/glyph-specimen.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "header-reference.webp",
+      "publicPath": "https://www.openlanding.page/templates/glyphwork/glyphwork/header-reference.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-application-poster.webp",
+      "publicPath": "https://www.openlanding.page/assets/glyphwork/02-application-poster.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-application-packaging.webp",
+      "publicPath": "https://www.openlanding.page/assets/glyphwork/03-application-packaging.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glyph-specimen.svg",
+      "publicPath": "https://www.openlanding.page/assets/glyphwork/glyph-specimen.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

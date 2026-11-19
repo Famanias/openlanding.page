@@ -85,6 +85,12 @@
       "publicPath": "https://www.openlanding.page/gallery/trace.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "trace-preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/trace/trace-preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

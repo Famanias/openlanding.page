@@ -117,6 +117,624 @@
       "publicPath": "https://www.openlanding.page/gallery/zeno.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "auren-world.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/auren-world.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "auren-world.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/auren-world.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campaign-print.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/campaign-print.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campaign-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/campaign-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cta-ring.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/cta-ring.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cta-ring.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/cta-ring.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "digital-print.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/digital-print.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "digital-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/digital-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-collage.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/hero-collage.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-collage.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/hero-collage.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "identity-print.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/identity-print.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "identity-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/identity-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692736536_faa4a568.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692736536_faa4a568.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692741870_9995cbe0.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692741870_9995cbe0.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692744032_8dd53415.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692744032_8dd53415.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692746817_774444fa.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692746817_774444fa.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692806198_7bae21fb.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692806198_7bae21fb.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692808207_e964e35f.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692808207_e964e35f.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692808891_68a2a0b0.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692808891_68a2a0b0.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692822562_3f742711.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692822562_3f742711.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692842513_9f7848c9.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692842513_9f7848c9.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692844916_f5a7ba41.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692844916_f5a7ba41.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793692847344_7e383ab8.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793692847344_7e383ab8.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793693681895_3781ffd2.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793693681895_3781ffd2.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793693685732_e1b563bc.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793693685732_e1b563bc.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793693689555_eb14afb9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793693689555_eb14afb9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793693692882_0388506f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793693692882_0388506f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793694070858_248d4572.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793694070858_248d4572.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793694094703_caa55c5c.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793694094703_caa55c5c.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793694104020_fc13c804.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793694104020_fc13c804.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793696104241_41d1be5b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793696104241_41d1be5b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793696108516_7e108d14.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793696108516_7e108d14.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793696111923_27067d73.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793696111923_27067d73.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793696115266_dc0ea12e.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793696115266_dc0ea12e.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793696388052_64af15b7.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793696388052_64af15b7.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793696390115_6d3c94c1.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793696390115_6d3c94c1.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698311501_c22f0b2b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698311501_c22f0b2b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698314402_62528b40.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698314402_62528b40.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698317408_76d037b9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698317408_76d037b9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698401291_eddb893d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698401291_eddb893d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698403383_68c4aaa1.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698403383_68c4aaa1.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698526601_2138b5cd.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698526601_2138b5cd.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698534023_438244e2.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698534023_438244e2.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698535520_5ebd116b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698535520_5ebd116b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698689526_e72365b5.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698689526_e72365b5.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698694491_ee31bdfe.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793698694491_ee31bdfe.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703243518_32e2898d.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703243518_32e2898d.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703243721_833a9f2e.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703243721_833a9f2e.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703244232_0ad36bba.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703244232_0ad36bba.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703245036_4e45632d.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703245036_4e45632d.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703268938_9eb639fa.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703268938_9eb639fa.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703270339_eda3d8bf.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703270339_eda3d8bf.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703272785_31e28966.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703272785_31e28966.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703661039_514d6738.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703661039_514d6738.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703661475_0d679ec3.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703661475_0d679ec3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703663363_270ca0ca.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703663363_270ca0ca.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703664169_adae0704.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703664169_adae0704.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703718176_072e204a.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703718176_072e204a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703719364_9d98e88d.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703719364_9d98e88d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703723646_628824dc.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703723646_628824dc.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703723861_ea74a50d.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703723861_ea74a50d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703872809_df6d1da8.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703872809_df6d1da8.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703874706_09b384e1.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703874706_09b384e1.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703876385_355de175.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703876385_355de175.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793703878367_4bad5a12.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793703878367_4bad5a12.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704378679_a7f4f04d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704378679_a7f4f04d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704380449_8e0cfe5a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704380449_8e0cfe5a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704383876_16714455.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704383876_16714455.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704384627_9e799453.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704384627_9e799453.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704386469_141e5465.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704386469_141e5465.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704599045_92c0fb53.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704599045_92c0fb53.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704601003_01441b8f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704601003_01441b8f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793704602478_8b8bc6e8.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793704602478_8b8bc6e8.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705474834_ad42ee0d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793705474834_ad42ee0d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705544728_86f41e14.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793705544728_86f41e14.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705546892_ee8b564a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793705546892_ee8b564a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793706316247_0193c17f.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793706316247_0193c17f.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793706506335_be7bc52a.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793706506335_be7bc52a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793706594412_22afca84.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793706594412_22afca84.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793706709598_b3482dae.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/media_1793706709598_b3482dae.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morrow-world.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/morrow-world.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morrow-world.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/morrow-world.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "paradox-favicon.svg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/paradox-favicon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strategy-print.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/strategy-print.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strategy-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/strategy-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_20f3d984.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/aistudio/image_20f3d984.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_3e330ed4.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/aistudio/image_3e330ed4.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_3f56723c.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/aistudio/image_3f56723c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_dc8eac79.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/aistudio/image_dc8eac79.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_e834aa19.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/aistudio/image_e834aa19.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_f8840bc1.png",
+      "publicPath": "https://www.openlanding.page/templates/zeno/aistudio/image_f8840bc1.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "auren-world.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/auren-world.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campaign-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/campaign-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "digital-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/digital-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-collage.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/hero-collage.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "identity-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/identity-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morrow-world.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/morrow-world.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strategy-print.webp",
+      "publicPath": "https://www.openlanding.page/templates/zeno/crops/strategy-print.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zeno-contact-reference.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/reference/zeno-contact-reference.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zeno-expertise-reference.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/reference/zeno-expertise-reference.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zeno-hero-reference.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/reference/zeno-hero-reference.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zeno-work-reference.jpg",
+      "publicPath": "https://www.openlanding.page/templates/zeno/reference/zeno-work-reference.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
     }
   ],
   "sections": [

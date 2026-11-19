@@ -92,6 +92,15 @@ Create or select a Variable Collection named **`LOAM Tokens`**, then create thes
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `LOAM` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `loam.webp` (image/webp) — https://www.openlanding.page/gallery/loam.webp (Gallery preview capture)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/loam/preview-1600.webp (Template media asset)
+- `material-top.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/material-top.webp (Template media asset)
+- `material-underside-and-cut-edge.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/material-underside-and-cut-edge.webp (Template media asset)
+- `mushroom-from-above.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/mushroom-from-above.webp (Template media asset)
+- `mushroom-from-below.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/mushroom-from-below.webp (Template media asset)
+- `mushroom-front.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/mushroom-front.webp (Template media asset)
+- `mushroom-side.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/mushroom-side.webp (Template media asset)
+- `mycelium-clump-back.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/mycelium-clump-back.webp (Template media asset)
+- `mycelium-clump-front.webp` (image/webp) — https://www.openlanding.page/templates/loam/references/mycelium-clump-front.webp (Template media asset)
 
 ---
 

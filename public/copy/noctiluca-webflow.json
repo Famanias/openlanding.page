@@ -152,6 +152,156 @@
       "publicPath": "https://www.openlanding.page/gallery/noctiluca.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "alpenglow-peaks-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "alpenglow-peaks-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "alpenglow-peaks-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "alpenglow-peaks-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurora-tromso-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/aurora-tromso-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "blue-hour-tagus-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/building-exterior-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/noctiluca-shore-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "exterior-dusk-loop-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/exterior-dusk-loop-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "exterior-dusk-loop.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/exterior-dusk-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-loop-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/noctiluca-shore-loop-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noctiluca-shore-loop.mp4",
+      "publicPath": "https://www.openlanding.page/templates/noctiluca/clips/noctiluca-shore-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
     }
   ],
   "sections": [

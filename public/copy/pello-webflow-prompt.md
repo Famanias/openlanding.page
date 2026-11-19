@@ -51,6 +51,27 @@ Create or select a Variable Collection named **`Pello Tokens`**, then create the
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Pello` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `pello.webp` (image/webp) — https://www.openlanding.page/gallery/pello.webp (Gallery preview capture)
+- `everyday-market-1600.avif` (image/avif) — https://www.openlanding.page/templates/pello/everyday-market-1600.avif (Template media asset)
+- `everyday-market-1600.webp` (image/webp) — https://www.openlanding.page/templates/pello/everyday-market-1600.webp (Template media asset)
+- `everyday-market-800.avif` (image/avif) — https://www.openlanding.page/templates/pello/everyday-market-800.avif (Template media asset)
+- `everyday-market-800.webp` (image/webp) — https://www.openlanding.page/templates/pello/everyday-market-800.webp (Template media asset)
+- `hero-phone-plum-1600.avif` (image/avif) — https://www.openlanding.page/templates/pello/hero-phone-plum-1600.avif (Template media asset)
+- `hero-phone-plum-1600.webp` (image/webp) — https://www.openlanding.page/templates/pello/hero-phone-plum-1600.webp (Template media asset)
+- `hero-phone-plum-800.avif` (image/avif) — https://www.openlanding.page/templates/pello/hero-phone-plum-800.avif (Template media asset)
+- `hero-phone-plum-800.webp` (image/webp) — https://www.openlanding.page/templates/pello/hero-phone-plum-800.webp (Template media asset)
+- `life-panorama-1600.avif` (image/avif) — https://www.openlanding.page/templates/pello/life-panorama-1600.avif (Template media asset)
+- `life-panorama-1600.webp` (image/webp) — https://www.openlanding.page/templates/pello/life-panorama-1600.webp (Template media asset)
+- `life-panorama-800.avif` (image/avif) — https://www.openlanding.page/templates/pello/life-panorama-800.avif (Template media asset)
+- `life-panorama-800.webp` (image/webp) — https://www.openlanding.page/templates/pello/life-panorama-800.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/pello/preview-1600.webp (Template media asset)
+- `rainy-morning-1600.avif` (image/avif) — https://www.openlanding.page/templates/pello/rainy-morning-1600.avif (Template media asset)
+- `rainy-morning-1600.webp` (image/webp) — https://www.openlanding.page/templates/pello/rainy-morning-1600.webp (Template media asset)
+- `rainy-morning-800.avif` (image/avif) — https://www.openlanding.page/templates/pello/rainy-morning-800.avif (Template media asset)
+- `rainy-morning-800.webp` (image/webp) — https://www.openlanding.page/templates/pello/rainy-morning-800.webp (Template media asset)
+- `weekend-cove-1600.avif` (image/avif) — https://www.openlanding.page/templates/pello/weekend-cove-1600.avif (Template media asset)
+- `weekend-cove-1600.webp` (image/webp) — https://www.openlanding.page/templates/pello/weekend-cove-1600.webp (Template media asset)
+- `weekend-cove-800.avif` (image/avif) — https://www.openlanding.page/templates/pello/weekend-cove-800.avif (Template media asset)
+- `weekend-cove-800.webp` (image/webp) — https://www.openlanding.page/templates/pello/weekend-cove-800.webp (Template media asset)
 
 ---
 

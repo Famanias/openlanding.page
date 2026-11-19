@@ -128,6 +128,30 @@
       "publicPath": "https://www.openlanding.page/gallery/mizunowa.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "garden-map.svg",
+      "publicPath": "https://www.openlanding.page/templates/mizunowa/garden-map.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-pond.webp",
+      "publicPath": "https://www.openlanding.page/templates/mizunowa/hero-pond.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pond-poster.svg",
+      "publicPath": "https://www.openlanding.page/templates/mizunowa/pond-poster.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/mizunowa/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

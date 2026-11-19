@@ -403,6 +403,12 @@
       "publicPath": "https://www.openlanding.page/gallery/openhouse.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/openhouse/preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

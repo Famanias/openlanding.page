@@ -91,6 +91,126 @@
       "publicPath": "https://www.openlanding.page/gallery/afterwalk.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "hero-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/hero-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/hero-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/hero-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/hero-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "together-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/together-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "together-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/together-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "together-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/together-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "together-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/together-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-park-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-park-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-park-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-park-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-park-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-park-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-park-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-park-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-river-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-river-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-river-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-river-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-river-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-river-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-river-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-river-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-sunset-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-sunset-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-sunset-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-sunset-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-sunset-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-sunset-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "walk-sunset-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/afterwalk/walk-sunset-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

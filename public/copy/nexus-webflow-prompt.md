@@ -65,6 +65,15 @@ Create or select a Variable Collection named **`nexus Tokens`**, then create the
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `nexus` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `nexus.webp` (image/webp) — https://www.openlanding.page/gallery/nexus.webp (Gallery preview capture)
+- `clay-cluster.webp` (image/webp) — https://www.openlanding.page/templates/nexus/clay-cluster.webp (Template media asset)
+- `clay-flower.webp` (image/webp) — https://www.openlanding.page/templates/nexus/clay-flower.webp (Template media asset)
+- `image_75b2d474.png` (image/png) — https://www.openlanding.page/templates/nexus/image_75b2d474.png (Template media asset)
+- `image_a2e09f4a.png` (image/png) — https://www.openlanding.page/templates/nexus/image_a2e09f4a.png (Template media asset)
+- `marketer.webp` (image/webp) — https://www.openlanding.page/templates/nexus/marketer.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/nexus/preview-1600.webp (Template media asset)
+- `preview-source.png` (image/png) — https://www.openlanding.page/templates/nexus/preview-source.png (Template media asset)
+- `image_75b2d474.png` (image/png) — https://www.openlanding.page/templates/nexus/assets/aistudio/image_75b2d474.png (Template media asset)
+- `image_a2e09f4a.png` (image/png) — https://www.openlanding.page/templates/nexus/assets/aistudio/image_a2e09f4a.png (Template media asset)
 
 ---
 

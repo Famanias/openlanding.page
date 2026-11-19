@@ -90,6 +90,186 @@
       "publicPath": "https://www.openlanding.page/gallery/orbitbeyond.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-hero-lunar-clean.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/01-hero-lunar-clean.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-hero-lunar-loop.mp4",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/02-hero-lunar-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-orbital-transit.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/03-orbital-transit.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-habitat-interior.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/04-habitat-interior.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-lunar-rover-excursion.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/05-lunar-rover-excursion.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-final-earthrise.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/06-final-earthrise.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-habitat.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r1-desktop-habitat.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r1-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-mission-dialog.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r1-desktop-mission-dialog.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r2-desktop-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-habitat.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r2-desktop-habitat.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-mission-dialog.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r2-desktop-mission-dialog.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r2-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r3-distilled-configurator.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r3-distilled-configurator.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r3-distilled-departure.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r3-distilled-departure.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r3-distilled-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r3-distilled-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r3-distilled-itinerary.png",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/r3-distilled-itinerary.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-hero-lunar-clean_aa0f5b13.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/aistudio/01-hero-lunar-clean_aa0f5b13.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-hero-lunar-loop_02ea134e.mp4",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/aistudio/02-hero-lunar-loop_02ea134e.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-orbital-transit_3879d1c7.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/aistudio/03-orbital-transit_3879d1c7.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-habitat-interior_d26fa52a.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/aistudio/04-habitat-interior_d26fa52a.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-lunar-rover-excursion_c3aea05b.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/aistudio/05-lunar-rover-excursion_c3aea05b.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-final-earthrise_1a1f1a18.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/aistudio/06-final-earthrise_1a1f1a18.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-hero-lunar-clean.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/orbit-beyond/01-hero-lunar-clean.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-hero-lunar-loop.mp4",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/orbit-beyond/02-hero-lunar-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-orbital-transit.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/orbit-beyond/03-orbital-transit.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-habitat-interior.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/orbit-beyond/04-habitat-interior.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-lunar-rover-excursion.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/orbit-beyond/05-lunar-rover-excursion.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-final-earthrise.webp",
+      "publicPath": "https://www.openlanding.page/templates/orbitbeyond/orbit-beyond/06-final-earthrise.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

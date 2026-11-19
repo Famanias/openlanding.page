@@ -620,6 +620,18 @@
       "publicPath": "https://www.openlanding.page/gallery/nomi.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/nomi/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nomi/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

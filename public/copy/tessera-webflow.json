@@ -91,6 +91,36 @@
       "publicPath": "https://www.openlanding.page/gallery/tessera.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "atrium_installation_hero_1794380180899.jpg",
+      "publicPath": "https://www.openlanding.page/templates/tessera/atrium_installation_hero_1794380180899.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "material_atelier_craft_1794380184347.jpg",
+      "publicPath": "https://www.openlanding.page/templates/tessera/material_atelier_craft_1794380184347.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "oslo_chamber_project_1794380181917.jpg",
+      "publicPath": "https://www.openlanding.page/templates/tessera/oslo_chamber_project_1794380181917.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tessera/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zurich_kunsthalle_project_1794380183581.jpg",
+      "publicPath": "https://www.openlanding.page/templates/tessera/zurich_kunsthalle_project_1794380183581.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
     }
   ],
   "sections": [

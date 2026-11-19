@@ -52,6 +52,54 @@
       "publicPath": "https://www.openlanding.page/gallery/morta.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "morta-bespoke.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-bespoke.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-craft.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-craft.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-footer-cathedral.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-footer-cathedral.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-hero.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-hero.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-reliquary-ring.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-reliquary-ring.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-thorn-pendant.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-thorn-pendant.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "morta-vigil-earrings.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/morta-vigil-earrings.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/morta/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

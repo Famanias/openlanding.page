@@ -167,6 +167,60 @@
       "publicPath": "https://www.openlanding.page/gallery/nexus.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "clay-cluster.webp",
+      "publicPath": "https://www.openlanding.page/templates/nexus/clay-cluster.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "clay-flower.webp",
+      "publicPath": "https://www.openlanding.page/templates/nexus/clay-flower.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_75b2d474.png",
+      "publicPath": "https://www.openlanding.page/templates/nexus/image_75b2d474.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_a2e09f4a.png",
+      "publicPath": "https://www.openlanding.page/templates/nexus/image_a2e09f4a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "marketer.webp",
+      "publicPath": "https://www.openlanding.page/templates/nexus/marketer.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nexus/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-source.png",
+      "publicPath": "https://www.openlanding.page/templates/nexus/preview-source.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_75b2d474.png",
+      "publicPath": "https://www.openlanding.page/templates/nexus/assets/aistudio/image_75b2d474.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_a2e09f4a.png",
+      "publicPath": "https://www.openlanding.page/templates/nexus/assets/aistudio/image_a2e09f4a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

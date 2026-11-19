@@ -104,6 +104,12 @@
       "publicPath": "https://www.openlanding.page/gallery/volume-zero.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.svg",
+      "publicPath": "https://www.openlanding.page/templates/volume-zero/preview-1600.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

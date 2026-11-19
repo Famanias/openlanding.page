@@ -86,6 +86,24 @@
       "publicPath": "https://www.openlanding.page/gallery/loophouse.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/loophouse/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loophouse-preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/loophouse/loophouse-preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/loophouse/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

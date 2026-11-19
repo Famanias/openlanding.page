@@ -116,6 +116,60 @@
       "publicPath": "https://www.openlanding.page/gallery/tourne.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "potter-hana-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-hana-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-hana-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-hana-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-hana-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-hana-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-hana-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-hana-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-teo-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-teo-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-teo-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-teo-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-teo-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-teo-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "potter-teo-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tourne/potter-teo-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tourne/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

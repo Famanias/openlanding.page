@@ -121,6 +121,162 @@
       "publicPath": "https://www.openlanding.page/gallery/poppypatch.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "cutout-coral-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-coral-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-cream-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-cream-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-gardener.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-gardener.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lilac-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-lilac-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lower-coral.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-lower-coral.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-side-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutout-side-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-kit-main.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/hero-kit-main.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-first-sprout.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/kit-first-sprout.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-kitchen-garden.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/kit-kitchen-garden.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-oyster-party.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/kit-oyster-party.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "logo-mushroom.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/logo-mushroom.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stamp-grow-happy.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/stamp-grow-happy.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-coral-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-coral-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-cream-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-cream-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-gardener.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-gardener.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lilac-mushrooms.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-lilac-mushrooms.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-lower-coral.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-lower-coral.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cutout-side-oysters.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/cutout-side-oysters.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-kit-main.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/hero-kit-main.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-first-sprout.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/kit-first-sprout.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-kitchen-garden.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/kit-kitchen-garden.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kit-oyster-party.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/kit-oyster-party.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "logo-mushroom.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/logo-mushroom.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stamp-grow-happy.png",
+      "publicPath": "https://www.openlanding.page/templates/poppypatch/cutouts/stamp-grow-happy.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

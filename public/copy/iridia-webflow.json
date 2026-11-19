@@ -145,6 +145,204 @@
       "publicPath": "https://www.openlanding.page/gallery/iridia.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "chamber-dispersion-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-dispersion-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-dispersion-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-dispersion-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-dispersion-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-interference-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-interference-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chamber-refraction-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/chamber-refraction-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-prism-monolith-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/hero-prism-monolith-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-basel-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-basel-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-kyoto-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-kyoto-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "installation-reykjavik-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/installation-reykjavik-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "layer-substrate-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/layer-substrate-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/iridia/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

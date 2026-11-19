@@ -55,6 +55,17 @@ Create or select a Variable Collection named **`PENUMBRA Tokens`**, then create 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `PENUMBRA` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `penumbra.webp` (image/webp) — https://www.openlanding.page/gallery/penumbra.webp (Gallery preview capture)
+- `architecture-base.webp` (image/webp) — https://www.openlanding.page/templates/penumbra/architecture-base.webp (Template media asset)
+- `architecture-illuminated.webp` (image/webp) — https://www.openlanding.page/templates/penumbra/architecture-illuminated.webp (Template media asset)
+- `media_1793712887880_2079312c.jpg` (image/jpeg) — https://www.openlanding.page/templates/penumbra/media_1793712887880_2079312c.jpg (Template media asset)
+- `media_1793712891049_9b3ee09d.jpg` (image/jpeg) — https://www.openlanding.page/templates/penumbra/media_1793712891049_9b3ee09d.jpg (Template media asset)
+- `media_1793712895877_5c2db63b.jpg` (image/jpeg) — https://www.openlanding.page/templates/penumbra/media_1793712895877_5c2db63b.jpg (Template media asset)
+- `media_1793712998087_6e90a1f5.jpg` (image/jpeg) — https://www.openlanding.page/templates/penumbra/media_1793712998087_6e90a1f5.jpg (Template media asset)
+- `media_1793713001160_45215e56.jpg` (image/jpeg) — https://www.openlanding.page/templates/penumbra/media_1793713001160_45215e56.jpg (Template media asset)
+- `media_1793713005948_825ebe4b.jpg` (image/jpeg) — https://www.openlanding.page/templates/penumbra/media_1793713005948_825ebe4b.jpg (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/penumbra/preview-1600.webp (Template media asset)
+- `architecture-base_a79a3e0f.webp` (image/webp) — https://www.openlanding.page/templates/penumbra/aistudio/architecture-base_a79a3e0f.webp (Template media asset)
+- `architecture-illuminated_3b7655d4.webp` (image/webp) — https://www.openlanding.page/templates/penumbra/aistudio/architecture-illuminated_3b7655d4.webp (Template media asset)
 
 ---
 

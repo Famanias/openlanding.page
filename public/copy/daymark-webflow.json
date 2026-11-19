@@ -51,6 +51,36 @@
       "publicPath": "https://www.openlanding.page/gallery/daymark.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-home-hero.webp",
+      "publicPath": "https://www.openlanding.page/assets/daymark/01-home-hero.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-roof-aerial.webp",
+      "publicPath": "https://www.openlanding.page/assets/daymark/02-roof-aerial.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-solar-detail.webp",
+      "publicPath": "https://www.openlanding.page/assets/daymark/03-solar-detail.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-site-visit.webp",
+      "publicPath": "https://www.openlanding.page/assets/daymark/04-site-visit.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-evening-house.webp",
+      "publicPath": "https://www.openlanding.page/assets/daymark/05-evening-house.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

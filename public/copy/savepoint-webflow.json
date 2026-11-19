@@ -103,6 +103,1134 @@
       "publicPath": "https://www.openlanding.page/gallery/savepoint.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "cartridge-shell-front.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/cartridge-shell-front.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cartridge-shell-rear.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/cartridge-shell-rear.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cartridge-shell-three-quarter.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/cartridge-shell-three-quarter.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "deck-01-front.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/deck-01-front.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "deck-01-slot-detail.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/deck-01-slot-detail.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "deck-01-three-quarter.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/deck-01-three-quarter.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-deck-wide.jpg",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/footer-deck-wide.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-deck-wide.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/footer-deck-wide.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-dead-channel.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-dead-channel.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-deep-current.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-deep-current.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-ghost-frequency.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-ghost-frequency.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-lost-signal.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-lost-signal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-moon-relay.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-moon-relay.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-mossheart.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-mossheart.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-neon-ruins.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-neon-ruins.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-paper-kingdom.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-paper-kingdom.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-sunken-arcade.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-sunken-arcade.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "label-turbo-saints.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/label-turbo-saints.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-dead-channel.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-dead-channel.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-deep-current.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-deep-current.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-ghost-frequency.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-ghost-frequency.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-lost-signal.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-lost-signal.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-moon-relay.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-moon-relay.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-mossheart.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-mossheart.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-neon-ruins.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-neon-ruins.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-paper-kingdom.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-paper-kingdom.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-sunken-arcade.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-sunken-arcade.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "world-turbo-saints.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/world-turbo-saints.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-archive-1366.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-archive-1366.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-archive-1920.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-archive-1920.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-archive-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-archive-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-aligning.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-aligning.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-booting.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-booting.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-game-detail.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-game-detail.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-mobile-screen-expanding.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/final-mobile-screen-expanding.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/glass.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "polymer.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/polymer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_albedo.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_albedo.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_ao.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_ao.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_height.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_height.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_normal.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_normal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass_roughness.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/glass/glass_roughness.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_albedo.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_albedo.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_ao.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_ao.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_height.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_height.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_normal.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_normal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "base_roughness.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/pbr/polymer/base_roughness.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hardware-slot-guide.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hardware-slot-guide.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hardware-wireframe.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hardware-wireframe.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/hero-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "index-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/index-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manifest-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/manifest-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "site-footer-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/site-footer-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-1024.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-1024.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-1366.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-1366.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-1920.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-1920.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-390.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-390.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "the-deck-768.webp",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/milestone-6/the-deck-768.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/blockout/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/form-refinement/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/interaction-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/lighting-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/material-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/optimization-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/structural-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/cartridge/surface-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/blockout/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/form-refinement/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/interaction-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/lighting-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/material-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/optimization-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/structural-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "0.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "180.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/180.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "270.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "90.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/90.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "comparison.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/comparison.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "small-35.png",
+      "publicPath": "https://www.openlanding.page/templates/savepoint/verification/deck/surface-pass/small-35.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

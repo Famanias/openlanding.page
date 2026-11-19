@@ -47,6 +47,11 @@ Create or select a Variable Collection named **`DAYMARK Tokens`**, then create t
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `DAYMARK` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `daymark.webp` (image/webp) — https://www.openlanding.page/gallery/daymark.webp (Gallery preview capture)
+- `01-home-hero.webp` (image/webp) — https://www.openlanding.page/assets/daymark/01-home-hero.webp (Template media asset)
+- `02-roof-aerial.webp` (image/webp) — https://www.openlanding.page/assets/daymark/02-roof-aerial.webp (Template media asset)
+- `03-solar-detail.webp` (image/webp) — https://www.openlanding.page/assets/daymark/03-solar-detail.webp (Template media asset)
+- `04-site-visit.webp` (image/webp) — https://www.openlanding.page/assets/daymark/04-site-visit.webp (Template media asset)
+- `05-evening-house.webp` (image/webp) — https://www.openlanding.page/assets/daymark/05-evening-house.webp (Template media asset)
 
 ---
 

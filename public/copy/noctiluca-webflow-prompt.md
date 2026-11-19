@@ -61,6 +61,31 @@ Create or select a Variable Collection named **`Noctiluca Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Noctiluca` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `noctiluca.webp` (image/webp) — https://www.openlanding.page/gallery/noctiluca.webp (Gallery preview capture)
+- `alpenglow-peaks-1600.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-1600.avif (Template media asset)
+- `alpenglow-peaks-1600.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-1600.webp (Template media asset)
+- `alpenglow-peaks-800.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-800.avif (Template media asset)
+- `alpenglow-peaks-800.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/alpenglow-peaks-800.webp (Template media asset)
+- `aurora-tromso-1600.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/aurora-tromso-1600.avif (Template media asset)
+- `aurora-tromso-1600.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/aurora-tromso-1600.webp (Template media asset)
+- `aurora-tromso-800.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/aurora-tromso-800.avif (Template media asset)
+- `aurora-tromso-800.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/aurora-tromso-800.webp (Template media asset)
+- `blue-hour-tagus-1600.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-1600.avif (Template media asset)
+- `blue-hour-tagus-1600.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-1600.webp (Template media asset)
+- `blue-hour-tagus-800.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-800.avif (Template media asset)
+- `blue-hour-tagus-800.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/blue-hour-tagus-800.webp (Template media asset)
+- `building-exterior-1600.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/building-exterior-1600.avif (Template media asset)
+- `building-exterior-1600.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/building-exterior-1600.webp (Template media asset)
+- `building-exterior-800.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/building-exterior-800.avif (Template media asset)
+- `building-exterior-800.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/building-exterior-800.webp (Template media asset)
+- `noctiluca-shore-1600.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/noctiluca-shore-1600.avif (Template media asset)
+- `noctiluca-shore-1600.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/noctiluca-shore-1600.webp (Template media asset)
+- `noctiluca-shore-800.avif` (image/avif) — https://www.openlanding.page/templates/noctiluca/noctiluca-shore-800.avif (Template media asset)
+- `noctiluca-shore-800.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/noctiluca-shore-800.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/noctiluca/preview-1600.webp (Template media asset)
+- `exterior-dusk-loop-m.mp4` (video/mp4) — https://www.openlanding.page/templates/noctiluca/clips/exterior-dusk-loop-m.mp4 (Template media asset)
+- `exterior-dusk-loop.mp4` (video/mp4) — https://www.openlanding.page/templates/noctiluca/clips/exterior-dusk-loop.mp4 (Template media asset)
+- `noctiluca-shore-loop-m.mp4` (video/mp4) — https://www.openlanding.page/templates/noctiluca/clips/noctiluca-shore-loop-m.mp4 (Template media asset)
+- `noctiluca-shore-loop.mp4` (video/mp4) — https://www.openlanding.page/templates/noctiluca/clips/noctiluca-shore-loop.mp4 (Template media asset)
 
 ---
 

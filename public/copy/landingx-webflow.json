@@ -85,6 +85,204 @@
       "publicPath": "https://www.openlanding.page/gallery/landingx.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "footer-background-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/footer-background-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-background-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/footer-background-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-background-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/footer-background-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-background-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/footer-background-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-background-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/hero-background-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-background-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/hero-background-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-background-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/hero-background-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-background-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/hero-background-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-avel-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-avel-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-avel-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-avel-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-avel-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-avel-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-avel-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-avel-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-firstday-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-firstday-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-firstday-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-firstday-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-firstday-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-firstday-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-firstday-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-firstday-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-hiyas-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-hiyas-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-hiyas-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-hiyas-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-hiyas-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-hiyas-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-hiyas-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-hiyas-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-pello-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-pello-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-pello-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-pello-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-pello-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-pello-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-pello-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-pello-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-rill-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-rill-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-rill-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-rill-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-rill-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-rill-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-rill-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-rill-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-satsuma-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-satsuma-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-satsuma-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-satsuma-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-satsuma-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-satsuma-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "work-satsuma-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/landingx/work-satsuma-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

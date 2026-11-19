@@ -110,6 +110,18 @@
       "publicPath": "https://www.openlanding.page/gallery/bathys.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "hero-submersible-descent-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/bathys/hero-submersible-descent-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-submersible-descent-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/bathys/hero-submersible-descent-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

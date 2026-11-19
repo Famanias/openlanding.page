@@ -64,6 +64,15 @@ Create or select a Variable Collection named **`CALDER & ROWE Tokens`**, then cr
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `CALDER & ROWE` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `calder.webp` (image/webp) — https://www.openlanding.page/gallery/calder.webp (Gallery preview capture)
+- `partner-calder-1600.avif` (image/avif) — https://www.openlanding.page/templates/calder/partner-calder-1600.avif (Template media asset)
+- `partner-calder-1600.webp` (image/webp) — https://www.openlanding.page/templates/calder/partner-calder-1600.webp (Template media asset)
+- `partner-calder-800.avif` (image/avif) — https://www.openlanding.page/templates/calder/partner-calder-800.avif (Template media asset)
+- `partner-calder-800.webp` (image/webp) — https://www.openlanding.page/templates/calder/partner-calder-800.webp (Template media asset)
+- `partner-rowe-1600.avif` (image/avif) — https://www.openlanding.page/templates/calder/partner-rowe-1600.avif (Template media asset)
+- `partner-rowe-1600.webp` (image/webp) — https://www.openlanding.page/templates/calder/partner-rowe-1600.webp (Template media asset)
+- `partner-rowe-800.avif` (image/avif) — https://www.openlanding.page/templates/calder/partner-rowe-800.avif (Template media asset)
+- `partner-rowe-800.webp` (image/webp) — https://www.openlanding.page/templates/calder/partner-rowe-800.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/calder/preview-1600.webp (Template media asset)
 
 ---
 

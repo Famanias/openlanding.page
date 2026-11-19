@@ -85,6 +85,96 @@
       "publicPath": "https://www.openlanding.page/gallery/aerune.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "building-at-dusk-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aerune/building-at-dusk-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-at-dusk-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/building-at-dusk-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-at-dusk-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aerune/building-at-dusk-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-at-dusk-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/building-at-dusk-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-atmosphere-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/footer-atmosphere-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-atmosphere-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/footer-atmosphere-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-atmosphere-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aerune/hero-atmosphere-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-atmosphere-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/hero-atmosphere-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-atmosphere-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aerune/hero-atmosphere-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-atmosphere-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/hero-atmosphere-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sensor-detail-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aerune/sensor-detail-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sensor-detail-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/sensor-detail-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sensor-detail-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aerune/sensor-detail-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sensor-detail-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aerune/sensor-detail-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

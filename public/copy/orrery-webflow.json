@@ -110,6 +110,198 @@
       "publicPath": "https://www.openlanding.page/gallery/orrery.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "og-base-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/og-base-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/og-base-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/og-base-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/og-base-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "problem-single-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/problem-single-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "problem-single-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/problem-single-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "problem-single-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/problem-single-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "problem-single-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/problem-single-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quote-texture-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/quote-texture-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quote-texture-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/quote-texture-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quote-texture-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/quote-texture-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quote-texture-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/quote-texture-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "security-texture-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/security-texture-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "security-texture-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/security-texture-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "security-texture-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/security-texture-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "security-texture-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/security-texture-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "title-orbits-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/title-orbits-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "title-orbits-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/title-orbits-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "title-orbits-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/title-orbits-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "title-orbits-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/title-orbits-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-1-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-1-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-1-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-1-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-1-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-1-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-1-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-1-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-3-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-3-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-3-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-3-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-3-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-3-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "usecase-3-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/orrery/usecase-3-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

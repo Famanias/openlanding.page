@@ -92,6 +92,228 @@
       "publicPath": "https://www.openlanding.page/gallery/nightline.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "cabin-berth-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-berth-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-berth-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-berth-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-berth-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-berth-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-berth-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-berth-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-couchette-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-couchette-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-couchette-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-couchette-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-couchette-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-couchette-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-couchette-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-couchette-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-sleeper-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-sleeper-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-sleeper-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-sleeper-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-sleeper-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-sleeper-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-sleeper-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/cabin-sleeper-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dawn-platform-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/dawn-platform-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dawn-platform-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/dawn-platform-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dawn-platform-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/dawn-platform-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dawn-platform-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/dawn-platform-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-night-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/footer-night-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-night-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/footer-night-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-night-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/footer-night-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-night-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/footer-night-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "midnight-service-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/midnight-service-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "midnight-service-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/midnight-service-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "midnight-service-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/midnight-service-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "midnight-service-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/midnight-service-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/og-base-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/og-base-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/og-base-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/og-base-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/nightline/preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "station-lights-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/station-lights-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "station-lights-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/station-lights-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "station-lights-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/station-lights-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "station-lights-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/station-lights-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "window-hero-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/window-hero-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "window-hero-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/window-hero-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "window-hero-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/nightline/window-hero-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "window-hero-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/nightline/window-hero-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

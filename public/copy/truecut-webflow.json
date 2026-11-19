@@ -164,6 +164,312 @@
       "publicPath": "https://www.openlanding.page/gallery/truecut.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "capability-controls-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-controls-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-controls-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-controls-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-controls-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-controls-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-controls-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-controls-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-design-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-design-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-design-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-design-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-design-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-design-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-design-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-design-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-retrofit-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-retrofit-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-retrofit-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-retrofit-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-retrofit-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-retrofit-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-retrofit-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-retrofit-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-testing-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-testing-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-testing-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-testing-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-testing-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-testing-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "capability-testing-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/capability-testing-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "credential-grid-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/credential-grid-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "credential-grid-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/credential-grid-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "credential-grid-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/credential-grid-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "credential-grid-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/credential-grid-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "handoff-drawing-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/handoff-drawing-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "handoff-drawing-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/handoff-drawing-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "handoff-drawing-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/handoff-drawing-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "handoff-drawing-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/handoff-drawing-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-site-walk-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/hero-site-walk-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-site-walk-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/hero-site-walk-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-site-walk-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/hero-site-walk-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-site-walk-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/hero-site-walk-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/truecut/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/og-base-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/og-base-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/og-base-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "og-base-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/og-base-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/truecut/preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-control-room-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-control-room-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-control-room-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-control-room-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-control-room-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-control-room-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-control-room-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-control-room-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-panel-detail-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-panel-detail-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-panel-detail-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-panel-detail-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-panel-detail-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-panel-detail-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-panel-detail-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-panel-detail-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-switchyard-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-switchyard-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-switchyard-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-switchyard-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-switchyard-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-switchyard-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-switchyard-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/project-switchyard-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "safety-hands-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/safety-hands-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "safety-hands-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/safety-hands-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "safety-hands-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/truecut/safety-hands-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "safety-hands-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/truecut/safety-hands-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

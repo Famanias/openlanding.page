@@ -128,6 +128,18 @@
       "publicPath": "https://www.openlanding.page/gallery/handoff.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/handoff/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/handoff/preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

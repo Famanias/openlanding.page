@@ -50,6 +50,25 @@ Create or select a Variable Collection named **`KINFIELD Tokens`**, then create 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `KINFIELD` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `kinfield.webp` (image/webp) — https://www.openlanding.page/gallery/kinfield.webp (Gallery preview capture)
+- `01-movement-triptych-a-480.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/01-movement-triptych-a-480.webp (Template media asset)
+- `01-movement-triptych-a-896.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/01-movement-triptych-a-896.webp (Template media asset)
+- `01-movement-triptych-a.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/01-movement-triptych-a.webp (Template media asset)
+- `02-triptych-b-480.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/02-triptych-b-480.webp (Template media asset)
+- `02-triptych-b-896.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/02-triptych-b-896.webp (Template media asset)
+- `02-triptych-b.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/02-triptych-b.webp (Template media asset)
+- `03-triptych-c-480.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/03-triptych-c-480.webp (Template media asset)
+- `03-triptych-c-896.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/03-triptych-c-896.webp (Template media asset)
+- `03-triptych-c.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/03-triptych-c.webp (Template media asset)
+- `04-instructor-a-480.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/04-instructor-a-480.webp (Template media asset)
+- `04-instructor-a-896.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/04-instructor-a-896.webp (Template media asset)
+- `04-instructor-a.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/04-instructor-a.webp (Template media asset)
+- `04-instructor-b-480.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/04-instructor-b-480.webp (Template media asset)
+- `04-instructor-b-896.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/04-instructor-b-896.webp (Template media asset)
+- `04-instructor-b.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/04-instructor-b.webp (Template media asset)
+- `06-studio-room-480.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/06-studio-room-480.webp (Template media asset)
+- `06-studio-room-896.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/06-studio-room-896.webp (Template media asset)
+- `06-studio-room.webp` (image/webp) — https://www.openlanding.page/assets/kinfield/06-studio-room.webp (Template media asset)
+- `07-movement-loop.mp4` (video/mp4) — https://www.openlanding.page/assets/kinfield/07-movement-loop.mp4 (Template media asset)
 
 ---
 

@@ -98,6 +98,372 @@
       "publicPath": "https://www.openlanding.page/gallery/riff.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "album-kyoto.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/album-kyoto.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/riff/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "match-art-1.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/match-art-1.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "match-art-2.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/match-art-2.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mila-portrait.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/mila-portrait.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "noise-tile.png",
+      "publicPath": "https://www.openlanding.page/templates/riff/noise-tile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/preview-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shared-track-2.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/shared-track-2.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shared-track-3.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/shared-track-3.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zine-band-photo.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/zine-band-photo.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "zine-strip-photo.jpg",
+      "publicPath": "https://www.openlanding.page/templates/riff/zine-strip-photo.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-reference_926573aa.png",
+      "publicPath": "https://www.openlanding.page/templates/riff/aistudio/riff-reference_926573aa.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-mc-01-favorite-records.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/chemistry/riff-mc-01-favorite-records.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-mc-02-concert-energy.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/chemistry/riff-mc-02-concert-energy.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-mc-03-late-night-playlist.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/chemistry/riff-mc-03-late-night-playlist.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-support-01-flyer-culture.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/ephemera/riff-sc-support-01-flyer-culture.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-support-02-ticket-ephemera.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/ephemera/riff-sc-support-02-ticket-ephemera.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-support-03-scene-photo.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/ephemera/riff-sc-support-03-scene-photo.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-01-midnight-static.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/gatefolds/riff-sc-open-01-midnight-static.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-02-after-the-encore.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/gatefolds/riff-sc-open-02-after-the-encore.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-03-songs-to-walk-home-to.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/gatefolds/riff-sc-open-03-songs-to-walk-home-to.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-04-basement-show-memories.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/gatefolds/riff-sc-open-04-basement-show-memories.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-00-music-identity.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-hm-00-music-identity.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-01-drop-favorites.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-hm-01-drop-favorites.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-02-find-overlap.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-hm-02-find-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-03-start-conversation.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-hm-03-start-conversation.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-01-high-overlap.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-tm-01-high-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-02-medium-overlap.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-tm-02-medium-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-03-low-overlap.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-tm-03-low-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-04-conversation-focus.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/phones/riff-tm-04-conversation-focus.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-01-midnight-static.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/sleeves/riff-sc-01-midnight-static.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-02-after-the-encore.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/sleeves/riff-sc-02-after-the-encore.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-03-songs-to-walk-home-to.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/sleeves/riff-sc-03-songs-to-walk-home-to.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-04-basement-show-memories.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/sleeves/riff-sc-04-basement-show-memories.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-05-cathode-ray-lullabies.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/sleeves/riff-sc-05-cathode-ray-lullabies.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-06-rain-on-the-amp-case.webp",
+      "publicPath": "https://www.openlanding.page/templates/riff/sleeves/riff-sc-06-rain-on-the-amp-case.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-mc-01-favorite-records.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/chemistry/riff-mc-01-favorite-records.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-mc-02-concert-energy.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/chemistry/riff-mc-02-concert-energy.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-mc-03-late-night-playlist.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/chemistry/riff-mc-03-late-night-playlist.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-support-01-flyer-culture.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/ephemera/riff-sc-support-01-flyer-culture.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-support-02-ticket-ephemera.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/ephemera/riff-sc-support-02-ticket-ephemera.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-support-03-scene-photo.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/ephemera/riff-sc-support-03-scene-photo.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-01-midnight-static.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/gatefolds/riff-sc-open-01-midnight-static.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-02-after-the-encore.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/gatefolds/riff-sc-open-02-after-the-encore.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-03-songs-to-walk-home-to.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/gatefolds/riff-sc-open-03-songs-to-walk-home-to.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-open-04-basement-show-memories.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/gatefolds/riff-sc-open-04-basement-show-memories.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-00-music-identity.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-hm-00-music-identity.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-01-drop-favorites.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-hm-01-drop-favorites.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-02-find-overlap.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-hm-02-find-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-hm-03-start-conversation.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-hm-03-start-conversation.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-01-high-overlap.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-tm-01-high-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-02-medium-overlap.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-tm-02-medium-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-03-low-overlap.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-tm-03-low-overlap.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-tm-04-conversation-focus.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/phones/riff-tm-04-conversation-focus.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-01-midnight-static.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/sleeves/riff-sc-01-midnight-static.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-02-after-the-encore.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/sleeves/riff-sc-02-after-the-encore.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-03-songs-to-walk-home-to.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/sleeves/riff-sc-03-songs-to-walk-home-to.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-04-basement-show-memories.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/sleeves/riff-sc-04-basement-show-memories.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-05-cathode-ray-lullabies.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/sleeves/riff-sc-05-cathode-ray-lullabies.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "riff-sc-06-rain-on-the-amp-case.webp",
+      "publicPath": "https://www.openlanding.page/assets/riff/sleeves/riff-sc-06-rain-on-the-amp-case.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

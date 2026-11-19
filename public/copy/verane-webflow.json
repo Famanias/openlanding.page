@@ -110,6 +110,276 @@
       "publicPath": "https://www.openlanding.page/gallery/verane.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "flacon-01-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-01-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-01-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-01-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-01-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-01-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-01-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-01-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-02-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-02-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-02-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-02-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-02-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-02-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-02-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-02-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-03-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-03-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-03-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-03-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-03-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-03-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-03-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-03-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-04-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-04-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-04-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-04-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-04-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-04-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flacon-04-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/flacon-04-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hands-scale-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/hands-scale-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hands-scale-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/hands-scale-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hands-scale-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/hands-scale-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hands-scale-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/hands-scale-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-flacon-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/hero-flacon-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-flacon-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/hero-flacon-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-flacon-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/hero-flacon-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-flacon-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/hero-flacon-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "iris-fields-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/iris-fields-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "iris-fields-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/iris-fields-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "iris-fields-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/iris-fields-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "iris-fields-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/iris-fields-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "oak-casks-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/oak-casks-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "oak-casks-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/oak-casks-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "oak-casks-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/oak-casks-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "oak-casks-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/oak-casks-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "organ-shelves-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/organ-shelves-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "organ-shelves-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/organ-shelves-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "organ-shelves-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/organ-shelves-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "organ-shelves-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/organ-shelves-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "orris-roots-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/orris-roots-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "orris-roots-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/orris-roots-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "orris-roots-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/orris-roots-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "orris-roots-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/orris-roots-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "salon-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/salon-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "salon-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/salon-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "salon-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/verane/salon-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "salon-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/verane/salon-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

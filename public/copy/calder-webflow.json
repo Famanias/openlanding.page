@@ -170,6 +170,60 @@
       "publicPath": "https://www.openlanding.page/gallery/calder.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "partner-calder-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-calder-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-calder-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-calder-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-calder-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-calder-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-calder-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-calder-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-rowe-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-rowe-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-rowe-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-rowe-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-rowe-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-rowe-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "partner-rowe-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/calder/partner-rowe-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/calder/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

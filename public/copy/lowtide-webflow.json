@@ -104,6 +104,18 @@
       "publicPath": "https://www.openlanding.page/gallery/lowtide.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "moon-2048.jpg",
+      "publicPath": "https://www.openlanding.page/templates/lowtide/moon-2048.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/lowtide/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

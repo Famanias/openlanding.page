@@ -46,6 +46,14 @@ Create or select a Variable Collection named **`MORTA Tokens`**, then create the
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `MORTA` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `morta.webp` (image/webp) — https://www.openlanding.page/gallery/morta.webp (Gallery preview capture)
+- `morta-bespoke.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-bespoke.webp (Template media asset)
+- `morta-craft.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-craft.webp (Template media asset)
+- `morta-footer-cathedral.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-footer-cathedral.webp (Template media asset)
+- `morta-hero.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-hero.webp (Template media asset)
+- `morta-reliquary-ring.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-reliquary-ring.webp (Template media asset)
+- `morta-thorn-pendant.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-thorn-pendant.webp (Template media asset)
+- `morta-vigil-earrings.webp` (image/webp) — https://www.openlanding.page/templates/morta/morta-vigil-earrings.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/morta/preview-1600.webp (Template media asset)
 
 ---
 

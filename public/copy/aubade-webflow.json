@@ -158,6 +158,180 @@
       "publicPath": "https://www.openlanding.page/gallery/aubade.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "berth-cabine-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-cabine-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-cabine-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-cabine-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-cabine-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-cabine-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-cabine-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-cabine-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-couchette-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-couchette-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-couchette-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-couchette-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-couchette-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-couchette-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-couchette-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-couchette-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-grandlit-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-grandlit-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-grandlit-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-grandlit-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-grandlit-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-grandlit-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "berth-grandlit-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/berth-grandlit-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dining-car-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/dining-car-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dining-car-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/dining-car-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dining-car-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/dining-car-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dining-car-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/dining-car-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-bell-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-bell-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-bell-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-bell-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-bell-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-bell-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-bell-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-bell-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-quiet-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-quiet-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-quiet-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-quiet-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-quiet-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-quiet-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-quiet-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-quiet-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-turndown-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-turndown-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-turndown-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-turndown-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-turndown-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-turndown-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "night-turndown-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/night-turndown-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aubade/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

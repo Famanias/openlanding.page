@@ -81,6 +81,72 @@
       "publicPath": "https://www.openlanding.page/gallery/khora.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "khora-01-surface-hero.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-01-surface-hero.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-02-chamber-basin.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-02-chamber-basin.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-03-corridor-threshold.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-03-corridor-threshold.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-04-silica-pool.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-04-silica-pool.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-05-depth-atrium.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-05-depth-atrium.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-06-architectural-model.png",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-06-architectural-model.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-07-basalt-blocks.png",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-07-basalt-blocks.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-08-mineral-specimens.png",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-08-mineral-specimens.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-09-residence-lounge.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-09-residence-lounge.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "khora-10-closing-contact.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/khora-10-closing-contact.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/khora/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

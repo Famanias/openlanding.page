@@ -62,6 +62,32 @@ Create or select a Variable Collection named **`Waypoint Tokens`**, then create 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Waypoint` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `waypoint.webp` (image/webp) — https://www.openlanding.page/gallery/waypoint.webp (Gallery preview capture)
+- `hero-bg-1920.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/hero-bg-1920.webp (Template media asset)
+- `hero-bg.jpg` (image/jpeg) — https://www.openlanding.page/templates/waypoint/hero-bg.jpg (Template media asset)
+- `hero-bg.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/hero-bg.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/preview-1600.webp (Template media asset)
+- `topographic-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/topographic-1600.webp (Template media asset)
+- `topographic-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/topographic-800.webp (Template media asset)
+- `waypoint-01-hero-dashboard-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-01-hero-dashboard-1600.webp (Template media asset)
+- `waypoint-01-hero-dashboard-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-01-hero-dashboard-800.webp (Template media asset)
+- `waypoint-02-pipeline-board-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-02-pipeline-board-1600.webp (Template media asset)
+- `waypoint-02-pipeline-board-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-02-pipeline-board-800.webp (Template media asset)
+- `waypoint-03-candidate-profile-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-03-candidate-profile-1600.webp (Template media asset)
+- `waypoint-03-candidate-profile-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-03-candidate-profile-800.webp (Template media asset)
+- `waypoint-04-outreach-workspace-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-04-outreach-workspace-1600.webp (Template media asset)
+- `waypoint-04-outreach-workspace-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-04-outreach-workspace-800.webp (Template media asset)
+- `waypoint-05-insights-dashboard-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-05-insights-dashboard-1600.webp (Template media asset)
+- `waypoint-05-insights-dashboard-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-05-insights-dashboard-800.webp (Template media asset)
+- `waypoint-06-ui-fragments-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-06-ui-fragments-1600.webp (Template media asset)
+- `waypoint-06-ui-fragments-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-06-ui-fragments-800.webp (Template media asset)
+- `waypoint-07-mobile-screens-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-07-mobile-screens-1600.webp (Template media asset)
+- `waypoint-07-mobile-screens-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-07-mobile-screens-800.webp (Template media asset)
+- `waypoint-08-topographic-background-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-08-topographic-background-1600.webp (Template media asset)
+- `waypoint-08-topographic-background-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-08-topographic-background-800.webp (Template media asset)
+- `waypoint-09-feature-collage-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-09-feature-collage-1600.webp (Template media asset)
+- `waypoint-09-feature-collage-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-09-feature-collage-800.webp (Template media asset)
+- `waypoint-10-journal-workspace-1600.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-10-journal-workspace-1600.webp (Template media asset)
+- `waypoint-10-journal-workspace-800.webp` (image/webp) — https://www.openlanding.page/templates/waypoint/waypoint-10-journal-workspace-800.webp (Template media asset)
 
 ---
 

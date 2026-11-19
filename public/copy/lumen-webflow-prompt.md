@@ -72,6 +72,21 @@ Create or select a Variable Collection named **`LUMEN Tokens`**, then create the
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `LUMEN` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `lumen.webp` (image/webp) — https://www.openlanding.page/gallery/lumen.webp (Gallery preview capture)
+- `footer-glass-cutout.webp` (image/webp) — https://www.openlanding.page/templates/lumen/footer-glass-cutout.webp (Template media asset)
+- `footer-glass-mesh.glb` (model/gltf-binary) — https://www.openlanding.page/templates/lumen/footer-glass-mesh.glb (Template media asset)
+- `footer-glass.webp` (image/webp) — https://www.openlanding.page/templates/lumen/footer-glass.webp (Template media asset)
+- `icon.svg` (image/svg+xml) — https://www.openlanding.page/templates/lumen/icon.svg (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/lumen/preview-1600.webp (Template media asset)
+- `ai-workflow-playbook-cover_2149baf2.png` (image/png) — https://www.openlanding.page/templates/lumen/aistudio/ai-workflow-playbook-cover_2149baf2.png (Template media asset)
+- `ai-workflow-playbook-cover_dcc4c416.svg` (image/svg+xml) — https://www.openlanding.page/templates/lumen/aistudio/ai-workflow-playbook-cover_dcc4c416.svg (Template media asset)
+- `glass-workspace-art_25aec004.svg` (image/svg+xml) — https://www.openlanding.page/templates/lumen/aistudio/glass-workspace-art_25aec004.svg (Template media asset)
+- `glass-workspace-art_d86f62af.png` (image/png) — https://www.openlanding.page/templates/lumen/aistudio/glass-workspace-art_d86f62af.png (Template media asset)
+- `caustic-window.png` (image/png) — https://www.openlanding.page/templates/lumen/glass/caustic-window.png (Template media asset)
+- `frosted-fold.png` (image/png) — https://www.openlanding.page/templates/lumen/glass/frosted-fold.png (Template media asset)
+- `glass-strata.png` (image/png) — https://www.openlanding.page/templates/lumen/glass/glass-strata.png (Template media asset)
+- `liquid-lens.png` (image/png) — https://www.openlanding.page/templates/lumen/glass/liquid-lens.png (Template media asset)
+- `opal-ribbon.png` (image/png) — https://www.openlanding.page/templates/lumen/glass/opal-ribbon.png (Template media asset)
+- `refractive-halo.png` (image/png) — https://www.openlanding.page/templates/lumen/glass/refractive-halo.png (Template media asset)
 
 ---
 

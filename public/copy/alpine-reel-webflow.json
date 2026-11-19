@@ -116,6 +116,354 @@
       "publicPath": "https://www.openlanding.page/gallery/alpine-reel.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "annapurna-i-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/annapurna-i-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "annapurna-i-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/annapurna-i-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "annapurna-i-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/annapurna-i-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "annapurna-i-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/annapurna-i-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "broad-peak-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/broad-peak-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "broad-peak-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/broad-peak-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "broad-peak-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/broad-peak-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "broad-peak-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/broad-peak-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cho-oyu-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/cho-oyu-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cho-oyu-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/cho-oyu-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cho-oyu-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/cho-oyu-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cho-oyu-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/cho-oyu-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dhaulagiri-i-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/dhaulagiri-i-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dhaulagiri-i-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/dhaulagiri-i-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dhaulagiri-i-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/dhaulagiri-i-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dhaulagiri-i-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/dhaulagiri-i-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-i-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-i-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-i-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-i-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-i-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-i-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-i-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-i-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-ii-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-ii-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-ii-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-ii-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-ii-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-ii-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-ii-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/gasherbrum-ii-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "k2-godwin-austen-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/k2-godwin-austen-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "k2-godwin-austen-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/k2-godwin-austen-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "k2-godwin-austen-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/k2-godwin-austen-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "k2-godwin-austen-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/k2-godwin-austen-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kangchenjunga-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/kangchenjunga-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kangchenjunga-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/kangchenjunga-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kangchenjunga-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/kangchenjunga-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kangchenjunga-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/kangchenjunga-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lhotse-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/lhotse-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lhotse-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/lhotse-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lhotse-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/lhotse-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lhotse-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/lhotse-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "makalu-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/makalu-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "makalu-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/makalu-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "makalu-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/makalu-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "makalu-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/makalu-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manaslu-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/manaslu-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manaslu-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/manaslu-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manaslu-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/manaslu-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manaslu-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/manaslu-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mount-everest-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/mount-everest-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mount-everest-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/mount-everest-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mount-everest-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/mount-everest-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mount-everest-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/mount-everest-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "nanga-parbat-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/nanga-parbat-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "nanga-parbat-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/nanga-parbat-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "nanga-parbat-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/nanga-parbat-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "nanga-parbat-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/nanga-parbat-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.svg",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/preview-1600.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shishapangma-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/shishapangma-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shishapangma-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/shishapangma-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shishapangma-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/shishapangma-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shishapangma-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/alpine-reel/shishapangma-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

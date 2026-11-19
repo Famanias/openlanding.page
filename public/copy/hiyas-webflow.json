@@ -104,6 +104,360 @@
       "publicPath": "https://www.openlanding.page/gallery/hiyas.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "camp-night-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/camp-night-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "camp-night-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/camp-night-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "camp-night-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/camp-night-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "camp-night-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/camp-night-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-01-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-01-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-01-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-01-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-01-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-01-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-01-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-01-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-02-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-02-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-02-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-02-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-02-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-02-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-02-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-02-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-03-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-03-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-03-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-03-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-03-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-03-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "field-note-03-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/field-note-03-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-mountain-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/footer-mountain-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-mountain-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/footer-mountain-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-mountain-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/footer-mountain-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-mountain-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/footer-mountain-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-route-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/hero-route-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-route-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/hero-route-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-route-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/hero-route-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-route-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/hero-route-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-everest-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-everest-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-everest-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-everest-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-everest-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-everest-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-everest-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-everest-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-k2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-k2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-k2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-k2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-k2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-k2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "peak-k2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/peak-k2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "planner-profile-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/planner-profile-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "planner-profile-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/planner-profile-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "planner-profile-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/planner-profile-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "planner-profile-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/planner-profile-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "support-rope-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/support-rope-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "support-rope-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/support-rope-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "support-rope-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/support-rope-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "support-rope-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/support-rope-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "camp-wind-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/clips/camp-wind-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "camp-wind.mp4",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/clips/camp-wind.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "route-dawn-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/clips/route-dawn-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "route-dawn.mp4",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/clips/route-dawn.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "annapurna.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/annapurna.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "broad-peak.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/broad-peak.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cho-oyu.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/cho-oyu.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dhaulagiri.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/dhaulagiri.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "everest.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/everest.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-i.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/gasherbrum-i.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "gasherbrum-ii.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/gasherbrum-ii.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "k2.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/k2.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kangchenjunga.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/kangchenjunga.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lhotse.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/lhotse.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "makalu.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/makalu.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "manaslu.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/manaslu.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "nanga-parbat.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/nanga-parbat.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "shishapangma.svg",
+      "publicPath": "https://www.openlanding.page/templates/hiyas/mountains/shishapangma.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

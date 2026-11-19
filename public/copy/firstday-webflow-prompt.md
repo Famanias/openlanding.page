@@ -54,6 +54,12 @@ Create or select a Variable Collection named **`FIRSTDAY Tokens`**, then create 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `FIRSTDAY` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `firstday.webp` (image/webp) — https://www.openlanding.page/gallery/firstday.webp (Gallery preview capture)
+- `campus-1600.avif` (image/avif) — https://www.openlanding.page/templates/firstday/campus-1600.avif (Template media asset)
+- `campus-1600.webp` (image/webp) — https://www.openlanding.page/templates/firstday/campus-1600.webp (Template media asset)
+- `campus-800.avif` (image/avif) — https://www.openlanding.page/templates/firstday/campus-800.avif (Template media asset)
+- `campus-800.webp` (image/webp) — https://www.openlanding.page/templates/firstday/campus-800.webp (Template media asset)
+- `campus.svg` (image/svg+xml) — https://www.openlanding.page/templates/firstday/campus.svg (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/firstday/preview-1600.webp (Template media asset)
 
 ---
 

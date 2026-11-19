@@ -103,6 +103,252 @@
       "publicPath": "https://www.openlanding.page/gallery/radius.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-bike-hero-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-bike-hero-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-bike-hero-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-bike-hero-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/01-bike-hero-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-bike-side-graphite-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/02-bike-side-graphite-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-bike-side-tangerine-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/03-bike-side-tangerine-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-bike-side-cream-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/04-bike-side-cream-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-rack-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/05-rack-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-basket-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/06-basket-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-lights-alpha-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/07-lights-alpha-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-street-rider-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/08-street-rider-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-frame-macro-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/09-frame-macro-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-tire-detail-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/10-tire-detail-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/radius/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

@@ -331,6 +331,60 @@
       "publicPath": "https://www.openlanding.page/gallery/loam.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "material-top.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/material-top.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "material-underside-and-cut-edge.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/material-underside-and-cut-edge.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-from-above.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-from-above.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-from-below.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-from-below.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-front.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-front.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mushroom-side.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mushroom-side.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mycelium-clump-back.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mycelium-clump-back.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "mycelium-clump-front.webp",
+      "publicPath": "https://www.openlanding.page/templates/loam/references/mycelium-clump-front.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

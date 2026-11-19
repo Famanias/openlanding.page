@@ -164,6 +164,300 @@
       "publicPath": "https://www.openlanding.page/gallery/snoot.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "patient-cat-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-cat-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-cat-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-cat-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-cat-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-cat-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-cat-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-cat-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-dog-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-dog-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-dog-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-dog-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-dog-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-dog-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-dog-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-dog-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-rabbit-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-rabbit-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-rabbit-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-rabbit-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-rabbit-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-rabbit-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-rabbit-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-rabbit-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-tortoise-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-tortoise-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-tortoise-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-tortoise-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-tortoise-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-tortoise-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "patient-tortoise-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/patient-tortoise-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-adaeze-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-adaeze-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-adaeze-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-adaeze-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-adaeze-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-adaeze-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-adaeze-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-adaeze-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-kenji-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-kenji-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-kenji-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-kenji-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-kenji-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-kenji-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-kenji-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-kenji-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-ruth-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-ruth-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-ruth-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-ruth-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-ruth-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-ruth-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-ruth-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-ruth-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-sol-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-sol-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-sol-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-sol-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-sol-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-sol-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "team-sol-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/team-sol-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-door-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-door-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-door-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-door-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-door-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-door-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-door-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-door-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-floor-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-floor-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-floor-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-floor-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-floor-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-floor-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-floor-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-floor-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-treats-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-treats-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-treats-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-treats-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-treats-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-treats-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-treats-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-treats-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-walkout-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-walkout-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-walkout-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-walkout-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-walkout-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-walkout-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "visit-walkout-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/snoot/visit-walkout-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

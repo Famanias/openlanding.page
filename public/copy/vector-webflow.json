@@ -83,6 +83,12 @@
       "publicPath": "https://www.openlanding.page/gallery/vector.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "vector-preview.svg",
+      "publicPath": "https://www.openlanding.page/templates/vector/vector-preview.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
     }
   ],
   "sections": [

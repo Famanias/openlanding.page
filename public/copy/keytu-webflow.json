@@ -116,6 +116,366 @@
       "publicPath": "https://www.openlanding.page/gallery/keytu.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "basecamp-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "basecamp-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "basecamp-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "basecamp-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/basecamp-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-down-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-down-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fabric-shell-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/fabric-shell-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-k2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/hero-k2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-1-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-1-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-3-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-3-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "lookbook-4-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/lookbook-4-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-base-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-base-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-down-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-down-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-hands-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-hands-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-mid-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-mid-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-black-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-black-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-navy-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-navy-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "product-shell-white-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/keytu/product-shell-white-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

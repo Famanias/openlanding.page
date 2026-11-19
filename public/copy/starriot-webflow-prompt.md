@@ -67,6 +67,18 @@ Create or select a Variable Collection named **`STAR RIOT Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `STAR RIOT` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `starriot.webp` (image/webp) — https://www.openlanding.page/gallery/starriot.webp (Gallery preview capture)
+- `icon.svg` (image/svg+xml) — https://www.openlanding.page/templates/starriot/icon.svg (Template media asset)
+- `image_1a599d24.png` (image/png) — https://www.openlanding.page/templates/starriot/image_1a599d24.png (Template media asset)
+- `image_aa852dd2.png` (image/png) — https://www.openlanding.page/templates/starriot/image_aa852dd2.png (Template media asset)
+- `media_1793581394941_95a17594.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581394941_95a17594.png (Template media asset)
+- `media_1793581394941_a7d7971c.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581394941_a7d7971c.png (Template media asset)
+- `media_1793581400714_0d652aa3.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581400714_0d652aa3.png (Template media asset)
+- `media_1793581401401_ff039a04.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581401401_ff039a04.png (Template media asset)
+- `media_1793581744578_582de51c.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581744578_582de51c.png (Template media asset)
+- `media_1793581749202_7fdf949a.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581749202_7fdf949a.png (Template media asset)
+- `media_1793581751624_c7ef1b81.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793581751624_c7ef1b81.png (Template media asset)
+- `media_1793582239485_a0ba9cdb.png` (image/png) — https://www.openlanding.page/templates/starriot/media_1793582239485_a0ba9cdb.png (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/starriot/preview-1600.webp (Template media asset)
 
 ---
 

@@ -110,6 +110,42 @@
       "publicPath": "https://www.openlanding.page/gallery/firstday.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "campus-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/firstday/campus-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campus-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/firstday/campus-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campus-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/firstday/campus-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campus-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/firstday/campus-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "campus.svg",
+      "publicPath": "https://www.openlanding.page/templates/firstday/campus.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/firstday/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

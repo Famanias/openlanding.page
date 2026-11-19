@@ -341,9 +341,14 @@ export function buildTemplateWebflowArtifacts(slug: TemplateSlug): {
   const layoutPath = path.join(process.cwd(), "src", "app", `(${slug})`, "layout.tsx");
   const layoutSource = fs.existsSync(layoutPath) ? fs.readFileSync(layoutPath, "utf8") : undefined;
 
-  const publicAssetFiles = fg.sync(`public/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`, {
-    dot: false,
-  });
+  const publicAssetFiles = fg.sync(
+    [
+      `public/templates/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`,
+      `public/assets/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`,
+      `public/${slug}/**/*.{svg,webp,png,jpg,jpeg,avif,mp4,webm,glb}`,
+    ],
+    { dot: false }
+  );
   const assetPaths = [
     `/gallery/${slug}.webp`,
     ...publicAssetFiles.map((p) => `/${p.replace(/\\/g, "/").replace(/^public\//, "")}`),

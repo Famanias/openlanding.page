@@ -81,6 +81,78 @@
       "publicPath": "https://www.openlanding.page/gallery/strata.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-01-hero-vessel.png",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-01-hero-vessel.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-01-hero-vessel.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-01-hero-vessel.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-02-ceramic-macro.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-02-ceramic-macro.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-03-vessel-reference.png",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-03-vessel-reference.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-04-craft-process.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-04-craft-process.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-05-interior.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-05-interior.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-06-material-variants.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-06-material-variants.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-07-closing-still-life.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-07-closing-still-life.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-finish-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-finish-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-finish-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-finish-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "strata-finish-03.webp",
+      "publicPath": "https://www.openlanding.page/templates/strata/strata-finish-03.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

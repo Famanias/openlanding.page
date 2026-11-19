@@ -110,6 +110,378 @@
       "publicPath": "https://www.openlanding.page/gallery/koji.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "building-exterior-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "building-exterior-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/building-exterior-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "chef-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/chef-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "counter-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/counter-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fermentation-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/fermentation-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-mukozuke-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-mukozuke-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-nimono-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-nimono-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-sakizuke-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-sakizuke-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-shokuji-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-shokuji-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flight-yakimono-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/flight-yakimono-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-dish-poster-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/hero-dish-poster-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "stoneware-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/koji/stoneware-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-1-2-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-1-2-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-1-2.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-1-2.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-2-3-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-2-3-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-2-3.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-2-3.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-3-4-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-3-4-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-3-4.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-3-4.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-4-5-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-4-5-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "conn-4-5.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/conn-4-5.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-1-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-1-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-1.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-1.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-2-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-2-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-2.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-2.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-3-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-3-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-3.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-3.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-4-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-4-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-4.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-4.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-5-m.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-5-m.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "dive-5.mp4",
+      "publicPath": "https://www.openlanding.page/templates/koji/clips/dive-5.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
     }
   ],
   "sections": [

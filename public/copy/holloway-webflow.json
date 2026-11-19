@@ -90,6 +90,246 @@
       "publicPath": "https://www.openlanding.page/gallery/holloway.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "media_1794194592847_a9b4e794.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194592847_a9b4e794.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194594829_37ab8701.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194594829_37ab8701.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194704917_4d1b5c9a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194704917_4d1b5c9a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194708206_6fb211e9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194708206_6fb211e9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194749952_956cc08d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194749952_956cc08d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194756715_8d20274a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194756715_8d20274a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194758673_e9718705.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194758673_e9718705.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194761126_a6ccdadf.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194761126_a6ccdadf.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194778938_fa17098a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194778938_fa17098a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194783345_85ce84ca.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194783345_85ce84ca.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194785348_d59ceb3a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194785348_d59ceb3a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194788018_d5d7ded4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194788018_d5d7ded4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794194790806_e9f9329a.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794194790806_e9f9329a.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1794195490262_2df90160.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/media_1794195490262_2df90160.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r1-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r1-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r1-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-studio.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r1-studio.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-footer.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r2-footer.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r2-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-studio-interacted.png",
+      "publicPath": "https://www.openlanding.page/templates/holloway/r2-studio-interacted.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-reference_c2aa0371.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/aistudio/footer-reference_c2aa0371.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-reference_2483a815.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/aistudio/hero-reference_2483a815.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "00-hero-room-scene.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/00-hero-room-scene.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-empty-room-base.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/01-empty-room-base.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-sofa-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/02-sofa-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-chair-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/03-chair-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-table-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/04-table-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "05-shelf-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/05-shelf-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-lamp-alpha.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/06-lamp-alpha.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-wood-texture.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/07-wood-texture.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "08-fabric-texture.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/08-fabric-texture.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "09-stone-texture.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/09-stone-texture.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "10-lifestyle-room.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/10-lifestyle-room.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "11-assembly-detail.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/11-assembly-detail.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "12-room-floor-plan.svg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/12-room-floor-plan.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "13-collection-room-scene.jpg",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/13-collection-room-scene.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-reference.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/footer-reference.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-reference.webp",
+      "publicPath": "https://www.openlanding.page/templates/holloway/holloway/hero-reference.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

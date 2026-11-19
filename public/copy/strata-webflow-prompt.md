@@ -52,6 +52,18 @@ Create or select a Variable Collection named **`STRATA Tokens`**, then create th
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `STRATA` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `strata.webp` (image/webp) — https://www.openlanding.page/gallery/strata.webp (Gallery preview capture)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/strata/preview-1600.webp (Template media asset)
+- `strata-01-hero-vessel.png` (image/png) — https://www.openlanding.page/templates/strata/strata-01-hero-vessel.png (Template media asset)
+- `strata-01-hero-vessel.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-01-hero-vessel.webp (Template media asset)
+- `strata-02-ceramic-macro.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-02-ceramic-macro.webp (Template media asset)
+- `strata-03-vessel-reference.png` (image/png) — https://www.openlanding.page/templates/strata/strata-03-vessel-reference.png (Template media asset)
+- `strata-04-craft-process.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-04-craft-process.webp (Template media asset)
+- `strata-05-interior.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-05-interior.webp (Template media asset)
+- `strata-06-material-variants.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-06-material-variants.webp (Template media asset)
+- `strata-07-closing-still-life.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-07-closing-still-life.webp (Template media asset)
+- `strata-finish-01.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-finish-01.webp (Template media asset)
+- `strata-finish-02.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-finish-02.webp (Template media asset)
+- `strata-finish-03.webp` (image/webp) — https://www.openlanding.page/templates/strata/strata-finish-03.webp (Template media asset)
 
 ---
 

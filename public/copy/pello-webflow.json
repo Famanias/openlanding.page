@@ -91,6 +91,132 @@
       "publicPath": "https://www.openlanding.page/gallery/pello.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "everyday-market-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/everyday-market-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "everyday-market-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/everyday-market-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "everyday-market-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/everyday-market-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "everyday-market-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/everyday-market-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-phone-plum-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/hero-phone-plum-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-phone-plum-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/hero-phone-plum-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-phone-plum-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/hero-phone-plum-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-phone-plum-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/hero-phone-plum-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "life-panorama-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/life-panorama-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "life-panorama-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/life-panorama-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "life-panorama-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/life-panorama-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "life-panorama-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/life-panorama-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rainy-morning-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/rainy-morning-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rainy-morning-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/rainy-morning-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rainy-morning-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/rainy-morning-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rainy-morning-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/rainy-morning-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "weekend-cove-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/weekend-cove-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "weekend-cove-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/weekend-cove-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "weekend-cove-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/pello/weekend-cove-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "weekend-cove-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/pello/weekend-cove-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

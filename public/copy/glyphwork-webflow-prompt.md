@@ -49,6 +49,31 @@ Create or select a Variable Collection named **`GLYPHWORK Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `GLYPHWORK` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `glyphwork.webp` (image/webp) — https://www.openlanding.page/gallery/glyphwork.webp (Gallery preview capture)
+- `distilled-applications.png` (image/png) — https://www.openlanding.page/templates/glyphwork/distilled-applications.png (Template media asset)
+- `distilled-hero.png` (image/png) — https://www.openlanding.page/templates/glyphwork/distilled-hero.png (Template media asset)
+- `distilled-inspector.png` (image/png) — https://www.openlanding.page/templates/glyphwork/distilled-inspector.png (Template media asset)
+- `distilled-licensing.png` (image/png) — https://www.openlanding.page/templates/glyphwork/distilled-licensing.png (Template media asset)
+- `media_1794187736465_ab07586f.jpg` (image/jpeg) — https://www.openlanding.page/templates/glyphwork/media_1794187736465_ab07586f.jpg (Template media asset)
+- `media_1794187738679_e92b5440.jpg` (image/jpeg) — https://www.openlanding.page/templates/glyphwork/media_1794187738679_e92b5440.jpg (Template media asset)
+- `media_1794187740876_ff5d99c6.jpg` (image/jpeg) — https://www.openlanding.page/templates/glyphwork/media_1794187740876_ff5d99c6.jpg (Template media asset)
+- `media_1794187741796_a2822c8e.jpg` (image/jpeg) — https://www.openlanding.page/templates/glyphwork/media_1794187741796_a2822c8e.jpg (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/glyphwork/preview-1600.webp (Template media asset)
+- `r1-desktop-footer.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r1-desktop-footer.png (Template media asset)
+- `r1-desktop-hero.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r1-desktop-hero.png (Template media asset)
+- `r1-desktop-inspector.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r1-desktop-inspector.png (Template media asset)
+- `r1-mobile-hero.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r1-mobile-hero.png (Template media asset)
+- `r2-desktop-applications.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r2-desktop-applications.png (Template media asset)
+- `r2-desktop-footer.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r2-desktop-footer.png (Template media asset)
+- `r2-desktop-hero.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r2-desktop-hero.png (Template media asset)
+- `r2-final-hero.png` (image/png) — https://www.openlanding.page/templates/glyphwork/r2-final-hero.png (Template media asset)
+- `02-application-poster.webp` (image/webp) — https://www.openlanding.page/templates/glyphwork/glyphwork/02-application-poster.webp (Template media asset)
+- `03-application-packaging.webp` (image/webp) — https://www.openlanding.page/templates/glyphwork/glyphwork/03-application-packaging.webp (Template media asset)
+- `footer-reference.webp` (image/webp) — https://www.openlanding.page/templates/glyphwork/glyphwork/footer-reference.webp (Template media asset)
+- `glyph-specimen.svg` (image/svg+xml) — https://www.openlanding.page/templates/glyphwork/glyphwork/glyph-specimen.svg (Template media asset)
+- `header-reference.webp` (image/webp) — https://www.openlanding.page/templates/glyphwork/glyphwork/header-reference.webp (Template media asset)
+- `02-application-poster.webp` (image/webp) — https://www.openlanding.page/assets/glyphwork/02-application-poster.webp (Template media asset)
+- `03-application-packaging.webp` (image/webp) — https://www.openlanding.page/assets/glyphwork/03-application-packaging.webp (Template media asset)
+- `glyph-specimen.svg` (image/svg+xml) — https://www.openlanding.page/assets/glyphwork/glyph-specimen.svg (Template media asset)
 
 ---
 

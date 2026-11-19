@@ -68,6 +68,21 @@ Create or select a Variable Collection named **`Synapxe Tokens`**, then create t
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Synapxe` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `synapxe.webp` (image/webp) — https://www.openlanding.page/gallery/synapxe.webp (Gallery preview capture)
+- `footer-scene.webp` (image/webp) — https://www.openlanding.page/templates/synapxe/footer-scene.webp (Template media asset)
+- `hero_1ea255fd.png` (image/png) — https://www.openlanding.page/templates/synapxe/hero_1ea255fd.png (Template media asset)
+- `icon.svg` (image/svg+xml) — https://www.openlanding.page/templates/synapxe/icon.svg (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/synapxe/preview-1600.webp (Template media asset)
+- `preview-800.webp` (image/webp) — https://www.openlanding.page/templates/synapxe/preview-800.webp (Template media asset)
+- `prod-01_b53ab8b2.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-01_b53ab8b2.png (Template media asset)
+- `prod-02_309a216d.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-02_309a216d.png (Template media asset)
+- `prod-03_349d3d07.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-03_349d3d07.png (Template media asset)
+- `prod-04_170fa82a.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-04_170fa82a.png (Template media asset)
+- `prod-05_c11603c5.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-05_c11603c5.png (Template media asset)
+- `prod-06_6d9a4d18.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-06_6d9a4d18.png (Template media asset)
+- `prod-07_d66d70d0.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-07_d66d70d0.png (Template media asset)
+- `prod-09_5a47d632.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-09_5a47d632.png (Template media asset)
+- `prod-10_6b125d50.png` (image/png) — https://www.openlanding.page/templates/synapxe/prod-10_6b125d50.png (Template media asset)
+- `prof-08_1cd980b6.png` (image/png) — https://www.openlanding.page/templates/synapxe/prof-08_1cd980b6.png (Template media asset)
 
 ---
 

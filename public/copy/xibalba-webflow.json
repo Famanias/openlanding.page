@@ -79,6 +79,192 @@
       "publicPath": "https://www.openlanding.page/gallery/xibalba.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/preview-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene-sprites-keyed.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene-sprites-keyed.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene-sprites.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene-sprites.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene1.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene1.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene2.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene2.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene3.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene4.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene4.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene5.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/scene5.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam1-keyed.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam1-keyed.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam1.jpg",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam1.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam1.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam1.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam2-keyed.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam2-keyed.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam2.jpg",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam2.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam2.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam2.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam3-keyed.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam3-keyed.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam3.jpg",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam3.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam3.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam4-keyed.webp",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam4-keyed.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam4.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/seam4.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene-sprites_7a44e2a0.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/scene-sprites_7a44e2a0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene1_e2655e65.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/scene1_e2655e65.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene2_82fd9e0a.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/scene2_82fd9e0a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene3_afea158f.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/scene3_afea158f.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene4_76e2e55f.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/scene4_76e2e55f.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene5_bdedce0b.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/scene5_bdedce0b.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam1_e4123f92.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/seam1_e4123f92.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam2_8be26b4e.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/seam2_8be26b4e.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam3_67b3e1e1.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/seam3_67b3e1e1.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "seam4_2b82c001.png",
+      "publicPath": "https://www.openlanding.page/templates/xibalba/assets/aistudio/seam4_2b82c001.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

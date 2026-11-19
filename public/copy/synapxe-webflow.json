@@ -187,6 +187,96 @@
       "publicPath": "https://www.openlanding.page/gallery/synapxe.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "footer-scene.webp",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/footer-scene.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero_1ea255fd.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/hero_1ea255fd.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/preview-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-01_b53ab8b2.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-01_b53ab8b2.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-02_309a216d.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-02_309a216d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-03_349d3d07.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-03_349d3d07.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-04_170fa82a.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-04_170fa82a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-05_c11603c5.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-05_c11603c5.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-06_6d9a4d18.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-06_6d9a4d18.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-07_d66d70d0.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-07_d66d70d0.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-09_5a47d632.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-09_5a47d632.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prod-10_6b125d50.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prod-10_6b125d50.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "prof-08_1cd980b6.png",
+      "publicPath": "https://www.openlanding.page/templates/synapxe/prof-08_1cd980b6.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

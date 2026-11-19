@@ -52,6 +52,11 @@ Create or select a Variable Collection named **`TESSERA Tokens`**, then create t
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `TESSERA` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `tessera.webp` (image/webp) — https://www.openlanding.page/gallery/tessera.webp (Gallery preview capture)
+- `atrium_installation_hero_1794380180899.jpg` (image/jpeg) — https://www.openlanding.page/templates/tessera/atrium_installation_hero_1794380180899.jpg (Template media asset)
+- `material_atelier_craft_1794380184347.jpg` (image/jpeg) — https://www.openlanding.page/templates/tessera/material_atelier_craft_1794380184347.jpg (Template media asset)
+- `oslo_chamber_project_1794380181917.jpg` (image/jpeg) — https://www.openlanding.page/templates/tessera/oslo_chamber_project_1794380181917.jpg (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/tessera/preview-1600.webp (Template media asset)
+- `zurich_kunsthalle_project_1794380183581.jpg` (image/jpeg) — https://www.openlanding.page/templates/tessera/zurich_kunsthalle_project_1794380183581.jpg (Template media asset)
 
 ---
 

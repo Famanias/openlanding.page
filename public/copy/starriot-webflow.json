@@ -188,6 +188,78 @@
       "publicPath": "https://www.openlanding.page/gallery/starriot.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/starriot/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_1a599d24.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/image_1a599d24.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_aa852dd2.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/image_aa852dd2.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581394941_95a17594.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581394941_95a17594.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581394941_a7d7971c.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581394941_a7d7971c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581400714_0d652aa3.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581400714_0d652aa3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581401401_ff039a04.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581401401_ff039a04.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581744578_582de51c.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581744578_582de51c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581749202_7fdf949a.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581749202_7fdf949a.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793581751624_c7ef1b81.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793581751624_c7ef1b81.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793582239485_a0ba9cdb.png",
+      "publicPath": "https://www.openlanding.page/templates/starriot/media_1793582239485_a0ba9cdb.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/starriot/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

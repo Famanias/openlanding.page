@@ -50,6 +50,23 @@ Create or select a Variable Collection named **`Ines Vale Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Ines Vale` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `inesvale.webp` (image/webp) — https://www.openlanding.page/gallery/inesvale.webp (Gallery preview capture)
+- `after-light-01.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/after-light-01.webp (Template media asset)
+- `architecture-01.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/architecture-01.webp (Template media asset)
+- `architecture-02.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/architecture-02.webp (Template media asset)
+- `architecture-03.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/architecture-03.webp (Template media asset)
+- `artist-portrait.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/artist-portrait.webp (Template media asset)
+- `distance-01.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/distance-01.webp (Template media asset)
+- `distance-02.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/distance-02.webp (Template media asset)
+- `distance-03.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/distance-03.webp (Template media asset)
+- `portrait-study-01.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/portrait-study-01.webp (Template media asset)
+- `portrait-study-02.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/portrait-study-02.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/preview-1600.webp (Template media asset)
+- `quiet-coast-01.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/quiet-coast-01.webp (Template media asset)
+- `quiet-coast-02.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/quiet-coast-02.webp (Template media asset)
+- `quiet-coast-03.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/quiet-coast-03.webp (Template media asset)
+- `still-life-01.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/still-life-01.webp (Template media asset)
+- `still-life-02.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/still-life-02.webp (Template media asset)
+- `still-life-03.webp` (image/webp) — https://www.openlanding.page/templates/inesvale/still-life-03.webp (Template media asset)
 
 ---
 

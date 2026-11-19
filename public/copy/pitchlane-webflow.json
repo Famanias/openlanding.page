@@ -81,6 +81,72 @@
       "publicPath": "https://www.openlanding.page/gallery/pitchlane.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "accent-ribbon-transparent.png",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/accent-ribbon-transparent.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-clear-structure.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/cover-clear-structure.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-fresh-perspective.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/cover-fresh-perspective.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-iridescent-forms.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/cover-iridescent-forms.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-momentum.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/cover-momentum.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-night-shift.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/cover-night-shift.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "Creating_presentation_platform_h…_12a47ad9_2K.jpg",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/Creating_presentation_platform_h…_12a47ad9_2K.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "photo-architectural-geometry.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/photo-architectural-geometry.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "photo-design-studio.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/photo-design-studio.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "photo-sculptural-product.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/photo-sculptural-product.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/pitchlane/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

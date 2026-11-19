@@ -116,6 +116,300 @@
       "publicPath": "https://www.openlanding.page/gallery/patchbay.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "case-fieldnote-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-fieldnote-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-fieldnote-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-fieldnote-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-fieldnote-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-fieldnote-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-fieldnote-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-fieldnote-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-ledgerline-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-ledgerline-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-ledgerline-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-ledgerline-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-ledgerline-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-ledgerline-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-ledgerline-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-ledgerline-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-marginalia-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-marginalia-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-marginalia-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-marginalia-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-marginalia-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-marginalia-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-marginalia-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-marginalia-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-tidegrid-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-tidegrid-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-tidegrid-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-tidegrid-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-tidegrid-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-tidegrid-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "case-tidegrid-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/case-tidegrid-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-driftwatch-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-driftwatch-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-driftwatch-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-driftwatch-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-driftwatch-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-driftwatch-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-driftwatch-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-driftwatch-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-fieldnote-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-fieldnote-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-fieldnote-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-fieldnote-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-fieldnote-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-fieldnote-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-fieldnote-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-fieldnote-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-kerbside-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-kerbside-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-kerbside-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-kerbside-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-kerbside-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-kerbside-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-kerbside-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-kerbside-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-ledgerline-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-ledgerline-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-ledgerline-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-ledgerline-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-ledgerline-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-ledgerline-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-ledgerline-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-ledgerline-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-marginalia-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-marginalia-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-marginalia-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-marginalia-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-marginalia-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-marginalia-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-marginalia-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-marginalia-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-paperplane-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-paperplane-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-paperplane-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-paperplane-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-paperplane-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-paperplane-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-paperplane-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-paperplane-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-quillbase-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-quillbase-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-quillbase-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-quillbase-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-quillbase-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-quillbase-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-quillbase-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-quillbase-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-tidegrid-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-tidegrid-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-tidegrid-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-tidegrid-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-tidegrid-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-tidegrid-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "project-tidegrid-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/patchbay/project-tidegrid-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

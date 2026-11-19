@@ -140,6 +140,780 @@
       "publicPath": "https://www.openlanding.page/gallery/tolvar.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "about-blade-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/about-blade-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "about-blade-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/about-blade-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "about-blade-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/about-blade-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "about-blade-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/about-blade-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-excavator-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-excavator-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-excavator-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-excavator-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-excavator-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-excavator-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-excavator-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-excavator-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-loading-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-loading-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-loading-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-loading-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-loading-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-loading-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-loading-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-loading-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-pond-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-pond-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-pond-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-pond-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-pond-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-pond-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cut-pond-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/cut-pond-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-dozer-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-dozer-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-dozer-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-dozer-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-dozer-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-dozer-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-dozer-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-dozer-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-drive-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-drive-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-drive-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-drive-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-drive-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-drive-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-drive-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-drive-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-shaping-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-shaping-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-shaping-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-shaping-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-shaping-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-shaping-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-shaping-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-shaping-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-wall-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-wall-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-wall-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-wall-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-wall-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-wall-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fill-wall-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/fill-wall-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-yard-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/footer-yard-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-yard-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/footer-yard-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-yard-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/footer-yard-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-yard-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/footer-yard-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-dump-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-dump-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-dump-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-dump-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-dump-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-dump-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-dump-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-dump-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-lowboy-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-lowboy-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-lowboy-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-lowboy-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-lowboy-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-lowboy-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "haul-lowboy-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/haul-lowboy-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-loader-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/hero-loader-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-loader-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/hero-loader-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-loader-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/hero-loader-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-loader-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/hero-loader-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-bridge-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-bridge-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-bridge-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-bridge-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-bridge-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-bridge-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-bridge-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-bridge-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-1-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-1-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-1-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-1-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-1-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-1-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-1-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-1-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-deck-2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-deck-2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-firepit-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-firepit-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-firepit-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-firepit-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-firepit-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-firepit-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-firepit-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-firepit-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-framing-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-framing-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-framing-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-framing-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-framing-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-framing-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-framing-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-framing-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-ledge-wall-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-ledge-wall-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-ledge-wall-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-ledge-wall-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-ledge-wall-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-ledge-wall-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-ledge-wall-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-ledge-wall-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pavilion-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pavilion-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pavilion-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pavilion-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pavilion-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pavilion-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pavilion-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pavilion-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-1-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-1-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-1-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-1-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-1-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-1-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-1-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-1-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-3-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-3-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-3-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-3-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-3-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-3-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-3-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-3-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-4-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-4-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-4-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-4-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-4-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-4-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-pond-4-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-pond-4-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-riprap-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-riprap-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-riprap-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-riprap-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-riprap-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-riprap-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-riprap-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-riprap-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-stairs-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-stairs-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-stairs-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-stairs-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-stairs-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-stairs-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-stairs-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-stairs-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-waterfall-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-waterfall-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-waterfall-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-waterfall-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-waterfall-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-waterfall-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "log-waterfall-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/log-waterfall-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-1-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-1-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-1-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-1-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-1-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-1-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-1-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-1-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-2-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-2-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-2-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-2-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-2-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-2-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-2-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-2-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-3-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-3-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-3-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-3-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-3-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-3-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-chambers-3-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-chambers-3-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-culvert-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-culvert-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-culvert-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-culvert-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-culvert-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-culvert-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-culvert-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-culvert-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-headwall-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-headwall-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-headwall-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-headwall-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-headwall-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-headwall-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "pipe-headwall-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/pipe-headwall-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "yard-iron-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/yard-iron-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "yard-iron-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/yard-iron-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "yard-iron-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/yard-iron-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "yard-iron-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/tolvar/yard-iron-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

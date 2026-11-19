@@ -10,6 +10,7 @@ describe("generateCopyBundles", () => {
     expect(manifest.slug).toBe("snoot");
     expect(manifest.variables.colors.length).toBeGreaterThanOrEqual(8);
     expect(manifest.sections.length).toBeGreaterThanOrEqual(10);
+    expect(manifest.assets.some((a) => a.publicPath.includes("/templates/snoot/"))).toBe(true);
     expect(JSON.stringify(manifest)).not.toContain("data:font/woff2");
     expect(promptMarkdown).toContain("Snoot Tokens");
     expect(promptMarkdown).toContain("data_variable_tool");

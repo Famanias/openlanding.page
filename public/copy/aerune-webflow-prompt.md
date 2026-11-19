@@ -50,6 +50,21 @@ Create or select a Variable Collection named **`AERUNE Tokens`**, then create th
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `AERUNE` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `aerune.webp` (image/webp) — https://www.openlanding.page/gallery/aerune.webp (Gallery preview capture)
+- `building-at-dusk-1600.avif` (image/avif) — https://www.openlanding.page/templates/aerune/building-at-dusk-1600.avif (Template media asset)
+- `building-at-dusk-1600.webp` (image/webp) — https://www.openlanding.page/templates/aerune/building-at-dusk-1600.webp (Template media asset)
+- `building-at-dusk-800.avif` (image/avif) — https://www.openlanding.page/templates/aerune/building-at-dusk-800.avif (Template media asset)
+- `building-at-dusk-800.webp` (image/webp) — https://www.openlanding.page/templates/aerune/building-at-dusk-800.webp (Template media asset)
+- `footer-atmosphere-1600.webp` (image/webp) — https://www.openlanding.page/templates/aerune/footer-atmosphere-1600.webp (Template media asset)
+- `footer-atmosphere-800.webp` (image/webp) — https://www.openlanding.page/templates/aerune/footer-atmosphere-800.webp (Template media asset)
+- `hero-atmosphere-1600.avif` (image/avif) — https://www.openlanding.page/templates/aerune/hero-atmosphere-1600.avif (Template media asset)
+- `hero-atmosphere-1600.webp` (image/webp) — https://www.openlanding.page/templates/aerune/hero-atmosphere-1600.webp (Template media asset)
+- `hero-atmosphere-800.avif` (image/avif) — https://www.openlanding.page/templates/aerune/hero-atmosphere-800.avif (Template media asset)
+- `hero-atmosphere-800.webp` (image/webp) — https://www.openlanding.page/templates/aerune/hero-atmosphere-800.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/aerune/preview-1600.webp (Template media asset)
+- `sensor-detail-1600.avif` (image/avif) — https://www.openlanding.page/templates/aerune/sensor-detail-1600.avif (Template media asset)
+- `sensor-detail-1600.webp` (image/webp) — https://www.openlanding.page/templates/aerune/sensor-detail-1600.webp (Template media asset)
+- `sensor-detail-800.avif` (image/avif) — https://www.openlanding.page/templates/aerune/sensor-detail-800.avif (Template media asset)
+- `sensor-detail-800.webp` (image/webp) — https://www.openlanding.page/templates/aerune/sensor-detail-800.webp (Template media asset)
 
 ---
 

@@ -52,6 +52,17 @@ Create or select a Variable Collection named **`KHORA Tokens`**, then create the
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `KHORA` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `khora.webp` (image/webp) — https://www.openlanding.page/gallery/khora.webp (Gallery preview capture)
+- `khora-01-surface-hero.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-01-surface-hero.webp (Template media asset)
+- `khora-02-chamber-basin.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-02-chamber-basin.webp (Template media asset)
+- `khora-03-corridor-threshold.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-03-corridor-threshold.webp (Template media asset)
+- `khora-04-silica-pool.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-04-silica-pool.webp (Template media asset)
+- `khora-05-depth-atrium.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-05-depth-atrium.webp (Template media asset)
+- `khora-06-architectural-model.png` (image/png) — https://www.openlanding.page/templates/khora/khora-06-architectural-model.png (Template media asset)
+- `khora-07-basalt-blocks.png` (image/png) — https://www.openlanding.page/templates/khora/khora-07-basalt-blocks.png (Template media asset)
+- `khora-08-mineral-specimens.png` (image/png) — https://www.openlanding.page/templates/khora/khora-08-mineral-specimens.png (Template media asset)
+- `khora-09-residence-lounge.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-09-residence-lounge.webp (Template media asset)
+- `khora-10-closing-contact.webp` (image/webp) — https://www.openlanding.page/templates/khora/khora-10-closing-contact.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/khora/preview-1600.webp (Template media asset)
 
 ---
 

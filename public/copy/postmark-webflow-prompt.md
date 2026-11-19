@@ -61,6 +61,28 @@ Create or select a Variable Collection named **`POSTMARK Tokens`**, then create 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `POSTMARK` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `postmark.webp` (image/webp) — https://www.openlanding.page/gallery/postmark.webp (Gallery preview capture)
+- `media_1794361630934_b32c9988.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361630934_b32c9988.jpg (Template media asset)
+- `media_1794361638000_91a13bd4.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361638000_91a13bd4.jpg (Template media asset)
+- `media_1794361639758_04dc7777.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361639758_04dc7777.jpg (Template media asset)
+- `media_1794361643753_ce7c1dcb.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361643753_ce7c1dcb.jpg (Template media asset)
+- `media_1794361645466_12eff409.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361645466_12eff409.jpg (Template media asset)
+- `media_1794361648059_b154b2aa.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361648059_b154b2aa.jpg (Template media asset)
+- `media_1794361808563_1b6c3505.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794361808563_1b6c3505.jpg (Template media asset)
+- `media_1794363277651_990008e4.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794363277651_990008e4.jpg (Template media asset)
+- `media_1794363281095_86281308.jpg` (image/jpeg) — https://www.openlanding.page/templates/postmark/media_1794363281095_86281308.jpg (Template media asset)
+- `media_1794363281963_ecc22863.webm` (video/webm) — https://www.openlanding.page/templates/postmark/media_1794363281963_ecc22863.webm (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/postmark/preview-1600.webp (Template media asset)
+- `r1-final-cta-desktop.png` (image/png) — https://www.openlanding.page/templates/postmark/r1-final-cta-desktop.png (Template media asset)
+- `r1-hero-desktop.png` (image/png) — https://www.openlanding.page/templates/postmark/r1-hero-desktop.png (Template media asset)
+- `r1-hero-mobile.png` (image/png) — https://www.openlanding.page/templates/postmark/r1-hero-mobile.png (Template media asset)
+- `r1-intro-and-scroll.webm` (video/webm) — https://www.openlanding.page/templates/postmark/r1-intro-and-scroll.webm (Template media asset)
+- `01-hero-postmark-approved.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/01-hero-postmark-approved.webp (Template media asset)
+- `02-hero-postmark-clean.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/02-hero-postmark-clean.webp (Template media asset)
+- `03-feature-postcard-builder.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/03-feature-postcard-builder.webp (Template media asset)
+- `04-feature-memory-map.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/04-feature-memory-map.webp (Template media asset)
+- `05a-ephemera-collage.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/05a-ephemera-collage.webp (Template media asset)
+- `05b-ephemera-stamp-sheet.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/05b-ephemera-stamp-sheet.webp (Template media asset)
+- `06-final-cta-postmark-mockup.webp` (image/webp) — https://www.openlanding.page/templates/postmark/postmark/06-final-cta-postmark-mockup.webp (Template media asset)
 
 ---
 

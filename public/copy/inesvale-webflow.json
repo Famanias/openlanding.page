@@ -78,6 +78,108 @@
       "publicPath": "https://www.openlanding.page/gallery/inesvale.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "after-light-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/after-light-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/architecture-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/architecture-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-03.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/architecture-03.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-portrait.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/artist-portrait.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distance-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/distance-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distance-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/distance-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "distance-03.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/distance-03.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "portrait-study-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/portrait-study-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "portrait-study-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/portrait-study-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quiet-coast-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/quiet-coast-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quiet-coast-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/quiet-coast-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "quiet-coast-03.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/quiet-coast-03.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "still-life-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/still-life-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "still-life-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/still-life-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "still-life-03.webp",
+      "publicPath": "https://www.openlanding.page/templates/inesvale/still-life-03.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

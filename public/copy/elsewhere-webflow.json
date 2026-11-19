@@ -116,6 +116,228 @@
       "publicPath": "https://www.openlanding.page/gallery/elsewhere.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "boughs-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-soft-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-soft-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-soft-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-soft-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-soft-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-soft-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "boughs-soft-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/boughs-soft-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-amber-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-amber-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-amber-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-amber-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-amber-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-amber-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-amber-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-amber-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-green-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-green-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-green-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-green-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-green-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-green-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-green-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-green-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-white-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-white-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-white-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-white-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-white-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-white-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cabin-white-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/cabin-white-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "interior-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/interior-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "interior-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/interior-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "interior-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/interior-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "interior-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/interior-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "overlook-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/overlook-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "overlook-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/overlook-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "overlook-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/overlook-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "overlook-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/overlook-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "room-detail-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/room-detail-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "room-detail-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/room-detail-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "room-detail-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/room-detail-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "room-detail-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/room-detail-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "trail-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/trail-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "trail-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/trail-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "trail-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/trail-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "trail-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/elsewhere/trail-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

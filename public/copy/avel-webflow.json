@@ -79,6 +79,60 @@
       "publicPath": "https://www.openlanding.page/gallery/avel.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "closing-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/avel/closing-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "closing-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/avel/closing-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "closing-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/avel/closing-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "closing-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/avel/closing-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/avel/hero-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/avel/hero-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/avel/hero-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/avel/hero-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/avel/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

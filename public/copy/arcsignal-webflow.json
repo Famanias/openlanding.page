@@ -151,6 +151,396 @@
       "publicPath": "https://www.openlanding.page/gallery/arcsignal.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "ambient-01-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-01-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-02-capabilities.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-02-capabilities.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-03-platform.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-03-platform.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-04-reactor.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-04-reactor.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ambient-05-mobile.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/ambient-05-mobile.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-01-hero.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-01-hero.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-02-capabilities.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-02-capabilities.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-03-platform.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-03-platform.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-04-cta-footer.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-04-cta-footer.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-mark.svg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/arc-signal-mark.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-reactor.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/final-reactor.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "final-stage06.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/final-stage06.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "fresh-scene03.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/fresh-scene03.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "hero-core-fallback.svg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/hero-core-fallback.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697452161_8861e84f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697452161_8861e84f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697458929_6d651f3d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697458929_6d651f3d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697461489_a7626cd9.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697461489_a7626cd9.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793697463057_609c7628.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793697463057_609c7628.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698354095_9f08d89d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698354095_9f08d89d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698357012_87c99930.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698357012_87c99930.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698360021_886c58ff.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698360021_886c58ff.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698362405_3d02b89e.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698362405_3d02b89e.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698682507_2c57eb90.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698682507_2c57eb90.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793698686714_0d9a056b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793698686714_0d9a056b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699131498_02f49fc0.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699131498_02f49fc0.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699131650_d859900d.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699131650_d859900d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699134257_86578865.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699134257_86578865.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699135699_9314e857.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699135699_9314e857.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793699288257_c2e2f327.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793699288257_c2e2f327.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793700976911_1aa43eea.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793700976911_1aa43eea.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793701798243_b5fabf93.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793701798243_b5fabf93.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793701842012_d3e30153.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793701842012_d3e30153.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793701855503_897a7c4f.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793701855503_897a7c4f.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705776413_dc7ba697.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793705776413_dc7ba697.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793705789875_4c2f5781.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793705789875_4c2f5781.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856038405_e25bf8dc.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856038405_e25bf8dc.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856043962_d5419750.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856043962_d5419750.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856044287_da1f2684.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856044287_da1f2684.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856052987_fa374fb0.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856052987_fa374fb0.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856328350_b2331c36.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856328350_b2331c36.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856328759_7d90dde4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856328759_7d90dde4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793856330943_01c2e0a3.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793856330943_01c2e0a3.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897704096_c924cfaa.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897704096_c924cfaa.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897863475_c6e12855.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897863475_c6e12855.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897864615_28380280.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897864615_28380280.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793897866265_6ec43bf4.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793897866265_6ec43bf4.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899140411_36bce402.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899140411_36bce402.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899143621_216e09fd.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899143621_216e09fd.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899145111_77875128.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899145111_77875128.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793899147288_e1f89eb3.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/media_1793899147288_e1f89eb3.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene02-capabilities-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/scene02-capabilities-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene03-platform-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/scene03-platform-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "scene04-reactor-desktop.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/scene04-reactor-desktop.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "signal-wave.svg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/signal-wave.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "verified-platform-centered.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/verified-platform-centered.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_4445da85.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_4445da85.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_6021a536.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_6021a536.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_7d4f43ba.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_7d4f43ba.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_d8941a19.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_d8941a19.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_e9ac556d.png",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/aistudio/image_e9ac556d.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-01-hero.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-01-hero.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-02-capabilities.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-02-capabilities.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-03-platform.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-03-platform.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "arc-signal-04-cta-footer.jpg",
+      "publicPath": "https://www.openlanding.page/templates/arcsignal/references/arc-signal-04-cta-footer.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
     }
   ],
   "sections": [

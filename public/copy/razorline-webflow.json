@@ -103,6 +103,54 @@
       "publicPath": "https://www.openlanding.page/gallery/razorline.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/razorline/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-cobalt.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-cobalt.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-detail-heel.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-detail-heel.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-detail-mesh.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-detail-mesh.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-detail-sole.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-detail-sole.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-shadow.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-shadow.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "rl01-voltage.png",
+      "publicPath": "https://www.openlanding.page/templates/razorline/rl01-voltage.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

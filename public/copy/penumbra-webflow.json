@@ -117,6 +117,72 @@
       "publicPath": "https://www.openlanding.page/gallery/penumbra.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "architecture-base.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/architecture-base.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-illuminated.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/architecture-illuminated.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712887880_2079312c.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712887880_2079312c.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712891049_9b3ee09d.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712891049_9b3ee09d.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712895877_5c2db63b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712895877_5c2db63b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793712998087_6e90a1f5.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793712998087_6e90a1f5.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793713001160_45215e56.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793713001160_45215e56.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793713005948_825ebe4b.jpg",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/media_1793713005948_825ebe4b.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-base_a79a3e0f.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/aistudio/architecture-base_a79a3e0f.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "architecture-illuminated_3b7655d4.webp",
+      "publicPath": "https://www.openlanding.page/templates/penumbra/aistudio/architecture-illuminated_3b7655d4.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

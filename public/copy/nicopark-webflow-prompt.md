@@ -53,6 +53,23 @@ Create or select a Variable Collection named **`Nico Park Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Nico Park` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `nicopark.webp` (image/webp) — https://www.openlanding.page/gallery/nicopark.webp (Gallery preview capture)
+- `forma-ui.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/forma-ui.svg (Template media asset)
+- `icon.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/icon.svg (Template media asset)
+- `kindred-brand.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/kindred-brand.svg (Template media asset)
+- `loop-buttons.png` (image/png) — https://www.openlanding.page/templates/nicopark/loop-buttons.png (Template media asset)
+- `loop-cover.png` (image/png) — https://www.openlanding.page/templates/nicopark/loop-cover.png (Template media asset)
+- `loop-detail-01.webp` (image/webp) — https://www.openlanding.page/templates/nicopark/loop-detail-01.webp (Template media asset)
+- `loop-detail-02.webp` (image/webp) — https://www.openlanding.page/templates/nicopark/loop-detail-02.webp (Template media asset)
+- `loop-dial.png` (image/png) — https://www.openlanding.page/templates/nicopark/loop-dial.png (Template media asset)
+- `loop-hero.png` (image/png) — https://www.openlanding.page/templates/nicopark/loop-hero.png (Template media asset)
+- `loop-hero.webp` (image/webp) — https://www.openlanding.page/templates/nicopark/loop-hero.webp (Template media asset)
+- `loop-shell.png` (image/png) — https://www.openlanding.page/templates/nicopark/loop-shell.png (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/nicopark/preview-1600.webp (Template media asset)
+- `process-sketch-01.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/process-sketch-01.svg (Template media asset)
+- `process-sketch-02.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/process-sketch-02.svg (Template media asset)
+- `process-sketch-03.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/process-sketch-03.svg (Template media asset)
+- `studio-workspace.svg` (image/svg+xml) — https://www.openlanding.page/templates/nicopark/studio-workspace.svg (Template media asset)
+- `Design_portfolio_website_hero_se__cb8a8524_2K_28c33838.jpg` (image/jpeg) — https://www.openlanding.page/templates/nicopark/aistudio/Design_portfolio_website_hero_se__cb8a8524_2K_28c33838.jpg (Template media asset)
 
 ---
 

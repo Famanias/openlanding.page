@@ -54,6 +54,14 @@ Create or select a Variable Collection named **`RAZORLINE Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `RAZORLINE` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `razorline.webp` (image/webp) — https://www.openlanding.page/gallery/razorline.webp (Gallery preview capture)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/razorline/preview-1600.webp (Template media asset)
+- `rl01-cobalt.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-cobalt.png (Template media asset)
+- `rl01-detail-heel.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-detail-heel.png (Template media asset)
+- `rl01-detail-mesh.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-detail-mesh.png (Template media asset)
+- `rl01-detail-sole.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-detail-sole.png (Template media asset)
+- `rl01-hero.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-hero.png (Template media asset)
+- `rl01-shadow.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-shadow.png (Template media asset)
+- `rl01-voltage.png` (image/png) — https://www.openlanding.page/templates/razorline/rl01-voltage.png (Template media asset)
 
 ---
 

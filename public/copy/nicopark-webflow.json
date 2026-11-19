@@ -105,6 +105,108 @@
       "publicPath": "https://www.openlanding.page/gallery/nicopark.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "forma-ui.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/forma-ui.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "kindred-brand.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/kindred-brand.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-buttons.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-buttons.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-cover.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-cover.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-detail-01.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-detail-01.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-detail-02.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-detail-02.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-dial.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-dial.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-hero.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-hero.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "loop-shell.png",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/loop-shell.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "process-sketch-01.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/process-sketch-01.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "process-sketch-02.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/process-sketch-02.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "process-sketch-03.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/process-sketch-03.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "studio-workspace.svg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/studio-workspace.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "Design_portfolio_website_hero_se__cb8a8524_2K_28c33838.jpg",
+      "publicPath": "https://www.openlanding.page/templates/nicopark/aistudio/Design_portfolio_website_hero_se__cb8a8524_2K_28c33838.jpg",
+      "contentType": "image/jpeg",
+      "role": "Template media asset"
     }
   ],
   "sections": [

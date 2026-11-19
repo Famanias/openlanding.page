@@ -217,6 +217,96 @@
       "publicPath": "https://www.openlanding.page/gallery/lumen.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "footer-glass-cutout.webp",
+      "publicPath": "https://www.openlanding.page/templates/lumen/footer-glass-cutout.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-glass-mesh.glb",
+      "publicPath": "https://www.openlanding.page/templates/lumen/footer-glass-mesh.glb",
+      "contentType": "model/gltf-binary",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "footer-glass.webp",
+      "publicPath": "https://www.openlanding.page/templates/lumen/footer-glass.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "icon.svg",
+      "publicPath": "https://www.openlanding.page/templates/lumen/icon.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/lumen/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ai-workflow-playbook-cover_2149baf2.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/aistudio/ai-workflow-playbook-cover_2149baf2.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "ai-workflow-playbook-cover_dcc4c416.svg",
+      "publicPath": "https://www.openlanding.page/templates/lumen/aistudio/ai-workflow-playbook-cover_dcc4c416.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass-workspace-art_25aec004.svg",
+      "publicPath": "https://www.openlanding.page/templates/lumen/aistudio/glass-workspace-art_25aec004.svg",
+      "contentType": "image/svg+xml",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass-workspace-art_d86f62af.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/aistudio/glass-workspace-art_d86f62af.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "caustic-window.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/glass/caustic-window.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "frosted-fold.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/glass/frosted-fold.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "glass-strata.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/glass/glass-strata.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "liquid-lens.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/glass/liquid-lens.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "opal-ribbon.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/glass/opal-ribbon.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "refractive-halo.png",
+      "publicPath": "https://www.openlanding.page/templates/lumen/glass/refractive-halo.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
     }
   ],
   "sections": [

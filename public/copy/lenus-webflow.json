@@ -115,6 +115,18 @@
       "publicPath": "https://www.openlanding.page/gallery/lenus.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "footer-optical-v1.webp",
+      "publicPath": "https://www.openlanding.page/templates/lenus/footer-optical-v1.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/lenus/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

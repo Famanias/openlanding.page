@@ -134,6 +134,204 @@
       "publicPath": "https://www.openlanding.page/gallery/wowflutter.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "artist-dunmore-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-dunmore-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-dunmore-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-dunmore-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-dunmore-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-ines-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-ines-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "artist-marl-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/artist-marl-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cover-portrait-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/cover-portrait-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-baths-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-baths-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "feature-stairwell-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/feature-stairwell-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "press-room-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/press-room-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "sleeve-stack-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/wowflutter/sleeve-stack-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

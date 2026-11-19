@@ -76,6 +76,120 @@
       "publicPath": "https://www.openlanding.page/gallery/kinfield.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "01-movement-triptych-a-480.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/01-movement-triptych-a-480.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-movement-triptych-a-896.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/01-movement-triptych-a-896.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "01-movement-triptych-a.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/01-movement-triptych-a.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-triptych-b-480.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/02-triptych-b-480.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-triptych-b-896.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/02-triptych-b-896.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "02-triptych-b.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/02-triptych-b.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-triptych-c-480.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/03-triptych-c-480.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-triptych-c-896.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/03-triptych-c-896.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "03-triptych-c.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/03-triptych-c.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-instructor-a-480.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/04-instructor-a-480.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-instructor-a-896.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/04-instructor-a-896.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-instructor-a.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/04-instructor-a.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-instructor-b-480.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/04-instructor-b-480.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-instructor-b-896.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/04-instructor-b-896.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "04-instructor-b.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/04-instructor-b.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-studio-room-480.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/06-studio-room-480.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-studio-room-896.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/06-studio-room-896.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "06-studio-room.webp",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/06-studio-room.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "07-movement-loop.mp4",
+      "publicPath": "https://www.openlanding.page/assets/kinfield/07-movement-loop.mp4",
+      "contentType": "video/mp4",
+      "role": "Template media asset"
     }
   ],
   "sections": [

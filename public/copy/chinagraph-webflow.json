@@ -122,6 +122,684 @@
       "publicPath": "https://www.openlanding.page/gallery/chinagraph.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "cloth-01-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-01-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-01-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-01-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-01-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-01-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-01-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-01-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-02-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-02-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-02-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-02-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-02-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-02-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-02-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-02-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-03-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-03-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-03-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-03-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-03-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-03-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-03-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-03-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-04-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-04-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-04-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-04-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-04-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-04-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "cloth-04-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/cloth-04-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-01-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-01-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-01-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-01-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-01-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-01-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-01-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-01-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-02-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-02-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-02-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-02-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-02-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-02-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-02-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-02-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-03-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-03-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-03-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-03-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-03-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-03-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-03-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-03-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-04-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-04-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-04-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-04-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-04-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-04-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-04-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-04-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-05-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-05-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-05-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-05-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-05-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-05-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-05-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-05-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-06-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-06-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-06-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-06-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-06-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-06-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "detail-06-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/detail-06-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-01-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-01-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-01-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-01-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-01-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-01-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-01-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-01-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-02-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-02-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-02-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-02-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-02-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-02-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-02-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-02-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-03-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-03-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-03-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-03-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-03-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-03-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-03-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-03-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-04-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-04-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-04-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-04-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-04-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-04-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-04-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-04-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-05-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-05-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-05-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-05-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-05-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-05-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-05-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-05-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-06-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-06-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-06-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-06-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-06-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-06-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "flat-06-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/flat-06-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-01-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-01-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-01-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-01-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-01-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-01-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-01-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-01-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-02-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-02-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-02-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-02-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-02-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-02-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-02-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-02-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-03-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-03-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-03-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-03-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-03-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-03-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-03-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-03-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-04-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-04-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-04-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-04-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-04-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-04-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-04-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-04-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-05-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-05-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-05-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-05-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-05-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-05-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-05-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-05-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-06-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-06-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-06-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-06-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-06-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-06-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-06-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-06-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-07-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-07-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-07-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-07-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-07-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-07-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-07-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-07-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-08-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-08-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-08-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-08-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-08-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-08-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-08-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-08-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-09-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-09-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-09-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-09-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-09-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-09-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-09-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-09-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-10-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-10-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-10-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-10-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-10-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-10-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-10-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-10-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-11-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-11-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-11-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-11-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-11-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-11-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-11-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-11-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-12-1600.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-12-1600.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-12-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-12-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-12-800.avif",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-12-800.avif",
+      "contentType": "image/avif",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "roll-12-800.webp",
+      "publicPath": "https://www.openlanding.page/templates/chinagraph/roll-12-800.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [

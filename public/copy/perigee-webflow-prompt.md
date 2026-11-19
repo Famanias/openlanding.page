@@ -52,6 +52,8 @@ Create or select a Variable Collection named **`PERIGEE Tokens`**, then create t
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `PERIGEE` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `perigee.webp` (image/webp) — https://www.openlanding.page/gallery/perigee.webp (Gallery preview capture)
+- `nebula-cluster.png` (image/png) — https://www.openlanding.page/templates/perigee/nebula-cluster.png (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/perigee/preview-1600.webp (Template media asset)
 
 ---
 

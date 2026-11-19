@@ -52,6 +52,17 @@ Create or select a Variable Collection named **`Pitchlane Tokens`**, then create
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `Pitchlane` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
 - `pitchlane.webp` (image/webp) — https://www.openlanding.page/gallery/pitchlane.webp (Gallery preview capture)
+- `accent-ribbon-transparent.png` (image/png) — https://www.openlanding.page/templates/pitchlane/accent-ribbon-transparent.png (Template media asset)
+- `cover-clear-structure.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/cover-clear-structure.webp (Template media asset)
+- `cover-fresh-perspective.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/cover-fresh-perspective.webp (Template media asset)
+- `cover-iridescent-forms.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/cover-iridescent-forms.webp (Template media asset)
+- `cover-momentum.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/cover-momentum.webp (Template media asset)
+- `cover-night-shift.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/cover-night-shift.webp (Template media asset)
+- `Creating_presentation_platform_h…_12a47ad9_2K.jpg` (image/jpeg) — https://www.openlanding.page/templates/pitchlane/Creating_presentation_platform_h…_12a47ad9_2K.jpg (Template media asset)
+- `photo-architectural-geometry.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/photo-architectural-geometry.webp (Template media asset)
+- `photo-design-studio.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/photo-design-studio.webp (Template media asset)
+- `photo-sculptural-product.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/photo-sculptural-product.webp (Template media asset)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/pitchlane/preview-1600.webp (Template media asset)
 
 ---
 

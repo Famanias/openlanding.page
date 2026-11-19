@@ -109,6 +109,180 @@
       "publicPath": "https://www.openlanding.page/gallery/aurel.webp",
       "contentType": "image/webp",
       "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "aurel-atelier.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-atelier.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-case-side.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-case-side.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-caseback.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-caseback.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-dial-macro.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-dial-macro.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-hero-reference.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-hero-reference.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-hero-watch.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-hero-watch.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-movement-exploded.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-movement-exploded.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-still-life.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aurel-still-life.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793742670245_3c664fe8.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/media_1793742670245_3c664fe8.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793742725310_134b550f.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/media_1793742725310_134b550f.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793742781241_b8720c27.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/media_1793742781241_b8720c27.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "media_1793742903182_8e1cad45.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/media_1793742903182_8e1cad45.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-anatomy.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r1-desktop-anatomy.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-gallery.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r1-desktop-gallery.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r1-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r1-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r1-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-atelier.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r2-desktop-atelier.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r2-desktop-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-desktop-modal.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r2-desktop-modal.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "r2-mobile-hero.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/r2-mobile-hero.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-atelier_117be258.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-atelier_117be258.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-case-side_5722c033.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-case-side_5722c033.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-caseback_8d5c58c4.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-caseback_8d5c58c4.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-dial-macro_861890a8.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-dial-macro_861890a8.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-hero-section_7a818242.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-hero-section_7a818242.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-hero-watch_8043a270.png",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-hero-watch_8043a270.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-movement-exploded_05e1b0e9.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-movement-exploded_05e1b0e9.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "aurel-still-life_c3a911be.webp",
+      "publicPath": "https://www.openlanding.page/templates/aurel/aistudio/aurel-still-life_c3a911be.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
     }
   ],
   "sections": [
