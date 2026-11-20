@@ -14,6 +14,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  solstice: { name: "Solstice", dependencies: ["lucide-react", "motion"] },
   tolvar: { name: "TOLVAR EARTHWORKS", dependencies: ["lenis"], includeDownload: true },
   snoot: { name: "Snoot", dependencies: ["lenis", "three"], includeDownload: true },
   elsewhere: { name: "ELSEWHERE", dependencies: ["lenis"], includeDownload: true },

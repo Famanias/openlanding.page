@@ -1,4 +1,4 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice";
 
 import { TECHNOLOGY_TAGS } from "./technology-tags";
 
@@ -1147,6 +1147,16 @@ Build a complete, responsive, interaction-rich landing page for **SERRAFORM** us
 ## Brand & Positioning
 - **Title:** SERRAFORM — Fold 16
 - **Description:** Design Fold 16 in your browser: shape sixteen connected felt panels, mix custom colors with an interactive wheel, choose original prints or local artwork, and prepare a room brief.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const SOLSTICE_PROMPT = `# Solstice — Interactive Painted Desert — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **Solstice** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** Solstice — Interactive Painted Desert
+- **Description:** A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -3238,6 +3248,24 @@ RAW_TEMPLATES.push({
   promptMarkdown: SNOOT_PROMPT,
   model: "Claude Opus 5.5",
 });
+
+RAW_TEMPLATES.push(
+  {
+    slug: "solstice",
+    createdAt: "2026-11-20",
+    hasDownload: false,
+    title: "Solstice",
+    description: "A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.",
+    category: "studio" as TemplateCategory,
+    categories: ["studio" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/solstice/preview-1600.webp",
+    promptMarkdown: SOLSTICE_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+);
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({
   ...template,
