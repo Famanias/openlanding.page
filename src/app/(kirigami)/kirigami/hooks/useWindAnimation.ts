@@ -5,8 +5,8 @@ import {
   BLOSSOM_SPAWN_ANCHORS,
   SCENE_HEIGHT,
   SCENE_WIDTH,
-} from '../src/utils/sceneCoordinates';
-import { PetalParticleState, stepPetalParticle } from '../src/utils/paperGeometry';
+} from '../utils/sceneCoordinates';
+import { PetalParticleState, stepPetalParticle } from '../utils/paperGeometry';
 import type { PointerPosition } from './usePaperParallax';
 
 export interface WindAnimatedRefs {

@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { buildSakuraBlossomPaths } from '../src/utils/paperGeometry';
-import { PAPER_PALETTE } from '../src/utils/paperTextures';
-import { PETAL_POOL_SIZE } from '../src/hooks/useWindAnimation';
+import { buildSakuraBlossomPaths } from '../utils/paperGeometry';
+import { PAPER_PALETTE } from '../utils/paperTextures';
+import { PETAL_POOL_SIZE } from '../hooks/useWindAnimation';
 
 interface FlowerSpec {
   x: number;

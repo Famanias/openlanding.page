@@ -5,7 +5,7 @@ import {
   DEPTH_LAYERS,
   DepthLayerId,
   computeLayerParallaxOffset,
-} from '../src/utils/sceneCoordinates';
+} from '../utils/sceneCoordinates';
 
 export interface PointerPosition {
   normX: number; // -1 to 1

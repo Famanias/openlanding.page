@@ -5,15 +5,15 @@ import {
   CameraFrame,
   DepthLayerId,
   computeResponsiveViewBox,
-} from '../src/utils/sceneCoordinates';
+} from '../utils/sceneCoordinates';
 import {
   PAPER_PALETTE,
   computeEffectiveShadowOpacity,
-} from '../src/utils/paperTextures';
-import { computeUnfoldState } from '../src/utils/unfoldMath';
-import { PointerPosition, usePaperParallax } from '../src/hooks/usePaperParallax';
-import { WindAnimatedRefs, useWindAnimation } from '../src/hooks/useWindAnimation';
-import { UnfoldTargetRefs, useUnfoldTimeline } from '../src/hooks/useUnfoldTimeline';
+} from '../utils/paperTextures';
+import { computeUnfoldState } from '../utils/unfoldMath';
+import { PointerPosition, usePaperParallax } from '../hooks/usePaperParallax';
+import { WindAnimatedRefs, useWindAnimation } from '../hooks/useWindAnimation';
+import { UnfoldTargetRefs, useUnfoldTimeline } from '../hooks/useUnfoldTimeline';
 import { PaperLayer } from './PaperLayer';
 import { PaperSkyBackdrop, PaperSun } from './PaperSun';
 import { PaperClouds } from './PaperClouds';

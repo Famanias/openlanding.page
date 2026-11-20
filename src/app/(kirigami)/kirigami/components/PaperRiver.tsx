@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { PAPER_PALETTE } from '../src/utils/paperTextures';
+import { PAPER_PALETTE } from '../utils/paperTextures';
 import { PaperCastShadow } from './PaperShadow';
 
 interface PaperRiverProps {

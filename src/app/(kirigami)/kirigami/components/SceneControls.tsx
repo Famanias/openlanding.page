@@ -9,7 +9,7 @@ import {
   EyeOff,
   X,
 } from 'lucide-react';
-import type { ViewportCategory } from '../src/utils/sceneCoordinates';
+import type { ViewportCategory } from '../utils/sceneCoordinates';
 
 export interface SceneControlState {
   unfoldProgress: number;

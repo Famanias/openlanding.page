@@ -5,8 +5,8 @@ import {
   buildFernRosettePath,
   buildGrassBladePath,
   buildSakuraBlossomPaths,
-} from '../src/utils/paperGeometry';
-import { PAPER_PALETTE } from '../src/utils/paperTextures';
+} from '../utils/paperGeometry';
+import { PAPER_PALETTE } from '../utils/paperTextures';
 import { PaperCastShadow } from './PaperShadow';
 
 interface PaperForegroundProps {

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import type { DepthLayerId } from '../src/utils/sceneCoordinates';
+import type { DepthLayerId } from '../utils/sceneCoordinates';
 
 interface PaperLayerProps {
   layerId: DepthLayerId;

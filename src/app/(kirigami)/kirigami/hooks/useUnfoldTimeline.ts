@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { clamp01 } from '../src/utils/unfoldMath';
+import { clamp01 } from '../utils/unfoldMath';
 
 export interface UnfoldTargetRefs {
   sun: SVGGElement | null;

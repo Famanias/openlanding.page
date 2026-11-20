@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PAPER_PALETTE } from '../src/utils/paperTextures';
+import { PAPER_PALETTE } from '../utils/paperTextures';
 
 interface PaperVillageProps {
   terracesRef: (el: SVGGElement | null) => void;

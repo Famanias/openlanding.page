@@ -4,8 +4,8 @@ import React, { useMemo } from 'react';
 import {
   buildCypressSpirePath,
   buildPineFanPaths,
-} from '../src/utils/paperGeometry';
-import { PAPER_PALETTE } from '../src/utils/paperTextures';
+} from '../utils/paperGeometry';
+import { PAPER_PALETTE } from '../utils/paperTextures';
 
 interface PineFanSpec {
   cx: number;

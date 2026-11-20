@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { KirigamiWorld } from './src/components/KirigamiWorld';
+import { KirigamiWorld } from './components/KirigamiWorld';
 import {
   SceneControls,
   SceneControlState,
-} from './src/components/SceneControls';
-import { clamp01 } from './src/utils/unfoldMath';
-import type { CameraFrame, ViewportCategory } from './src/utils/sceneCoordinates';
+} from './components/SceneControls';
+import { clamp01 } from './utils/unfoldMath';
+import type { CameraFrame, ViewportCategory } from './utils/sceneCoordinates';
 
 const DEFAULT_CONTROL_STATE: SceneControlState = {
   unfoldProgress: 1,
