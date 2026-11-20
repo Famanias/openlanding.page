@@ -35,6 +35,8 @@
     "@animate-ui/react": "^2.4.2",
     "@gsap/react": "^2.1.2",
     "@phosphor-icons/react": "^2.1.10",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "@upstash/ratelimit": "^2.2.0",
     "@upstash/redis": "^1.40.0",
     "animejs": "^4.5.0",

@@ -1,0 +1,106 @@
+{
+  "slug": "asagiri",
+  "title": "Asagiri",
+  "industry": "Digital Experience & Technology",
+  "description": "A serene, layered 2.5D Japanese-inspired scenic landing-page background built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/asagiri",
+  "downloadUrl": "https://www.openlanding.page/downloads/asagiri.html",
+  "manifestUrl": "https://www.openlanding.page/copy/asagiri-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/asagiri-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Asagiri Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-sans)",
+        "fallback": "ui-sans-serif, system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-display)",
+        "fallback": "Georgia, serif"
+      },
+      {
+        "name": "Font / Cormorant Garamond",
+        "cssVar": "--font-cormorant-garamond",
+        "family": "Cormorant Garamond",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Cormorant Garamond"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "asagiri.webp",
+      "publicPath": "https://www.openlanding.page/gallery/asagiri.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/asagiri/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "A serene, layered 2.5D Japanese-inspired scenic landing-page background built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "asagiri-styles-1",
+      "location": "head",
+      "title": "Asagiri Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 266,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme inline {\n  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;\n  --font-display: var(--font-display), Georgia, serif;\n}\n\nhtml,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  overflow: hidden;\n  background-color: #253243;\n}"
+    },
+    {
+      "id": "asagiri-runtime-1",
+      "location": "footer",
+      "title": "Asagiri Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 271,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Asagiri — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

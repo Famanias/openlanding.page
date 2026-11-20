@@ -1,0 +1,97 @@
+{
+  "slug": "kirigami",
+  "title": "KIRIGAMI",
+  "industry": "Digital Experience & Technology",
+  "description": "An interactive 2.5D handcrafted Japanese paper-cut landscape with layered cardstock depth, scroll-controlled pop-up unfolding, living wind animation, and pointer parallax.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/kirigami",
+  "downloadUrl": "https://www.openlanding.page/downloads/kirigami.html",
+  "manifestUrl": "https://www.openlanding.page/copy/kirigami-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/kirigami-webflow-prompt.md",
+  "variables": {
+    "collectionName": "KIRIGAMI Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "kirigami.webp",
+      "publicPath": "https://www.openlanding.page/gallery/kirigami.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/kirigami/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_d701f884.png",
+      "publicPath": "https://www.openlanding.page/templates/kirigami/aistudio/image_d701f884.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "An interactive 2.5D handcrafted Japanese paper-cut landscape with layered cardstock depth, scroll-controlled pop-up unfolding, living wind animation, and pointer parallax.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".kirigami-stage",
+        ".kirigami-viewport",
+        ".kirigami-svg-root",
+        ".paper-layer-group",
+        ".kirigami-outlines-on",
+        ".2px",
+        ".kirigami-depth-on",
+        ".kirigami-paper-grain",
+        ".025",
+        ".6px",
+        ".kirigami-interactive-house",
+        ".kirigami-interactive-cloud"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "kirigami-styles-1",
+      "location": "head",
+      "title": "KIRIGAMI Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 3601,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* KIRIGAMI 2.5D Paper World Styles */\r\n\r\n.kirigami-stage {\r\n  position: relative;\r\n  width: 100vw;\r\n  height: 100dvh;\r\n  overflow: hidden;\r\n  perspective: 1600px;\r\n  perspective-origin: 50% 48%;\r\n  background: linear-gradient(180deg, #fbf3e6 0%, #f5e5cf 55%, #edd7bc 100%);\r\n  user-select: none;\r\n  -webkit-user-select: none;\r\n}\r\n\r\n.kirigami-viewport {\r\n  position: absolute;\r\n  inset: -4%;\r\n  width: 108%;\r\n  height: 108%;\r\n  transform-style: preserve-3d;\r\n  will-change: transform;\r\n}\r\n\r\n.kirigami-svg-root {\r\n  width: 100%;\r\n  height: 100%;\r\n  display: block;\r\n  overflow: visible;\r\n  shape-rendering: geometricPrecision;\r\n}\r\n\r\n/* Layer depth group transform optimization */\r\n.paper-layer-group {\r\n  transform-box: fill-box;\r\n  will-change: transform;\r\n}\r\n\r\n/* Cut-paper outline debug mode */\r\n.kirigami-outlines-on path,\r\n.kirigami-outlines-on polygon,\r\n.kirigami-outlines-on circle,\r\n.kirigami-outlines-on rect {\r\n  stroke: #d946ef !important;\r\n  stroke-width: 1.2px !important;\r\n  stroke-opacity: 0.85 !important;\r\n}\r\n\r\n/* Depth visualization false-color bands */\r\n.kirigami-depth-on [data-depth-layer=\"0\"] { filter: sepia(1) hue-rotate(190deg) saturate(1.4) brightness(1.08); }\r\n.kirigami-depth-on [data-depth-layer=\"1\"] { filter: sepia(1) hue-rotate(175deg) saturate(1.6) brightness(1.02); }\r\n.kirigami-depth-on [data-depth-layer=\"2\"] { filter: sepia(1) hue-rotate(140deg) saturate(1.8) brightness(0.96); }\r\n.kirigami-depth-on [data-depth-layer=\"3\"] { filter: sepia(1) hue-rotate(100deg) saturate(1.9) brightness(0.94); }\r\n.kirigami-depth-on [data-depth-layer=\"4\"] { filter: sepia(1) hue-rotate(55deg) saturate(2.1) brightness(0.96); }\r\n.kirigami-depth-on [data-depth-layer=\"5\"] { filter: sepia(1) hue-rotate(20deg) saturate(2.2) brightness(0.94); }\r\n.kirigami-depth-on [data-depth-layer=\"6\"] { filter: sepia(1) hue-rotate(-10deg) saturate(2.4) brightness(0.92); }\r\n.kirigami-depth-on [data-depth-layer=\"7\"] { filter: sepia(1) hue-rotate(-38deg) saturate(2.8) brightness(0.95); }\r\n\r\n/* Paper grain overlay (ultra subtle handmade washi fiber texture, zero CPU filter overhead) */\r\n.kirigami-paper-grain {\r\n  pointer-events: none;\r\n  position: absolute;\r\n  inset: 0;\r\n  mix-blend-mode: multiply;\r\n  opacity: 0.22;\r\n  background-image:\r\n    repeating-linear-gradient(\r\n      28deg,\r\n      rgba(128, 98, 68, 0.03) 0px,\r\n      rgba(128, 98, 68, 0.03) 1px,\r\n      transparent 1px,\r\n      transparent 7px\r\n    ),\r\n    repeating-linear-gradient(\r\n      -62deg,\r\n      rgba(105, 80, 56, 0.025) 0px,\r\n      rgba(105, 80, 56, 0.025) 1px,\r\n      transparent 1px,\r\n      transparent 9px\r\n    ),\r\n    radial-gradient(rgba(110, 82, 54, 0.07) 0.6px, transparent 0.6px);\r\n  background-size: 100% 100%, 100% 100%, 14px 14px;\r\n}\r\n\r\n/* Subtle interactive cursor cues when interaction mode is enabled */\r\n.kirigami-interactive-house {\r\n  cursor: pointer;\r\n}\r\n\r\n.kirigami-interactive-house:focus-visible {\r\n  outline: none;\r\n}\r\n\r\n.kirigami-interactive-cloud {\r\n  cursor: pointer;\r\n}\r\n\r\n/* Animated river shimmer lines */\r\n@keyframes riverFlowDash {\r\n  0% {\r\n    stroke-dashoffset: 180;\r\n  }\r\n  100% {\r\n    stroke-dashoffset: 0;\r\n  }\r\n}\r\n\r\n.river-current-flow {\r\n  animation: riverFlowDash 16s linear infinite;\r\n}\r\n\r\n.river-current-flow-slow {\r\n  animation: riverFlowDash 24s linear infinite;\r\n}\r\n\r\n.kirigami-ambient-paused .river-current-flow,\r\n.kirigami-ambient-paused .river-current-flow-slow {\r\n  animation-play-state: paused;\r\n}\r\n\r\n/* Respect reduced motion preferences */\r\n@media (prefers-reduced-motion: reduce) {\r\n  .river-current-flow,\r\n  .river-current-flow-slow {\r\n    animation: none !important;\r\n  }\r\n}"
+    },
+    {
+      "id": "kirigami-runtime-1",
+      "location": "footer",
+      "title": "KIRIGAMI Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 272,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// KIRIGAMI — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

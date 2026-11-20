@@ -1,0 +1,108 @@
+{
+  "slug": "bloom-decay",
+  "title": "BLOOM//DECAY",
+  "industry": "Digital Experience & Technology",
+  "description": "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/bloom-decay",
+  "downloadUrl": "https://www.openlanding.page/downloads/bloom-decay.html",
+  "manifestUrl": "https://www.openlanding.page/copy/bloom-decay-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/bloom-decay-webflow-prompt.md",
+  "variables": {
+    "collectionName": "BLOOM//DECAY Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Cormorant Garamond",
+        "cssVar": "--font-cormorant-garamond",
+        "family": "Cormorant Garamond",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Cormorant Garamond"
+      },
+      {
+        "name": "Font / DM Sans",
+        "cssVar": "--font-dm-sans",
+        "family": "DM Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "bloom-decay.webp",
+      "publicPath": "https://www.openlanding.page/gallery/bloom-decay.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/bloom-decay/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_ab37466c.png",
+      "publicPath": "https://www.openlanding.page/templates/bloom-decay/aistudio/image_ab37466c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".archival-range"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "bloom-decay-styles-1",
+      "location": "head",
+      "title": "BLOOM//DECAY Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 1342,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@layer base {\n  html,\n  body {\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    background-color: #E9E1D3;\n    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;\n  }\n}\n\n/* Custom archival range slider for the developer scrubber */\ninput[type=\"range\"].archival-range {\n  -webkit-appearance: none;\n  appearance: none;\n  background: transparent;\n  cursor: pointer;\n}\n\ninput[type=\"range\"].archival-range::-webkit-slider-runnable-track {\n  height: 3px;\n  border-radius: 9999px;\n  background: rgba(28, 25, 26, 0.18);\n}\n\ninput[type=\"range\"].archival-range::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 13px;\n  height: 13px;\n  margin-top: -5px;\n  border-radius: 9999px;\n  background: #722C3B;\n  border: 2px solid #E9E1D3;\n  box-shadow: 0 1px 3px rgba(28, 25, 26, 0.35);\n  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);\n}\n\ninput[type=\"range\"].archival-range::-webkit-slider-thumb:hover {\n  transform: scale(1.18);\n}\n\ninput[type=\"range\"].archival-range::-moz-range-track {\n  height: 3px;\n  border-radius: 9999px;\n  background: rgba(28, 25, 26, 0.18);\n}\n\ninput[type=\"range\"].archival-range::-moz-range-thumb {\n  width: 13px;\n  height: 13px;\n  border-radius: 9999px;\n  background: #722C3B;\n  border: 2px solid #E9E1D3;\n  box-shadow: 0 1px 3px rgba(28, 25, 26, 0.35);\n}"
+    },
+    {
+      "id": "bloom-decay-runtime-1",
+      "location": "footer",
+      "title": "BLOOM//DECAY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 276,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// BLOOM//DECAY — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

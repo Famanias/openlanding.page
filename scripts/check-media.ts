@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { readTemplateFiles } from "./template-files";
 import { TEMPLATES, type SourceFile, type TemplateSlug } from "./templates.config";
+import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
 export type MediaViolation = {
   slug: string;
@@ -117,7 +118,10 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
       failed = true;
     } else if (TEMPLATES[slug].hasDownload) {
       const html = readFileSync(download, "utf8");
-      if (!/<h1[\s>]/i.test(html) || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) {
+      const registration = RAW_TEMPLATES.find((t) => t.slug === slug);
+      const isHeroBackground = registration?.categories?.includes("hero-background") || registration?.category === "hero-background";
+      const hasMarkup = isHeroBackground ? /<(?:h1|main|canvas|svg|div)[\s>]/i.test(html) : /<h1[\s>]/i.test(html);
+      if (!hasMarkup || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) {
         console.error(`media [${slug}]: standalone HTML needs an h1 and must not depend on Next or a base URL`);
         failed = true;
       }

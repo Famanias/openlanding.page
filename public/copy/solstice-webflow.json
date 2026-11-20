@@ -1,0 +1,74 @@
+{
+  "slug": "solstice",
+  "title": "Solstice",
+  "industry": "Digital Experience & Technology",
+  "description": "A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/solstice",
+  "downloadUrl": "https://www.openlanding.page/downloads/solstice.html",
+  "manifestUrl": "https://www.openlanding.page/copy/solstice-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/solstice-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Solstice Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "solstice.webp",
+      "publicPath": "https://www.openlanding.page/gallery/solstice.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/solstice/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_da5e9a59.png",
+      "publicPath": "https://www.openlanding.page/templates/solstice/aistudio/image_da5e9a59.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "solstice-runtime-1",
+      "location": "footer",
+      "title": "Solstice Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 272,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Solstice — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

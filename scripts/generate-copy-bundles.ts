@@ -14,6 +14,13 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  "dither-city": { name: "DITHER//CITY", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  asagiri: { name: "Asagiri", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  kirigami: { name: "KIRIGAMI", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  "bloom-decay": { name: "BLOOM//DECAY", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  thelastlight: { name: "The Last Light", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  "celestial-horizon": { name: "Celestial Horizon", dependencies: ["three", "@react-three/fiber", "@react-three/drei", "lucide-react", "motion"], includeDownload: true },
+  solstice: { name: "Solstice", dependencies: ["lucide-react", "motion"], includeDownload: true },
   tolvar: { name: "TOLVAR EARTHWORKS", dependencies: ["lenis"], includeDownload: true },
   snoot: { name: "Snoot", dependencies: ["lenis", "three"], includeDownload: true },
   elsewhere: { name: "ELSEWHERE", dependencies: ["lenis"], includeDownload: true },

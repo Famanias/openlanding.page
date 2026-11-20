@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice" | "celestial-horizon" | "thelastlight" | "bloom-decay" | "kirigami" | "asagiri" | "dither-city";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,41 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  "dither-city": {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(dither-city)/"],
+    mediaExempt: true,
+  },
+  asagiri: {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(asagiri)/"],
+    mediaExempt: true,
+  },
+  kirigami: {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(kirigami)/"],
+    mediaExempt: true,
+  },
+  "bloom-decay": {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(bloom-decay)/"],
+    mediaExempt: true,
+  },
+  thelastlight: {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(thelastlight)/"],
+    mediaExempt: true,
+  },
+  "celestial-horizon": {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(celestial-horizon)/"],
+    mediaExempt: true,
+  },
+  solstice: {
+    palette: ["#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(solstice)/"],
+    mediaExempt: true,
+  },
   snoot: {
     // ink (indigo text, dark slabs), biscuit (page), milk (cards), boop pink (the nose, primary accent),
     // collar blue (bold slabs, links), yolk (tags, highlights), mint (all-clear, success), frank (the dachshund coat)

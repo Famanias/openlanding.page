@@ -1,0 +1,1351 @@
+# THE LAST LIGHT
+## MASTER REVISION — CINEMATIC ENVIRONMENT & PHYSICS OVERHAUL
+
+### ROLE
+
+You are a senior Three.js engineer, real-time environment artist, technical director, shader programmer, physics simulation engineer, and procedural 3D modeling specialist.
+
+You are working on an EXISTING React + Three.js lighthouse environment.
+
+Your task is to perform a comprehensive, coordinated upgrade of the existing project, improving its architectural accuracy, environmental realism, ocean rendering, atmospheric lighting, weather simulation, and interactive physics.
+
+**DO NOT REBUILD THE PROJECT FROM SCRATCH.**
+
+Inspect the existing codebase, understand its architecture, and upgrade the systems that are already present.
+
+Preserve all working functionality, components, animations, controls, and existing simulation logic unless they require correction.
+
+You have two visual references:
+
+1. **CURRENT IMPLEMENTATION:** The screenshot showing the existing lighthouse, cottage, rocky island, ocean, beacon, and sunset sky.
+2. **TARGET ART DIRECTION:** The previously generated cinematic lighthouse scene with atmospheric storm clouds, detailed water, dramatic lighting, rugged coastal geology, and a believable lighthouse environment.
+
+The first image identifies what needs improvement.
+
+The second represents the desired level of atmosphere, composition, material richness, and visual sophistication.
+
+Do not use either image as a static background.
+
+Everything must remain a real-time, interactive, code-generated environment.
+
+---
+
+# 1. PRIMARY OBJECTIVE
+
+Transform the existing lighthouse scene from a relatively simple stylized 3D environment into a polished, atmospheric, and physically coherent coastal simulation.
+
+The current scene has a usable foundation but several important problems:
+
+- The keeper's cottage visually merges with the lighthouse.
+- The sky consists mainly of a simple orange-yellow gradient.
+- The lighthouse beam resembles a bright triangular wedge.
+- The ocean looks overly metallic and lacks convincing localized wave behavior.
+- Shoreline foam appears as large smooth white patches.
+- The boat is partially outside the camera viewport.
+- Coastal vegetation appears uniform.
+- Rocks have limited geological variation.
+- Environmental lighting lacks atmospheric integration.
+
+These problems must be addressed as interconnected systems.
+
+The objective is not simply to add more visual effects.
+
+**The objective is to make the entire environment more believable, coherent, interactive, and cinematic.**
+
+---
+
+# 2. PRESERVE EXISTING FUNCTIONALITY
+
+Before changing anything, inspect the current implementation.
+
+Identify the components responsible for:
+
+- Lighthouse geometry
+- Keeper's cottage
+- Rocky island terrain
+- Ocean waves
+- Shoreline effects
+- Lighthouse beacon
+- Atmospheric fog
+- Weather system
+- Wind simulation
+- Boat physics
+- Camera controls
+- Day/night cycle
+- Developer controls
+- Cinematic timeline
+
+Map the dependencies between these components.
+
+Do not replace working systems unnecessarily.
+
+Maintain:
+
+- Existing camera modes
+- Existing weather controls
+- Existing time-of-day controls
+- Existing lighthouse interactions
+- Existing boat interactions
+- Existing cinematic sequences
+- Existing developer panel
+- Existing procedural architecture
+
+If a feature must be refactored, preserve its public interface where practical.
+
+Do not silently remove existing functionality to simplify implementation.
+
+---
+
+# 3. PRIORITY ONE — FIX THE ARCHITECTURAL COLLISION
+
+This is a mandatory geometry correction.
+
+## Current problem
+
+The keeper's cottage appears physically merged with the lighthouse.
+
+Its roof and walls visually intersect the tower, preventing the viewer from recognizing the buildings as separate structures.
+
+This is unacceptable for a production-quality environment.
+
+## 3.1 Inspect actual world-space geometry
+
+Find the scene objects representing:
+
+- Lighthouse tower
+- Lighthouse foundation
+- Lantern room
+- Cottage walls
+- Cottage roof
+- Cottage chimney
+- Cottage foundation
+- Connecting pathways
+- Adjacent rocky terrain
+
+Calculate relevant world-space bounding volumes.
+
+Use THREE.Box3, transformed bounds, or more accurate local geometry tests as appropriate.
+
+Bounding-box overlaps are conservative and may include false positives. For suspected collisions, inspect actual mesh geometry and spatial relationships before modifying objects.
+
+Identify unintended intersections.
+
+## 3.2 Separate lighthouse and cottage
+
+The lighthouse and cottage must be independent structures.
+
+Create separate object groups:
+
+`LighthouseGroup`
+
+`KeeperCottageGroup`
+
+Each must have its own:
+
+- Position
+- Rotation
+- Scale
+- Foundation
+- Architectural components
+- Material assignments
+- Interaction hierarchy
+
+Move the cottage farther to the right and slightly backward if the current terrain and camera allow it.
+
+However, do not rely on arbitrary coordinate offsets.
+
+Determine the correct placement based on:
+
+- Building footprint
+- Terrain elevation
+- Lighthouse radius
+- Roof overhang
+- Camera perspective
+- Pathway accessibility
+- Ground clearance
+
+There must be clear physical separation between the buildings.
+
+The cottage roof must not intersect the lighthouse tower.
+
+## 3.3 Expand the rocky island where necessary
+
+If the island is too small for proper architectural separation, modify the local terrain.
+
+Create two distinct building pads:
+
+**Lighthouse pad**
+- Raised stone foundation.
+- Stable terrain contact.
+- Clear access to the entrance.
+
+**Cottage pad**
+- Approximately level foundation.
+- Enough space for the cottage and roof overhang.
+- Clear access to the entrance.
+- No unsupported geometry hanging over cliffs.
+
+Do not simply move the cottage into empty space.
+
+Modify the terrain intelligently to support it.
+
+## 3.4 Connect the buildings
+
+Add a believable stone pathway connecting the lighthouse and cottage.
+
+The pathway may include:
+
+- Small stone steps
+- Rough paving stones
+- Short retaining walls
+- Rope or metal guardrails
+- Small grass patches
+- Natural rock transitions
+
+Use the actual terrain elevation to place every step.
+
+Avoid floating walkways or stairs intersecting nearby rocks.
+
+## 3.5 Improve architectural materials
+
+LIGHTHOUSE:
+
+- Weathered off-white masonry
+- Faded red identification band
+- Dark metal balcony
+- Salt-stained surfaces
+- Subtle cracks and discoloration
+- Rust near exposed metal fixtures
+
+COTTAGE:
+
+- Dark coastal stone
+- Distinct pitched roof
+- Aged red or gray roof tiles
+- Wooden door and window frames
+- Warm interior window light
+- Chimney
+- Natural stone foundation
+
+The two buildings should share the same environment but remain architecturally distinct.
+
+## 3.6 Validate architecture
+
+Inspect from:
+
+- Original hero camera
+- Front
+- Rear
+- Both sides
+- Elevated three-quarter view
+- Top-down view
+
+Confirm:
+
+- No roof intersects the lighthouse.
+- No wall penetrates another building.
+- Both structures contact their foundations.
+- The pathway remains continuous.
+- The cottage is visibly distinct.
+- Existing interactive doors still function.
+- The cinematic camera still frames both buildings.
+
+Do not hide geometry defects behind additional rocks or vegetation.
+
+---
+
+# 4. PRIORITY TWO — PROCEDURAL CINEMATIC SKY
+
+The current sky is one of the weakest visual elements.
+
+Replace the simple orange-yellow background with a convincing atmospheric sky system.
+
+## 4.1 Procedural cloud rendering
+
+Create several cloud layers with varying characteristics:
+
+**High-altitude clouds**
+- Broad soft cloud formations
+- Large horizontal structures
+- Gentle sunlight illumination
+- Slow directional movement
+
+**Middle-altitude clouds**
+- Detailed atmospheric formations
+- More defined silhouettes
+- Stronger variation in density
+- Soft self-shadowing approximations
+
+**Storm clouds**
+- Large dramatic cloud masses
+- Dark undersides
+- Irregular density patterns
+- Layered turbulent structure
+- Stronger coverage during storms
+
+Use procedural noise, shader-based cloud fields, or optimized layered cloud geometry.
+
+Possible techniques:
+
+- Multi-octave fractal Brownian motion
+- Worley noise combined with smooth noise
+- Height-dependent density
+- Light-direction-based shading
+- Bounded cloud layers
+- Low-cost raymarching where performance permits
+
+Do not create a sky from one enormous flat-color plane.
+
+Do not generate clouds as identical transparent spheres.
+
+## 4.2 Sunset lighting
+
+Create a more sophisticated sunset palette.
+
+Near the horizon:
+- Muted amber
+- Warm peach
+- Soft orange
+- Desaturated pink
+
+Higher in the sky:
+- Dusty mauve
+- Slate blue
+- Muted indigo
+- Deep charcoal during approaching storms
+
+The sky should have natural atmospheric transitions.
+
+Avoid oversaturated pure yellow.
+
+## 4.3 Cloud animation
+
+Clouds must move continuously.
+
+Use a shared atmospheric wind direction.
+
+Different cloud layers should have different speeds.
+
+Large storm clouds should move slowly and convincingly.
+
+Do not shift the entire sky texture as one uniform layer.
+
+Cloud movement should include subtle density changes, evolving shapes, and atmospheric variation.
+
+## 4.4 Lightning
+
+During thunderstorms, implement occasional lightning.
+
+Lightning must:
+
+- Illuminate nearby clouds.
+- Briefly influence environmental lighting.
+- Create a short reflected response on visible ocean surfaces.
+- Have varied but controlled brightness.
+- Occur at nonuniform intervals.
+
+Avoid flashing the entire screen pure white.
+
+Prefer distant lightning that illuminates cloud interiors.
+
+## 4.5 Weather-responsive atmosphere
+
+Cloud coverage, brightness, fog, and sunlight must all respond to the same weather controller.
+
+Transitions should be continuous.
+
+The sky should evolve naturally between clear sunset, cloudy weather, rain, and thunderstorm states.
+
+---
+
+# 5. PRIORITY THREE — LIGHTHOUSE BEAM OVERHAUL
+
+## Current problem
+
+The lighthouse beam resembles a large bright yellow triangular shape.
+
+It appears disconnected from the environment.
+
+Replace this with a convincing atmospheric light-beam system.
+
+## 5.1 Beam geometry
+
+The beam must originate from the actual light source inside the lighthouse lantern room.
+
+Its direction must match the rotating beacon assembly.
+
+Use an appropriately shaped cone or shader-based volumetric approximation.
+
+The beam should include:
+
+- A brighter central core
+- Soft edges
+- Distance-based attenuation
+- Atmospheric scattering
+- Adjustable width
+- Controlled intensity
+- Smooth directional rotation
+
+Avoid sharp triangular boundaries.
+
+Avoid uniformly bright yellow surfaces.
+
+## 5.2 Atmospheric scattering
+
+The beam must respond to fog and rain.
+
+In clear weather:
+- Beam is relatively faint in open air.
+- Light source remains bright.
+- Visible scattering is minimal.
+
+In fog:
+- Beam becomes more visible.
+- Soft atmospheric glow surrounds the light path.
+- Distant beam intensity decreases gradually.
+
+In rain:
+- Selected particles catch the light.
+- Beam visibility changes with rainfall intensity.
+
+During a thunderstorm:
+- Beam remains prominent against the dark sky.
+- Light does not become an opaque yellow polygon.
+
+Use optimized shader-based light scattering or depth-aware transparent geometry.
+
+Do not require expensive full volumetric path tracing.
+
+## 5.3 Rotation
+
+The beacon must rotate continuously around the lighthouse's vertical axis.
+
+Requirements:
+
+- Smooth 360-degree rotation
+- Correct pivot location
+- Adjustable speed
+- No sudden direction changes
+- No snapping after a full revolution
+
+When the beam sweeps toward the camera, its apparent brightness should rise naturally.
+
+When it rotates away, brightness should decrease.
+
+## 5.4 Environmental interaction
+
+The light should affect nearby visible surfaces where practical.
+
+Examples:
+
+- Rock surfaces briefly receive warm illumination.
+- Cottage walls catch the rotating light.
+- Rain and fog become visible within the beam.
+- Ocean highlights respond subtly near the light path.
+
+Avoid illuminating every object equally regardless of direction.
+
+If full dynamic volumetric shadowing is too expensive, implement a reasonable approximation with clear limitations.
+
+## 5.5 Daylight behavior
+
+During daylight, the beam should be visually restrained.
+
+At sunset, it gradually becomes more apparent.
+
+At night, it becomes a major cinematic focal point.
+
+These changes should be driven by the time-of-day system rather than hardcoded appearance swaps.
+
+---
+
+# 6. PRIORITY FOUR — OCEAN RENDERING OVERHAUL
+
+The current ocean has some wave structure, but its reflections, shoreline behavior, and foam require substantial improvement.
+
+## 6.1 Wave system
+
+Inspect the existing wave simulation.
+
+If it already uses Gerstner waves or a comparable model, preserve and improve it rather than replacing it unnecessarily.
+
+Implement multiple interacting wave components:
+
+**Large ocean swell**
+- Low-frequency waves
+- Long wavelengths
+- Moderate directional movement
+
+**Mid-frequency waves**
+- Smaller overlapping wave systems
+- Varied directions
+- Weather-dependent amplitude
+
+**High-frequency detail**
+- Small ripples
+- Normal perturbation
+- Subtle surface roughness
+
+The result should look like one continuous ocean surface.
+
+Avoid repetitive, uniformly spaced waves.
+
+## 6.2 Shared wave mathematics
+
+The water renderer and boat physics must use the same underlying wave field.
+
+Create a shared wave evaluation function.
+
+Conceptual interface:
+
+`sampleOcean(position, time, weatherState)`
+
+Return:
+
+- Surface height
+- Surface normal
+- Horizontal displacement or flow where applicable
+- Local slope
+- Approximate wave velocity
+
+If GPU and CPU implementations are separate, ensure their equations and parameters are equivalent.
+
+This is important for boat buoyancy.
+
+Do not animate the boat using unrelated sine waves.
+
+## 6.3 Ocean materials
+
+Improve:
+
+- Fresnel response
+- Surface normals
+- Roughness variation
+- Sky reflection
+- Sun reflection
+- Foam coloration
+- Depth-based color
+- Atmospheric blending
+
+Use cool teal and dark blue-green for the water.
+
+Sunset reflections should introduce muted warm highlights.
+
+Reduce the metallic copper-like appearance currently visible.
+
+The ocean should remain readable during nighttime conditions.
+
+## 6.4 Shoreline foam
+
+The current foam resembles large white blobs near the island.
+
+Replace this with a more localized shoreline system.
+
+Foam should develop where waves interact with rocky terrain.
+
+Possible techniques:
+
+- Precomputed shoreline distance field
+- Island boundary sampling
+- Wave-height threshold masks
+- Localized particle emission
+- Depth-based contact masks
+
+Foam should:
+
+- Follow rock contours.
+- Appear near actual water contact.
+- Expand briefly as waves break.
+- Fragment into smaller irregular shapes.
+- Fade as water retreats.
+- Accumulate more during storms.
+
+Foam must not remain as uniform white patches.
+
+## 6.5 Crashing waves
+
+Implement occasional wave impacts against exposed rocks.
+
+At impact locations:
+
+- Whitewater develops.
+- Small spray particles emerge.
+- Foam spreads outward.
+- Surface turbulence increases locally.
+- Wet rock shading becomes more noticeable.
+
+These effects should correspond to wave phase and coastline geometry.
+
+Do not randomly emit splashes unrelated to the water surface.
+
+## 6.6 Sea spray
+
+Add controlled sea-spray effects during strong waves.
+
+Use efficient particle systems.
+
+Particles should:
+
+- Originate near impact points.
+- Move according to local impact and wind direction.
+- Follow short ballistic paths.
+- Fade or disappear naturally.
+- Increase in frequency during storms.
+
+Avoid excessive particles across the entire screen.
+
+---
+
+# 7. PRIORITY FIVE — BOAT POSITION AND BUOYANCY
+
+## Current problem
+
+The boat is partially clipped at the bottom of the viewport.
+
+It is difficult to observe its geometry or physics behavior.
+
+## 7.1 Reposition the boat
+
+Move the boat farther into the visible water area.
+
+For the default 16:9 hero composition:
+
+- Place it toward the lower-left or lower-middle.
+- Keep the entire hull visible.
+- Preserve enough space around it to observe movement.
+- Maintain separation from rocks and shoreline.
+- Avoid having it obscure the lighthouse.
+
+Use camera projection and world-space bounds to validate visibility.
+
+The boat must remain fully visible throughout its permitted motion range in the default hero view.
+
+## 7.2 Improve boat geometry
+
+Ensure the boat has:
+
+- Proper hull shape
+- Visible interior
+- Seats or wooden crossbeams
+- Hull thickness
+- Natural wood material
+- Distinct bow and stern
+- Optional rope or mooring point
+
+Avoid constructing it from a single flat polygon.
+
+## 7.3 Real wave-based buoyancy
+
+Use multiple sample points along the hull.
+
+Suggested samples:
+
+- Bow
+- Stern
+- Port
+- Starboard
+- Center
+
+Evaluate the ocean wave field at these positions.
+
+Derive:
+
+- Vertical position
+- Pitch
+- Roll
+- Approximate surface alignment
+
+Apply damped motion to avoid unstable snapping.
+
+The boat should rock naturally.
+
+Do not drive its movement with arbitrary independent oscillation.
+
+## 7.4 Weather response
+
+Clear weather:
+- Gentle rocking.
+- Low vertical displacement.
+- Slow drift.
+
+Cloudy weather:
+- Moderate rocking.
+- Larger waves.
+- Slightly stronger directional drift.
+
+Thunderstorm:
+- Stronger pitch and roll.
+- Faster vertical response.
+- Noticeable but stable movement.
+
+Do not allow the boat to flip uncontrollably unless actual capsize behavior is intentionally implemented.
+
+## 7.5 Collision safety
+
+Prevent the boat from intersecting:
+
+- Rocky island
+- Shoreline
+- Lighthouse foundation
+- Terrain geometry
+
+Use simplified collision boundaries where appropriate.
+
+If the boat is moored, implement a constrained drift region or lightweight tether behavior.
+
+Ensure the boat does not travel outside the visible simulation area during the default demonstration.
+
+---
+
+# 8. PRIORITY SIX — COORDINATED WEATHER SYSTEM
+
+All environmental effects must operate as one coherent system.
+
+Do not implement each effect using unrelated animation parameters.
+
+Create or refactor a centralized weather controller.
+
+Suggested state:
+
+- Weather preset
+- Wind direction
+- Wind speed
+- Gust strength
+- Cloud coverage
+- Fog density
+- Rain intensity
+- Wave intensity
+- Lightning activity
+- Time of day
+- Sunlight intensity
+- Atmospheric color
+- Surface wetness
+
+Expose this state to all relevant environmental components.
+
+## 8.1 Clear weather
+
+- Soft atmospheric clouds
+- Gentle ocean waves
+- Warm sunlight
+- Low fog density
+- Minimal sea spray
+- Light vegetation movement
+
+## 8.2 Cloudy weather
+
+- Increased cloud coverage
+- Reduced sunlight
+- Moderate wind
+- Larger waves
+- Slightly increased mist
+
+## 8.3 Rain
+
+- Thick cloud formations
+- Directional raindrops
+- Wetter rock materials
+- Stronger ocean swell
+- Increased shoreline foam
+- Reduced visibility
+
+## 8.4 Thunderstorm
+
+- Dramatic storm clouds
+- Heavy directional rain
+- Strong wind gusts
+- Large ocean swells
+- More shoreline spray
+- Dark wet rocks
+- Lightning
+- Dense atmospheric fog
+- Strong lighthouse-beam visibility
+- More pronounced boat movement
+
+## 8.5 Smooth weather transitions
+
+When changing between weather presets, interpolate shared environmental parameters.
+
+Do not suddenly swap unrelated sky colors or stop and restart the ocean simulation.
+
+Use transitions over several seconds.
+
+Cloud movement must remain continuous.
+
+Wave parameters should change smoothly.
+
+Boat movement must remain stable throughout transitions.
+
+Rain should increase naturally.
+
+Fog and lighting should respond together.
+
+---
+
+# 9. COASTAL ROCK AND VEGETATION REFINEMENT
+
+## 9.1 Geological detail
+
+Improve the island's rock formations.
+
+Add:
+
+- Varied rock silhouettes
+- Layered geological strata
+- Erosion patterns
+- Deep crevices
+- Surface roughness
+- Irregular mineral variation
+- Wet and dry material zones
+- Small fractures
+- More organic edge shapes
+
+Avoid repetitive faceted rock geometry.
+
+Preserve the overall island silhouette unless local expansion is required for architectural separation.
+
+## 9.2 Wet rock behavior
+
+Implement a wetness parameter driven by weather and wave contact.
+
+Wet surfaces should generally appear:
+
+- Darker
+- Less diffusely rough in selected areas
+- Slightly more reflective
+- Richer in color
+
+Wetness should be concentrated around:
+
+- Shoreline rocks
+- Exposed cliff faces near waves
+- Rain-exposed surfaces
+
+Avoid turning all rocks into uniformly glossy black materials.
+
+## 9.3 Vegetation
+
+The existing grass appears too uniform.
+
+Improve it with:
+
+- Different grass heights
+- Varied cluster density
+- Irregular blade angles
+- Multiple muted green and straw colors
+- Wind-dependent bending
+- Better root anchoring
+- Sparse placement around cliffs and pathways
+
+Use instanced geometry where possible.
+
+Do not allow vegetation to intersect buildings or grow visibly through solid rock surfaces.
+
+---
+
+# 10. CINEMATIC COMPOSITION AND CAMERA
+
+Preserve the current overall arrangement:
+
+- Lighthouse on the right
+- Cottage nearby but separate
+- Open ocean toward the left
+- Rocky coastal foreground
+- Dramatic sky
+- Boat visible in the foreground
+
+However, refine the camera framing.
+
+## Default hero view
+
+Use a cinematic three-quarter composition.
+
+The lighthouse should remain the dominant vertical structure.
+
+The cottage should be clearly visible beside it.
+
+The boat should appear as a secondary visual focal point.
+
+The ocean should have enough visible surface for its animation to be appreciated.
+
+Avoid excessive empty sky.
+
+Keep the horizon at a visually balanced height.
+
+## Camera movement
+
+Preserve existing camera modes.
+
+Improve interpolation and collision avoidance where necessary.
+
+The camera should never:
+
+- Clip through the lighthouse.
+- Enter solid rocks unintentionally.
+- Expose unfinished terrain.
+- Move below the ocean.
+- Crop the boat during its default demonstration.
+- Reveal empty environment boundaries.
+
+Use smooth camera damping.
+
+## Landing-page integration
+
+The scene must remain full-bleed.
+
+No max-width containers.
+
+No decorative frames.
+
+Do not add marketing UI.
+
+Keep developer controls completely hideable.
+
+---
+
+# 11. IMPROVE THE STORM CINEMATIC TIMELINE
+
+Preserve the existing cinematic sequence if implemented.
+
+Refine it so all major systems change coherently.
+
+Use a deterministic, seekable master timeline.
+
+Suggested sequence:
+
+### 0–5 seconds — Golden hour
+
+- Gentle waves
+- Warm atmospheric sunlight
+- Sparse clouds
+- Calm vegetation
+- Subtle boat movement
+
+### 5–10 seconds — Approaching storm
+
+- Clouds become denser
+- Wind strengthens
+- Sunlight becomes muted
+- Ocean swell increases
+- Distant haze develops
+
+### 10–15 seconds — Rain begins
+
+- Wind-driven precipitation
+- Increased shoreline foam
+- Wet rocks darken
+- Lighthouse beam becomes visible
+- Boat begins rocking more strongly
+
+### 15–25 seconds — Thunderstorm
+
+- Dramatic dark cloud formations
+- Heavy rain
+- Strong waves
+- Sea spray around rocks
+- Lightning illuminating the environment
+- Lighthouse beam cutting through fog
+- Boat reacting to turbulent ocean conditions
+
+### 25–30 seconds — Storm subsides
+
+- Rain weakens
+- Wind decreases
+- Waves gradually settle
+- Clouds begin separating
+- Atmospheric fog remains
+- Lighthouse beacon continues operating
+
+Do not use hard cuts.
+
+Reverse seeking should correctly restore the environment.
+
+Do not use uncontrolled random timers.
+
+---
+
+# 12. RENDERING AND PERFORMANCE ARCHITECTURE
+
+The finished scene must remain practical for real-time browser rendering.
+
+Preferred techniques:
+
+- Procedural geometry
+- Instanced vegetation
+- Shared materials
+- GPU-driven waves
+- Cached coastline data
+- Lightweight ocean spray
+- Optimized cloud shaders
+- Reusable particle buffers
+- Bounded device pixel ratio
+- Adaptive quality settings
+- Conservative postprocessing
+- Proper resource disposal
+
+Avoid:
+
+- Excessive full-resolution volumetric rendering
+- Expensive real-time reflections on every surface
+- Thousands of individual transparent meshes
+- CPU-heavy full-ocean simulation
+- Per-frame geometry rebuilding
+- Continuous React state updates for every animated object
+
+Target smooth performance on mid-range hardware.
+
+Provide high, medium, and low visual-quality settings.
+
+When reduced motion is requested, present a stable scenic state with appropriate environmental effects minimized.
+
+---
+
+# 13. DEVELOPER CONTROL PANEL
+
+Preserve the existing controls and add missing diagnostic capabilities.
+
+### Architecture
+
+- Show building bounding boxes
+- Toggle foundation visualization
+- Toggle walkway guides
+- Camera inspection presets
+
+### Sky
+
+- Cloud density
+- Cloud movement speed
+- Storm intensity
+- Atmospheric haze
+
+### Lighthouse
+
+- Toggle beacon
+- Beam intensity
+- Beam softness
+- Beam range
+- Rotation speed
+- Toggle interior lights
+
+### Ocean
+
+- Wave intensity
+- Wave speed
+- Surface roughness
+- Foam intensity
+- Spray intensity
+
+### Boat
+
+- Toggle buoyancy
+- Reset boat position
+- Show wave sample points
+- Show collision boundary
+- Show local water normal
+
+### Weather
+
+- Weather preset
+- Wind strength
+- Fog density
+- Rain intensity
+- Time-of-day slider
+
+### Cinematic
+
+- Play/pause
+- Timeline scrubber
+- Playback speed
+- Reset scene
+
+### Performance
+
+- FPS
+- Draw calls
+- Geometry count
+- Quality preset
+- Toggle expensive effects
+
+Every control must work.
+
+Do not implement decorative placeholder controls.
+
+The developer panel must be completely hideable.
+
+---
+
+# 14. AUTOMATED AND VISUAL VALIDATION
+
+This upgrade must be tested systematically.
+
+Do not consider the task complete merely because the application compiles.
+
+## Architectural collision tests
+
+Check:
+
+- Lighthouse versus cottage
+- Cottage roof versus tower
+- Building foundations versus terrain
+- Cottage entrance versus nearby geometry
+- Walkway versus rocks
+- Stairs versus supporting terrain
+
+Use conservative bounds for initial detection and more precise geometry inspection for suspected collisions.
+
+## Ocean tests
+
+Check:
+
+- Surface continuity
+- Wave displacement
+- Normal consistency
+- Shoreline foam placement
+- Sea-spray origins
+- Ocean horizon coverage
+
+## Boat tests
+
+Check:
+
+- Fully visible in default hero camera
+- Correct height relative to water
+- Proper pitch and roll
+- Storm response
+- Collision avoidance
+- No unrealistic teleportation
+
+## Lighthouse tests
+
+Check:
+
+- Beacon source alignment
+- Rotational pivot
+- Beam direction
+- Beam softness
+- Fog response
+- Day/night intensity
+
+## Weather tests
+
+Switch through all weather presets.
+
+Verify that:
+
+- Clouds respond.
+- Waves respond.
+- Rain responds.
+- Wind responds.
+- Fog responds.
+- Vegetation responds.
+- Boat motion responds.
+- Lighthouse-beam visibility responds.
+- Lighting responds.
+
+Do not allow one weather control to affect only cosmetic color changes.
+
+## Visual inspection
+
+Inspect:
+
+- Default desktop 16:9
+- Wide desktop
+- Tablet
+- Mobile portrait
+
+Capture or inspect the scene in:
+
+- Clear sunset
+- Overcast weather
+- Rain
+- Thunderstorm
+- Nighttime fog
+
+If browser screenshots or automated visual tools are available, use them.
+
+Otherwise, explicitly report which checks require manual visual verification.
+
+Never claim tests have passed unless executed.
+
+---
+
+# 15. REQUIRED IMPLEMENTATION SEQUENCE
+
+Follow this sequence to avoid creating new bugs.
+
+## PHASE A — Codebase audit
+
+Inspect existing files and understand component dependencies.
+
+Identify current implementations of:
+
+- Geometry
+- Ocean
+- Beacon
+- Weather
+- Camera
+- Boat
+- Lighting
+
+Preserve functional systems.
+
+## PHASE B — Architectural correction
+
+Separate the cottage and lighthouse.
+
+Adjust their foundations.
+
+Expand local terrain where necessary.
+
+Build the connecting walkway.
+
+Validate geometry before moving to visual effects.
+
+## PHASE C — Sky and atmospheric upgrade
+
+Implement procedural clouds, improved sunset colors, fog integration, and weather-responsive sky behavior.
+
+## PHASE D — Ocean and shoreline upgrade
+
+Improve wave behavior, surface materials, localized foam, splashes, and rock contact.
+
+Establish shared wave-sampling mathematics.
+
+## PHASE E — Beacon overhaul
+
+Implement the soft atmospheric beam, correct source position, scattering approximation, and weather-dependent visibility.
+
+## PHASE F — Boat physics correction
+
+Reposition the boat.
+
+Improve its geometry where necessary.
+
+Connect buoyancy to the shared wave model.
+
+Validate movement and collision avoidance.
+
+## PHASE G — Environmental detail
+
+Refine rock materials, wetness, vegetation variation, and natural wind response.
+
+## PHASE H — Weather integration
+
+Connect every environmental subsystem to the central weather controller.
+
+Validate all presets and transitions.
+
+## PHASE I — Cinematic sequence
+
+Improve the storm timeline, camera choreography, and deterministic simulation behavior.
+
+## PHASE J — Optimization and final QA
+
+Inspect the application at multiple resolutions.
+
+Fix geometry collisions.
+
+Check visual consistency.
+
+Measure performance.
+
+Correct any regressions.
+
+---
+
+# 16. STRICT REQUIREMENTS
+
+DO NOT:
+
+1. Rebuild the application from scratch.
+2. Delete working features to simplify the upgrade.
+3. Keep the cottage intersecting the lighthouse.
+4. Move buildings without checking their foundations.
+5. Replace procedural clouds with a single static image.
+6. Use a bright opaque triangle as the lighthouse beam.
+7. Create foam as random white patches.
+8. Make the ocean look like reflective metallic liquid.
+9. Animate the boat with unrelated sine waves.
+10. Let weather systems operate independently without shared state.
+11. Use random lightning that does not affect environmental lighting.
+12. Hide geometry problems behind rocks or vegetation.
+13. Introduce excessive postprocessing that destroys material detail.
+14. Make the scene photorealistic at the expense of performance.
+15. Add unnecessary website interface elements.
+16. Leave important developer controls nonfunctional.
+17. Declare completion without testing critical systems.
+
+---
+
+# 17. FINAL ACCEPTANCE CRITERIA
+
+The upgrade is successful only when:
+
+### Architecture
+
+- Lighthouse and cottage are clearly separate.
+- Roofs and walls do not collide.
+- Both foundations are grounded.
+- The walkway connects the buildings naturally.
+
+### Visual quality
+
+- The sky contains convincing layered clouds.
+- Sunset colors have atmospheric depth.
+- Ocean reflections are restrained and natural.
+- Rocks display geological variation.
+- Vegetation has varied structure.
+- The beacon looks atmospheric rather than geometric.
+
+### Simulation
+
+- Waves respond to weather.
+- Boat motion follows actual wave sampling.
+- Shoreline foam corresponds to wave interaction.
+- Rain and wind are connected.
+- Lighthouse-beam visibility responds to atmospheric density.
+- Lightning influences the scene's illumination.
+
+### Engineering
+
+- All previous controls still function.
+- Weather transitions are smooth.
+- Camera modes work.
+- Cinematic timeline works.
+- Scene remains full-bleed.
+- No major mesh collisions remain.
+- Performance is acceptable.
+- The application has no critical runtime errors.
+
+---
+
+# FINAL DIRECTIVE
+
+Perform a comprehensive coordinated upgrade of the existing THE LAST LIGHT lighthouse environment.
+
+Do not approach these improvements as unrelated cosmetic fixes.
+
+Treat the scene as an interconnected environmental simulation.
+
+**Fix architecture first. Improve atmospheric rendering second. Synchronize the ocean, boat, beacon, weather, and lighting systems afterward.**
+
+Preserve the existing successful geometry and interaction systems wherever possible.
+
+The final experience should feel like a coherent, cinematic coastal world rather than a collection of separately animated 3D objects.
+
+Prioritize:
+
+1. Architectural correctness
+2. Cinematic sky and atmosphere
+3. Convincing ocean and shoreline
+4. Atmospheric lighthouse illumination
+5. Wave-driven boat physics
+6. Unified dynamic weather
+7. Material refinement
+8. Performance and validation
+
+Implement the changes directly in the existing project.
+
+Do not stop at a visual mockup or partial upgrade.
+
+Finish with a concise implementation report explaining what changed, what was tested, any approximations used, and any unresolved limitations.
