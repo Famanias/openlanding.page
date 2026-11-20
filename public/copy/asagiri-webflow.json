@@ -24,7 +24,34 @@
         "isCustomExpression": false
       }
     ],
-    "fonts": [],
+    "fonts": [
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-sans)",
+        "fallback": "ui-sans-serif, system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-display)",
+        "fallback": "Georgia, serif"
+      },
+      {
+        "name": "Font / Cormorant Garamond",
+        "cssVar": "--font-cormorant-garamond",
+        "family": "Cormorant Garamond",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Cormorant Garamond"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
     "sizes": []
   },
   "assets": [
@@ -53,6 +80,16 @@
     }
   ],
   "customCodeBlocks": [
+    {
+      "id": "asagiri-styles-1",
+      "location": "head",
+      "title": "Asagiri Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 266,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme inline {\n  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;\n  --font-display: var(--font-display), Georgia, serif;\n}\n\nhtml,\nbody {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  overflow: hidden;\n  background-color: #253243;\n}"
+    },
     {
       "id": "asagiri-runtime-1",
       "location": "footer",

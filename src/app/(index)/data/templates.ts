@@ -1,4 +1,4 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice" | "celestial-horizon" | "thelastlight" | "bloom-decay" | "kirigami" | "asagiri";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice" | "celestial-horizon" | "thelastlight" | "bloom-decay" | "kirigami" | "asagiri" | "dithercity";
 
 import { TECHNOLOGY_TAGS } from "./technology-tags";
 
@@ -1207,6 +1207,16 @@ Build a complete, responsive, interaction-rich landing page for **Asagiri** usin
 ## Brand & Positioning
 - **Title:** Asagiri — Japanese Scenic Hero Background
 - **Description:** A serene, layered 2.5D Japanese-inspired scenic landing-page background built with React, TypeScript, Three.js, React Three Fiber, and Drei.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const DITHERCITY_PROMPT = `# DITHER//CITY — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **DITHER//CITY** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** DITHER//CITY
+- **Description:** Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -3393,6 +3403,22 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/asagiri/preview-1600.webp",
     promptMarkdown: ASAGIRI_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+,
+  {
+    slug: "dithercity",
+    createdAt: "2026-11-20",
+    hasDownload: false,
+    title: "DITHER//CITY",
+    description: "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
+    category: "studio" as TemplateCategory,
+    categories: ["studio" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/dithercity/preview-1600.webp",
+    promptMarkdown: DITHERCITY_PROMPT,
     model: "Gemini 4 Argon High",
   }
 );

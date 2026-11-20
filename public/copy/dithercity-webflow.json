@@ -1,0 +1,75 @@
+{
+  "slug": "dithercity",
+  "title": "DITHER//CITY",
+  "industry": "Digital Experience & Technology",
+  "description": "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/dithercity",
+  "downloadUrl": null,
+  "manifestUrl": "https://www.openlanding.page/copy/dithercity-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/dithercity-webflow-prompt.md",
+  "variables": {
+    "collectionName": "DITHER//CITY Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "dithercity.webp",
+      "publicPath": "https://www.openlanding.page/gallery/dithercity.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/dithercity/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_530b559c.png",
+      "publicPath": "https://www.openlanding.page/templates/dithercity/aistudio/image_530b559c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "dithercity-runtime-1",
+      "location": "footer",
+      "title": "DITHER//CITY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 276,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// DITHER//CITY — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

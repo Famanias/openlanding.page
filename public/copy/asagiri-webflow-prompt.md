@@ -29,7 +29,10 @@ Create or select a Variable Collection named **`Asagiri Tokens`**, then create t
 ### Font Family Variables (`create_font_family_variable`)
 | Variable Name | CSS Token | Primary Family | Source |
 |---|---|---|---|
-| `Font / Body` | `--font-body` | `system-ui` | System font stack |
+| `Font / Sans` | `--font-sans` | `var(--font-sans)` | Fallback: `ui-sans-serif, system-ui, sans-serif` |
+| `Font / Display` | `--font-display` | `var(--font-display)` | Fallback: `Georgia, serif` |
+| `Font / Cormorant Garamond` | `--font-cormorant-garamond` | `Cormorant Garamond` | Google Font: `Cormorant Garamond` |
+| `Font / Plus Jakarta Sans` | `--font-plus-jakarta-sans` | `Plus Jakarta Sans` | Google Font: `Plus Jakarta Sans` |
 
 ### Size Variables (`create_size_variable`)
 | Variable Name | CSS Token | Value | Mode |
@@ -68,4 +71,5 @@ Build all text, headings, buttons, links, cards, and forms as **native editable 
 
 Keep every custom-code block under Webflow's 50,000-character limit (pre-chunked at 45000 chars in the manifest). Apply head styles and footer runtime bridges via `data_scripts_tool` > `set_page_freeform_code`:
 
+- **Asagiri Scoped Styles** (`asagiri-styles-1`, placement: `head`, 266 / 45000 chars): Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.
 - **Asagiri Interactive Runtime Bridge** (`asagiri-runtime-1`, placement: `footer`, 271 / 45000 chars): Loads motion in page footer custom code with prefers-reduced-motion guard.
