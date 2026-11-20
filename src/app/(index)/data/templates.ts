@@ -1,4 +1,4 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice" | "celestial-horizon" | "thelastlight";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice" | "celestial-horizon" | "thelastlight" | "bloomdecay";
 
 import { TECHNOLOGY_TAGS } from "./technology-tags";
 
@@ -1177,6 +1177,16 @@ Build a complete, responsive, interaction-rich landing page for **The Last Light
 ## Brand & Positioning
 - **Title:** The Last Light
 - **Description:** Interactive real-time 3D coastal lighthouse environment with Gerstner ocean waves, dynamic weather, volumetric beacon, boat buoyancy physics, and cinematic storm sequence.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const BLOOMDECAY_PROMPT = `# BLOOM//DECAY — The Living Botanical Canvas — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **BLOOM//DECAY** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** BLOOM//DECAY — The Living Botanical Canvas
+- **Description:** An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -3315,6 +3325,22 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/thelastlight/preview-1600.webp",
     promptMarkdown: THELASTLIGHT_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+,
+  {
+    slug: "bloomdecay",
+    createdAt: "2026-11-20",
+    hasDownload: false,
+    title: "BLOOM//DECAY",
+    description: "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
+    category: "studio" as TemplateCategory,
+    categories: ["studio" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/bloomdecay/preview-1600.webp",
+    promptMarkdown: BLOOMDECAY_PROMPT,
     model: "Gemini 4 Argon High",
   }
 );

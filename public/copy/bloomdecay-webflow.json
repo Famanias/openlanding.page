@@ -1,0 +1,74 @@
+{
+  "slug": "bloomdecay",
+  "title": "BLOOM//DECAY",
+  "industry": "Digital Experience & Technology",
+  "description": "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/bloomdecay",
+  "downloadUrl": null,
+  "manifestUrl": "https://www.openlanding.page/copy/bloomdecay-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/bloomdecay-webflow-prompt.md",
+  "variables": {
+    "collectionName": "BLOOM//DECAY Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "bloomdecay.webp",
+      "publicPath": "https://www.openlanding.page/gallery/bloomdecay.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/bloomdecay/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_ab37466c.png",
+      "publicPath": "https://www.openlanding.page/templates/bloomdecay/aistudio/image_ab37466c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "bloomdecay-runtime-1",
+      "location": "footer",
+      "title": "BLOOM//DECAY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 276,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// BLOOM//DECAY — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

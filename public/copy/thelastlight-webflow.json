@@ -24,7 +24,22 @@
         "isCustomExpression": false
       }
     ],
-    "fonts": [],
+    "fonts": [
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      }
+    ],
     "sizes": []
   },
   "assets": [
@@ -54,11 +69,25 @@
       "title": "Main Landing Page",
       "summary": "Interactive real-time 3D coastal lighthouse environment with Gerstner ocean waves, dynamic weather, volumetric beacon, boat buoyancy physics, and cinematic storm sequence.",
       "deliveryMode": "hybrid-embed",
-      "cssSelectors": [],
+      "cssSelectors": [
+        ".font-mono-tabular",
+        ".studio-slider",
+        ".12s"
+      ],
       "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
     }
   ],
   "customCodeBlocks": [
+    {
+      "id": "thelastlight-styles-1",
+      "location": "head",
+      "title": "The Last Light Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 1254,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@layer base {\n  html,\n  body {\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    padding: 0;\n    overflow: hidden;\n    background-color: #070b11;\n    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;\n  }\n}\n\n.font-mono-tabular {\n  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;\n  font-variant-numeric: tabular-nums;\n}\n\n/* Custom sleek range input for the developer dock */\ninput[type='range'].studio-slider {\n  -webkit-appearance: none;\n  appearance: none;\n  height: 4px;\n  border-radius: 9999px;\n  background: rgba(148, 163, 184, 0.25);\n  outline: none;\n}\n\ninput[type='range'].studio-slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 13px;\n  height: 13px;\n  border-radius: 9999px;\n  background: #f59e0b;\n  border: 2px solid #0b1118;\n  cursor: pointer;\n  transition: transform 0.12s ease;\n}\n\ninput[type='range'].studio-slider::-webkit-slider-thumb:hover {\n  transform: scale(1.15);\n}\n\ninput[type='range'].studio-slider::-moz-range-thumb {\n  width: 13px;\n  height: 13px;\n  border-radius: 9999px;\n  background: #f59e0b;\n  border: 2px solid #0b1118;\n  cursor: pointer;\n}\n\ninput[type='range'].studio-slider:focus-visible {\n  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5);\n}"
+    },
     {
       "id": "thelastlight-runtime-1",
       "location": "footer",

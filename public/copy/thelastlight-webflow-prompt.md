@@ -29,7 +29,8 @@ Create or select a Variable Collection named **`The Last Light Tokens`**, then c
 ### Font Family Variables (`create_font_family_variable`)
 | Variable Name | CSS Token | Primary Family | Source |
 |---|---|---|---|
-| `Font / Body` | `--font-body` | `system-ui` | System font stack |
+| `Font / Plus Jakarta Sans` | `--font-plus-jakarta-sans` | `Plus Jakarta Sans` | Google Font: `Plus Jakarta Sans` |
+| `Font / JetBrains Mono` | `--font-jetbrains-mono` | `JetBrains Mono` | Google Font: `JetBrains Mono` |
 
 ### Size Variables (`create_size_variable`)
 | Variable Name | CSS Token | Value | Mode |
@@ -69,4 +70,5 @@ Build all text, headings, buttons, links, cards, and forms as **native editable 
 
 Keep every custom-code block under Webflow's 50,000-character limit (pre-chunked at 45000 chars in the manifest). Apply head styles and footer runtime bridges via `data_scripts_tool` > `set_page_freeform_code`:
 
+- **The Last Light Scoped Styles** (`thelastlight-styles-1`, placement: `head`, 1254 / 45000 chars): Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.
 - **The Last Light Interactive Runtime Bridge** (`thelastlight-runtime-1`, placement: `footer`, 278 / 45000 chars): Loads motion in page footer custom code with prefers-reduced-motion guard.
