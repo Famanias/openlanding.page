@@ -1,17 +1,17 @@
-# Webflow MCP Import Prompt: BLOOM//DECAY (bloomdecay)
+# Webflow MCP Import Prompt: BLOOM//DECAY (bloom-decay)
 
 Import the **BLOOM//DECAY** (Digital Experience & Technology) landing page template from OpenLandingPage into the user's active Webflow site using the official **Webflow MCP** tools.
 
-- **Live Reference:** https://www.openlanding.page/templates/bloomdecay
-- **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/bloomdecay-webflow.json
+- **Live Reference:** https://www.openlanding.page/templates/bloom-decay
+- **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/bloom-decay-webflow.json
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 
 1. **If the `openlanding` MCP server is connected in your environment:**
-   - Call `get_webflow_manifest({ slug: "bloomdecay" })` to load the structured token, asset, and section manifest.
-   - As you build each section below, call `get_webflow_section({ slug: "bloomdecay", sectionId: "section-1" })` (and so on) to pull that section's scoped CSS and custom-code blocks one section at a time.
+   - Call `get_webflow_manifest({ slug: "bloom-decay" })` to load the structured token, asset, and section manifest.
+   - As you build each section below, call `get_webflow_section({ slug: "bloom-decay", sectionId: "section-1" })` (and so on) to pull that section's scoped CSS and custom-code blocks one section at a time.
 2. **If only the official `webflow` MCP server is connected:**
-   - Fetch `https://www.openlanding.page/copy/bloomdecay-webflow.json` for the structured JSON manifest and use the token and section specifications embedded below.
+   - Fetch `https://www.openlanding.page/copy/bloom-decay-webflow.json` for the structured JSON manifest and use the token and section specifications embedded below.
    - Always call `webflow_guide_tool` once at the start of the session before calling other Webflow MCP tools.
 
 ---
@@ -29,7 +29,9 @@ Create or select a Variable Collection named **`BLOOM//DECAY Tokens`**, then cre
 ### Font Family Variables (`create_font_family_variable`)
 | Variable Name | CSS Token | Primary Family | Source |
 |---|---|---|---|
-| `Font / Body` | `--font-body` | `system-ui` | System font stack |
+| `Font / Cormorant Garamond` | `--font-cormorant-garamond` | `Cormorant Garamond` | Google Font: `Cormorant Garamond` |
+| `Font / DM Sans` | `--font-dm-sans` | `DM Sans` | Google Font: `DM Sans` |
+| `Font / IBM Plex Mono` | `--font-ibm-plex-mono` | `IBM Plex Mono` | Google Font: `IBM Plex Mono` |
 
 ### Size Variables (`create_size_variable`)
 | Variable Name | CSS Token | Value | Mode |
@@ -42,9 +44,9 @@ Create or select a Variable Collection named **`BLOOM//DECAY Tokens`**, then cre
 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `BLOOM//DECAY` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
-- `bloomdecay.webp` (image/webp) — https://www.openlanding.page/gallery/bloomdecay.webp (Gallery preview capture)
-- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/bloomdecay/preview-1600.webp (Template media asset)
-- `image_ab37466c.png` (image/png) — https://www.openlanding.page/templates/bloomdecay/aistudio/image_ab37466c.png (Template media asset)
+- `bloom-decay.webp` (image/webp) — https://www.openlanding.page/gallery/bloom-decay.webp (Gallery preview capture)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/bloom-decay/preview-1600.webp (Template media asset)
+- `image_ab37466c.png` (image/png) — https://www.openlanding.page/templates/bloom-decay/aistudio/image_ab37466c.png (Template media asset)
 
 ---
 
@@ -68,4 +70,5 @@ Build all text, headings, buttons, links, cards, and forms as **native editable 
 
 Keep every custom-code block under Webflow's 50,000-character limit (pre-chunked at 45000 chars in the manifest). Apply head styles and footer runtime bridges via `data_scripts_tool` > `set_page_freeform_code`:
 
-- **BLOOM//DECAY Interactive Runtime Bridge** (`bloomdecay-runtime-1`, placement: `footer`, 276 / 45000 chars): Loads motion in page footer custom code with prefers-reduced-motion guard.
+- **BLOOM//DECAY Scoped Styles** (`bloom-decay-styles-1`, placement: `head`, 1342 / 45000 chars): Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.
+- **BLOOM//DECAY Interactive Runtime Bridge** (`bloom-decay-runtime-1`, placement: `footer`, 276 / 45000 chars): Loads motion in page footer custom code with prefers-reduced-motion guard.

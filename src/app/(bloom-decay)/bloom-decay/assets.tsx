@@ -1,6 +1,6 @@
 import { ASSETS } from "./assets.generated";
 
-const BASE = "/templates/bloomdecay";
+const BASE = "/templates/bloom-decay";
 
 export function assetSrc(
   key: string,
@@ -23,7 +23,7 @@ export function Picture({ assetKey, alt, className }: PictureProps) {
   if (!source) {
     return (
       <div
-        className={`bloomdecay-placeholder ${className ?? ""}`}
+        className={`bloom-decay-placeholder ${className ?? ""}`}
         role="img"
         aria-label={alt}
         data-asset={assetKey}
