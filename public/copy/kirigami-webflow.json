@@ -5,7 +5,7 @@
   "description": "An interactive 2.5D handcrafted Japanese paper-cut landscape with layered cardstock depth, scroll-controlled pop-up unfolding, living wind animation, and pointer parallax.",
   "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
   "liveUrl": "https://www.openlanding.page/templates/kirigami",
-  "downloadUrl": null,
+  "downloadUrl": "https://www.openlanding.page/downloads/kirigami.html",
   "manifestUrl": "https://www.openlanding.page/copy/kirigami-webflow.json",
   "webflowPromptUrl": "https://www.openlanding.page/copy/kirigami-webflow-prompt.md",
   "variables": {

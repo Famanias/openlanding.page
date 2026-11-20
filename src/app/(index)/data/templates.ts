@@ -3315,7 +3315,7 @@ RAW_TEMPLATES.push(
   {
     slug: "solstice",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "Solstice",
     description: "A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.",
     category: "hero-background" as TemplateCategory,
@@ -3331,7 +3331,7 @@ RAW_TEMPLATES.push(
   {
     slug: "celestial-horizon",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "Celestial Horizon",
     description: "A reusable, cinematic 2.5D outer-space WebGL landing-page background scene built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
     category: "hero-background" as TemplateCategory,
@@ -3347,7 +3347,7 @@ RAW_TEMPLATES.push(
   {
     slug: "thelastlight",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "The Last Light",
     description: "Interactive real-time 3D coastal lighthouse environment with Gerstner ocean waves, dynamic weather, volumetric beacon, boat buoyancy physics, and cinematic storm sequence.",
     category: "hero-background" as TemplateCategory,
@@ -3363,7 +3363,7 @@ RAW_TEMPLATES.push(
   {
     slug: "bloom-decay",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "BLOOM//DECAY",
     description: "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
     category: "hero-background" as TemplateCategory,
@@ -3379,7 +3379,7 @@ RAW_TEMPLATES.push(
   {
     slug: "kirigami",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "KIRIGAMI",
     description: "An interactive 2.5D handcrafted Japanese paper-cut landscape with layered cardstock depth, scroll-controlled pop-up unfolding, living wind animation, and pointer parallax.",
     category: "hero-background" as TemplateCategory,
@@ -3395,7 +3395,7 @@ RAW_TEMPLATES.push(
   {
     slug: "asagiri",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "Asagiri",
     description: "A serene, layered 2.5D Japanese-inspired scenic landing-page background built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
     category: "hero-background" as TemplateCategory,
@@ -3411,7 +3411,7 @@ RAW_TEMPLATES.push(
   {
     slug: "dither-city",
     createdAt: "2026-11-20",
-    hasDownload: false,
+    hasDownload: true,
     title: "DITHER//CITY",
     description: "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
     category: "hero-background" as TemplateCategory,

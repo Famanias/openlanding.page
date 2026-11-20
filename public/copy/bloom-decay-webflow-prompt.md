@@ -4,6 +4,7 @@ Import the **BLOOM//DECAY** (Digital Experience & Technology) landing page templ
 
 - **Live Reference:** https://www.openlanding.page/templates/bloom-decay
 - **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/bloom-decay-webflow.json
+- **Standalone HTML Export (DOM & CSS source of truth):** https://www.openlanding.page/downloads/bloom-decay.html
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 

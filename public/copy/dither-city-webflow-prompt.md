@@ -4,6 +4,7 @@ Import the **DITHER//CITY** (Digital Experience & Technology) landing page templ
 
 - **Live Reference:** https://www.openlanding.page/templates/dither-city
 - **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/dither-city-webflow.json
+- **Standalone HTML Export (DOM & CSS source of truth):** https://www.openlanding.page/downloads/dither-city.html
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 

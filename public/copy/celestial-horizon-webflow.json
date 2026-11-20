@@ -5,7 +5,7 @@
   "description": "A reusable, cinematic 2.5D outer-space WebGL landing-page background scene built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
   "stack": "Next.js 16 · React 19 · Three.js · R3F · Tailwind v4",
   "liveUrl": "https://www.openlanding.page/templates/celestial-horizon",
-  "downloadUrl": null,
+  "downloadUrl": "https://www.openlanding.page/downloads/celestial-horizon.html",
   "manifestUrl": "https://www.openlanding.page/copy/celestial-horizon-webflow.json",
   "webflowPromptUrl": "https://www.openlanding.page/copy/celestial-horizon-webflow-prompt.md",
   "variables": {

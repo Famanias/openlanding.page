@@ -5,7 +5,7 @@
   "description": "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
   "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
   "liveUrl": "https://www.openlanding.page/templates/dither-city",
-  "downloadUrl": null,
+  "downloadUrl": "https://www.openlanding.page/downloads/dither-city.html",
   "manifestUrl": "https://www.openlanding.page/copy/dither-city-webflow.json",
   "webflowPromptUrl": "https://www.openlanding.page/copy/dither-city-webflow-prompt.md",
   "variables": {

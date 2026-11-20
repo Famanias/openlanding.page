@@ -5,7 +5,7 @@
   "description": "A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.",
   "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
   "liveUrl": "https://www.openlanding.page/templates/solstice",
-  "downloadUrl": null,
+  "downloadUrl": "https://www.openlanding.page/downloads/solstice.html",
   "manifestUrl": "https://www.openlanding.page/copy/solstice-webflow.json",
   "webflowPromptUrl": "https://www.openlanding.page/copy/solstice-webflow-prompt.md",
   "variables": {

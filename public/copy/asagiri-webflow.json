@@ -5,7 +5,7 @@
   "description": "A serene, layered 2.5D Japanese-inspired scenic landing-page background built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
   "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
   "liveUrl": "https://www.openlanding.page/templates/asagiri",
-  "downloadUrl": null,
+  "downloadUrl": "https://www.openlanding.page/downloads/asagiri.html",
   "manifestUrl": "https://www.openlanding.page/copy/asagiri-webflow.json",
   "webflowPromptUrl": "https://www.openlanding.page/copy/asagiri-webflow-prompt.md",
   "variables": {

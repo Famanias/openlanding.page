@@ -4,6 +4,7 @@ Import the **Celestial Horizon** (Digital Experience & Technology) landing page 
 
 - **Live Reference:** https://www.openlanding.page/templates/celestial-horizon
 - **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/celestial-horizon-webflow.json
+- **Standalone HTML Export (DOM & CSS source of truth):** https://www.openlanding.page/downloads/celestial-horizon.html
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 

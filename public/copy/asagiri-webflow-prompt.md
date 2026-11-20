@@ -4,6 +4,7 @@ Import the **Asagiri** (Digital Experience & Technology) landing page template f
 
 - **Live Reference:** https://www.openlanding.page/templates/asagiri
 - **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/asagiri-webflow.json
+- **Standalone HTML Export (DOM & CSS source of truth):** https://www.openlanding.page/downloads/asagiri.html
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 

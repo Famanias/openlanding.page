@@ -145,7 +145,10 @@ ${shell.metadata}${favicon}${shell.fontPreloads}<style>${shell.css}</style>${she
 <body${shell.bodyAttributes}>${shell.initialization}<div id="standalone-root" style="display:contents">${markup}</div>
 <script>${script}</script></body></html>\n`;
   const html = watermarkHtml(rawHtml, { slug });
-  if (!/<h1[\s>]/i.test(html) || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) throw new Error(`Invalid standalone output for ${slug}`);
+  const hasRootMarkup = template.categories.includes("hero-background")
+    ? /<(?:h1|main|canvas|svg|div)[\s>]/i.test(markup)
+    : /<h1[\s>]/i.test(html);
+  if (!hasRootMarkup || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) throw new Error(`Invalid standalone output for ${slug}`);
   fs.mkdirSync(outputDirectory, { recursive: true });
   const outputFile = path.join(outputDirectory, `${slug}.html`);
   fs.writeFileSync(outputFile, html);

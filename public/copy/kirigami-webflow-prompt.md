@@ -4,6 +4,7 @@ Import the **KIRIGAMI** (Digital Experience & Technology) landing page template 
 
 - **Live Reference:** https://www.openlanding.page/templates/kirigami
 - **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/kirigami-webflow.json
+- **Standalone HTML Export (DOM & CSS source of truth):** https://www.openlanding.page/downloads/kirigami.html
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 

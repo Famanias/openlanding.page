@@ -4,6 +4,7 @@ Import the **The Last Light** (Digital Experience & Technology) landing page tem
 
 - **Live Reference:** https://www.openlanding.page/templates/thelastlight
 - **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/thelastlight-webflow.json
+- **Standalone HTML Export (DOM & CSS source of truth):** https://www.openlanding.page/downloads/thelastlight.html
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 

@@ -5,7 +5,7 @@
   "description": "An interactive 2D mixed-media botanical timelapse artwork combining procedural aged paper, ink diffusion, copperplate engravings, and layered organic floral blooming.",
   "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
   "liveUrl": "https://www.openlanding.page/templates/bloom-decay",
-  "downloadUrl": null,
+  "downloadUrl": "https://www.openlanding.page/downloads/bloom-decay.html",
   "manifestUrl": "https://www.openlanding.page/copy/bloom-decay-webflow.json",
   "webflowPromptUrl": "https://www.openlanding.page/copy/bloom-decay-webflow-prompt.md",
   "variables": {
