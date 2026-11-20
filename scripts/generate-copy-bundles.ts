@@ -14,6 +14,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  kirigami: { name: "KIRIGAMI", dependencies: ["lucide-react", "motion"] },
   "bloom-decay": { name: "BLOOM//DECAY", dependencies: ["lucide-react", "motion"] },
   thelastlight: { name: "The Last Light", dependencies: ["lucide-react", "motion"] },
   "celestial-horizon": { name: "Celestial Horizon", dependencies: ["three", "@react-three/fiber", "@react-three/drei", "lucide-react", "motion"] },

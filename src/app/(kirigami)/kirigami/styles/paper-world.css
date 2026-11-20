@@ -1,0 +1,126 @@
+/* KIRIGAMI 2.5D Paper World Styles */
+
+.kirigami-stage {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  perspective: 1600px;
+  perspective-origin: 50% 48%;
+  background: linear-gradient(180deg, #fbf3e6 0%, #f5e5cf 55%, #edd7bc 100%);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.kirigami-viewport {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.kirigami-svg-root {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+
+/* Layer depth group transform optimization */
+.paper-layer-group {
+  transform-box: fill-box;
+  will-change: transform;
+}
+
+/* Cut-paper outline debug mode */
+.kirigami-outlines-on path,
+.kirigami-outlines-on polygon,
+.kirigami-outlines-on circle,
+.kirigami-outlines-on rect {
+  stroke: #d946ef !important;
+  stroke-width: 1.2px !important;
+  stroke-opacity: 0.85 !important;
+}
+
+/* Depth visualization false-color bands */
+.kirigami-depth-on [data-depth-layer="0"] { filter: sepia(1) hue-rotate(190deg) saturate(1.4) brightness(1.08); }
+.kirigami-depth-on [data-depth-layer="1"] { filter: sepia(1) hue-rotate(175deg) saturate(1.6) brightness(1.02); }
+.kirigami-depth-on [data-depth-layer="2"] { filter: sepia(1) hue-rotate(140deg) saturate(1.8) brightness(0.96); }
+.kirigami-depth-on [data-depth-layer="3"] { filter: sepia(1) hue-rotate(100deg) saturate(1.9) brightness(0.94); }
+.kirigami-depth-on [data-depth-layer="4"] { filter: sepia(1) hue-rotate(55deg) saturate(2.1) brightness(0.96); }
+.kirigami-depth-on [data-depth-layer="5"] { filter: sepia(1) hue-rotate(20deg) saturate(2.2) brightness(0.94); }
+.kirigami-depth-on [data-depth-layer="6"] { filter: sepia(1) hue-rotate(-10deg) saturate(2.4) brightness(0.92); }
+.kirigami-depth-on [data-depth-layer="7"] { filter: sepia(1) hue-rotate(-38deg) saturate(2.8) brightness(0.95); }
+
+/* Paper grain overlay (ultra subtle handmade washi fiber texture, zero CPU filter overhead) */
+.kirigami-paper-grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  opacity: 0.22;
+  background-image:
+    repeating-linear-gradient(
+      28deg,
+      rgba(128, 98, 68, 0.03) 0px,
+      rgba(128, 98, 68, 0.03) 1px,
+      transparent 1px,
+      transparent 7px
+    ),
+    repeating-linear-gradient(
+      -62deg,
+      rgba(105, 80, 56, 0.025) 0px,
+      rgba(105, 80, 56, 0.025) 1px,
+      transparent 1px,
+      transparent 9px
+    ),
+    radial-gradient(rgba(110, 82, 54, 0.07) 0.6px, transparent 0.6px);
+  background-size: 100% 100%, 100% 100%, 14px 14px;
+}
+
+/* Subtle interactive cursor cues when interaction mode is enabled */
+.kirigami-interactive-house {
+  cursor: pointer;
+}
+
+.kirigami-interactive-house:focus-visible {
+  outline: none;
+}
+
+.kirigami-interactive-cloud {
+  cursor: pointer;
+}
+
+/* Animated river shimmer lines */
+@keyframes riverFlowDash {
+  0% {
+    stroke-dashoffset: 180;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.river-current-flow {
+  animation: riverFlowDash 16s linear infinite;
+}
+
+.river-current-flow-slow {
+  animation: riverFlowDash 24s linear infinite;
+}
+
+.kirigami-ambient-paused .river-current-flow,
+.kirigami-ambient-paused .river-current-flow-slow {
+  animation-play-state: paused;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .river-current-flow,
+  .river-current-flow-slow {
+    animation: none !important;
+  }
+}
