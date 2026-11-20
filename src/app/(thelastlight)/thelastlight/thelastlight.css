@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@layer base {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #070b11;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  }
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom sleek range input for the developer dock */
+input[type='range'].studio-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(148, 163, 184, 0.25);
+  outline: none;
+}
+
+input[type='range'].studio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #0b1118;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+input[type='range'].studio-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type='range'].studio-slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #0b1118;
+  cursor: pointer;
+}
+
+input[type='range'].studio-slider:focus-visible {
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5);
+}
