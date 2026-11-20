@@ -1,4 +1,4 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot" | "solstice" | "celestial-horizon";
 
 import { TECHNOLOGY_TAGS } from "./technology-tags";
 
@@ -1158,6 +1158,16 @@ Build a complete, responsive, interaction-rich landing page for **Solstice** usi
 - **Title:** Solstice — Interactive Painted Desert
 - **Description:** A full-bleed 2.5D interactive painted desert background environment with dry-brush canyon strata, atmospheric haze, pointer parallax, and scroll-reactive depth.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const CELESTIAL_HORIZON_PROMPT = `# Celestial Horizon — 2.5D Space Hero Background — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **Celestial Horizon** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** Celestial Horizon — 2.5D Space Hero Background
+- **Description:** A reusable, cinematic 2.5D outer-space WebGL landing-page background scene built with React, TypeScript, Three.js, React Three Fiber, and Drei.
+- **Stack:** Next.js 16 · React 19 · Three.js · R3F · Tailwind v4
 `;
 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
@@ -3263,6 +3273,22 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/solstice/preview-1600.webp",
     promptMarkdown: SOLSTICE_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+,
+  {
+    slug: "celestial-horizon",
+    createdAt: "2026-11-20",
+    hasDownload: false,
+    title: "Celestial Horizon",
+    description: "A reusable, cinematic 2.5D outer-space WebGL landing-page background scene built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
+    category: "studio" as TemplateCategory,
+    categories: ["studio" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Three.js · R3F · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/celestial-horizon/preview-1600.webp",
+    promptMarkdown: CELESTIAL_HORIZON_PROMPT,
     model: "Gemini 4 Argon High",
   }
 );

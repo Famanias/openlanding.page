@@ -1,0 +1,85 @@
+{
+  "slug": "celestial-horizon",
+  "title": "Celestial Horizon",
+  "industry": "Digital Experience & Technology",
+  "description": "A reusable, cinematic 2.5D outer-space WebGL landing-page background scene built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
+  "stack": "Next.js 16 · React 19 · Three.js · R3F · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/celestial-horizon",
+  "downloadUrl": null,
+  "manifestUrl": "https://www.openlanding.page/copy/celestial-horizon-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/celestial-horizon-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Celestial Horizon Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "celestial-horizon.webp",
+      "publicPath": "https://www.openlanding.page/gallery/celestial-horizon.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/celestial-horizon/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "A reusable, cinematic 2.5D outer-space WebGL landing-page background scene built with React, TypeScript, Three.js, React Three Fiber, and Drei.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "celestial-horizon-runtime-1",
+      "location": "footer",
+      "title": "Celestial Horizon Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 362,
+      "description": "Loads three, motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "motion"
+      ],
+      "code": "// Celestial Horizon — Webflow Custom Code Runtime Bridge\n// Dependencies: three, motion\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}
