@@ -1,0 +1,102 @@
+{
+  "slug": "dither-city",
+  "title": "DITHER//CITY",
+  "industry": "Digital Experience & Technology",
+  "description": "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/dither-city",
+  "downloadUrl": null,
+  "manifestUrl": "https://www.openlanding.page/copy/dither-city-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/dither-city-webflow-prompt.md",
+  "variables": {
+    "collectionName": "DITHER//CITY Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Doto",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "Doto"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace",
+        "googleFont": "IBM Plex Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "dither-city.webp",
+      "publicPath": "https://www.openlanding.page/gallery/dither-city.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    },
+    {
+      "fileName": "preview-1600.webp",
+      "publicPath": "https://www.openlanding.page/templates/dither-city/preview-1600.webp",
+      "contentType": "image/webp",
+      "role": "Template media asset"
+    },
+    {
+      "fileName": "image_530b559c.png",
+      "publicPath": "https://www.openlanding.page/templates/dither-city/aistudio/image_530b559c.png",
+      "contentType": "image/png",
+      "role": "Template media asset"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".dither-slider"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "dither-city-styles-1",
+      "location": "head",
+      "title": "DITHER//CITY Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 947,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme inline {\n  --font-display: var(--font-doto), ui-monospace, monospace;\n  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;\n}\n\nhtml,\nbody {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #0A0B09;\n  color: #EEEBD8;\n  overflow: hidden;\n}\n\n/* Custom hairline range sliders for developer inspection dock */\ninput[type=\"range\"].dither-slider {\n  -webkit-appearance: none;\n  appearance: none;\n  background: rgba(211, 208, 186, 0.16);\n  height: 2px;\n  border-radius: 1px;\n  outline: none;\n}\n\ninput[type=\"range\"].dither-slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 10px;\n  height: 10px;\n  background: #A8F23A;\n  border: 1px solid #0A0B09;\n  cursor: pointer;\n}\n\ninput[type=\"range\"].dither-slider::-moz-range-thumb {\n  width: 10px;\n  height: 10px;\n  background: #A8F23A;\n  border: 1px solid #0A0B09;\n  border-radius: 0;\n  cursor: pointer;\n}"
+    },
+    {
+      "id": "dither-city-runtime-1",
+      "location": "footer",
+      "title": "DITHER//CITY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 276,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// DITHER//CITY — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

@@ -18,7 +18,7 @@ describe("gallery template data", () => {
   it("contains all templates with required metadata", () => {
     expect(TEMPLATES).toHaveLength(114);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["dithercity", "asagiri", "kirigami", "bloom-decay", "thelastlight", "celestial-horizon", "solstice", "snoot", "tolvar", "elsewhere", "serraform", "mizunowa", "afterwalk", "datum", "surface08", "tessera", "mesamarket", "postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["dither-city", "asagiri", "kirigami", "bloom-decay", "thelastlight", "celestial-horizon", "solstice", "snoot", "tolvar", "elsewhere", "serraform", "mizunowa", "afterwalk", "datum", "surface08", "tessera", "mesamarket", "postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -128,15 +128,18 @@ describe("gallery template data", () => {
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     const hydrogenSlugs = ["serraform", "mizunowa"];
-    const argonSlugs = ["dithercity", "asagiri", "kirigami", "bloom-decay", "thelastlight", "celestial-horizon", "solstice", "rooted", "mesamarket", "echolog", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
+    const neonSlugs = ["dither-city", "asagiri", "kirigami", "bloom-decay", "thelastlight", "celestial-horizon", "solstice"];
+    const argonSlugs = ["rooted", "mesamarket", "echolog", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     const terraSlugs = ["aerune", "frameone", "kinfield", "grandstand", "daymark", "radius", "pello", "avel", "landingx", "afterwalk"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "snoot") {
-        expect(t.model).toBe("Claude Opus 5.5");
+        expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "tolvar") {
-        expect(t.model).toBe("Claude Fable 5.2");
+        expect(t.model).toBe("Claude Fable 5.2 High");
       } else if (t.slug === "elsewhere") {
         expect(t.model).toBe("Claude Fable 5.2 High");
+      } else if (neonSlugs.includes(t.slug)) {
+        expect(t.model).toBe("Gemini 4 Neon xHigh");
       } else if (hydrogenSlugs.includes(t.slug) || t.slug === "datum") {
         expect(t.model).toBe("Gemini 4 Hydrogen xHigh");
       } else if (terraSlugs.includes(t.slug)) {

@@ -174,6 +174,14 @@ export const CATEGORY_COPY: Record<TemplateCategory, CategoryCopy> = {
     metaDescription:
       "Free MIT-licensed landing page templates with interactive WebGL and canvas backgrounds. Includes source code and AI rebuild prompts.",
   },
+  "hero-background": {
+    h1: "Hero background landing page templates",
+    blurb: "Full-bleed 2.5D and 3D WebGL hero environments, shaders, and interactive atmospheric canvases.",
+    intro:
+      "Hero background landing page templates deliver self-contained, full-bleed scenic environments designed to sit behind headlines and calls to action with crisp text-safe zones and smooth pointer parallax. They span procedural Three.js worlds, GLSL shaders, layered paper-cut scenes, and generative 2D canvases built with Next.js 16, React 19, and Tailwind v4.",
+    metaDescription:
+      "Free MIT-licensed hero background landing page templates with interactive 2.5D/3D WebGL scenes, shaders, full source code, and AI rebuild prompts.",
+  },
 };
 
 export interface CategoryHubSummary {

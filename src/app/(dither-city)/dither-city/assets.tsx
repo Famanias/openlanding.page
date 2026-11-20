@@ -1,6 +1,6 @@
 import { ASSETS } from "./assets.generated";
 
-const BASE = "/templates/dithercity";
+const BASE = "/templates/dither-city";
 
 export function assetSrc(
   key: string,
@@ -23,7 +23,7 @@ export function Picture({ assetKey, alt, className }: PictureProps) {
   if (!source) {
     return (
       <div
-        className={`dithercity-placeholder ${className ?? ""}`}
+        className={`dither-city-placeholder ${className ?? ""}`}
         role="img"
         aria-label={alt}
         data-asset={assetKey}

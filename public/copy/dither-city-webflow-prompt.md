@@ -1,17 +1,17 @@
-# Webflow MCP Import Prompt: DITHER//CITY (dithercity)
+# Webflow MCP Import Prompt: DITHER//CITY (dither-city)
 
 Import the **DITHER//CITY** (Digital Experience & Technology) landing page template from OpenLandingPage into the user's active Webflow site using the official **Webflow MCP** tools.
 
-- **Live Reference:** https://www.openlanding.page/templates/dithercity
-- **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/dithercity-webflow.json
+- **Live Reference:** https://www.openlanding.page/templates/dither-city
+- **Structured Webflow Manifest (JSON):** https://www.openlanding.page/copy/dither-city-webflow.json
 
 ## 0. Retrieve the Template Data (OpenLanding MCP or Direct Fetch)
 
 1. **If the `openlanding` MCP server is connected in your environment:**
-   - Call `get_webflow_manifest({ slug: "dithercity" })` to load the structured token, asset, and section manifest.
-   - As you build each section below, call `get_webflow_section({ slug: "dithercity", sectionId: "section-1" })` (and so on) to pull that section's scoped CSS and custom-code blocks one section at a time.
+   - Call `get_webflow_manifest({ slug: "dither-city" })` to load the structured token, asset, and section manifest.
+   - As you build each section below, call `get_webflow_section({ slug: "dither-city", sectionId: "section-1" })` (and so on) to pull that section's scoped CSS and custom-code blocks one section at a time.
 2. **If only the official `webflow` MCP server is connected:**
-   - Fetch `https://www.openlanding.page/copy/dithercity-webflow.json` for the structured JSON manifest and use the token and section specifications embedded below.
+   - Fetch `https://www.openlanding.page/copy/dither-city-webflow.json` for the structured JSON manifest and use the token and section specifications embedded below.
    - Always call `webflow_guide_tool` once at the start of the session before calling other Webflow MCP tools.
 
 ---
@@ -29,7 +29,8 @@ Create or select a Variable Collection named **`DITHER//CITY Tokens`**, then cre
 ### Font Family Variables (`create_font_family_variable`)
 | Variable Name | CSS Token | Primary Family | Source |
 |---|---|---|---|
-| `Font / Body` | `--font-body` | `system-ui` | System font stack |
+| `Font / Display` | `--font-display` | `Doto` | Google Font: `Doto` |
+| `Font / Mono` | `--font-mono` | `IBM Plex Mono` | Google Font: `IBM Plex Mono` |
 
 ### Size Variables (`create_size_variable`)
 | Variable Name | CSS Token | Value | Mode |
@@ -42,9 +43,9 @@ Create or select a Variable Collection named **`DITHER//CITY Tokens`**, then cre
 
 1. **Fonts:** Load the Google Fonts listed above in the page/site `<head>` (or upload custom `.woff2` files via `data_fonts_tool` > `create_font`) and bind the font family variables to your base `Body`, heading, and mono classes.
 2. **Images & SVGs:** Create an asset folder named `DITHER//CITY` with `data_assets_tool` > `create_asset_folder`, upload the template's media assets via `create_asset`, and attach them to native Webflow `Image` elements so the user can double-click any image on the canvas to swap it:
-- `dithercity.webp` (image/webp) — https://www.openlanding.page/gallery/dithercity.webp (Gallery preview capture)
-- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/dithercity/preview-1600.webp (Template media asset)
-- `image_530b559c.png` (image/png) — https://www.openlanding.page/templates/dithercity/aistudio/image_530b559c.png (Template media asset)
+- `dither-city.webp` (image/webp) — https://www.openlanding.page/gallery/dither-city.webp (Gallery preview capture)
+- `preview-1600.webp` (image/webp) — https://www.openlanding.page/templates/dither-city/preview-1600.webp (Template media asset)
+- `image_530b559c.png` (image/png) — https://www.openlanding.page/templates/dither-city/aistudio/image_530b559c.png (Template media asset)
 
 ---
 
@@ -69,4 +70,5 @@ Build all text, headings, buttons, links, cards, and forms as **native editable 
 
 Keep every custom-code block under Webflow's 50,000-character limit (pre-chunked at 45000 chars in the manifest). Apply head styles and footer runtime bridges via `data_scripts_tool` > `set_page_freeform_code`:
 
-- **DITHER//CITY Interactive Runtime Bridge** (`dithercity-runtime-1`, placement: `footer`, 276 / 45000 chars): Loads motion in page footer custom code with prefers-reduced-motion guard.
+- **DITHER//CITY Scoped Styles** (`dither-city-styles-1`, placement: `head`, 947 / 45000 chars): Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.
+- **DITHER//CITY Interactive Runtime Bridge** (`dither-city-runtime-1`, placement: `footer`, 276 / 45000 chars): Loads motion in page footer custom code with prefers-reduced-motion guard.

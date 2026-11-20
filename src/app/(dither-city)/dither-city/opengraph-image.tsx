@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "DITHER//CITY";
+export const alt = "DITHER//CITY — Interactive Sci-Fi Megacity";
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -26,7 +26,7 @@ export default function OpenGraphImage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ display: "flex", fontSize: 56, fontWeight: "bold", lineHeight: 1.1, maxWidth: 950 }}>
-            DITHER//CITY
+            DITHER//CITY — Interactive Sci-Fi Megacity
           </div>
           <div style={{ display: "flex", fontSize: 22, opacity: 0.75, maxWidth: 850 }}>
             Interactive 2.5D sci-fi megacity background rendered with procedural Three.js brutalist architecture, a 3D ringed planet, and real-time GLSL Bayer dithering and halftone screening.

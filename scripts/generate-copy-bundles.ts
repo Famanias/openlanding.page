@@ -14,7 +14,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
-  dithercity: { name: "DITHER//CITY", dependencies: ["lucide-react", "motion"] },
+  "dither-city": { name: "DITHER//CITY", dependencies: ["lucide-react", "motion"] },
   asagiri: { name: "Asagiri", dependencies: ["lucide-react", "motion"] },
   kirigami: { name: "KIRIGAMI", dependencies: ["lucide-react", "motion"] },
   "bloom-decay": { name: "BLOOM//DECAY", dependencies: ["lucide-react", "motion"] },
