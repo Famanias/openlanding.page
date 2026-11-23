@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Copy, DownloadSimple, Check, ThumbsUp, ThumbsDown } from "@phosphor-icons/react/dist/ssr";
+import { Copy, DownloadSimple, Check, ThumbsUp, ThumbsDown, Info } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 import { downloadStandalone } from "../lib/download";
 import { templatePath } from "../../../lib/template-routing";
@@ -74,7 +74,9 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
         <div className="card-body">
           <div className="card-title-row">
             <h3><a href={templatePath(template.slug)} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
-            <a href={templateDetailPath(template.slug)} className="card-details-link" aria-label={`Details: ${template.title} landing page template`}>Details</a>
+            <a href={templateDetailPath(template.slug)} className="card-details-link" aria-label={`Details: ${template.title} landing page template`} title="Details">
+              <Info size={16} aria-hidden="true" />
+            </a>
             <div className="card-copy-menu-wrap" style={{ display: "inline-flex", flexShrink: 0 }}>
               <button type="button" onClick={() => setPromptDialogOpen(true)} aria-live="polite"
                 aria-label={copyButtonLabel} aria-haspopup="dialog" aria-expanded={promptDialogOpen}

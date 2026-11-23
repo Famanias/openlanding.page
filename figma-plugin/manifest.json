@@ -1,0 +1,13 @@
+{
+  "name": "HTML to Figma",
+  "id": "openlandingpage-html-to-figma",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["*"],
+    "reasoning": "Loads user-specified local or remote pages and external assets (images, fonts, stylesheets) for HTML-to-Figma import."
+  }
+}

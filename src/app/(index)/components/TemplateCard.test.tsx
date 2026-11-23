@@ -20,7 +20,7 @@ describe("TemplateCard", () => {
       expect(html).toContain(`<a href="/landing-page-templates/${template.slug}" class="card-details-link"`);
     }
     const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === "orrery")!} />);
-    expect(html).toContain('<a href="/landing-page-templates/orrery" class="card-details-link" aria-label="Details: Orrery landing page template">Details</a>');
+    expect(html).toMatch(/<a href="\/landing-page-templates\/orrery" class="card-details-link" aria-label="Details: Orrery landing page template" title="Details"><svg[^>]*aria-hidden="true"[^>]*>.*<\/svg><\/a>/);
   });
   it("keeps Download HTML visible when the standalone export is not ready", () => {
     const template = TEMPLATES.find(t => t.slug === "orrery")!;
