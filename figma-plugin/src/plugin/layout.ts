@@ -87,6 +87,11 @@ export function computeAutoLayoutConfig(
     return null;
   }
 
+  const justify = (meta.justifyContent || "").trim().toLowerCase();
+  if (justify === "space-around" || justify === "space-evenly") {
+    return null;
+  }
+
   const layoutMode =
     meta.flexDirection === "column"
       ? "VERTICAL"
@@ -109,7 +114,7 @@ export function computeAutoLayoutConfig(
 
   return {
     layoutMode,
-    primaryAxisAlignItems: mapPrimaryAlign(meta.justifyContent),
+    primaryAxisAlignItems: mapPrimaryAlign(justify),
     counterAxisAlignItems: mapCounterAlign(meta.alignItems),
     layoutWrap,
     itemSpacing: Math.max(0, primaryGap || 0),

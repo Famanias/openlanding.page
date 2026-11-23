@@ -104,7 +104,7 @@ export async function handleUiMessage(
       });
 
       completedBefore += docTotal;
-      originX += Math.max(1, doc.viewportWidth || doc.root.width) + PAGE_GAP_PX;
+      originX += Math.max(1, doc.root.width, doc.viewportWidth) + PAGE_GAP_PX;
       nodeCount += docSummary.nodeCount;
       imageCount += docSummary.imageCount;
       styleCount += docSummary.styleCount ?? 0;
@@ -139,7 +139,7 @@ if (typeof figma !== "undefined") {
     width: 380,
     height: 540,
     themeColors: true,
-  } as Parameters<PluginAPI["showUI"]>[1]);
+  });
 
   figma.ui.onmessage = (raw: unknown) => {
     void handleUiMessage(raw, figma);

@@ -73,7 +73,7 @@ describe("parseCssGradient, parseCssBackgroundLayers, and parseCssBoxShadows", (
     expect(parseCssBackgroundLayers("none")).toEqual([]);
   });
 
-  it("parses multiple drop and inset box-shadows", () => {
+  it("parses multiple drop and inset box-shadows and drops zero-alpha/zero-metric Tailwind v4 shadows", () => {
     const effects = parseCssBoxShadows(
       "0px 4px 12px 0px rgba(0, 0, 0, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.1)"
     );
@@ -81,6 +81,13 @@ describe("parseCssGradient, parseCssBackgroundLayers, and parseCssBoxShadows", (
     expect(effects[0]).toMatchObject({ type: "DROP_SHADOW", offsetX: 0, offsetY: 4, radius: 12, spread: 0 });
     expect(effects[1]).toMatchObject({ type: "INNER_SHADOW", offsetY: 1, radius: 0 });
     expect(parseCssBoxShadows("none")).toEqual([]);
+
+    const filtered = parseCssBoxShadows(
+      "rgba(0, 0, 0, 0) 0px 0px 0px 0px, 0 4px 12px rgba(0, 0, 0, 0.2)"
+    );
+    expect(filtered).toHaveLength(1);
+    expect(filtered[0]).toMatchObject({ type: "DROP_SHADOW", offsetX: 0, offsetY: 4, radius: 12 });
+    expect(parseCssBoxShadows("0px 0px 0px 0px rgba(0, 0, 0, 0.5)")).toEqual([]);
   });
 
   it("parses percentage and pixel border-radii clamped to half box dimensions", () => {

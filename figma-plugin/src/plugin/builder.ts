@@ -52,6 +52,10 @@ const toRgba = (c: RgbaColor): RGBA => ({
   a: clamp01(c.a),
 });
 
+function isValidFigmaHyperlinkUrl(href: string | undefined): href is string {
+  return typeof href === "string" && /^(?:https?:\/\/|mailto:)\S+/i.test(href.trim());
+}
+
 export function countSerializedNodes(node: SerializedNode): number {
   if (node.type !== "FRAME") return 1;
   let total = 1;
@@ -350,8 +354,17 @@ async function buildTextNode(
   textNode.textDecoration = textDecoration;
   textNode.textCase = textCase;
   textNode.fills = fills;
-  if (node.href) {
-    textNode.hyperlink = { type: "URL", value: node.href };
+  if (textNode.characters.length > 0 && node.href) {
+    if (isValidFigmaHyperlinkUrl(node.href)) {
+      try {
+        textNode.hyperlink = { type: "URL", value: node.href.trim() };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        ctx.summary.warnings.push(`Skipped hyperlink on "${node.name}": ${msg}`);
+      }
+    } else {
+      ctx.summary.warnings.push(`Skipped unsupported hyperlink "${node.href}" on "${node.name}"`);
+    }
   }
   textNode.textAutoResize = "NONE";
   textNode.resize(Math.max(1, node.width), Math.max(1, node.height));
@@ -428,8 +441,21 @@ async function buildTextNode(
         unit: "PIXELS",
       });
     }
-    if (range.href !== undefined && typeof textNode.setRangeHyperlink === "function") {
-      textNode.setRangeHyperlink(start, end, { type: "URL", value: range.href });
+    if (
+      textNode.characters.length > 0 &&
+      range.href !== undefined &&
+      typeof textNode.setRangeHyperlink === "function"
+    ) {
+      if (isValidFigmaHyperlinkUrl(range.href)) {
+        try {
+          textNode.setRangeHyperlink(start, end, { type: "URL", value: range.href.trim() });
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err);
+          ctx.summary.warnings.push(`Skipped range hyperlink on "${node.name}": ${msg}`);
+        }
+      } else {
+        ctx.summary.warnings.push(`Skipped unsupported range hyperlink "${range.href}" on "${node.name}"`);
+      }
     }
   }
 
@@ -450,8 +476,19 @@ async function buildFrameNode(
   frame.clipsContent = node.clipsContent;
   frame.fills = fills;
   frame.strokes = strokes;
-  if (node.strokeWeight !== undefined && strokes.length > 0) {
-    frame.strokeWeight = Math.max(0, node.strokeWeight);
+  if (strokes.length > 0) {
+    if (node.strokeWeight !== undefined) {
+      frame.strokeWeight = Math.max(0, node.strokeWeight);
+    }
+    if (node.strokeWeights) {
+      const [t, r, b, l] = node.strokeWeights.map((w) => Math.max(0, w));
+      if (t !== r || t !== b || t !== l) {
+        frame.strokeTopWeight = t;
+        frame.strokeRightWeight = r;
+        frame.strokeBottomWeight = b;
+        frame.strokeLeftWeight = l;
+      }
+    }
   }
   frame.topLeftRadius = Math.max(0, node.cornerRadius[0] ?? 0);
   frame.topRightRadius = Math.max(0, node.cornerRadius[1] ?? 0);

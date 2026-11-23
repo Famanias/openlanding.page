@@ -135,6 +135,7 @@ describe("font resolution", () => {
     });
     expect(result.substitutions).toContain("UnknownDisplayFont");
     expect(result.substitutions).toContain("Geist");
+    expect(loadFontAsync).toHaveBeenCalledTimes(4);
   });
 });
 
@@ -209,7 +210,7 @@ describe("Auto Layout eligibility", () => {
     });
   });
 
-  it("returns null for display: block or grid containers, zero in-flow children, and when in-flow siblings overlap", () => {
+  it("returns null for display: block or grid containers, space-around/space-evenly, zero in-flow children, and when in-flow siblings overlap", () => {
     expect(
       computeAutoLayoutConfig(
         {
@@ -231,6 +232,52 @@ describe("Auto Layout eligibility", () => {
         ]
       )
     ).toBeNull();
+
+    expect(
+      computeAutoLayoutConfig(
+        {
+          display: "grid",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          justifyContent: "flex-start",
+          alignItems: "stretch",
+          rowGap: 16,
+          columnGap: 16,
+          paddingTop: 0,
+          paddingRight: 0,
+          paddingBottom: 0,
+          paddingLeft: 0,
+        },
+        [
+          { x: 0, y: 0, width: 200, height: 100 },
+          { x: 216, y: 0, width: 200, height: 100 },
+        ]
+      )
+    ).toBeNull();
+
+    for (const justifyContent of ["space-around", "space-evenly"]) {
+      expect(
+        computeAutoLayoutConfig(
+          {
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            justifyContent,
+            alignItems: "center",
+            rowGap: 0,
+            columnGap: 0,
+            paddingTop: 0,
+            paddingRight: 0,
+            paddingBottom: 0,
+            paddingLeft: 0,
+          },
+          [
+            { x: 20, y: 0, width: 100, height: 40 },
+            { x: 200, y: 0, width: 100, height: 40 },
+          ]
+        )
+      ).toBeNull();
+    }
 
     expect(
       computeAutoLayoutConfig(

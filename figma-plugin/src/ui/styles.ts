@@ -198,13 +198,26 @@ export function parseCssBoxShadows(
     }
     if (lengths.length < 2) continue;
 
+    const resolvedColor = color ?? { r: 0, g: 0, b: 0, a: 1 };
+    const offsetX = lengths[0];
+    const offsetY = lengths[1];
+    const radius = Math.max(0, lengths[2] ?? 0);
+    const spread = lengths[3] ?? 0;
+
+    if (
+      resolvedColor.a <= 0 ||
+      (offsetX === 0 && offsetY === 0 && radius === 0 && spread === 0)
+    ) {
+      continue;
+    }
+
     effects.push({
       type: inset ? "INNER_SHADOW" : "DROP_SHADOW",
-      offsetX: lengths[0],
-      offsetY: lengths[1],
-      radius: Math.max(0, lengths[2] ?? 0),
-      spread: lengths[3] ?? 0,
-      color: color ?? { r: 0, g: 0, b: 0, a: 1 },
+      offsetX,
+      offsetY,
+      radius,
+      spread,
+      color: resolvedColor,
     });
   }
   return effects;

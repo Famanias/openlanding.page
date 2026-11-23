@@ -137,7 +137,11 @@ function captureHtmlAtWidth(html: string, width: number, runId: string): Promise
 
       if (data.runId !== runId) return;
 
-      if (data.type === "h2f:serialized" && data.document) {
+      if (data.type === "h2f:serialized") {
+        if (!data.document) {
+          fail("Invalid serialized document payload.");
+          return;
+        }
         settled = true;
         cleanup();
         resolve(data.document);
@@ -225,8 +229,17 @@ function initPluginUi(): void {
       return;
     }
     hideBanner(el);
-    uploadedHtml = await file.text();
-    el.fileLabel.textContent = `${file.name} (${Math.max(1, Math.round(file.size / 1024))} KB)`;
+    try {
+      uploadedHtml = await file.text();
+      el.fileLabel.textContent = `${file.name} (${Math.max(1, Math.round(file.size / 1024))} KB)`;
+    } catch (err) {
+      uploadedHtml = "";
+      showBanner(
+        el,
+        "error",
+        `Failed to read file: ${err instanceof Error ? err.message : String(err)}`
+      );
+    }
   };
 
   el.fileInput.addEventListener("change", () => {

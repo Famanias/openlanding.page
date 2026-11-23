@@ -19,7 +19,12 @@ import {
   hashBytes,
   type ExtractedMedia,
 } from "./media";
-import { parseCornerRadii, parseCssBackgroundLayers, parseCssBoxShadows } from "./styles";
+import {
+  parseCornerRadii,
+  parseCssBackgroundLayers,
+  parseCssBoxShadows,
+  splitTopLevelComma,
+} from "./styles";
 import { inlineSvgElement } from "./svg-inline";
 
 const CLIP_OVERFLOW_VALUES = new Set(["hidden", "clip", "scroll", "auto"]);
@@ -191,10 +196,15 @@ const objectFitToScaleMode = (objectFit: string): "FILL" | "FIT" => {
   return fit === "contain" || fit === "scale-down" ? "FIT" : "FILL";
 };
 
-const backgroundSizeToScaleMode = (bgSize: string): "FILL" | "FIT" | "TILE" => {
+const backgroundSizeToScaleMode = (
+  bgSize: string,
+  bgRepeat?: string
+): "FILL" | "FIT" | "TILE" => {
   const lower = bgSize.trim().toLowerCase();
   if (lower.includes("contain")) return "FIT";
-  if (lower === "auto" || /^\d/.test(lower)) return "TILE";
+  if (lower.includes("cover") || lower.includes("100%")) return "FILL";
+  if (bgRepeat && bgRepeat.toLowerCase().includes("no-repeat")) return "FILL";
+  if (lower === "auto" || lower === "auto auto" || /^(?:\d|\.)/.test(lower)) return "TILE";
   return "FILL";
 };
 
@@ -443,6 +453,7 @@ function scheduleSlotMedia(
 function extractStrokes(style: CSSStyleDeclaration): {
   strokes: SerializedPaint[];
   strokeWeight?: number;
+  strokeWeights?: [number, number, number, number];
 } {
   const sides = [
     { w: parsePx(style.borderTopWidth), s: style.borderTopStyle, c: style.borderTopColor },
@@ -452,15 +463,22 @@ function extractStrokes(style: CSSStyleDeclaration): {
   ];
   let maxWeight = 0;
   let strokeColor: ReturnType<typeof parseCssColor> = null;
-  for (const side of sides) {
+  const strokeWeights: [number, number, number, number] = [0, 0, 0, 0];
+  for (let i = 0; i < sides.length; i++) {
+    const side = sides[i];
     if (side.w <= 0 || side.s === "none" || side.s === "hidden") continue;
     const parsed = parseCssColor(side.c);
     if (!parsed || parsed.a <= 0) continue;
+    strokeWeights[i] = side.w;
     if (!strokeColor) strokeColor = parsed;
     if (side.w > maxWeight) maxWeight = side.w;
   }
   if (!strokeColor || maxWeight <= 0) return { strokes: [] };
-  return { strokes: [{ type: "SOLID", color: strokeColor }], strokeWeight: maxWeight };
+  return {
+    strokes: [{ type: "SOLID", color: strokeColor }],
+    strokeWeight: maxWeight,
+    strokeWeights,
+  };
 }
 
 function extractEffects(style: CSSStyleDeclaration): SerializedEffect[] {
@@ -493,18 +511,21 @@ function collectBoxFillSlots(
 
   const layers = parseCssBackgroundLayers(style.backgroundImage);
   // CSS background-image lists top layer first; Figma fills stack bottom-to-top.
-  const bgSize = style.backgroundSize;
+  const bgSizes = splitTopLevelComma(style.backgroundSize || "");
+  const bgRepeats = splitTopLevelComma(style.backgroundRepeat || "");
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i];
     if (layer.kind === "gradient") {
       slots.push(layer.paint);
     } else {
       const url = layer.url;
+      const scaleMode = backgroundSizeToScaleMode(
+        bgSizes[i] ?? bgSizes[0] ?? "",
+        bgRepeats[i] ?? bgRepeats[0] ?? style.backgroundRepeat
+      );
       scheduleSlotMedia(slots, ctx, async () => {
         const assetId = await extractUrlAsset(ctx, url);
-        return assetId
-          ? { type: "IMAGE", assetId, scaleMode: backgroundSizeToScaleMode(bgSize) }
-          : null;
+        return assetId ? { type: "IMAGE", assetId, scaleMode } : null;
       });
     }
   }
@@ -535,7 +556,7 @@ function hasVisualBoxDecoration(style: CSSStyleDeclaration): boolean {
   const bg = parseCssColor(style.backgroundColor);
   if (bg && bg.a > 0) return true;
   if (style.backgroundImage && style.backgroundImage !== "none") return true;
-  if (style.boxShadow && style.boxShadow !== "none") return true;
+  if (parseCssBoxShadows(style.boxShadow).length > 0) return true;
   if (extractStrokes(style).strokes.length > 0) return true;
   if (isClippingOverflow(style.overflowX, style.overflowY).clipsContent) return true;
   const d = style.display.trim().toLowerCase();
@@ -546,6 +567,26 @@ function hasVisualBoxDecoration(style: CSSStyleDeclaration): boolean {
       parsePx(style.paddingBottom) +
       parsePx(style.paddingLeft);
     if (pad > 0) return true;
+  }
+  return false;
+}
+
+function hasZeroScaleTransform(transform: string | undefined): boolean {
+  if (!transform) return false;
+  const trimmed = transform.trim();
+  if (trimmed.startsWith("matrix(") && trimmed.endsWith(")")) {
+    const nums = trimmed.slice(7, -1).split(",").map((s) => parseFloat(s.trim()));
+    if (nums.length >= 4 && nums.slice(0, 4).every(Number.isFinite)) {
+      return Math.hypot(nums[0], nums[1]) <= 1e-6 || Math.hypot(nums[2], nums[3]) <= 1e-6;
+    }
+  } else if (trimmed.startsWith("matrix3d(") && trimmed.endsWith(")")) {
+    const nums = trimmed.slice(9, -1).split(",").map((s) => parseFloat(s.trim()));
+    if (nums.length >= 7 && nums.slice(0, 7).every(Number.isFinite)) {
+      return (
+        Math.hypot(nums[0], nums[1], nums[2]) <= 1e-6 ||
+        Math.hypot(nums[4], nums[5], nums[6]) <= 1e-6
+      );
+    }
   }
   return false;
 }
@@ -565,7 +606,14 @@ function hasActivePseudo(el: Element, pseudo: "::before" | "::after", win: Windo
   const ps = win.getComputedStyle(el, pseudo);
   const content = ps.content;
   if (!content || content === "none" || content === "normal") return false;
-  if (ps.display === "none" || ps.visibility === "hidden" || parseOpacity(ps.opacity) <= 0) return false;
+  if (
+    ps.display === "none" ||
+    ps.visibility === "hidden" ||
+    parseOpacity(ps.opacity) <= 0 ||
+    hasZeroScaleTransform(ps.transform)
+  ) {
+    return false;
+  }
   if (unquoteCssContent(content).trim().length > 0) return true;
   return parsePx(ps.width) > 0 && parsePx(ps.height) > 0 && hasVisualBoxDecoration(ps);
 }
@@ -782,7 +830,9 @@ function serializePseudoElement(
   const ps = ctx.win.getComputedStyle(el, pseudo);
   const content = ps.content;
   if (!content || content === "none" || content === "normal") return null;
-  if (ps.display === "none" || ps.visibility === "hidden") return null;
+  if (ps.display === "none" || ps.visibility === "hidden" || hasZeroScaleTransform(ps.transform)) {
+    return null;
+  }
   const opacity = parseOpacity(ps.opacity);
   if (opacity <= 0) return null;
 
@@ -809,31 +859,23 @@ function serializePseudoElement(
     height: h,
   };
 
-  const text = unquoteCssContent(content);
-  if (text.trim() && !hasVisualBoxDecoration(ps)) {
+  const makePseudoTextNode = (
+    textValue: string,
+    tRect: BoxRect,
+    nodeOpacity: number
+  ): SerializedTextNode => {
     const fontSize = parsePx(ps.fontSize) || 16;
-    const textW = w > 0 ? w : Math.max(1, text.length * fontSize * 0.6);
-    const textH = h > 0 ? h : parseLineHeightPx(ps.lineHeight, fontSize);
-    const tRect: BoxRect = {
-      left: rect.left,
-      top: rect.top,
-      right: rect.left + textW,
-      bottom: rect.top + textH,
-      width: textW,
-      height: textH,
-    };
-    if (!intersectsClip(tRect, clip)) return null;
     const color = parseCssColor(ps.color) ?? { r: 0, g: 0, b: 0, a: 1 };
     return {
       id: ctx.nextId("txt"),
       type: "TEXT",
-      name: truncate(text, 40),
+      name: truncate(textValue, 40),
       x: tRect.left,
       y: tRect.top,
       width: tRect.width,
       height: tRect.height,
-      opacity,
-      characters: text,
+      opacity: nodeOpacity,
+      characters: textValue,
       fontFamily: ps.fontFamily || "Inter, sans-serif",
       fontSize,
       fontWeight: parseFontWeight(ps.fontWeight),
@@ -847,6 +889,24 @@ function serializePseudoElement(
       ranges: [],
       position: normalizePosition(ps.position),
     };
+  };
+
+  const text = unquoteCssContent(content);
+  const hasBoxDecor = hasVisualBoxDecoration(ps);
+  if (text.trim() && !hasBoxDecor) {
+    const fontSize = parsePx(ps.fontSize) || 16;
+    const textW = w > 0 ? w : Math.max(1, text.length * fontSize * 0.6);
+    const textH = h > 0 ? h : parseLineHeightPx(ps.lineHeight, fontSize);
+    const tRect: BoxRect = {
+      left: rect.left,
+      top: rect.top,
+      right: rect.left + textW,
+      bottom: rect.top + textH,
+      width: textW,
+      height: textH,
+    };
+    if (!intersectsClip(tRect, clip)) return null;
+    return makePseudoTextNode(text, tRect, opacity);
   }
 
   if (w <= 0 || h <= 0 || !intersectsClip(rect, clip)) return null;
@@ -859,9 +919,29 @@ function serializePseudoElement(
       return assetId ? { type: "IMAGE", assetId, scaleMode: "FILL" } : null;
     });
   }
-  const { strokes, strokeWeight } = extractStrokes(ps);
+  const { strokes, strokeWeight, strokeWeights } = extractStrokes(ps);
   const effects = extractEffects(ps);
-  if (slots.length === 0 && strokes.length === 0 && effects.length === 0) return null;
+
+  const children: SerializedNode[] = [];
+  if (text.trim() && hasBoxDecor) {
+    const padLeft = parsePx(ps.paddingLeft) + parsePx(ps.borderLeftWidth);
+    const padTop = parsePx(ps.paddingTop) + parsePx(ps.borderTopWidth);
+    const padRight = parsePx(ps.paddingRight) + parsePx(ps.borderRightWidth);
+    const padBottom = parsePx(ps.paddingBottom) + parsePx(ps.borderBottomWidth);
+    const innerRect: BoxRect = {
+      left: rect.left + padLeft,
+      top: rect.top + padTop,
+      right: rect.right - padRight,
+      bottom: rect.bottom - padBottom,
+      width: Math.max(1, w - padLeft - padRight),
+      height: Math.max(1, h - padTop - padBottom),
+    };
+    children.push(makePseudoTextNode(text, innerRect, 1));
+  }
+
+  if (children.length === 0 && slots.length === 0 && strokes.length === 0 && effects.length === 0) {
+    return null;
+  }
 
   return {
     id: ctx.nextId("frm"),
@@ -875,11 +955,12 @@ function serializePseudoElement(
     fills: slots as unknown as SerializedPaint[],
     strokes,
     strokeWeight,
+    strokeWeights,
     cornerRadius: parseCornerRadii(ps, w, h),
     effects,
     clipsContent: isClippingOverflow(ps.overflowX, ps.overflowY).clipsContent,
     position: normalizePosition(ps.position),
-    children: [],
+    children,
   };
 }
 
@@ -1073,7 +1154,7 @@ function serializeElement(
       });
     }
 
-    const { strokes, strokeWeight } = extractStrokes(style);
+    const { strokes, strokeWeight, strokeWeights } = extractStrokes(style);
     const effects = extractEffects(style);
     if (slots.length === 0 && strokes.length === 0 && effects.length === 0) return [];
 
@@ -1089,6 +1170,7 @@ function serializeElement(
       fills: slots as unknown as SerializedPaint[],
       strokes,
       strokeWeight,
+      strokeWeights,
       cornerRadius: parseCornerRadii(style, rect.width, rect.height),
       effects,
       clipsContent: true,
@@ -1149,7 +1231,7 @@ function serializeElement(
       return textNode ? [textNode] : [];
     }
     const slots = collectBoxFillSlots(style, ctx);
-    const { strokes, strokeWeight } = extractStrokes(style);
+    const { strokes, strokeWeight, strokeWeights } = extractStrokes(style);
     const effects = extractEffects(style);
     return [
       {
@@ -1164,6 +1246,7 @@ function serializeElement(
         fills: slots as unknown as SerializedPaint[],
         strokes,
         strokeWeight,
+        strokeWeights,
         cornerRadius: parseCornerRadii(style, rect.width, rect.height),
         effects,
         clipsContent: overflowClip.clipsContent,
@@ -1175,7 +1258,7 @@ function serializeElement(
   }
 
   const slots = collectBoxFillSlots(style, ctx);
-  const { strokes, strokeWeight } = extractStrokes(style);
+  const { strokes, strokeWeight, strokeWeights } = extractStrokes(style);
   const effects = extractEffects(style);
   const children: SerializedNode[] = [];
 
@@ -1249,6 +1332,7 @@ function serializeElement(
       fills: slots as unknown as SerializedPaint[],
       strokes,
       strokeWeight,
+      strokeWeights,
       cornerRadius: parseCornerRadii(style, rect.width, rect.height),
       effects,
       clipsContent: overflowClip.clipsContent,

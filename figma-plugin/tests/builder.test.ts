@@ -760,6 +760,110 @@ describe("buildFigmaPage", () => {
     expect(progressEvents.length).toBeGreaterThanOrEqual(1);
     expect(progressEvents[0]).toEqual([40, 46]);
   });
+
+  it("applies per-side strokeWeights, guards invalid relative/#anchor hyperlinks with warnings, and keeps valid https hyperlinks", async () => {
+    const { mockFigma } = createMockFigma();
+
+    const doc: SerializedDocument = {
+      runId: "r-strokes-links",
+      title: "Strokes & Links",
+      viewportWidth: 1000,
+      assets: {},
+      root: {
+        id: "root",
+        type: "FRAME",
+        name: "Page",
+        x: 0,
+        y: 0,
+        width: 1000,
+        height: 400,
+        opacity: 1,
+        fills: [],
+        strokes: [{ type: "SOLID", color: { r: 0, g: 0, b: 0, a: 1 } }],
+        strokeWeight: 2,
+        strokeWeights: [0, 0, 2, 0],
+        cornerRadius: [0, 0, 0, 0],
+        effects: [],
+        clipsContent: false,
+        children: [
+          {
+            id: "t-invalid",
+            type: "TEXT",
+            name: "AnchorLink",
+            x: 10,
+            y: 10,
+            width: 200,
+            height: 24,
+            opacity: 1,
+            characters: "Jump to features",
+            fontFamily: "Inter",
+            fontSize: 16,
+            fontWeight: 400,
+            fontStyle: "normal",
+            lineHeightPx: 24,
+            letterSpacingPx: 0,
+            textAlign: "LEFT",
+            fills: [{ type: "SOLID", color: { r: 0, g: 0, b: 0, a: 1 } }],
+            href: "#features",
+            ranges: [{ start: 0, end: 4, href: "/relative" }],
+          },
+          {
+            id: "t-valid",
+            type: "TEXT",
+            name: "ExternalLink",
+            x: 10,
+            y: 50,
+            width: 200,
+            height: 24,
+            opacity: 1,
+            characters: "Docs",
+            fontFamily: "Inter",
+            fontSize: 16,
+            fontWeight: 400,
+            fontStyle: "normal",
+            lineHeightPx: 24,
+            letterSpacingPx: 0,
+            textAlign: "LEFT",
+            fills: [{ type: "SOLID", color: { r: 0, g: 0, b: 0, a: 1 } }],
+            href: "https://example.com/docs",
+            ranges: [],
+          },
+        ],
+      },
+    };
+
+    const summary = await buildFigmaPage(
+      doc,
+      { widths: [1000], useAutoLayout: false, createStyles: false },
+      0,
+      mockFigma
+    );
+
+    const root = mockFigma.currentPage.children[0] as unknown as {
+      strokeWeight: number;
+      strokeTopWeight?: number;
+      strokeRightWeight?: number;
+      strokeBottomWeight?: number;
+      strokeLeftWeight?: number;
+      children: Array<{
+        hyperlink: unknown;
+        setRangeHyperlink: ReturnType<typeof vi.fn>;
+      }>;
+    };
+    expect(root.strokeWeight).toBe(2);
+    expect(root.strokeTopWeight).toBe(0);
+    expect(root.strokeRightWeight).toBe(0);
+    expect(root.strokeBottomWeight).toBe(2);
+    expect(root.strokeLeftWeight).toBe(0);
+
+    expect(root.children[0].hyperlink).toBeNull();
+    expect(root.children[0].setRangeHyperlink).not.toHaveBeenCalled();
+    expect(root.children[1].hyperlink).toEqual({
+      type: "URL",
+      value: "https://example.com/docs",
+    });
+    expect(summary.warnings.length).toBeGreaterThanOrEqual(2);
+  });
 });
 
 describe("code.ts message handler", () => {

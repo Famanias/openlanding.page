@@ -2,11 +2,34 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   decodeDataUrl,
   hashBytes,
+  isFigmaSupportedRasterBytes,
   extractImageBytes,
   captureCanvasBytes,
   captureVideoPosterBytes,
 } from "../src/ui/media";
 import { sanitizeSvgMarkup, inlineSvgElement } from "../src/ui/svg-inline";
+
+function makePngBytes(width: number, height: number): Uint8Array {
+  const buf = new Uint8Array(24);
+  buf.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52], 0);
+  const view = new DataView(buf.buffer);
+  view.setUint32(16, width, false);
+  view.setUint32(20, height, false);
+  return buf;
+}
+
+function makeGifBytes(width: number, height: number): Uint8Array {
+  const buf = new Uint8Array(10);
+  buf.set([0x47, 0x49, 0x46, 0x38, 0x39, 0x61], 0);
+  const view = new DataView(buf.buffer);
+  view.setUint16(6, width, true);
+  view.setUint16(8, height, true);
+  return buf;
+}
+
+function toDataUrl(mime: string, bytes: Uint8Array): string {
+  return `data:${mime};base64,${Buffer.from(bytes).toString("base64")}`;
+}
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -61,15 +84,97 @@ describe("media helpers", () => {
   });
 
   it("falls back to video poster URL when video dimensions are zero", async () => {
+    const validPng = makePngBytes(1, 1);
     const video = {
       videoWidth: 0,
       videoHeight: 0,
-      poster: "data:image/png;base64,iVBORw0KGgo=",
+      poster: toDataUrl("image/png", validPng),
     } as unknown as HTMLVideoElement;
 
     const captured = await captureVideoPosterBytes(video);
     expect(captured?.mime).toBe("image/png");
-    expect(captured?.bytes.length).toBe(8);
+    expect(captured?.bytes.length).toBe(24);
+  });
+
+  it("validates Figma-supported raster magic bytes and <=4096px dimensions", async () => {
+    expect(isFigmaSupportedRasterBytes(makePngBytes(1920, 1080))).toBe("image/png");
+    expect(isFigmaSupportedRasterBytes(makePngBytes(4097, 100))).toBeNull();
+    expect(isFigmaSupportedRasterBytes(new Uint8Array([0xff, 0xd8, 0xff, 0xe0]))).toBe("image/jpeg");
+    expect(isFigmaSupportedRasterBytes(makeGifBytes(320, 240))).toBe("image/gif");
+    expect(isFigmaSupportedRasterBytes(makeGifBytes(5000, 240))).toBeNull();
+    expect(isFigmaSupportedRasterBytes(new TextEncoder().encode("RIFFxxxxWEBP"))).toBeNull();
+
+    const jpegDataUrl = toDataUrl("image/jpeg", new Uint8Array([0xff, 0xd8, 0xff, 0xe0]));
+    const jpegRes = await extractImageBytes(jpegDataUrl);
+    expect(jpegRes?.mime).toBe("image/jpeg");
+    expect(Array.from(jpegRes!.bytes)).toEqual([0xff, 0xd8, 0xff, 0xe0]);
+  });
+
+  it("transcodes WebP/SVG and downscales >4096px images to PNG preserving aspect ratio, and skips blank canvases before toDataURL", async () => {
+    const validPngDataUrl = toDataUrl("image/png", makePngBytes(10, 10));
+    const createdCanvases: Array<{ width: number; height: number; toDataURL: ReturnType<typeof vi.fn> }> = [];
+    let nextCanvasIsBlank = false;
+
+    vi.stubGlobal("document", {
+      createElement: () => {
+        const isBlank = nextCanvasIsBlank;
+        const canvas = {
+          width: 0,
+          height: 0,
+          getContext: () => ({
+            drawImage: vi.fn(),
+            getImageData: () => ({
+              data: isBlank ? new Uint8ClampedArray([0, 0, 0, 0]) : new Uint8ClampedArray([255, 0, 0, 255]),
+            }),
+          }),
+          toDataURL: vi.fn(() => validPngDataUrl),
+        };
+        createdCanvases.push(canvas);
+        return canvas;
+      },
+    });
+    vi.stubGlobal(
+      "createImageBitmap",
+      vi.fn(async () => ({ width: 8192, height: 4096, close: vi.fn() }))
+    );
+
+    const webpRes = await extractImageBytes("data:image/webp;base64,UklGRg==");
+    expect(webpRes?.mime).toBe("image/png");
+    expect(isFigmaSupportedRasterBytes(webpRes!.bytes)).toBe("image/png");
+    expect(createdCanvases[0].width).toBe(4096);
+    expect(createdCanvases[0].height).toBe(2048);
+
+    // SVG transcoding via Image fallback when createImageBitmap throws.
+    vi.stubGlobal(
+      "createImageBitmap",
+      vi.fn(async () => {
+        throw new Error("SVG unsupported in createImageBitmap");
+      })
+    );
+    class MockImage {
+      naturalWidth = 64;
+      naturalHeight = 32;
+      onload: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+      set src(_val: string) {
+        queueMicrotask(() => this.onload?.());
+      }
+    }
+    vi.stubGlobal("Image", MockImage);
+    const svgRes = await extractImageBytes("data:image/svg+xml;utf8,%3Csvg/%3E");
+    expect(svgRes?.mime).toBe("image/png");
+    expect(isFigmaSupportedRasterBytes(svgRes!.bytes)).toBe("image/png");
+
+    // Blank canvas check runs before toDataURL so blank canvases skip full PNG encoding.
+    nextCanvasIsBlank = true;
+    const blankToDataUrl = vi.fn(() => validPngDataUrl);
+    const blankRes = await captureCanvasBytes({
+      width: 10,
+      height: 10,
+      toDataURL: blankToDataUrl,
+    } as unknown as HTMLCanvasElement);
+    expect(blankRes).toBeNull();
+    expect(blankToDataUrl).not.toHaveBeenCalled();
   });
 });
 

@@ -21,5 +21,7 @@ describe("plugin manifest and build output", () => {
     expect(codeJs.length).toBeGreaterThan(50);
     expect(uiHtml).toContain("<script>");
     expect(uiHtml).not.toMatch(/<script\b[^>]*\bsrc=/i);
+    expect(uiHtml).not.toContain("__BRIDGE_SCRIPT__");
+    expect(uiHtml).toContain("h2f:capture");
   });
 });

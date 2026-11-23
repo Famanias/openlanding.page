@@ -86,6 +86,7 @@ export interface SerializedFrameNode {
   fills: SerializedPaint[];
   strokes: SerializedPaint[];
   strokeWeight?: number;
+  strokeWeights?: [number, number, number, number];
   cornerRadius: [number, number, number, number];
   effects: SerializedEffect[];
   clipsContent: boolean;

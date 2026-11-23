@@ -159,6 +159,10 @@ interface FrameNode extends SceneNode {
   fills: ReadonlyArray<Paint>;
   strokes: ReadonlyArray<Paint>;
   strokeWeight: number;
+  strokeTopWeight?: number;
+  strokeRightWeight?: number;
+  strokeBottomWeight?: number;
+  strokeLeftWeight?: number;
   topLeftRadius: number;
   topRightRadius: number;
   bottomRightRadius: number;
@@ -227,7 +231,10 @@ interface PluginAPI {
   readonly currentPage: PageNode;
   readonly ui: UIAPI;
   readonly viewport: ViewportAPI;
-  showUI(html: string, options?: { width?: number; height?: number; title?: string }): void;
+  showUI(
+    html: string,
+    options?: { width?: number; height?: number; title?: string; themeColors?: boolean }
+  ): void;
   closePlugin(message?: string): void;
   notify(message: string, options?: { timeout?: number; error?: boolean }): void;
   createFrame(): FrameNode;
