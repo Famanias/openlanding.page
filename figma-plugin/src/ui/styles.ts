@@ -66,15 +66,16 @@ function parseGradientAngleDeg(token: string): number | null {
 
 function linearGradientTransform(angleDeg: number): [[number, number, number], [number, number, number]] {
   const rad = (angleDeg * Math.PI) / 180;
-  const dx = Math.sin(rad);
-  const dy = -Math.cos(rad);
+  const z = (n: number): number => (Math.abs(n) < 1e-12 ? 0 : n);
+  const dx = z(Math.sin(rad));
+  const dy = z(-Math.cos(rad));
   // Scale so the gradient line spans the farthest corners of the [0,1]x[0,1] node box.
   const scale = 1 / (Math.abs(dx) + Math.abs(dy) || 1);
-  const a = dx * scale;
-  const b = dy * scale;
+  const a = z(dx * scale);
+  const b = z(dy * scale);
   return [
-    [a, b, 0.5 - 0.5 * (a + b)],
-    [-b, a, 0.5 - 0.5 * (a - b)],
+    [a, b, z(0.5 - 0.5 * (a + b))],
+    [z(-b), a, z(0.5 - 0.5 * (a - b))],
   ];
 }
 

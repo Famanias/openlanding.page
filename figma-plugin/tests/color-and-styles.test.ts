@@ -45,9 +45,20 @@ describe("parseCssGradient, parseCssBackgroundLayers, and parseCssBoxShadows", (
   it("parses multi-stop linear-gradient angles and layered gradient + url backgrounds", () => {
     const grad = parseCssGradient("linear-gradient(90deg, #ff0000 0%, #0000ff 100%)");
     expect(grad?.type).toBe("GRADIENT_LINEAR");
+    expect(grad?.gradientTransform).toEqual([
+      [1, 0, 0],
+      [0, 1, 0],
+    ]);
     expect(grad?.stops).toHaveLength(2);
     expect(grad?.stops[0].position).toBe(0);
     expect(grad?.stops[1].position).toBe(1);
+
+    const verticalGrad = parseCssGradient("linear-gradient(180deg, #ff0000 10% 50%, #00ff00 24px, #0000ff 100%)");
+    expect(verticalGrad?.gradientTransform).toEqual([
+      [0, 1, 0],
+      [-1, 0, 1],
+    ]);
+    expect(verticalGrad?.stops.map((s) => s.position)).toEqual([0.1, 0.5, 0.75, 1]);
 
     const layers = parseCssBackgroundLayers(
       'linear-gradient(color(srgb 0.06 0.1 0.11 / 0.68), color(srgb 0.06 0.1 0.11 / 0.76)), url("data:image/webp;base64,UklGRg==")'
