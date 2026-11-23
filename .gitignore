@@ -59,3 +59,5 @@ open-*-session/
 .img2threejs
 .hallmark
 .impeccable
+figma-plugin/dist/
+figma-plugin/node_modules/
