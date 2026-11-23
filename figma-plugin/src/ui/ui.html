@@ -3,8 +3,307 @@
   <head>
     <meta charset="utf-8" />
     <title>HTML to Figma</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 16px;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--figma-color-text, #1e1e1e);
+        background: var(--figma-color-bg, #ffffff);
+      }
+
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .section-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--figma-color-text-secondary, #666666);
+        margin-bottom: 6px;
+      }
+
+      .dropzone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 20px 14px;
+        border: 1.5px dashed var(--figma-color-border, #d4d4d4);
+        border-radius: 6px;
+        background: var(--figma-color-bg-secondary, #f7f7f7);
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 120ms ease, background-color 120ms ease;
+      }
+
+      .dropzone:hover,
+      .dropzone.dragover {
+        border-color: var(--figma-color-bg-brand, #0d99ff);
+        background: var(--figma-color-bg-hover, #eef6ff);
+      }
+
+      .dropzone-title {
+        font-weight: 600;
+      }
+
+      .dropzone-sub {
+        font-size: 11px;
+        color: var(--figma-color-text-secondary, #666666);
+        word-break: break-word;
+      }
+
+      .link-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--figma-color-bg-brand, #0d99ff);
+        cursor: pointer;
+      }
+
+      .link-btn:hover {
+        text-decoration: underline;
+      }
+
+      textarea.html-input {
+        width: 100%;
+        min-height: 110px;
+        padding: 8px 10px;
+        border: 1px solid var(--figma-color-border, #d4d4d4);
+        border-radius: 6px;
+        background: var(--figma-color-bg, #ffffff);
+        color: var(--figma-color-text, #1e1e1e);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 11px;
+        resize: vertical;
+      }
+
+      .chips-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+
+      .chip {
+        padding: 5px 10px;
+        border: 1px solid var(--figma-color-border, #d4d4d4);
+        border-radius: 999px;
+        background: var(--figma-color-bg, #ffffff);
+        color: var(--figma-color-text, #1e1e1e);
+        font: inherit;
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .chip.active {
+        border-color: var(--figma-color-bg-brand, #0d99ff);
+        background: var(--figma-color-bg-brand, #0d99ff);
+        color: var(--figma-color-text-onbrand, #ffffff);
+      }
+
+      .custom-width-row {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .custom-width-row input {
+        flex: 1;
+        min-width: 0;
+        padding: 5px 8px;
+        border: 1px solid var(--figma-color-border, #d4d4d4);
+        border-radius: 4px;
+        background: var(--figma-color-bg, #ffffff);
+        color: var(--figma-color-text, #1e1e1e);
+        font: inherit;
+      }
+
+      .secondary-btn {
+        padding: 5px 10px;
+        border: 1px solid var(--figma-color-border, #d4d4d4);
+        border-radius: 4px;
+        background: var(--figma-color-bg-secondary, #f7f7f7);
+        color: var(--figma-color-text, #1e1e1e);
+        font: inherit;
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .options-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .checkbox-row input {
+        margin: 0;
+        accent-color: var(--figma-color-bg-brand, #0d99ff);
+      }
+
+      .primary-btn {
+        width: 100%;
+        padding: 9px 14px;
+        border: none;
+        border-radius: 6px;
+        background: var(--figma-color-bg-brand, #0d99ff);
+        color: var(--figma-color-text-onbrand, #ffffff);
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .primary-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .progress-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .progress-track {
+        width: 100%;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--figma-color-bg-secondary, #ececec);
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        width: 0%;
+        height: 100%;
+        background: var(--figma-color-bg-brand, #0d99ff);
+        transition: width 150ms ease;
+      }
+
+      .status-text {
+        font-size: 11px;
+        color: var(--figma-color-text-secondary, #666666);
+      }
+
+      .banner {
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+        line-height: 1.45;
+        border: 1px solid transparent;
+      }
+
+      .banner.success {
+        background: var(--figma-color-bg-success-tertiary, #ecfdf3);
+        border-color: var(--figma-color-border-success, #a6f4c5);
+        color: var(--figma-color-text-success, #065f46);
+      }
+
+      .banner.error {
+        background: var(--figma-color-bg-danger-tertiary, #fef2f2);
+        border-color: var(--figma-color-border-danger, #fecaca);
+        color: var(--figma-color-text-danger, #991b1b);
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <main class="stack">
+      <section>
+        <div class="section-label">
+          <span>Source HTML</span>
+          <button type="button" id="toggle-paste-btn" class="link-btn">Or paste HTML</button>
+        </div>
+
+        <label id="dropzone" class="dropzone" for="file-input">
+          <span class="dropzone-title">Drop .html or .htm file here</span>
+          <span id="file-label" class="dropzone-sub">or click to choose a file</span>
+        </label>
+        <input id="file-input" type="file" accept=".html,.htm,text/html" hidden />
+
+        <div id="paste-wrap" hidden>
+          <textarea
+            id="html-textarea"
+            class="html-input"
+            placeholder="Paste full HTML document or fragment..."
+            aria-label="Paste HTML"
+          ></textarea>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">
+          <span>Viewport Widths</span>
+        </div>
+        <div id="width-chips" class="chips-row">
+          <button type="button" class="chip active" data-width="1920" aria-pressed="true">1920px</button>
+          <button type="button" class="chip" data-width="1440" aria-pressed="false">1440px</button>
+          <button type="button" class="chip" data-width="390" aria-pressed="false">390px</button>
+        </div>
+        <div class="custom-width-row">
+          <input
+            id="custom-width-input"
+            type="number"
+            min="200"
+            max="4096"
+            step="1"
+            placeholder="Custom width (px)"
+            aria-label="Custom viewport width"
+          />
+          <button type="button" id="add-width-btn" class="secondary-btn">Add</button>
+        </div>
+      </section>
+
+      <section class="options-list">
+        <label class="checkbox-row">
+          <input id="opt-auto-layout" type="checkbox" checked />
+          <span>Auto Layout</span>
+        </label>
+        <label class="checkbox-row">
+          <input id="opt-create-styles" type="checkbox" />
+          <span>Create Local Styles</span>
+        </label>
+      </section>
+
+      <button type="button" id="convert-btn" class="primary-btn">Convert</button>
+
+      <div id="progress-wrap" class="progress-wrap" hidden>
+        <div class="progress-track">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="status-text" class="status-text"></div>
+      </div>
+
+      <div id="banner" class="banner" role="status" hidden></div>
+    </main>
   </body>
 </html>
