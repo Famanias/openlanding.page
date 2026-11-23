@@ -83,7 +83,7 @@ export async function extractImageBytes(
 
   if (typeof fetch === "function") {
     const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
-    const timeoutMs = options?.fetchTimeoutMs ?? 8000;
+    const timeoutMs = Math.min(Math.max(1, options?.fetchTimeoutMs ?? 4000), 4000);
     const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
     try {
       const res = await fetch(url, controller ? { signal: controller.signal } : undefined);

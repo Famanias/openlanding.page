@@ -76,7 +76,7 @@ function syncSubtreeStyles(
   for (let i = 0; i < origChildren.length && i < cloneChildren.length; i++) {
     const oChild = origChildren[i];
     const cChild = cloneChildren[i];
-    const tag = oChild.localName || oChild.tagName.toLowerCase();
+    const tag = (oChild.localName || oChild.tagName).toLowerCase();
 
     if (tag === "script" || tag === "foreignobject") {
       cChild.remove();
@@ -100,7 +100,7 @@ function syncSubtreeStyles(
         const nextSeen = new Set(seenIds);
         nextSeen.add(id!);
 
-        const refTag = refEl.localName || refEl.tagName.toLowerCase();
+        const refTag = (refEl.localName || refEl.tagName).toLowerCase();
         if (refTag === "symbol") {
           if (!rootSvg.getAttribute("viewBox") && refEl.getAttribute("viewBox")) {
             rootSvg.setAttribute("viewBox", refEl.getAttribute("viewBox")!);

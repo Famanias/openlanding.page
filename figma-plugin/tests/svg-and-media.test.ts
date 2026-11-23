@@ -27,9 +27,18 @@ describe("media helpers", () => {
     expect(new TextDecoder().decode(svg!.bytes)).toBe("<svg></svg>");
   });
 
-  it("returns null gracefully when remote fetch fails or times out", async () => {
-    const res = await extractImageBytes("https://invalid.example.invalid/missing.png", { fetchTimeoutMs: 50 });
+  it("returns null gracefully when remote fetch fails or times out and caps timeout at 4000ms", async () => {
+    const delays: number[] = [];
+    const realSetTimeout = globalThis.setTimeout;
+    vi.stubGlobal("setTimeout", ((fn: (...args: unknown[]) => void, ms?: number) => {
+      delays.push(ms ?? 0);
+      return realSetTimeout(fn, ms);
+    }) as typeof setTimeout);
+    vi.stubGlobal("fetch", vi.fn(() => Promise.reject(new Error("network"))));
+
+    const res = await extractImageBytes("https://invalid.example.invalid/missing.png", { fetchTimeoutMs: 12000 });
     expect(res).toBeNull();
+    expect(delays).toEqual([4000]);
   });
 
   it("retries canvas readback once after requestAnimationFrame and skips 0x0 canvases", async () => {
@@ -164,10 +173,14 @@ describe("svg sanitization and inlining", () => {
 
     const useEl = new MockEl("use", doc, { href: "#icon-box", x: "2", y: "3" });
     const scriptEl = new MockEl("script", doc);
-    const svg = new MockEl("svg", doc, {}, [useEl, scriptEl]);
+    const foDiv = new MockEl("div", doc);
+    const foEl = new MockEl("foreignObject", doc, {}, [foDiv]);
+    const svg = new MockEl("svg", doc, {}, [useEl, scriptEl, foEl]);
 
+    const visitedTags: string[] = [];
     const markup = inlineSvgElement(svg as unknown as SVGSVGElement, (el) => {
       const tag = (el as unknown as MockEl).localName;
+      visitedTags.push(tag);
       const fill = tag === "path" ? "rgb(255, 0, 0)" : "";
       return { getPropertyValue: (p: string) => (p === "fill" ? fill : "") } as CSSStyleDeclaration;
     });
@@ -179,5 +192,7 @@ describe("svg sanitization and inlining", () => {
     expect(markup).toContain('fill="rgb(255, 0, 0)"');
     expect(markup).not.toContain("<use");
     expect(markup).not.toContain("<script");
+    expect(markup).not.toContain("<foreignObject");
+    expect(visitedTags).not.toContain("div");
   });
 });
