@@ -216,11 +216,21 @@ const sanitizeHref = (raw: string | null | undefined): string | undefined => {
 
 const waitFrameAndSettle = (ms: number): Promise<void> =>
   new Promise((resolve) => {
-    const done = () => setTimeout(resolve, ms);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
     if (typeof requestAnimationFrame === "function") {
-      requestAnimationFrame(done);
+      // Fall back to a timer if Chromium suspends rAF in a throttled/backgrounded iframe.
+      const fallback = setTimeout(finish, ms + 50);
+      requestAnimationFrame(() => {
+        clearTimeout(fallback);
+        setTimeout(finish, ms);
+      });
     } else {
-      done();
+      setTimeout(finish, ms);
     }
   });
 

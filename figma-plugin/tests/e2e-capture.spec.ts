@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import * as esbuild from "esbuild";
@@ -89,6 +90,7 @@ function createE2eMockFigma(): PluginAPI {
 }
 
 test.beforeAll(async () => {
+  execFileSync("node", [path.join(repoRoot, "figma-plugin/build.mjs")], { stdio: "pipe" });
   const result = await esbuild.build({
     entryPoints: [path.join(repoRoot, "figma-plugin/src/ui/bridge-script.ts")],
     bundle: true,
@@ -230,5 +232,59 @@ test.describe("DOM serializer bridge end-to-end capture", () => {
       expect(node.x + node.width).toBeGreaterThan(0);
       expect(node.x).toBeLessThan(1920);
     }
+  });
+
+  test("captures synapxe.html through built dist/ui.html inside an opaque sandboxed plugin UI iframe", async ({
+    page,
+  }) => {
+    const uiHtml = fs.readFileSync(path.join(repoRoot, "figma-plugin/dist/ui.html"), "utf8");
+    const synapxePath = path.join(repoRoot, "public/downloads/synapxe.html");
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.setContent(
+      `<!DOCTYPE html><html><body style="margin:0"><iframe id="plugin-ui" sandbox="allow-scripts" style="width:380px;height:540px;border:0"></iframe></body></html>`
+    );
+
+    const capturePromise = page.evaluate(async () => {
+      return await new Promise<{
+        type?: string;
+        nodeCount: number;
+        assetCount: number;
+        docHeight: number;
+      }>((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error("Timed out waiting for pluginMessage")), 25000);
+        window.addEventListener("message", (event) => {
+          const msg = (event.data as { pluginMessage?: { type?: string; documents?: SerializedDocument[] } } | null)
+            ?.pluginMessage;
+          if (!msg || msg.type !== "import-documents" || !msg.documents?.length) return;
+          clearTimeout(timer);
+          const doc = msg.documents[0];
+          const count = (n: SerializedNode): number =>
+            n.type === "FRAME" ? 1 + n.children.reduce((s, c) => s + count(c), 0) : 1;
+          resolve({
+            type: msg.type,
+            nodeCount: count(doc.root),
+            assetCount: Object.keys(doc.assets).length,
+            docHeight: doc.root.height,
+          });
+        });
+      });
+    });
+
+    await page.evaluate((srcdoc) => {
+      const frame = document.getElementById("plugin-ui") as HTMLIFrameElement;
+      frame.srcdoc = srcdoc;
+    }, uiHtml);
+
+    const uiFrame = page.frameLocator("#plugin-ui");
+    await uiFrame.locator("#file-input").setInputFiles(synapxePath);
+    await expect(uiFrame.locator("#file-label")).toContainText("synapxe.html");
+    await uiFrame.locator("#convert-btn").click();
+
+    const result = await capturePromise;
+    expect(result.type).toBe("import-documents");
+    expect(result.nodeCount).toBeGreaterThan(300);
+    expect(result.assetCount).toBeGreaterThanOrEqual(4);
+    expect(result.docHeight).toBeGreaterThan(4000);
   });
 });

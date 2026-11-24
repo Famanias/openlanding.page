@@ -83,6 +83,20 @@ describe("media helpers", () => {
     expect(captured?.mime).toBe("image/png");
   });
 
+  it("falls back to timer when requestAnimationFrame never fires in throttled iframes", async () => {
+    let calls = 0;
+    vi.stubGlobal("requestAnimationFrame", () => 1);
+    const canvas = {
+      width: 10,
+      height: 10,
+      toDataURL: () => (++calls === 1 ? "data:," : "data:image/png;base64,iVBORw0KGgo="),
+    } as unknown as HTMLCanvasElement;
+
+    const captured = await captureCanvasBytes(canvas);
+    expect(calls).toBe(2);
+    expect(captured?.mime).toBe("image/png");
+  });
+
   it("falls back to video poster URL when video dimensions are zero", async () => {
     const validPng = makePngBytes(1, 1);
     const video = {

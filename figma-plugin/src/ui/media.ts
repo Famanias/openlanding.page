@@ -276,7 +276,17 @@ export async function captureCanvasBytes(canvas: HTMLCanvasElement): Promise<Ext
 
   // WebGL canvases without preserveDrawingBuffer clear before synchronous readback; retry once on next frame.
   if (typeof requestAnimationFrame === "function") {
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await new Promise<void>((resolve) => {
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(fallback);
+        resolve();
+      };
+      const fallback = setTimeout(done, 50);
+      requestAnimationFrame(done);
+    });
     return readCanvasPng(canvas);
   }
   return null;

@@ -9,8 +9,8 @@ import { injectBridgeScript } from "./inject";
 
 declare const __BRIDGE_SCRIPT__: string;
 
-const READY_TIMEOUT_MS = 8000;
-const CAPTURE_TIMEOUT_MS = 30000;
+const READY_TIMEOUT_MS = 15000;
+const CAPTURE_TIMEOUT_MS = 60000;
 const MIN_WIDTH = 200;
 const MAX_WIDTH = 4096;
 
@@ -81,13 +81,16 @@ function captureHtmlAtWidth(html: string, width: number, runId: string): Promise
   return new Promise((resolve, reject) => {
     const iframe = document.createElement("iframe");
     iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
+    // Keep the capture frame intersecting the UI viewport (behind the UI) so Chromium does not
+    // render-throttle rAF, WebGL, or IntersectionObserver inside Figma's sandboxed plugin UI.
     iframe.style.position = "fixed";
-    iframe.style.left = "-99999px";
+    iframe.style.left = "0";
     iframe.style.top = "0";
     iframe.style.width = `${width}px`;
     iframe.style.height = "1080px";
     iframe.style.border = "0";
     iframe.style.opacity = "0";
+    iframe.style.zIndex = "-1";
     iframe.style.pointerEvents = "none";
 
     let settled = false;
