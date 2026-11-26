@@ -5,6 +5,7 @@ import {
   parseCssBackgroundLayers,
   parseCssBoxShadows,
   parseCornerRadii,
+  resolveBackgroundLayerBox,
 } from "../src/ui/styles";
 
 describe("parseCssColor", () => {
@@ -103,5 +104,44 @@ describe("parseCssGradient, parseCssBackgroundLayers, and parseCssBoxShadows", (
         80
       )
     ).toEqual([40, 12, 12, 40]);
+  });
+
+  it("resolves sized/positioned background boxes and pixel radial stops accurately", () => {
+    expect(resolveBackgroundLayerBox("0px 1px", "0px 100%", 140, 24)).toMatchObject({
+      isZero: true,
+      isFullBox: false,
+    });
+    expect(resolveBackgroundLayerBox("100% 2px", "0px 100%", 140, 24)).toEqual({
+      x: 0,
+      y: 22,
+      width: 140,
+      height: 2,
+      isZero: false,
+      isFullBox: false,
+    });
+    expect(resolveBackgroundLayerBox("5px 5px", "calc(100% - 15px) 55%", 120, 40)).toMatchObject({
+      x: 100,
+      width: 5,
+      height: 5,
+      isZero: false,
+      isFullBox: false,
+    });
+    expect(resolveBackgroundLayerBox("auto", "0% 0%", 200, 100)).toMatchObject({
+      isZero: false,
+      isFullBox: true,
+    });
+
+    const dot = parseCssGradient(
+      "radial-gradient(circle at 9px 50%, rgba(25, 27, 24, 0.55) 0px 2px, rgba(0, 0, 0, 0) 2.6px)",
+      undefined,
+      { width: 1000, height: 60 }
+    );
+    expect(dot?.type).toBe("GRADIENT_RADIAL");
+    expect(dot?.stops[0].position).toBe(0);
+    expect(dot?.stops[1].position).toBeCloseTo(2 / 2.6, 3);
+    expect(dot?.stops[2].position).toBe(1);
+    const [[sx, , tx], [, sy, ty]] = dot!.gradientTransform;
+    expect(sx * (9 / 1000) + tx).toBeCloseTo(0.5, 4);
+    expect(sy * 0.5 + ty).toBeCloseTo(0.5, 4);
   });
 });

@@ -116,9 +116,12 @@ export interface SerializedTextNode {
   textDecoration?: "NONE" | "UNDERLINE" | "STRIKETHROUGH";
   textCase?: "ORIGINAL" | "UPPER" | "LOWER" | "TITLE";
   fills: SerializedPaint[];
+  strokes?: SerializedPaint[];
+  strokeWeight?: number;
   ranges: SerializedTextRange[];
   href?: string;
   position?: string;
+  singleLine?: boolean;
 }
 
 export interface SerializedSvgNode {

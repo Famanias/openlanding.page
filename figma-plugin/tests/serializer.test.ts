@@ -76,5 +76,15 @@ describe("DOM serializer pure transforms", () => {
       },
     };
     expect(collapseRedundantWrappers(paddedFlexWrapper)).toEqual(paddedFlexWrapper);
+
+    const offsetContainerWrapper: SerializedFrameNode = {
+      ...wrapper,
+      x: 0,
+      y: 40,
+      width: 1600,
+      height: 200,
+      children: [innerText],
+    };
+    expect(collapseRedundantWrappers(offsetContainerWrapper)).toEqual(offsetContainerWrapper);
   });
 });

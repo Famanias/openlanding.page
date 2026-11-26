@@ -366,4 +366,104 @@ test.describe("DOM serializer bridge end-to-end capture", () => {
     expect(importedTitles).toHaveLength(1);
     expect(importedTitles[0]).not.toBe(aeruneTitle);
   });
+
+  test("preserves right-column reveals, collapses sticky runways, avoids reveal-mask clipping, and fixes sized gradients in a 380x580 Figma UI window", async ({
+    page,
+  }) => {
+    const uiHtml = fs.readFileSync(path.join(repoRoot, "figma-plugin/dist/ui.html"), "utf8");
+
+    async function captureViaPluginUi(htmlFile: string): Promise<SerializedDocument> {
+      const filePath = path.join(repoRoot, "public/downloads", htmlFile);
+      await page.setViewportSize({ width: 380, height: 580 });
+      await page.setContent(
+        `<!DOCTYPE html><html><body style="margin:0;overflow:hidden"><iframe id="plugin-ui" sandbox="allow-scripts" style="width:380px;height:580px;border:0"></iframe></body></html>`
+      );
+
+      const docPromise = page.evaluate(async () => {
+        return await new Promise<SerializedDocument>((resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error("Timed out waiting for import-documents")), 35000);
+          window.addEventListener("message", function handler(event) {
+            const msg = (
+              event.data as { pluginMessage?: { type?: string; documents?: SerializedDocument[] } } | null
+            )?.pluginMessage;
+            if (!msg || msg.type !== "import-documents" || !msg.documents?.length) return;
+            clearTimeout(timer);
+            window.removeEventListener("message", handler);
+            resolve(msg.documents[0]);
+          });
+        });
+      });
+
+      await page.evaluate((srcdoc) => {
+        const frame = document.getElementById("plugin-ui") as HTMLIFrameElement;
+        frame.srcdoc = srcdoc;
+      }, uiHtml);
+
+      const uiFrame = page.frameLocator("#plugin-ui");
+      await uiFrame.locator("#file-input").setInputFiles(filePath);
+      await uiFrame.locator("#convert-btn").click();
+      return await docPromise;
+    }
+
+    // 1. Calder & Rowe: right-column cards/FAQ/form/memo revealed, 440vh sticky runway collapsed, 0px link gradients skipped
+    const calder = await captureViaPluginUi("calder.html");
+    const calderNodes = collectNodes(calder.root);
+    const calderText = calderNodes
+      .filter((n) => n.type === "TEXT")
+      .map((n) => (n.type === "TEXT" ? n.characters : ""))
+      .join("\n");
+    expect(calder.root.height).toBeLessThan(11000);
+    expect(calderText).toContain("Commercial disputes");
+    expect(calderText).toContain("Trusts & estates");
+    expect(calderText).toContain("Memorandum of counsel");
+    const calderLineMasks = calderNodes.filter(
+      (n): n is SerializedFrameNode => n.type === "FRAME" && n.name === "cr-line"
+    );
+    expect(calderLineMasks.length).toBeGreaterThan(0);
+    expect(calderLineMasks.every((m) => !m.clipsContent)).toBe(true);
+    const calderFooterLinksWithSolidBg = calderNodes.filter(
+      (n): n is SerializedFrameNode =>
+        n.type === "FRAME" && n.name.startsWith("Link ·") && n.fills.some((f) => f.type === "GRADIENT_LINEAR")
+    );
+    expect(calderFooterLinksWithSolidBg).toHaveLength(0);
+
+    // 2. Elsewhere: right-column wayposts/inventory/logbook revealed, 400svh sticky runway collapsed, ew-line unclipped
+    const elsewhere = await captureViaPluginUi("elsewhere.html");
+    const ewNodes = collectNodes(elsewhere.root);
+    const ewText = ewNodes
+      .filter((n) => n.type === "TEXT")
+      .map((n) => (n.type === "TEXT" ? n.characters : ""))
+      .join("\n");
+    expect(elsewhere.root.height).toBeLessThan(12000);
+    expect(ewText).toContain("The cedar gate");
+    expect(ewText).toContain("The plank bridge");
+    expect(ewText).toContain("Past the last bar");
+    const ewLineMasks = ewNodes.filter(
+      (n): n is SerializedFrameNode => n.type === "FRAME" && n.name === "ew-line"
+    );
+    expect(ewLineMasks.length).toBeGreaterThan(0);
+    expect(ewLineMasks.every((m) => !m.clipsContent)).toBe(true);
+    const ewLinkUnderlines = ewNodes.filter(
+      (n): n is SerializedFrameNode =>
+        n.type === "FRAME" && n.name === "Background layer" && Math.round(n.height) === 2
+    );
+    expect(ewLinkUnderlines.length).toBeGreaterThan(0);
+
+    // 3. Cirro: manifesto + all 4 approach cards revealed, 360vh sticky runway collapsed, h-line unclipped
+    const cirro = await captureViaPluginUi("cirro.html");
+    const cirroNodes = collectNodes(cirro.root);
+    const cirroText = cirroNodes
+      .filter((n) => n.type === "TEXT")
+      .map((n) => (n.type === "TEXT" ? n.characters : ""))
+      .join("\n");
+    expect(cirro.root.height).toBeLessThan(15500);
+    expect(cirroText).toContain("Attention is earned.");
+    expect(cirroText).toContain("Think stranger.");
+    expect(cirroText).toContain("Never settle.");
+    const cirroLineMasks = cirroNodes.filter(
+      (n): n is SerializedFrameNode => n.type === "FRAME" && n.name === "h-line"
+    );
+    expect(cirroLineMasks.length).toBeGreaterThan(0);
+    expect(cirroLineMasks.every((m) => !m.clipsContent)).toBe(true);
+  });
 });

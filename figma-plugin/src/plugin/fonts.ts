@@ -34,6 +34,22 @@ const WEIGHT_TOKENS: Array<[RegExp, number]> = [
 ];
 
 const FALLBACK_FAMILIES = ["Inter", "Roboto"];
+const SERIF_FALLBACK_FAMILIES = [
+  "Georgia",
+  "Lora",
+  "Merriweather",
+  "Playfair Display",
+  "Times New Roman",
+  ...FALLBACK_FAMILIES,
+];
+const MONO_FALLBACK_FAMILIES = [
+  "IBM Plex Mono",
+  "Roboto Mono",
+  "JetBrains Mono",
+  "Source Code Pro",
+  "Courier New",
+  ...FALLBACK_FAMILIES,
+];
 
 export function cleanFontFamilyName(raw: string): string {
   const first = raw.split(",")[0]?.trim().replace(/^["']|["']$/g, "") ?? "";
@@ -108,10 +124,18 @@ export function matchFigmaFont(
   available: Font[]
 ): { font: FontName; substitutedFrom?: string } {
   const expanded = expandCandidates(candidates);
+  const lowerExpanded = expanded.map((n) => n.toLowerCase());
   const nonGeneric = expanded.filter((name) => !GENERIC_FAMILIES.has(name.toLowerCase()));
 
   for (const candidate of nonGeneric) {
     const lower = candidate.toLowerCase();
+    // Arial Black is exposed as its own family in Figma rather than Arial weight 900.
+    if (lower === "arial" && weight >= 800) {
+      const blackMatches = available.filter((f) => f.fontName.family.toLowerCase() === "arial black");
+      if (blackMatches.length > 0) {
+        return { font: pickBestStyle(blackMatches, weight, italic) };
+      }
+    }
     const matches = available.filter((f) => f.fontName.family.toLowerCase() === lower);
     if (matches.length > 0) {
       return { font: pickBestStyle(matches, weight, italic) };
@@ -119,7 +143,15 @@ export function matchFigmaFont(
   }
 
   const substitutedFrom = nonGeneric[0];
-  for (const fallbackFamily of FALLBACK_FAMILIES) {
+  const prefersMono = lowerExpanded.some((n) => n === "monospace" || n === "ui-monospace");
+  const prefersSerif = lowerExpanded.some((n) => n === "serif" || n === "ui-serif");
+  const fallbackOrder = prefersMono
+    ? MONO_FALLBACK_FAMILIES
+    : prefersSerif
+      ? SERIF_FALLBACK_FAMILIES
+      : FALLBACK_FAMILIES;
+
+  for (const fallbackFamily of fallbackOrder) {
     const matches = available.filter(
       (f) => f.fontName.family.toLowerCase() === fallbackFamily.toLowerCase()
     );

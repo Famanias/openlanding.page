@@ -864,6 +864,89 @@ describe("buildFigmaPage", () => {
     });
     expect(summary.warnings.length).toBeGreaterThanOrEqual(2);
   });
+
+  it("uses WIDTH_AND_HEIGHT for singleLine text, HEIGHT with width cushion for multi-line text, and applies text strokes", async () => {
+    const { mockFigma } = createMockFigma();
+    const doc: SerializedDocument = {
+      runId: "r-text-modes",
+      title: "Text Modes",
+      viewportWidth: 1000,
+      assets: {},
+      root: {
+        id: "root",
+        type: "FRAME",
+        name: "Page",
+        x: 0,
+        y: 0,
+        width: 1000,
+        height: 400,
+        opacity: 1,
+        fills: [],
+        strokes: [],
+        cornerRadius: [0, 0, 0, 0],
+        effects: [],
+        clipsContent: false,
+        children: [
+          {
+            id: "single",
+            type: "TEXT",
+            name: "Single",
+            x: 100,
+            y: 20,
+            width: 120,
+            height: 24,
+            opacity: 1,
+            characters: "FORUM",
+            fontFamily: "Inter",
+            fontSize: 24,
+            fontWeight: 700,
+            fontStyle: "normal",
+            lineHeightPx: 24,
+            letterSpacingPx: 0,
+            textAlign: "LEFT",
+            fills: [{ type: "SOLID", color: { r: 0, g: 0, b: 0, a: 0 } }],
+            strokes: [{ type: "SOLID", color: { r: 0.8, g: 0.65, b: 0.35, a: 1 } }],
+            strokeWeight: 1,
+            ranges: [],
+            singleLine: true,
+          },
+          {
+            id: "multi",
+            type: "TEXT",
+            name: "Multi",
+            x: 100,
+            y: 80,
+            width: 300,
+            height: 90,
+            opacity: 1,
+            characters: "MADE WITH INTENTION.",
+            fontFamily: "Inter",
+            fontSize: 48,
+            fontWeight: 400,
+            fontStyle: "normal",
+            lineHeightPx: 45,
+            letterSpacingPx: 0,
+            textAlign: "LEFT",
+            fills: [{ type: "SOLID", color: { r: 1, g: 1, b: 1, a: 1 } }],
+            ranges: [],
+            singleLine: false,
+          },
+        ],
+      },
+    };
+
+    await buildFigmaPage(doc, { widths: [1000], useAutoLayout: false, createStyles: false }, 0, mockFigma);
+    const root = mockFigma.currentPage.children[0] as unknown as {
+      children: Array<Record<string, unknown>>;
+    };
+    expect(root.children[0].textAutoResize).toBe("WIDTH_AND_HEIGHT");
+    expect(root.children[0].strokes).toEqual([
+      { type: "SOLID", color: { r: 0.8, g: 0.65, b: 0.35 }, opacity: 1 },
+    ]);
+    expect(root.children[0].strokeWeight).toBe(1);
+    expect(root.children[1].textAutoResize).toBe("HEIGHT");
+    expect(root.children[1].width as number).toBeGreaterThan(300);
+  });
 });
 
 describe("code.ts message handler", () => {

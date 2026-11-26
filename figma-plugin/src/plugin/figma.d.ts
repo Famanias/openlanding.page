@@ -197,6 +197,8 @@ interface TextNode extends SceneNode {
   textDecoration: TextDecoration;
   textCase: TextCase;
   fills: ReadonlyArray<Paint>;
+  strokes?: ReadonlyArray<Paint>;
+  strokeWeight?: number;
   hyperlink: HyperlinkTarget | null;
   setRangeFontName(start: number, end: number, value: FontName): void;
   setRangeFontSize(start: number, end: number, value: number): void;

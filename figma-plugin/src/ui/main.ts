@@ -16,7 +16,7 @@ import {
   type QueuedFileItem,
   type QueueItemStatus,
 } from "./batch";
-import { injectBridgeScript } from "./inject";
+import { EARLY_IO_SHIM, injectBridgeScript, injectHeadShim } from "./inject";
 
 declare const __BRIDGE_SCRIPT__: string;
 
@@ -178,7 +178,7 @@ function captureHtmlAtWidth(html: string, width: number, runId: string): Promise
     };
 
     window.addEventListener("message", onMessage);
-    iframe.srcdoc = injectBridgeScript(html, __BRIDGE_SCRIPT__);
+    iframe.srcdoc = injectHeadShim(injectBridgeScript(html, __BRIDGE_SCRIPT__), EARLY_IO_SHIM);
     document.body.appendChild(iframe);
   });
 }

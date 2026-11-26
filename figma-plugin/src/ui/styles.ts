@@ -79,27 +79,154 @@ function linearGradientTransform(angleDeg: number): [[number, number, number], [
   ];
 }
 
+export interface ResolvedBackgroundBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  isZero: boolean;
+  isFullBox: boolean;
+}
+
+function parseLengthOrPercent(token: string, refDim: number): number | null {
+  const trimmed = token.trim().toLowerCase();
+  if (!trimmed || trimmed === "auto") return null;
+  const calcMatch = trimmed.match(
+    /^calc\(\s*(-?[\d.]+)(%|px)\s*([+-])\s*(-?[\d.]+)(%|px)\s*\)$/i
+  );
+  if (calcMatch) {
+    const a = calcMatch[2] === "%" ? (parseFloat(calcMatch[1]) / 100) * refDim : parseFloat(calcMatch[1]);
+    const b = calcMatch[5] === "%" ? (parseFloat(calcMatch[4]) / 100) * refDim : parseFloat(calcMatch[4]);
+    return calcMatch[3] === "-" ? a - b : a + b;
+  }
+  if (trimmed.endsWith("%")) {
+    const n = parseFloat(trimmed);
+    return Number.isFinite(n) ? (n / 100) * refDim : null;
+  }
+  const n = parseFloat(trimmed);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parsePositionCoord(token: string, boxDim: number, layerDim: number): number {
+  const lower = token.trim().toLowerCase();
+  if (lower === "left" || lower === "top") return 0;
+  if (lower === "center") return (boxDim - layerDim) / 2;
+  if (lower === "right" || lower === "bottom") return boxDim - layerDim;
+  const calcMatch = lower.match(
+    /^calc\(\s*(-?[\d.]+)%\s*([+-])\s*(-?[\d.]+)px\s*\)$/i
+  );
+  if (calcMatch) {
+    const pct = parseFloat(calcMatch[1]) / 100;
+    const px = parseFloat(calcMatch[3]);
+    const base = (boxDim - layerDim) * pct;
+    return calcMatch[2] === "-" ? base - px : base + px;
+  }
+  if (lower.endsWith("%")) {
+    const pct = parseFloat(lower);
+    return Number.isFinite(pct) ? (boxDim - layerDim) * (pct / 100) : 0;
+  }
+  const n = parseFloat(lower);
+  return Number.isFinite(n) ? n : 0;
+}
+
+export function resolveBackgroundLayerBox(
+  bgSizeRaw: string,
+  bgPosRaw: string,
+  boxW: number,
+  boxH: number
+): ResolvedBackgroundBox {
+  const sizeStr = (bgSizeRaw || "").trim().toLowerCase();
+  let width = boxW;
+  let height = boxH;
+
+  if (sizeStr && sizeStr !== "auto" && sizeStr !== "auto auto" && sizeStr !== "cover" && sizeStr !== "contain") {
+    const tokens = splitTopLevel(sizeStr, "space");
+    const wParsed = tokens[0] ? parseLengthOrPercent(tokens[0], boxW) : null;
+    const hParsed = tokens[1] ? parseLengthOrPercent(tokens[1], boxH) : null;
+    if (wParsed !== null) width = Math.max(0, wParsed);
+    if (hParsed !== null) height = Math.max(0, hParsed);
+  }
+
+  const isZero = width <= 0.01 || height <= 0.01;
+  const posTokens = splitTopLevel((bgPosRaw || "").trim(), "space");
+  const x = posTokens[0] ? parsePositionCoord(posTokens[0], boxW, width) : 0;
+  const y = posTokens[1]
+    ? parsePositionCoord(posTokens[1], boxH, height)
+    : posTokens[0]
+      ? (boxH - height) / 2
+      : 0;
+
+  const isFullBox =
+    !isZero &&
+    width >= boxW * 0.98 &&
+    height >= boxH * 0.98 &&
+    Math.abs(x) <= 1.5 &&
+    Math.abs(y) <= 1.5;
+
+  return { x, y, width, height, isZero, isFullBox };
+}
+
 function parseGradientStops(
   rawStops: string[],
-  resolve: (css: string) => RgbaColor | null
-): SerializedGradientStop[] {
+  resolve: (css: string) => RgbaColor | null,
+  refLengthPx?: number
+): { stops: SerializedGradientStop[]; maxPxStop: number | null } {
   const parsed: Array<{ color: RgbaColor; pos: number | null }> = [];
+  let maxPxStop: number | null = null;
+  let hasPercentStop = false;
+
+  const rawParsed: Array<{
+    color: RgbaColor;
+    pctPositions: number[];
+    pxPositions: number[];
+  }> = [];
+
   for (const raw of rawStops) {
     const tokens = splitTopLevel(raw, "space");
     if (!tokens.length) continue;
     const color = resolve(tokens[0]);
     if (!color) continue;
-    const positions = tokens
-      .slice(1)
-      .filter((t) => t.endsWith("%"))
-      .map((t) => Math.max(0, Math.min(1, parseFloat(t) / 100)));
+    const pctPositions: number[] = [];
+    const pxPositions: number[] = [];
+    for (const t of tokens.slice(1)) {
+      if (t.endsWith("%")) {
+        const v = parseFloat(t);
+        if (Number.isFinite(v)) {
+          hasPercentStop = true;
+          pctPositions.push(Math.max(0, Math.min(1, v / 100)));
+        }
+      } else if (/^-?[\d.]+px$/i.test(t) || t === "0") {
+        const v = parseFloat(t);
+        if (Number.isFinite(v)) {
+          pxPositions.push(v);
+          if (maxPxStop === null || v > maxPxStop) maxPxStop = v;
+        }
+      }
+    }
+    rawParsed.push({ color, pctPositions, pxPositions });
+  }
+
+  const effectivePxDenom =
+    refLengthPx && refLengthPx > 0
+      ? refLengthPx
+      : !hasPercentStop && maxPxStop && maxPxStop > 0
+        ? maxPxStop
+        : null;
+
+  for (const item of rawParsed) {
+    const positions =
+      item.pctPositions.length > 0
+        ? item.pctPositions
+        : effectivePxDenom !== null && item.pxPositions.length > 0
+          ? item.pxPositions.map((px) => Math.max(0, Math.min(1, px / effectivePxDenom)))
+          : [];
     if (positions.length >= 2) {
-      parsed.push({ color, pos: positions[0] }, { color, pos: positions[1] });
+      parsed.push({ color: item.color, pos: positions[0] }, { color: item.color, pos: positions[1] });
     } else {
-      parsed.push({ color, pos: positions[0] ?? null });
+      parsed.push({ color: item.color, pos: positions[0] ?? null });
     }
   }
-  if (parsed.length < 2) return [];
+  if (parsed.length < 2) return { stops: [], maxPxStop };
 
   if (parsed[0].pos === null) parsed[0].pos = 0;
   if (parsed[parsed.length - 1].pos === null) parsed[parsed.length - 1].pos = 1;
@@ -113,12 +240,75 @@ function parseGradientStops(
     for (let k = i; k < next; k++) parsed[k].pos = prevPos + step * (k - i + 1);
   }
 
-  return parsed.map((s) => ({ position: s.pos!, color: s.color }));
+  return {
+    stops: parsed.map((s) => ({ position: s.pos!, color: s.color })),
+    maxPxStop: !hasPercentStop ? maxPxStop : null,
+  };
+}
+
+function buildRadialGradientTransform(
+  prelude: string | null,
+  box: { width: number; height: number } | undefined,
+  explicitRadiusPx: number | null
+): [[number, number, number], [number, number, number]] {
+  const identity: [[number, number, number], [number, number, number]] = [
+    [1, 0, 0],
+    [0, 1, 0],
+  ];
+  if (!box || box.width <= 0 || box.height <= 0) return identity;
+
+  let cx = 0.5;
+  let cy = 0.5;
+  let rx = 0.5;
+  let ry = 0.5;
+
+  if (prelude) {
+    const atMatch = prelude.match(/\bat\s+(.+)$/i);
+    if (atMatch) {
+      const posTokens = splitTopLevel(atMatch[1].trim(), "space");
+      if (posTokens[0]) {
+        cx = parsePositionCoord(posTokens[0], box.width, 0) / box.width;
+      }
+      if (posTokens[1]) {
+        cy = parsePositionCoord(posTokens[1], box.height, 0) / box.height;
+      }
+    }
+    const beforeAt = prelude.replace(/\bat\s+.+$/i, "").trim();
+    const sizeTokens = splitTopLevel(beforeAt, "space").filter(
+      (t) => !/^(?:circle|ellipse|closest-side|farthest-side|closest-corner|farthest-corner)$/i.test(t)
+    );
+    if (sizeTokens.length >= 2) {
+      const wVal = parseLengthOrPercent(sizeTokens[0], box.width);
+      const hVal = parseLengthOrPercent(sizeTokens[1], box.height);
+      if (wVal && wVal > 0) rx = wVal / box.width;
+      if (hVal && hVal > 0) ry = hVal / box.height;
+    } else if (sizeTokens.length === 1) {
+      const rVal = parseLengthOrPercent(sizeTokens[0], Math.max(box.width, box.height));
+      if (rVal && rVal > 0) {
+        rx = rVal / box.width;
+        ry = rVal / box.height;
+      }
+    }
+  }
+
+  if (explicitRadiusPx && explicitRadiusPx > 0) {
+    rx = explicitRadiusPx / box.width;
+    ry = explicitRadiusPx / box.height;
+  }
+
+  const sx = 0.5 / Math.max(1e-4, rx);
+  const sy = 0.5 / Math.max(1e-4, ry);
+  const z = (n: number): number => (Math.abs(n) < 1e-12 ? 0 : n);
+  return [
+    [z(sx), 0, z(0.5 - sx * cx)],
+    [0, z(sy), z(0.5 - sy * cy)],
+  ];
 }
 
 export function parseCssGradient(
   gradientCss: string,
-  resolveColor?: (css: string) => RgbaColor | null
+  resolveColor?: (css: string) => RgbaColor | null,
+  box?: { width: number; height: number }
 ): SerializedGradientPaint | null {
   const match = gradientCss.trim().match(/^(?:repeating-)?(linear|radial)-gradient\(([\s\S]+)\)$/i);
   if (!match) return null;
@@ -129,33 +319,38 @@ export function parseCssGradient(
 
   if (match[1].toLowerCase() === "linear") {
     const angle = parseGradientAngleDeg(args[0]);
+    const effectiveAngle = angle ?? 180;
     const stopArgs = angle !== null ? args.slice(1) : args;
-    const stops = parseGradientStops(stopArgs, resolve);
+    const rad = (effectiveAngle * Math.PI) / 180;
+    const lineLen =
+      box && box.width > 0 && box.height > 0
+        ? Math.abs(Math.sin(rad)) * box.width + Math.abs(Math.cos(rad)) * box.height
+        : undefined;
+    const { stops } = parseGradientStops(stopArgs, resolve, lineLen);
     if (stops.length < 2) return null;
     return {
       type: "GRADIENT_LINEAR",
-      gradientTransform: linearGradientTransform(angle ?? 180),
+      gradientTransform: linearGradientTransform(effectiveAngle),
       stops,
     };
   }
 
   const firstTokens = splitTopLevel(args[0], "space");
   const firstIsStop = firstTokens.length > 0 && resolve(firstTokens[0]) !== null;
-  const stops = parseGradientStops(firstIsStop ? args : args.slice(1), resolve);
+  const prelude = firstIsStop ? null : args[0];
+  const { stops, maxPxStop } = parseGradientStops(firstIsStop ? args : args.slice(1), resolve);
   if (stops.length < 2) return null;
   return {
     type: "GRADIENT_RADIAL",
-    gradientTransform: [
-      [1, 0, 0],
-      [0, 1, 0],
-    ],
+    gradientTransform: buildRadialGradientTransform(prelude, box, maxPxStop),
     stops,
   };
 }
 
 export function parseCssBackgroundLayers(
   backgroundImage: string,
-  resolveColor?: (css: string) => RgbaColor | null
+  resolveColor?: (css: string) => RgbaColor | null,
+  box?: { width: number; height: number }
 ): Array<{ kind: "gradient"; paint: SerializedGradientPaint } | { kind: "url"; url: string }> {
   const trimmed = backgroundImage.trim();
   if (!trimmed || trimmed.toLowerCase() === "none") return [];
@@ -168,7 +363,7 @@ export function parseCssBackgroundLayers(
       if (url) layers.push({ kind: "url", url });
       continue;
     }
-    const paint = parseCssGradient(part, resolveColor);
+    const paint = parseCssGradient(part, resolveColor, box);
     if (paint) layers.push({ kind: "gradient", paint });
   }
   return layers;

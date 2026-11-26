@@ -41,6 +41,17 @@ describe("font resolution", () => {
       font: { family: "Inter", style: "Bold Italic" },
       substitutedFrom: "UnknownDisplayFont",
     });
+
+    const withFamilies: Font[] = [
+      ...available,
+      { fontName: { family: "Georgia", style: "Regular" } },
+      { fontName: { family: "IBM Plex Mono", style: "Regular" } },
+      { fontName: { family: "Arial", style: "Bold" } },
+      { fontName: { family: "Arial Black", style: "Regular" } },
+    ];
+    expect(matchFigmaFont(["MissingSerif", "serif"], 400, false, withFamilies).font.family).toBe("Georgia");
+    expect(matchFigmaFont(["MissingMono", "monospace"], 400, false, withFamilies).font.family).toBe("IBM Plex Mono");
+    expect(matchFigmaFont(["Arial", "sans-serif"], 900, false, withFamilies).font.family).toBe("Arial Black");
   });
 
   it("preloads unique fonts across nodes and text ranges with safe fallback on load error", async () => {
@@ -319,5 +330,70 @@ describe("Auto Layout eligibility", () => {
         [{ x: 0, y: 0, width: 100, height: 100, position: "absolute" }]
       )
     ).toBeNull();
+  });
+
+  it("rejects Auto Layout when parentBox shows children are offset by margin:auto or non-uniform margins", () => {
+    const centeredChildCfg = computeAutoLayoutConfig(
+      {
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "nowrap",
+        justifyContent: "center",
+        alignItems: "stretch",
+        rowGap: 0,
+        columnGap: 0,
+        paddingTop: 0,
+        paddingRight: 0,
+        paddingBottom: 0,
+        paddingLeft: 0,
+      },
+      [{ x: 340, y: 200, width: 1240, height: 600 }],
+      { x: 0, y: 0, width: 1920, height: 1000 }
+    );
+    expect(centeredChildCfg).toBeNull();
+
+    const marginGapCfg = computeAutoLayoutConfig(
+      {
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "nowrap",
+        justifyContent: "flex-start",
+        alignItems: "stretch",
+        rowGap: 0,
+        columnGap: 0,
+        paddingTop: 40,
+        paddingRight: 40,
+        paddingBottom: 40,
+        paddingLeft: 40,
+      },
+      [
+        { x: 40, y: 40, width: 500, height: 20 },
+        { x: 40, y: 78, width: 500, height: 40 },
+      ],
+      { x: 0, y: 0, width: 580, height: 400 }
+    );
+    expect(marginGapCfg).toBeNull();
+
+    const exactFlexCfg = computeAutoLayoutConfig(
+      {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "nowrap",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        rowGap: 0,
+        columnGap: 16,
+        paddingTop: 12,
+        paddingRight: 20,
+        paddingBottom: 12,
+        paddingLeft: 20,
+      },
+      [
+        { x: 20, y: 20, width: 80, height: 20 },
+        { x: 116, y: 15, width: 100, height: 30 },
+      ],
+      { x: 0, y: 0, width: 236, height: 60 }
+    );
+    expect(exactFlexCfg?.layoutMode).toBe("HORIZONTAL");
   });
 });

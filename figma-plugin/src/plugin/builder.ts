@@ -10,7 +10,7 @@ import type {
   SerializedPaint,
   SerializedTextNode,
 } from "../shared/types";
-import { preloadDocumentFonts, resolveFontForText } from "./fonts";
+import { cleanFontFamilyName, preloadDocumentFonts, resolveFontForText } from "./fonts";
 import { computeAutoLayoutConfig } from "./layout";
 
 export interface BuildPageOptions {
@@ -354,6 +354,15 @@ async function buildTextNode(
   textNode.textDecoration = textDecoration;
   textNode.textCase = textCase;
   textNode.fills = fills;
+  if (node.strokes && node.strokes.length > 0) {
+    const strokes = convertPaints(node.strokes, ctx.imageHashes);
+    if (strokes.length > 0) {
+      textNode.strokes = strokes;
+      if (node.strokeWeight !== undefined && node.strokeWeight > 0) {
+        textNode.strokeWeight = node.strokeWeight;
+      }
+    }
+  }
   if (textNode.characters.length > 0 && node.href) {
     if (isValidFigmaHyperlinkUrl(node.href)) {
       try {
@@ -366,8 +375,27 @@ async function buildTextNode(
       ctx.summary.warnings.push(`Skipped unsupported hyperlink "${node.href}" on "${node.name}"`);
     }
   }
-  textNode.textAutoResize = "NONE";
-  textNode.resize(Math.max(1, node.width), Math.max(1, node.height));
+  const primaryRequested = cleanFontFamilyName(node.fontFamily).toLowerCase();
+  const isSubstituted = Boolean(
+    primaryRequested && baseFont.family.toLowerCase() !== primaryRequested
+  );
+  if (node.singleLine === true) {
+    // Size first for deterministic defaults, then let Figma expand horizontally so
+    // tiny browser-vs-Figma font metric differences never force single-line text to wrap.
+    textNode.resize(Math.max(1, node.width), Math.max(1, node.height));
+    textNode.textAutoResize = "WIDTH_AND_HEIGHT";
+  } else if (node.singleLine === false) {
+    // Multi-line text: add a small width cushion and auto-grow height so words never break
+    // mid-word or clip their last line when Figma metrics are slightly wider than Chromium.
+    const extraW = isSubstituted
+      ? Math.ceil(Math.min(24, Math.max(4, node.width * 0.04)))
+      : Math.ceil(Math.min(10, Math.max(2, fontSize * 0.08)));
+    textNode.textAutoResize = "HEIGHT";
+    textNode.resize(Math.max(1, node.width + extraW), Math.max(1, node.height));
+  } else {
+    textNode.textAutoResize = "NONE";
+    textNode.resize(Math.max(1, node.width), Math.max(1, node.height));
+  }
   textNode.opacity = clamp01(node.opacity);
 
   // Bind base styles before mixed-character ranges so range overrides stay intact.
@@ -501,7 +529,12 @@ async function buildFrameNode(
 
   const autoLayout =
     ctx.settings.useAutoLayout && node.layout
-      ? computeAutoLayoutConfig(node.layout, node.children)
+      ? computeAutoLayoutConfig(node.layout, node.children, {
+          x: node.x,
+          y: node.y,
+          width: node.width,
+          height: node.height,
+        })
       : null;
 
   if (autoLayout) {
@@ -532,8 +565,22 @@ async function buildFrameNode(
     if (!childFigmaNode) continue;
 
     frame.appendChild(childFigmaNode);
-    const relX = child.x - node.x;
-    const relY = child.y - node.y;
+    let relX = child.x - node.x;
+    let relY = child.y - node.y;
+
+    // Preserve visual center/right alignment when Figma's auto-sized TEXT width differs from Chromium's.
+    if (child.type === "TEXT" && child.singleLine !== undefined && childFigmaNode.width > 0) {
+      const dw = child.width - childFigmaNode.width;
+      if (Math.abs(dw) > 0.5) {
+        if (child.textAlign === "CENTER") relX += dw / 2;
+        else if (child.textAlign === "RIGHT") relX += dw;
+      }
+      if (child.singleLine === true && childFigmaNode.height > 0) {
+        const dh = child.height - childFigmaNode.height;
+        if (Math.abs(dh) > 0.5) relY += dh / 2;
+      }
+    }
+
     childFigmaNode.x = relX;
     childFigmaNode.y = relY;
 
