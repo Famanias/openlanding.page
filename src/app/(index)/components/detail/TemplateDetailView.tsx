@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowSquareOut, DownloadSimple, FileText } from "@phosphor-icons/react/dist/ssr";
+import { ArrowSquareOut, FileText } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../../data/templates";
 import { catalogIndexPath, categoryHubPath, templateDetailPath } from "../../../../lib/catalog-routes";
 import { hubBreadcrumbJsonLd, type HubBreadcrumbItem } from "../../../../lib/hub-json-ld";
@@ -7,6 +7,7 @@ import { serializeJsonLd, templateDetailJsonLd } from "../../../../lib/json-ld";
 import { templatePath } from "../../../../lib/template-routing";
 import { CopyPromptButton } from "./CopyPromptButton";
 import { CopyWebflowPromptButton } from "./CopyWebflowPromptButton";
+import { DownloadHtmlLink } from "./DownloadHtmlLink";
 import {
   buildHowToSteps, buildTemplateFaq, categoryLabel, detailHeading, detailSummary, downloadPath, formatCreatedDate,
   formatStack, galleryCapturePath, howToSummary, promptPath, relatedTemplates, webflowPromptPath,
@@ -62,10 +63,7 @@ export function TemplateDetailView({ template: t, templates }: { template: Templ
               <span>Open Webflow prompt</span>
             </a>
             {t.hasDownload && (
-              <a href={downloadPath(t.slug)} download={`${t.slug}.html`} className="detail-action">
-                <DownloadSimple size={18} aria-hidden="true" />
-                <span>Download HTML</span>
-              </a>
+              <DownloadHtmlLink slug={t.slug} href={downloadPath(t.slug)} className="detail-action" />
             )}
           </div>
         </div>
