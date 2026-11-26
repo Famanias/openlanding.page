@@ -287,4 +287,83 @@ test.describe("DOM serializer bridge end-to-end capture", () => {
     expect(result.assetCount).toBeGreaterThanOrEqual(4);
     expect(result.docHeight).toBeGreaterThan(4000);
   });
+
+  test("imports multiple HTML files sequentially and skips frames already on page when enabled", async ({
+    page,
+  }) => {
+    const uiHtml = fs.readFileSync(path.join(repoRoot, "figma-plugin/dist/ui.html"), "utf8");
+    const aerunePath = path.join(repoRoot, "public/downloads/aerune.html");
+    const alpinePath = path.join(repoRoot, "public/downloads/alpine-reel.html");
+    const aeruneTitle =
+      fs.readFileSync(aerunePath, "utf8").match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim() ?? "";
+    expect(aeruneTitle.length).toBeGreaterThan(0);
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.setContent(
+      `<!DOCTYPE html><html><body style="margin:0"><iframe id="plugin-ui" sandbox="allow-scripts" style="width:380px;height:580px;border:0"></iframe></body></html>`
+    );
+
+    await page.evaluate((existingTitle) => {
+      const importedTitles: string[] = [];
+      (window as unknown as Record<string, unknown>).__importedTitles = importedTitles;
+
+      window.addEventListener("message", (event) => {
+        const msg = (
+          event.data as {
+            pluginMessage?: { type?: string; documents?: SerializedDocument[] };
+          } | null
+        )?.pluginMessage;
+        if (!msg) return;
+
+        const uiWin = (document.getElementById("plugin-ui") as HTMLIFrameElement).contentWindow;
+        if (msg.type === "get-existing-frames") {
+          uiWin?.postMessage(
+            { pluginMessage: { type: "existing-frames", names: [existingTitle] } },
+            "*"
+          );
+          return;
+        }
+        if (msg.type === "import-documents" && msg.documents?.length) {
+          importedTitles.push(msg.documents[0].title);
+          uiWin?.postMessage(
+            {
+              pluginMessage: {
+                type: "import-complete",
+                summary: {
+                  nodeCount: 10,
+                  imageCount: Object.keys(msg.documents[0].assets).length,
+                  substitutedFonts: [],
+                  warnings: [],
+                },
+              },
+            },
+            "*"
+          );
+        }
+      });
+    }, aeruneTitle);
+
+    await page.evaluate((srcdoc) => {
+      const frame = document.getElementById("plugin-ui") as HTMLIFrameElement;
+      frame.srcdoc = srcdoc;
+    }, uiHtml);
+
+    const uiFrame = page.frameLocator("#plugin-ui");
+    await uiFrame.locator("#file-input").setInputFiles([aerunePath, alpinePath]);
+    await expect(uiFrame.locator("#queue-count")).toHaveText("2 files queued");
+    await expect(uiFrame.locator("#convert-btn")).toHaveText("Convert 2 files");
+
+    await uiFrame.locator("#opt-skip-existing").check();
+    await uiFrame.locator("#convert-btn").click();
+
+    await expect(uiFrame.locator("#banner")).toContainText("Imported 1/2 files (1 skipped)");
+    const statuses = await uiFrame.locator(".queue-status").allTextContents();
+    expect(statuses).toEqual(["Skipped", "Done"]);
+
+    const importedTitles = await page.evaluate(
+      () => (window as unknown as { __importedTitles: string[] }).__importedTitles
+    );
+    expect(importedTitles).toHaveLength(1);
+    expect(importedTitles[0]).not.toBe(aeruneTitle);
+  });
 });

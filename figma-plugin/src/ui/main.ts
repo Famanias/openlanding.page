@@ -1,16 +1,28 @@
 import {
   DEFAULT_VIEWPORT_WIDTH,
   type ImportSettings,
+  type ImportSummary,
   type PluginToUiMessage,
   type SerializedDocument,
   type UiToPluginMessage,
 } from "../shared/types";
+import {
+  addSummaryToBatch,
+  createBatchAggregate,
+  extractHtmlTitle,
+  formatBatchSummary,
+  formatFileSize,
+  mergeQueuedFiles,
+  type QueuedFileItem,
+  type QueueItemStatus,
+} from "./batch";
 import { injectBridgeScript } from "./inject";
 
 declare const __BRIDGE_SCRIPT__: string;
 
 const READY_TIMEOUT_MS = 15000;
 const CAPTURE_TIMEOUT_MS = 60000;
+const EXISTING_FRAMES_TIMEOUT_MS = 400;
 const MIN_WIDTH = 200;
 const MAX_WIDTH = 4096;
 
@@ -18,6 +30,10 @@ interface UiElements {
   dropzone: HTMLElement;
   fileInput: HTMLInputElement;
   fileLabel: HTMLElement;
+  queueWrap: HTMLElement;
+  queueCount: HTMLElement;
+  clearQueueBtn: HTMLButtonElement;
+  queueList: HTMLElement;
   togglePasteBtn: HTMLButtonElement;
   pasteWrap: HTMLElement;
   htmlTextarea: HTMLTextAreaElement;
@@ -26,7 +42,9 @@ interface UiElements {
   addWidthBtn: HTMLButtonElement;
   autoLayoutCheckbox: HTMLInputElement;
   createStylesCheckbox: HTMLInputElement;
+  skipExistingCheckbox: HTMLInputElement;
   convertBtn: HTMLButtonElement;
+  stopBtn: HTMLButtonElement;
   progressWrap: HTMLElement;
   progressBar: HTMLElement;
   statusText: HTMLElement;
@@ -38,6 +56,10 @@ function getElements(): UiElements {
     dropzone: document.getElementById("dropzone")!,
     fileInput: document.getElementById("file-input") as HTMLInputElement,
     fileLabel: document.getElementById("file-label")!,
+    queueWrap: document.getElementById("queue-wrap")!,
+    queueCount: document.getElementById("queue-count")!,
+    clearQueueBtn: document.getElementById("clear-queue-btn") as HTMLButtonElement,
+    queueList: document.getElementById("queue-list")!,
     togglePasteBtn: document.getElementById("toggle-paste-btn") as HTMLButtonElement,
     pasteWrap: document.getElementById("paste-wrap")!,
     htmlTextarea: document.getElementById("html-textarea") as HTMLTextAreaElement,
@@ -46,7 +68,9 @@ function getElements(): UiElements {
     addWidthBtn: document.getElementById("add-width-btn") as HTMLButtonElement,
     autoLayoutCheckbox: document.getElementById("opt-auto-layout") as HTMLInputElement,
     createStylesCheckbox: document.getElementById("opt-create-styles") as HTMLInputElement,
+    skipExistingCheckbox: document.getElementById("opt-skip-existing") as HTMLInputElement,
     convertBtn: document.getElementById("convert-btn") as HTMLButtonElement,
+    stopBtn: document.getElementById("stop-btn") as HTMLButtonElement,
     progressWrap: document.getElementById("progress-wrap")!,
     progressBar: document.getElementById("progress-bar")!,
     statusText: document.getElementById("status-text")!,
@@ -159,15 +183,164 @@ function captureHtmlAtWidth(html: string, width: number, runId: string): Promise
   });
 }
 
+function statusLabel(status: QueueItemStatus): string {
+  switch (status) {
+    case "pending":
+      return "Pending";
+    case "capturing":
+      return "Capturing";
+    case "building":
+      return "Building";
+    case "done":
+      return "Done";
+    case "skipped":
+      return "Skipped";
+    case "error":
+      return "Error";
+  }
+}
+
 function initPluginUi(): void {
   if (typeof document === "undefined") return;
   const el = getElements();
   if (!el.dropzone || !el.convertBtn) return;
 
-  let uploadedHtml = "";
+  let queue: QueuedFileItem[] = [];
+  let itemSeq = 0;
   let pasteMode = false;
   let busy = false;
+  let stopRequested = false;
+  const existingFrameNames = new Set<string>();
   const activeWidths = new Set<number>([DEFAULT_VIEWPORT_WIDTH]);
+
+  let pendingImport: {
+    resolve: (summary: ImportSummary) => void;
+    reject: (err: Error) => void;
+    onProgress?: (current: number, total: number, label: string) => void;
+  } | null = null;
+  let pendingExistingFrames: ((names: string[]) => void) | null = null;
+
+  const postPluginMessage = (message: UiToPluginMessage) => {
+    parent.postMessage({ pluginMessage: message }, "*");
+  };
+
+  const refreshExistingFrames = (): Promise<void> =>
+    new Promise((resolve) => {
+      const timer = window.setTimeout(() => {
+        pendingExistingFrames = null;
+        resolve();
+      }, EXISTING_FRAMES_TIMEOUT_MS);
+      pendingExistingFrames = (names) => {
+        window.clearTimeout(timer);
+        existingFrameNames.clear();
+        for (const name of names) existingFrameNames.add(name);
+        resolve();
+      };
+      postPluginMessage({ type: "get-existing-frames" });
+    });
+
+  const sendImportToPlugin = (
+    documents: SerializedDocument[],
+    settings: ImportSettings,
+    onProgress?: (current: number, total: number, label: string) => void
+  ): Promise<ImportSummary> =>
+    new Promise((resolve, reject) => {
+      pendingImport = { resolve, reject, onProgress };
+      postPluginMessage({ type: "import-documents", documents, settings });
+    });
+
+  const updateActionButtons = () => {
+    el.convertBtn.disabled = busy;
+    el.clearQueueBtn.disabled = busy;
+    el.stopBtn.hidden = !busy;
+    el.stopBtn.disabled = stopRequested;
+    el.stopBtn.textContent = stopRequested ? "Stopping…" : "Stop";
+
+    if (busy) {
+      el.convertBtn.textContent = "Converting…";
+    } else if (!pasteMode && queue.length > 1) {
+      el.convertBtn.textContent = `Convert ${queue.length} files`;
+    } else {
+      el.convertBtn.textContent = "Convert";
+    }
+  };
+
+  const renderQueue = () => {
+    const showQueue = !pasteMode && queue.length > 0;
+    el.queueWrap.hidden = !showQueue;
+
+    if (queue.length === 0) {
+      el.fileLabel.textContent = "or click to choose one or more files";
+      el.queueCount.textContent = "0 files queued";
+      el.queueList.replaceChildren();
+      updateActionButtons();
+      return;
+    }
+
+    if (queue.length === 1) {
+      const only = queue[0].file;
+      el.fileLabel.textContent = `${only.name} (${formatFileSize(only.size)})`;
+    } else {
+      const totalBytes = queue.reduce((sum, item) => sum + item.file.size, 0);
+      el.fileLabel.textContent = `${queue.length} files queued (${formatFileSize(totalBytes)})`;
+    }
+
+    el.queueCount.textContent =
+      queue.length === 1 ? "1 file queued" : `${queue.length} files queued`;
+
+    const rows = queue.map((item) => {
+      const row = document.createElement("div");
+      row.className = "queue-item";
+      row.dataset.itemId = item.id;
+      if (item.detail) row.title = item.detail;
+
+      const name = document.createElement("span");
+      name.className = "queue-name";
+      name.textContent = item.file.name;
+
+      const size = document.createElement("span");
+      size.className = "queue-size";
+      size.textContent = formatFileSize(item.file.size);
+
+      const badge = document.createElement("span");
+      badge.className = `queue-status ${item.status}`;
+      badge.textContent = statusLabel(item.status);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "queue-remove";
+      removeBtn.textContent = "×";
+      removeBtn.disabled = busy;
+      removeBtn.setAttribute("aria-label", `Remove ${item.file.name}`);
+      removeBtn.addEventListener("click", () => {
+        if (busy) return;
+        queue = queue.filter((q) => q.id !== item.id);
+        renderQueue();
+      });
+
+      row.append(name, size, badge, removeBtn);
+      return row;
+    });
+
+    el.queueList.replaceChildren(...rows);
+    updateActionButtons();
+  };
+
+  const setItemStatus = (item: QueuedFileItem, status: QueueItemStatus, detail?: string) => {
+    item.status = status;
+    item.detail = detail;
+    const row = el.queueList.querySelector<HTMLElement>(`[data-item-id="${item.id}"]`);
+    if (!row) return;
+    if (detail) row.title = detail;
+    const badge = row.querySelector<HTMLElement>(".queue-status");
+    if (badge) {
+      badge.className = `queue-status ${status}`;
+      badge.textContent = statusLabel(status);
+    }
+    if (status === "capturing" || status === "building") {
+      row.scrollIntoView?.({ block: "nearest" });
+    }
+  };
 
   const syncChips = () => {
     for (const btn of Array.from(el.widthChips.querySelectorAll<HTMLButtonElement>(".chip"))) {
@@ -226,28 +399,41 @@ function initPluginUi(): void {
     }
   });
 
-  const loadFile = async (file: File) => {
-    if (!/\.html?$/i.test(file.name) && file.type !== "text/html") {
-      showBanner(el, "error", "Please choose an .html or .htm file.");
-      return;
-    }
-    hideBanner(el);
-    try {
-      uploadedHtml = await file.text();
-      el.fileLabel.textContent = `${file.name} (${Math.max(1, Math.round(file.size / 1024))} KB)`;
-    } catch (err) {
-      uploadedHtml = "";
+  const enqueueFiles = (fileList: FileList | File[]) => {
+    if (busy) return;
+    const incoming = Array.from(fileList);
+    if (incoming.length === 0) return;
+
+    const merged = mergeQueuedFiles(queue, incoming, () => `f-${++itemSeq}`);
+    queue = merged.items;
+
+    if (merged.addedCount === 0 && merged.rejectedCount > 0) {
+      showBanner(el, "error", "Please choose .html or .htm files.");
+    } else if (merged.rejectedCount > 0) {
       showBanner(
         el,
         "error",
-        `Failed to read file: ${err instanceof Error ? err.message : String(err)}`
+        `Skipped ${merged.rejectedCount} non-HTML file(s).`
       );
+    } else {
+      hideBanner(el);
     }
+    renderQueue();
   };
 
   el.fileInput.addEventListener("change", () => {
-    const file = el.fileInput.files?.[0];
-    if (file) void loadFile(file);
+    if (el.fileInput.files && el.fileInput.files.length > 0) {
+      enqueueFiles(el.fileInput.files);
+      el.fileInput.value = "";
+    }
+  });
+
+  el.clearQueueBtn.addEventListener("click", () => {
+    if (busy) return;
+    queue = [];
+    hideBanner(el);
+    el.progressWrap.hidden = true;
+    renderQueue();
   });
 
   el.dropzone.addEventListener("dragover", (event) => {
@@ -262,53 +448,130 @@ function initPluginUi(): void {
   el.dropzone.addEventListener("drop", (event) => {
     event.preventDefault();
     el.dropzone.classList.remove("dragover");
-    const file = event.dataTransfer?.files?.[0];
-    if (file) void loadFile(file);
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      enqueueFiles(event.dataTransfer.files);
+    }
   });
 
   el.togglePasteBtn.addEventListener("click", () => {
+    if (busy) return;
     pasteMode = !pasteMode;
     el.pasteWrap.hidden = !pasteMode;
     el.dropzone.hidden = pasteMode;
-    el.togglePasteBtn.textContent = pasteMode ? "Or upload file" : "Or paste HTML";
+    el.togglePasteBtn.textContent = pasteMode ? "Or upload files" : "Or paste HTML";
+    renderQueue();
+  });
+
+  el.stopBtn.addEventListener("click", () => {
+    if (!busy) return;
+    stopRequested = true;
+    updateActionButtons();
   });
 
   window.addEventListener("message", (event: MessageEvent) => {
     const pluginMessage = (event.data as { pluginMessage?: PluginToUiMessage } | null)?.pluginMessage;
     if (!pluginMessage) return;
 
+    if (pluginMessage.type === "existing-frames") {
+      if (pendingExistingFrames) {
+        const resolve = pendingExistingFrames;
+        pendingExistingFrames = null;
+        resolve(pluginMessage.names);
+      } else {
+        existingFrameNames.clear();
+        for (const name of pluginMessage.names) existingFrameNames.add(name);
+      }
+      return;
+    }
+
     if (pluginMessage.type === "import-progress") {
-      const pct = Math.round((pluginMessage.current / Math.max(1, pluginMessage.total)) * 100);
-      setProgress(el, pct, pluginMessage.label);
-    } else if (pluginMessage.type === "import-complete") {
-      busy = false;
-      el.convertBtn.disabled = false;
-      setProgress(el, 100, "Done");
-      const { summary } = pluginMessage;
-      const parts = [`Created ${summary.nodeCount} nodes`, `${summary.imageCount} images`];
-      if (summary.styleCount) parts.push(`${summary.styleCount} styles`);
-      if (summary.substitutedFonts.length > 0) {
-        parts.push(`substituted fonts: ${summary.substitutedFonts.join(", ")}`);
-      }
-      if (summary.warnings.length > 0) {
-        parts.push(`warnings: ${summary.warnings.join("; ")}`);
-      }
-      showBanner(el, "success", parts.join(" · "));
-    } else if (pluginMessage.type === "import-error") {
-      busy = false;
-      el.convertBtn.disabled = false;
-      el.progressWrap.hidden = true;
-      showBanner(el, "error", pluginMessage.message);
+      pendingImport?.onProgress?.(
+        pluginMessage.current,
+        pluginMessage.total,
+        pluginMessage.label
+      );
+      return;
+    }
+
+    if (pluginMessage.type === "import-complete") {
+      const pending = pendingImport;
+      pendingImport = null;
+      pending?.resolve(pluginMessage.summary);
+      return;
+    }
+
+    if (pluginMessage.type === "import-error") {
+      const pending = pendingImport;
+      pendingImport = null;
+      pending?.reject(new Error(pluginMessage.message));
     }
   });
+
+  const captureAndImportHtml = async (
+    html: string,
+    widths: number[],
+    settings: ImportSettings,
+    fileLabel: string,
+    fileIndex: number,
+    totalFiles: number,
+    onBuildingStart?: () => void
+  ): Promise<{ skipped: boolean; titles: string[]; summary?: ImportSummary }> => {
+    const filePrefix = totalFiles > 1 ? `[${fileIndex + 1}/${totalFiles}] ${fileLabel} · ` : "";
+    const basePct = (fileIndex / totalFiles) * 100;
+    const spanPct = 100 / totalFiles;
+
+    if (el.skipExistingCheckbox.checked) {
+      const staticTitle = extractHtmlTitle(html);
+      if (staticTitle && existingFrameNames.has(staticTitle)) {
+        return { skipped: true, titles: [staticTitle] };
+      }
+    }
+
+    const documents: SerializedDocument[] = [];
+    for (let i = 0; i < widths.length; i++) {
+      const width = widths[i];
+      const capturePct = basePct + spanPct * (i / (widths.length + 1)) * 0.6;
+      setProgress(
+        el,
+        capturePct,
+        `${filePrefix}Capturing ${width}px (${i + 1}/${widths.length})...`
+      );
+      const runId = `run-${Date.now()}-${fileIndex}-${i}-${Math.random().toString(36).slice(2, 8)}`;
+      const doc = await captureHtmlAtWidth(html, width, runId);
+      documents.push(doc);
+    }
+
+    const titles = documents.map((d) => d.title).filter(Boolean);
+    if (
+      el.skipExistingCheckbox.checked &&
+      titles.length > 0 &&
+      titles.every((t) => existingFrameNames.has(t))
+    ) {
+      return { skipped: true, titles };
+    }
+
+    onBuildingStart?.();
+    setProgress(el, basePct + spanPct * 0.65, `${filePrefix}Building Figma layers...`);
+    const summary = await sendImportToPlugin(documents, settings, (current, total, label) => {
+      const buildFraction = Math.min(1, current / Math.max(1, total));
+      const pct = basePct + spanPct * (0.65 + buildFraction * 0.35);
+      setProgress(el, pct, `${filePrefix}${label}`);
+    });
+
+    return { skipped: false, titles, summary };
+  };
 
   el.convertBtn.addEventListener("click", async () => {
     if (busy) return;
     hideBanner(el);
 
-    const html = pasteMode ? el.htmlTextarea.value : uploadedHtml;
-    if (!html.trim()) {
-      showBanner(el, "error", pasteMode ? "Paste HTML before converting." : "Drop or select an HTML file first.");
+    if (pasteMode) {
+      if (!el.htmlTextarea.value.trim()) {
+        showBanner(el, "error", "Paste HTML before converting.");
+        return;
+      }
+    } else if (queue.length === 0) {
+      showBanner(el, "error", "Drop or select at least one HTML file first.");
       return;
     }
 
@@ -335,30 +598,93 @@ function initPluginUi(): void {
     };
 
     busy = true;
-    el.convertBtn.disabled = true;
+    stopRequested = false;
+    updateActionButtons();
+    renderQueue();
 
     try {
-      const documents: SerializedDocument[] = [];
-      for (let i = 0; i < widths.length; i++) {
-        const width = widths[i];
-        setProgress(el, Math.round((i / (widths.length + 1)) * 100), `Capturing ${width}px (${i + 1}/${widths.length})...`);
-        const runId = `run-${Date.now()}-${i}-${Math.random().toString(36).slice(2, 8)}`;
-        const doc = await captureHtmlAtWidth(html, width, runId);
-        documents.push(doc);
+      if (el.skipExistingCheckbox.checked) {
+        await refreshExistingFrames();
       }
 
-      setProgress(el, 85, "Building Figma layers...");
-      const message: UiToPluginMessage = {
-        type: "import-documents",
-        documents,
-        settings,
-      };
-      parent.postMessage({ pluginMessage: message }, "*");
+      if (pasteMode) {
+        const batch = createBatchAggregate(1, settings.createStyles);
+        const res = await captureAndImportHtml(
+          el.htmlTextarea.value,
+          widths,
+          settings,
+          "Pasted HTML",
+          0,
+          1
+        );
+        if (res.skipped) {
+          batch.skipped++;
+        } else if (res.summary) {
+          addSummaryToBatch(batch, res.summary);
+          for (const t of res.titles) existingFrameNames.add(t);
+        }
+        setProgress(el, 100, "Done");
+        const formatted = formatBatchSummary(batch);
+        showBanner(el, formatted.kind, formatted.text);
+        return;
+      }
+
+      for (const item of queue) {
+        setItemStatus(item, "pending");
+      }
+
+      const batch = createBatchAggregate(queue.length, settings.createStyles);
+      for (let i = 0; i < queue.length; i++) {
+        if (stopRequested) {
+          batch.stopped = true;
+          break;
+        }
+        const item = queue[i];
+        setItemStatus(item, "capturing");
+        try {
+          const html = await item.file.text();
+          if (!html.trim()) {
+            throw new Error("File is empty.");
+          }
+          const res = await captureAndImportHtml(
+            html,
+            widths,
+            settings,
+            item.file.name,
+            i,
+            queue.length,
+            () => setItemStatus(item, "building")
+          );
+          if (res.skipped) {
+            batch.skipped++;
+            setItemStatus(item, "skipped", "Already on page");
+          } else if (res.summary) {
+            addSummaryToBatch(batch, res.summary);
+            for (const t of res.titles) existingFrameNames.add(t);
+            setItemStatus(
+              item,
+              "done",
+              `Created ${res.summary.nodeCount} nodes, ${res.summary.imageCount} images`
+            );
+          }
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err);
+          batch.failed++;
+          batch.errors.push(`${item.file.name}: ${msg}`);
+          setItemStatus(item, "error", msg);
+        }
+      }
+
+      setProgress(el, 100, batch.stopped ? "Stopped" : "Done");
+      const formatted = formatBatchSummary(batch);
+      showBanner(el, formatted.kind, formatted.text);
     } catch (err) {
-      busy = false;
-      el.convertBtn.disabled = false;
       el.progressWrap.hidden = true;
       showBanner(el, "error", err instanceof Error ? err.message : String(err));
+    } finally {
+      busy = false;
+      stopRequested = false;
+      renderQueue();
     }
   });
 }

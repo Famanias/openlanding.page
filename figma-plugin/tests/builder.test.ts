@@ -880,6 +880,12 @@ describe("code.ts message handler", () => {
     await handleUiMessage({ type: "cancel" }, mockFigma);
     expect(closePluginCalls).toHaveLength(1);
 
+    await handleUiMessage({ type: "get-existing-frames" }, mockFigma);
+    expect(postedMessages[postedMessages.length - 1]).toEqual({
+      type: "existing-frames",
+      names: [],
+    });
+
     const makeDoc = (width: number): SerializedDocument => ({
       runId: `run-${width}`,
       title: `Page ${width}`,

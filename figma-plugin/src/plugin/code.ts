@@ -14,7 +14,7 @@ function isUiToPluginMessage(raw: unknown): raw is UiToPluginMessage {
     documents?: unknown;
     settings?: unknown;
   };
-  if (candidate.type === "cancel") return true;
+  if (candidate.type === "cancel" || candidate.type === "get-existing-frames") return true;
   if (candidate.type === "import-documents") {
     return (
       Array.isArray(candidate.documents) &&
@@ -42,6 +42,12 @@ function postToUi(figmaApi: PluginAPI, msg: PluginToUiMessage): void {
   figmaApi.ui.postMessage(msg);
 }
 
+function getPageFrameNames(page: PageNode): string[] {
+  return page.children
+    .map((child) => child.name)
+    .filter((name): name is string => typeof name === "string" && name.length > 0);
+}
+
 export async function handleUiMessage(
   raw: unknown,
   figmaApi: PluginAPI = figma
@@ -50,6 +56,14 @@ export async function handleUiMessage(
 
   if (raw.type === "cancel") {
     figmaApi.closePlugin();
+    return;
+  }
+
+  if (raw.type === "get-existing-frames") {
+    postToUi(figmaApi, {
+      type: "existing-frames",
+      names: getPageFrameNames(figmaApi.currentPage),
+    });
     return;
   }
 
@@ -137,11 +151,16 @@ export async function handleUiMessage(
 if (typeof figma !== "undefined") {
   figma.showUI(__html__, {
     width: 380,
-    height: 540,
+    height: 580,
     themeColors: true,
   });
 
   figma.ui.onmessage = (raw: unknown) => {
     void handleUiMessage(raw, figma);
   };
+
+  postToUi(figma, {
+    type: "existing-frames",
+    names: getPageFrameNames(figma.currentPage),
+  });
 }

@@ -231,6 +231,115 @@
         color: var(--figma-color-text-danger, #991b1b);
       }
 
+      .queue-wrap {
+        margin-top: 8px;
+        border: 1px solid var(--figma-color-border, #d4d4d4);
+        border-radius: 6px;
+        background: var(--figma-color-bg, #ffffff);
+      }
+
+      .queue-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--figma-color-text-secondary, #666666);
+        border-bottom: 1px solid var(--figma-color-border, #e5e5e5);
+      }
+
+      .queue-list {
+        max-height: 140px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .queue-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 6px 10px;
+        font-size: 11px;
+        border-bottom: 1px solid var(--figma-color-border, #f0f0f0);
+      }
+
+      .queue-item:last-child {
+        border-bottom: none;
+      }
+
+      .queue-name {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .queue-size {
+        color: var(--figma-color-text-secondary, #666666);
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+
+      .queue-status {
+        flex-shrink: 0;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 1px 6px;
+        border-radius: 999px;
+        background: var(--figma-color-bg-secondary, #f0f0f0);
+        color: var(--figma-color-text-secondary, #666666);
+      }
+
+      .queue-status.capturing,
+      .queue-status.building {
+        background: var(--figma-color-bg-hover, #eef6ff);
+        color: var(--figma-color-bg-brand, #0d99ff);
+      }
+
+      .queue-status.done {
+        background: var(--figma-color-bg-success-tertiary, #ecfdf3);
+        color: var(--figma-color-text-success, #065f46);
+      }
+
+      .queue-status.error {
+        background: var(--figma-color-bg-danger-tertiary, #fef2f2);
+        color: var(--figma-color-text-danger, #991b1b);
+      }
+
+      .queue-remove {
+        background: none;
+        border: none;
+        padding: 0 2px;
+        font: inherit;
+        font-size: 13px;
+        line-height: 1;
+        color: var(--figma-color-text-secondary, #666666);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .queue-remove:hover:not(:disabled) {
+        color: var(--figma-color-text, #1e1e1e);
+      }
+
+      .queue-remove:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .actions-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .actions-row .primary-btn {
+        flex: 1;
+      }
+
       [hidden] {
         display: none !important;
       }
@@ -245,10 +354,18 @@
         </div>
 
         <label id="dropzone" class="dropzone" for="file-input">
-          <span class="dropzone-title">Drop .html or .htm file here</span>
-          <span id="file-label" class="dropzone-sub">or click to choose a file</span>
+          <span class="dropzone-title">Drop .html or .htm files here</span>
+          <span id="file-label" class="dropzone-sub">or click to choose one or more files</span>
         </label>
-        <input id="file-input" type="file" accept=".html,.htm,text/html" hidden />
+        <input id="file-input" type="file" accept=".html,.htm,text/html" multiple hidden />
+
+        <div id="queue-wrap" class="queue-wrap" hidden>
+          <div class="queue-header">
+            <span id="queue-count">0 files queued</span>
+            <button type="button" id="clear-queue-btn" class="link-btn">Clear</button>
+          </div>
+          <div id="queue-list" class="queue-list"></div>
+        </div>
 
         <div id="paste-wrap" hidden>
           <textarea
@@ -292,9 +409,16 @@
           <input id="opt-create-styles" type="checkbox" />
           <span>Create Local Styles</span>
         </label>
+        <label class="checkbox-row">
+          <input id="opt-skip-existing" type="checkbox" />
+          <span>Skip frames already on page</span>
+        </label>
       </section>
 
-      <button type="button" id="convert-btn" class="primary-btn">Convert</button>
+      <div class="actions-row">
+        <button type="button" id="convert-btn" class="primary-btn">Convert</button>
+        <button type="button" id="stop-btn" class="secondary-btn" hidden>Stop</button>
+      </div>
 
       <div id="progress-wrap" class="progress-wrap" hidden>
         <div class="progress-track">

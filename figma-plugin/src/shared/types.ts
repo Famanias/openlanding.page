@@ -176,9 +176,11 @@ export interface ImportSummary {
 
 export type UiToPluginMessage =
   | { type: "import-documents"; documents: SerializedDocument[]; settings: ImportSettings }
+  | { type: "get-existing-frames" }
   | { type: "cancel" };
 
 export type PluginToUiMessage =
   | { type: "import-progress"; label: string; current: number; total: number }
   | { type: "import-complete"; summary: ImportSummary }
-  | { type: "import-error"; message: string };
+  | { type: "import-error"; message: string }
+  | { type: "existing-frames"; names: string[] };
